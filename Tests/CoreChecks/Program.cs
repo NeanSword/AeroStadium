@@ -266,7 +266,8 @@ internal static class Program
         var options = new JsonSerializerOptions { IncludeFields = true, PropertyNameCaseInsensitive = true };
         Catalog catalog = JsonSerializer.Deserialize<Catalog>(File.ReadAllText(path), options);
         catalog.Validate();
-        Require(catalog.species.Any(s => s.id > 255), "The actual catalog should exercise a modern ID.");
+        Require(catalog.species.Length == 151 && catalog.species.All(s => s.id >= 1 && s.id <= 151), "The actual catalog should contain only the 151 Generation I species.");
+        Require(catalog.GetSpecies(1).id == 1 && catalog.GetSpecies(151).id == 151, "The Kanto Pokédex endpoints should resolve by ID.");
         int[] ids = catalog.species.Take(3).Select(s => s.id).ToArray();
         var left = new BattleEngine(catalog, ids, ids, 2026);
         var right = new BattleEngine(catalog, ids, ids, 2026);

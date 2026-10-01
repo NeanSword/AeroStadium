@@ -30,6 +30,9 @@ namespace AeroStadium.Presentation
             }
         }
         public bool PausePressed => Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame;
+        public bool StartPressed => (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame)
+            || (Keyboard.current != null && (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.spaceKey.wasPressedThisFrame));
+        public string StartLabel => Connected ? "Start" : "Entrée";
 
         public void Initialize(InputSystemUIInputModule inputModule)
         {

@@ -1,30 +1,4493 @@
 {
   "species": [
-    {"id":152,"name":"Germignon","types":["Grass"],"stats":{"hp":45,"attack":49,"defense":65,"specialAttack":49,"specialDefense":65,"speed":45},"moves":[75,412,34,235],"color":"#85CF96"},
-    {"id":250,"name":"Ho-Oh","types":["Fire","Flying"],"stats":{"hp":106,"attack":130,"defense":90,"specialAttack":110,"specialDefense":154,"speed":90},"moves":[488,53,413,355],"color":"#F3AB5F"},
-    {"id":445,"name":"Carchacrok","types":["Dragon","Ground"],"stats":{"hp":108,"attack":130,"defense":95,"specialAttack":80,"specialDefense":85,"speed":102},"moves":[337,89,53,14],"color":"#698EE4"},
-    {"id":700,"name":"Nymphali","types":["Fairy"],"stats":{"hp":95,"attack":65,"defense":65,"specialAttack":110,"specialDefense":130,"speed":60},"moves":[585,129,34,236],"color":"#EDA5C7"}
+    {
+      "id": 1,
+      "name": "Bulbizarre",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 45,
+        "attack": 49,
+        "defense": 49,
+        "specialAttack": 65,
+        "specialDefense": 65,
+        "speed": 45
+      },
+      "moves": [
+        76,
+        75,
+        22,
+        33
+      ],
+      "color": "green",
+      "height": 0.7
+    },
+    {
+      "id": 2,
+      "name": "Herbizarre",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 62,
+        "defense": 63,
+        "specialAttack": 80,
+        "specialDefense": 80,
+        "speed": 60
+      },
+      "moves": [
+        75,
+        22,
+        33,
+        38
+      ],
+      "color": "green",
+      "height": 1.0
+    },
+    {
+      "id": 3,
+      "name": "Florizarre",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 82,
+        "defense": 83,
+        "specialAttack": 100,
+        "specialDefense": 100,
+        "speed": 80
+      },
+      "moves": [
+        75,
+        33,
+        22,
+        63
+      ],
+      "color": "green",
+      "height": 2.0
+    },
+    {
+      "id": 4,
+      "name": "Salamèche",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 39,
+        "attack": 52,
+        "defense": 43,
+        "specialAttack": 60,
+        "specialDefense": 50,
+        "speed": 65
+      },
+      "moves": [
+        83,
+        53,
+        163,
+        99
+      ],
+      "color": "red",
+      "height": 0.6
+    },
+    {
+      "id": 5,
+      "name": "Reptincel",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 58,
+        "attack": 64,
+        "defense": 58,
+        "specialAttack": 80,
+        "specialDefense": 65,
+        "speed": 80
+      },
+      "moves": [
+        53,
+        163,
+        99,
+        52
+      ],
+      "color": "red",
+      "height": 1.1
+    },
+    {
+      "id": 6,
+      "name": "Dracaufeu",
+      "types": [
+        "Fire",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 78,
+        "attack": 84,
+        "defense": 78,
+        "specialAttack": 109,
+        "specialDefense": 85,
+        "speed": 100
+      },
+      "moves": [
+        53,
+        163,
+        99,
+        52
+      ],
+      "color": "red",
+      "height": 1.7
+    },
+    {
+      "id": 7,
+      "name": "Carapuce",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 44,
+        "attack": 48,
+        "defense": 65,
+        "specialAttack": 50,
+        "specialDefense": 64,
+        "speed": 43
+      },
+      "moves": [
+        56,
+        130,
+        44,
+        55
+      ],
+      "color": "blue",
+      "height": 0.5
+    },
+    {
+      "id": 8,
+      "name": "Carabaffe",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 59,
+        "attack": 63,
+        "defense": 80,
+        "specialAttack": 65,
+        "specialDefense": 80,
+        "speed": 58
+      },
+      "moves": [
+        56,
+        130,
+        44,
+        55
+      ],
+      "color": "blue",
+      "height": 1.0
+    },
+    {
+      "id": 9,
+      "name": "Tortank",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 79,
+        "attack": 83,
+        "defense": 100,
+        "specialAttack": 85,
+        "specialDefense": 105,
+        "speed": 78
+      },
+      "moves": [
+        130,
+        44,
+        145,
+        55
+      ],
+      "color": "blue",
+      "height": 1.6
+    },
+    {
+      "id": 10,
+      "name": "Chenipan",
+      "types": [
+        "Bug"
+      ],
+      "stats": {
+        "hp": 45,
+        "attack": 30,
+        "defense": 35,
+        "specialAttack": 20,
+        "specialDefense": 20,
+        "speed": 45
+      },
+      "moves": [
+        33
+      ],
+      "color": "green",
+      "height": 0.3
+    },
+    {
+      "id": 11,
+      "name": "Chrysacier",
+      "types": [
+        "Bug"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 20,
+        "defense": 55,
+        "specialAttack": 25,
+        "specialDefense": 25,
+        "speed": 30
+      },
+      "moves": [
+        165
+      ],
+      "color": "green",
+      "height": 0.7
+    },
+    {
+      "id": 12,
+      "name": "Papilusion",
+      "types": [
+        "Bug",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 45,
+        "defense": 50,
+        "specialAttack": 90,
+        "specialDefense": 80,
+        "speed": 70
+      },
+      "moves": [
+        60,
+        93,
+        63,
+        38
+      ],
+      "color": "white",
+      "height": 1.1
+    },
+    {
+      "id": 13,
+      "name": "Aspicot",
+      "types": [
+        "Bug",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 35,
+        "defense": 30,
+        "specialAttack": 20,
+        "specialDefense": 20,
+        "speed": 50
+      },
+      "moves": [
+        40
+      ],
+      "color": "brown",
+      "height": 0.3
+    },
+    {
+      "id": 14,
+      "name": "Coconfort",
+      "types": [
+        "Bug",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 45,
+        "attack": 25,
+        "defense": 50,
+        "specialAttack": 25,
+        "specialDefense": 25,
+        "speed": 35
+      },
+      "moves": [
+        165
+      ],
+      "color": "yellow",
+      "height": 0.6
+    },
+    {
+      "id": 15,
+      "name": "Dardargnan",
+      "types": [
+        "Bug",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 90,
+        "defense": 40,
+        "specialAttack": 45,
+        "specialDefense": 80,
+        "speed": 75
+      },
+      "moves": [
+        42,
+        99,
+        41,
+        31
+      ],
+      "color": "yellow",
+      "height": 1.0
+    },
+    {
+      "id": 16,
+      "name": "Roucool",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 45,
+        "defense": 40,
+        "specialAttack": 35,
+        "specialDefense": 35,
+        "speed": 56
+      },
+      "moves": [
+        17,
+        98,
+        16,
+        143
+      ],
+      "color": "brown",
+      "height": 0.3
+    },
+    {
+      "id": 17,
+      "name": "Roucoups",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 63,
+        "attack": 60,
+        "defense": 55,
+        "specialAttack": 50,
+        "specialDefense": 50,
+        "speed": 71
+      },
+      "moves": [
+        17,
+        98,
+        16,
+        143
+      ],
+      "color": "brown",
+      "height": 1.1
+    },
+    {
+      "id": 18,
+      "name": "Roucarnage",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 83,
+        "attack": 80,
+        "defense": 75,
+        "specialAttack": 70,
+        "specialDefense": 70,
+        "speed": 101
+      },
+      "moves": [
+        17,
+        98,
+        16,
+        63
+      ],
+      "color": "brown",
+      "height": 1.5
+    },
+    {
+      "id": 19,
+      "name": "Rattata",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 30,
+        "attack": 56,
+        "defense": 35,
+        "specialAttack": 25,
+        "specialDefense": 35,
+        "speed": 72
+      },
+      "moves": [
+        158,
+        98,
+        33,
+        130
+      ],
+      "color": "purple",
+      "height": 0.3
+    },
+    {
+      "id": 20,
+      "name": "Rattatac",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 81,
+        "defense": 60,
+        "specialAttack": 50,
+        "specialDefense": 70,
+        "speed": 97
+      },
+      "moves": [
+        158,
+        98,
+        33,
+        63
+      ],
+      "color": "brown",
+      "height": 0.7
+    },
+    {
+      "id": 21,
+      "name": "Piafabec",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 60,
+        "defense": 30,
+        "specialAttack": 31,
+        "specialDefense": 31,
+        "speed": 70
+      },
+      "moves": [
+        65,
+        31,
+        64,
+        143
+      ],
+      "color": "brown",
+      "height": 0.3
+    },
+    {
+      "id": 22,
+      "name": "Rapasdepic",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 90,
+        "defense": 65,
+        "specialAttack": 61,
+        "specialDefense": 61,
+        "speed": 100
+      },
+      "moves": [
+        65,
+        31,
+        64,
+        63
+      ],
+      "color": "brown",
+      "height": 1.2
+    },
+    {
+      "id": 23,
+      "name": "Abo",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 60,
+        "defense": 44,
+        "specialAttack": 40,
+        "specialDefense": 54,
+        "speed": 55
+      },
+      "moves": [
+        51,
+        44,
+        40,
+        35
+      ],
+      "color": "purple",
+      "height": 2.0
+    },
+    {
+      "id": 24,
+      "name": "Arbok",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 95,
+        "defense": 69,
+        "specialAttack": 65,
+        "specialDefense": 79,
+        "speed": 80
+      },
+      "moves": [
+        51,
+        44,
+        40,
+        35
+      ],
+      "color": "purple",
+      "height": 3.5
+    },
+    {
+      "id": 25,
+      "name": "Pikachu",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 55,
+        "defense": 40,
+        "specialAttack": 50,
+        "specialDefense": 50,
+        "speed": 90
+      },
+      "moves": [
+        87,
+        129,
+        98,
+        84
+      ],
+      "color": "yellow",
+      "height": 0.4
+    },
+    {
+      "id": 26,
+      "name": "Raichu",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 90,
+        "defense": 55,
+        "specialAttack": 90,
+        "specialDefense": 80,
+        "speed": 110
+      },
+      "moves": [
+        84,
+        63,
+        130,
+        38
+      ],
+      "color": "yellow",
+      "height": 0.8
+    },
+    {
+      "id": 27,
+      "name": "Sabelette",
+      "types": [
+        "Ground"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 75,
+        "defense": 85,
+        "specialAttack": 20,
+        "specialDefense": 30,
+        "speed": 40
+      },
+      "moves": [
+        154,
+        129,
+        40,
+        163
+      ],
+      "color": "yellow",
+      "height": 0.6
+    },
+    {
+      "id": 28,
+      "name": "Sablaireau",
+      "types": [
+        "Ground"
+      ],
+      "stats": {
+        "hp": 75,
+        "attack": 100,
+        "defense": 110,
+        "specialAttack": 45,
+        "specialDefense": 55,
+        "speed": 65
+      },
+      "moves": [
+        154,
+        129,
+        40,
+        163
+      ],
+      "color": "yellow",
+      "height": 1.0
+    },
+    {
+      "id": 29,
+      "name": "Nidoran♀",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 47,
+        "defense": 52,
+        "specialAttack": 40,
+        "specialDefense": 40,
+        "speed": 41
+      },
+      "moves": [
+        24,
+        154,
+        44,
+        40
+      ],
+      "color": "blue",
+      "height": 0.4
+    },
+    {
+      "id": 30,
+      "name": "Nidorina",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 70,
+        "attack": 62,
+        "defense": 67,
+        "specialAttack": 55,
+        "specialDefense": 55,
+        "speed": 56
+      },
+      "moves": [
+        24,
+        154,
+        44,
+        40
+      ],
+      "color": "blue",
+      "height": 0.8
+    },
+    {
+      "id": 31,
+      "name": "Nidoqueen",
+      "types": [
+        "Poison",
+        "Ground"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 92,
+        "defense": 87,
+        "specialAttack": 75,
+        "specialDefense": 85,
+        "speed": 76
+      },
+      "moves": [
+        40,
+        34,
+        33,
+        10
+      ],
+      "color": "blue",
+      "height": 1.3
+    },
+    {
+      "id": 32,
+      "name": "Nidoran♂",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 46,
+        "attack": 57,
+        "defense": 40,
+        "specialAttack": 40,
+        "specialDefense": 40,
+        "speed": 50
+      },
+      "moves": [
+        24,
+        31,
+        40,
+        30
+      ],
+      "color": "purple",
+      "height": 0.5
+    },
+    {
+      "id": 33,
+      "name": "Nidorino",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 61,
+        "attack": 72,
+        "defense": 57,
+        "specialAttack": 55,
+        "specialDefense": 55,
+        "speed": 65
+      },
+      "moves": [
+        24,
+        31,
+        40,
+        33
+      ],
+      "color": "purple",
+      "height": 0.9
+    },
+    {
+      "id": 34,
+      "name": "Nidoking",
+      "types": [
+        "Poison",
+        "Ground"
+      ],
+      "stats": {
+        "hp": 81,
+        "attack": 102,
+        "defense": 77,
+        "specialAttack": 85,
+        "specialDefense": 75,
+        "speed": 85
+      },
+      "moves": [
+        40,
+        37,
+        33,
+        30
+      ],
+      "color": "purple",
+      "height": 1.4
+    },
+    {
+      "id": 35,
+      "name": "Mélofée",
+      "types": [
+        "Fairy"
+      ],
+      "stats": {
+        "hp": 70,
+        "attack": 45,
+        "defense": 48,
+        "specialAttack": 60,
+        "specialDefense": 65,
+        "speed": 35
+      },
+      "moves": [
+        3,
+        1,
+        130,
+        38
+      ],
+      "color": "pink",
+      "height": 0.6
+    },
+    {
+      "id": 36,
+      "name": "Mélodelfe",
+      "types": [
+        "Fairy"
+      ],
+      "stats": {
+        "hp": 95,
+        "attack": 70,
+        "defense": 73,
+        "specialAttack": 95,
+        "specialDefense": 90,
+        "speed": 60
+      },
+      "moves": [
+        3,
+        63,
+        130,
+        38
+      ],
+      "color": "pink",
+      "height": 1.3
+    },
+    {
+      "id": 37,
+      "name": "Goupix",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 38,
+        "attack": 41,
+        "defense": 40,
+        "specialAttack": 50,
+        "specialDefense": 65,
+        "speed": 65
+      },
+      "moves": [
+        83,
+        53,
+        98,
+        52
+      ],
+      "color": "brown",
+      "height": 0.6
+    },
+    {
+      "id": 38,
+      "name": "Feunard",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 73,
+        "attack": 76,
+        "defense": 75,
+        "specialAttack": 81,
+        "specialDefense": 100,
+        "speed": 100
+      },
+      "moves": [
+        98,
+        52,
+        63,
+        130
+      ],
+      "color": "yellow",
+      "height": 1.1
+    },
+    {
+      "id": 39,
+      "name": "Rondoudou",
+      "types": [
+        "Normal",
+        "Fairy"
+      ],
+      "stats": {
+        "hp": 115,
+        "attack": 45,
+        "defense": 20,
+        "specialAttack": 45,
+        "specialDefense": 25,
+        "speed": 20
+      },
+      "moves": [
+        38,
+        34,
+        3,
+        1
+      ],
+      "color": "pink",
+      "height": 0.5
+    },
+    {
+      "id": 40,
+      "name": "Grodoudou",
+      "types": [
+        "Normal",
+        "Fairy"
+      ],
+      "stats": {
+        "hp": 140,
+        "attack": 70,
+        "defense": 45,
+        "specialAttack": 85,
+        "specialDefense": 50,
+        "speed": 45
+      },
+      "moves": [
+        3,
+        63,
+        130,
+        38
+      ],
+      "color": "pink",
+      "height": 1.0
+    },
+    {
+      "id": 41,
+      "name": "Nosferapti",
+      "types": [
+        "Poison",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 45,
+        "defense": 35,
+        "specialAttack": 30,
+        "specialDefense": 40,
+        "speed": 55
+      },
+      "moves": [
+        17,
+        44,
+        141,
+        38
+      ],
+      "color": "purple",
+      "height": 0.8
+    },
+    {
+      "id": 42,
+      "name": "Nosferalto",
+      "types": [
+        "Poison",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 75,
+        "attack": 80,
+        "defense": 70,
+        "specialAttack": 65,
+        "specialDefense": 75,
+        "speed": 90
+      },
+      "moves": [
+        17,
+        141,
+        44,
+        63
+      ],
+      "color": "purple",
+      "height": 1.6
+    },
+    {
+      "id": 43,
+      "name": "Mystherbe",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 45,
+        "attack": 50,
+        "defense": 55,
+        "specialAttack": 75,
+        "specialDefense": 65,
+        "speed": 30
+      },
+      "moves": [
+        76,
+        80,
+        51,
+        71
+      ],
+      "color": "blue",
+      "height": 0.5
+    },
+    {
+      "id": 44,
+      "name": "Ortide",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 65,
+        "defense": 70,
+        "specialAttack": 85,
+        "specialDefense": 75,
+        "speed": 40
+      },
+      "moves": [
+        80,
+        51,
+        71,
+        38
+      ],
+      "color": "blue",
+      "height": 0.8
+    },
+    {
+      "id": 45,
+      "name": "Rafflesia",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 75,
+        "attack": 80,
+        "defense": 85,
+        "specialAttack": 110,
+        "specialDefense": 90,
+        "speed": 50
+      },
+      "moves": [
+        80,
+        51,
+        63,
+        38
+      ],
+      "color": "red",
+      "height": 1.2
+    },
+    {
+      "id": 46,
+      "name": "Paras",
+      "types": [
+        "Bug",
+        "Grass"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 70,
+        "defense": 55,
+        "specialAttack": 45,
+        "specialDefense": 55,
+        "speed": 25
+      },
+      "moves": [
+        163,
+        141,
+        10,
+        130
+      ],
+      "color": "red",
+      "height": 0.3
+    },
+    {
+      "id": 47,
+      "name": "Parasect",
+      "types": [
+        "Bug",
+        "Grass"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 95,
+        "defense": 80,
+        "specialAttack": 60,
+        "specialDefense": 80,
+        "speed": 30
+      },
+      "moves": [
+        163,
+        141,
+        10,
+        63
+      ],
+      "color": "red",
+      "height": 1.0
+    },
+    {
+      "id": 48,
+      "name": "Mimitoss",
+      "types": [
+        "Bug",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 55,
+        "defense": 50,
+        "specialAttack": 40,
+        "specialDefense": 55,
+        "speed": 45
+      },
+      "moves": [
+        94,
+        60,
+        141,
+        33
+      ],
+      "color": "purple",
+      "height": 1.0
+    },
+    {
+      "id": 49,
+      "name": "Aéromite",
+      "types": [
+        "Bug",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 70,
+        "attack": 65,
+        "defense": 60,
+        "specialAttack": 90,
+        "specialDefense": 75,
+        "speed": 90
+      },
+      "moves": [
+        94,
+        60,
+        141,
+        33
+      ],
+      "color": "purple",
+      "height": 1.5
+    },
+    {
+      "id": 50,
+      "name": "Taupiqueur",
+      "types": [
+        "Ground"
+      ],
+      "stats": {
+        "hp": 10,
+        "attack": 55,
+        "defense": 25,
+        "specialAttack": 35,
+        "specialDefense": 45,
+        "speed": 95
+      },
+      "moves": [
+        89,
+        163,
+        91,
+        10
+      ],
+      "color": "brown",
+      "height": 0.2
+    },
+    {
+      "id": 51,
+      "name": "Triopikeur",
+      "types": [
+        "Ground"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 100,
+        "defense": 50,
+        "specialAttack": 50,
+        "specialDefense": 70,
+        "speed": 120
+      },
+      "moves": [
+        89,
+        163,
+        91,
+        10
+      ],
+      "color": "brown",
+      "height": 0.7
+    },
+    {
+      "id": 52,
+      "name": "Miaouss",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 45,
+        "defense": 35,
+        "specialAttack": 40,
+        "specialDefense": 40,
+        "speed": 90
+      },
+      "moves": [
+        163,
+        154,
+        6,
+        44
+      ],
+      "color": "yellow",
+      "height": 0.4
+    },
+    {
+      "id": 53,
+      "name": "Persian",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 70,
+        "defense": 60,
+        "specialAttack": 65,
+        "specialDefense": 65,
+        "speed": 115
+      },
+      "moves": [
+        154,
+        6,
+        44,
+        10
+      ],
+      "color": "yellow",
+      "height": 1.0
+    },
+    {
+      "id": 54,
+      "name": "Psykokwak",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 52,
+        "defense": 48,
+        "specialAttack": 65,
+        "specialDefense": 50,
+        "speed": 55
+      },
+      "moves": [
+        154,
+        93,
+        10,
+        130
+      ],
+      "color": "yellow",
+      "height": 0.8
+    },
+    {
+      "id": 55,
+      "name": "Akwakwak",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 82,
+        "defense": 78,
+        "specialAttack": 95,
+        "specialDefense": 80,
+        "speed": 85
+      },
+      "moves": [
+        154,
+        93,
+        10,
+        63
+      ],
+      "color": "blue",
+      "height": 1.7
+    },
+    {
+      "id": 56,
+      "name": "Férosinge",
+      "types": [
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 80,
+        "defense": 35,
+        "specialAttack": 35,
+        "specialDefense": 45,
+        "speed": 70
+      },
+      "moves": [
+        37,
+        154,
+        2,
+        10
+      ],
+      "color": "brown",
+      "height": 0.5
+    },
+    {
+      "id": 57,
+      "name": "Colossinge",
+      "types": [
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 105,
+        "defense": 60,
+        "specialAttack": 60,
+        "specialDefense": 70,
+        "speed": 95
+      },
+      "moves": [
+        37,
+        154,
+        10,
+        2
+      ],
+      "color": "brown",
+      "height": 1.0
+    },
+    {
+      "id": 58,
+      "name": "Caninos",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 70,
+        "defense": 45,
+        "specialAttack": 70,
+        "specialDefense": 50,
+        "speed": 60
+      },
+      "moves": [
+        53,
+        36,
+        52,
+        44
+      ],
+      "color": "brown",
+      "height": 0.7
+    },
+    {
+      "id": 59,
+      "name": "Arcanin",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 110,
+        "defense": 80,
+        "specialAttack": 100,
+        "specialDefense": 80,
+        "speed": 95
+      },
+      "moves": [
+        52,
+        36,
+        63,
+        130
+      ],
+      "color": "brown",
+      "height": 1.9
+    },
+    {
+      "id": 60,
+      "name": "Ptitard",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 50,
+        "defense": 40,
+        "specialAttack": 40,
+        "specialDefense": 40,
+        "speed": 90
+      },
+      "moves": [
+        56,
+        34,
+        3,
+        55
+      ],
+      "color": "blue",
+      "height": 0.6
+    },
+    {
+      "id": 61,
+      "name": "Têtarte",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 65,
+        "defense": 65,
+        "specialAttack": 50,
+        "specialDefense": 50,
+        "speed": 90
+      },
+      "moves": [
+        56,
+        34,
+        3,
+        145
+      ],
+      "color": "blue",
+      "height": 1.0
+    },
+    {
+      "id": 62,
+      "name": "Tartard",
+      "types": [
+        "Water",
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 95,
+        "defense": 95,
+        "specialAttack": 70,
+        "specialDefense": 90,
+        "speed": 70
+      },
+      "moves": [
+        55,
+        34,
+        3,
+        63
+      ],
+      "color": "blue",
+      "height": 1.3
+    },
+    {
+      "id": 63,
+      "name": "Abra",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 25,
+        "attack": 20,
+        "defense": 15,
+        "specialAttack": 105,
+        "specialDefense": 55,
+        "speed": 90
+      },
+      "moves": [
+        130,
+        38,
+        25,
+        94
+      ],
+      "color": "brown",
+      "height": 0.9
+    },
+    {
+      "id": 64,
+      "name": "Kadabra",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 35,
+        "defense": 30,
+        "specialAttack": 120,
+        "specialDefense": 70,
+        "speed": 105
+      },
+      "moves": [
+        94,
+        60,
+        93,
+        130
+      ],
+      "color": "brown",
+      "height": 1.3
+    },
+    {
+      "id": 65,
+      "name": "Alakazam",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 50,
+        "defense": 45,
+        "specialAttack": 135,
+        "specialDefense": 95,
+        "speed": 120
+      },
+      "moves": [
+        94,
+        60,
+        93,
+        63
+      ],
+      "color": "brown",
+      "height": 1.5
+    },
+    {
+      "id": 66,
+      "name": "Machoc",
+      "types": [
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 70,
+        "attack": 80,
+        "defense": 50,
+        "specialAttack": 35,
+        "specialDefense": 35,
+        "speed": 35
+      },
+      "moves": [
+        66,
+        2,
+        130,
+        38
+      ],
+      "color": "gray",
+      "height": 0.8
+    },
+    {
+      "id": 67,
+      "name": "Machopeur",
+      "types": [
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 100,
+        "defense": 70,
+        "specialAttack": 50,
+        "specialDefense": 60,
+        "speed": 45
+      },
+      "moves": [
+        2,
+        130,
+        38,
+        25
+      ],
+      "color": "gray",
+      "height": 1.5
+    },
+    {
+      "id": 68,
+      "name": "Mackogneur",
+      "types": [
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 130,
+        "defense": 80,
+        "specialAttack": 65,
+        "specialDefense": 85,
+        "speed": 55
+      },
+      "moves": [
+        2,
+        63,
+        130,
+        38
+      ],
+      "color": "gray",
+      "height": 1.6
+    },
+    {
+      "id": 69,
+      "name": "Chétiflor",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 75,
+        "defense": 35,
+        "specialAttack": 70,
+        "specialDefense": 30,
+        "speed": 40
+      },
+      "moves": [
+        21,
+        75,
+        51,
+        35
+      ],
+      "color": "green",
+      "height": 0.7
+    },
+    {
+      "id": 70,
+      "name": "Boustiflor",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 90,
+        "defense": 50,
+        "specialAttack": 85,
+        "specialDefense": 45,
+        "speed": 55
+      },
+      "moves": [
+        21,
+        75,
+        51,
+        35
+      ],
+      "color": "green",
+      "height": 1.0
+    },
+    {
+      "id": 71,
+      "name": "Empiflor",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 105,
+        "defense": 65,
+        "specialAttack": 100,
+        "specialDefense": 70,
+        "speed": 70
+      },
+      "moves": [
+        35,
+        75,
+        51,
+        63
+      ],
+      "color": "green",
+      "height": 1.7
+    },
+    {
+      "id": 72,
+      "name": "Tentacool",
+      "types": [
+        "Water",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 40,
+        "defense": 35,
+        "specialAttack": 50,
+        "specialDefense": 100,
+        "speed": 70
+      },
+      "moves": [
+        56,
+        132,
+        55,
+        40
+      ],
+      "color": "blue",
+      "height": 0.9
+    },
+    {
+      "id": 73,
+      "name": "Tentacruel",
+      "types": [
+        "Water",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 70,
+        "defense": 65,
+        "specialAttack": 80,
+        "specialDefense": 120,
+        "speed": 100
+      },
+      "moves": [
+        56,
+        132,
+        55,
+        40
+      ],
+      "color": "blue",
+      "height": 1.6
+    },
+    {
+      "id": 74,
+      "name": "Racaillou",
+      "types": [
+        "Rock",
+        "Ground"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 80,
+        "defense": 100,
+        "specialAttack": 30,
+        "specialDefense": 30,
+        "speed": 20
+      },
+      "moves": [
+        153,
+        89,
+        120,
+        88
+      ],
+      "color": "brown",
+      "height": 0.4
+    },
+    {
+      "id": 75,
+      "name": "Gravalanch",
+      "types": [
+        "Rock",
+        "Ground"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 95,
+        "defense": 115,
+        "specialAttack": 45,
+        "specialDefense": 45,
+        "speed": 35
+      },
+      "moves": [
+        153,
+        89,
+        120,
+        88
+      ],
+      "color": "brown",
+      "height": 1.0
+    },
+    {
+      "id": 76,
+      "name": "Grolem",
+      "types": [
+        "Rock",
+        "Ground"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 120,
+        "defense": 130,
+        "specialAttack": 55,
+        "specialDefense": 65,
+        "speed": 45
+      },
+      "moves": [
+        153,
+        89,
+        120,
+        88
+      ],
+      "color": "brown",
+      "height": 1.4
+    },
+    {
+      "id": 77,
+      "name": "Ponyta",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 85,
+        "defense": 55,
+        "specialAttack": 65,
+        "specialDefense": 65,
+        "speed": 90
+      },
+      "moves": [
+        36,
+        83,
+        23,
+        52
+      ],
+      "color": "yellow",
+      "height": 1.0
+    },
+    {
+      "id": 78,
+      "name": "Galopa",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 100,
+        "defense": 70,
+        "specialAttack": 80,
+        "specialDefense": 80,
+        "speed": 105
+      },
+      "moves": [
+        36,
+        83,
+        52,
+        23
+      ],
+      "color": "yellow",
+      "height": 1.7
+    },
+    {
+      "id": 79,
+      "name": "Ramoloss",
+      "types": [
+        "Water",
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 65,
+        "defense": 65,
+        "specialAttack": 40,
+        "specialDefense": 40,
+        "speed": 15
+      },
+      "moves": [
+        94,
+        55,
+        29,
+        93
+      ],
+      "color": "pink",
+      "height": 1.2
+    },
+    {
+      "id": 80,
+      "name": "Flagadoss",
+      "types": [
+        "Water",
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 95,
+        "attack": 75,
+        "defense": 110,
+        "specialAttack": 100,
+        "specialDefense": 80,
+        "speed": 30
+      },
+      "moves": [
+        55,
+        93,
+        29,
+        63
+      ],
+      "color": "pink",
+      "height": 1.6
+    },
+    {
+      "id": 81,
+      "name": "Magnéti",
+      "types": [
+        "Electric",
+        "Steel"
+      ],
+      "stats": {
+        "hp": 25,
+        "attack": 35,
+        "defense": 70,
+        "specialAttack": 95,
+        "specialDefense": 55,
+        "speed": 45
+      },
+      "moves": [
+        129,
+        84,
+        33,
+        38
+      ],
+      "color": "gray",
+      "height": 0.3
+    },
+    {
+      "id": 82,
+      "name": "Magnéton",
+      "types": [
+        "Electric",
+        "Steel"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 60,
+        "defense": 95,
+        "specialAttack": 120,
+        "specialDefense": 70,
+        "speed": 70
+      },
+      "moves": [
+        129,
+        84,
+        33,
+        63
+      ],
+      "color": "gray",
+      "height": 1.0
+    },
+    {
+      "id": 83,
+      "name": "Canarticho",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 52,
+        "attack": 90,
+        "defense": 55,
+        "specialAttack": 58,
+        "specialDefense": 62,
+        "speed": 60
+      },
+      "moves": [
+        163,
+        31,
+        64,
+        130
+      ],
+      "color": "brown",
+      "height": 0.8
+    },
+    {
+      "id": 84,
+      "name": "Doduo",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 85,
+        "defense": 45,
+        "specialAttack": 35,
+        "specialDefense": 35,
+        "speed": 75
+      },
+      "moves": [
+        161,
+        99,
+        65,
+        31
+      ],
+      "color": "brown",
+      "height": 1.4
+    },
+    {
+      "id": 85,
+      "name": "Dodrio",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 110,
+        "defense": 70,
+        "specialAttack": 60,
+        "specialDefense": 60,
+        "speed": 110
+      },
+      "moves": [
+        161,
+        99,
+        65,
+        64
+      ],
+      "color": "brown",
+      "height": 1.8
+    },
+    {
+      "id": 86,
+      "name": "Otaria",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 45,
+        "defense": 55,
+        "specialAttack": 45,
+        "specialDefense": 70,
+        "speed": 45
+      },
+      "moves": [
+        58,
+        36,
+        62,
+        29
+      ],
+      "color": "white",
+      "height": 1.1
+    },
+    {
+      "id": 87,
+      "name": "Lamantine",
+      "types": [
+        "Water",
+        "Ice"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 70,
+        "defense": 80,
+        "specialAttack": 70,
+        "specialDefense": 95,
+        "speed": 70
+      },
+      "moves": [
+        36,
+        62,
+        29,
+        63
+      ],
+      "color": "white",
+      "height": 1.7
+    },
+    {
+      "id": 88,
+      "name": "Tadmorv",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 80,
+        "defense": 50,
+        "specialAttack": 40,
+        "specialDefense": 50,
+        "speed": 25
+      },
+      "moves": [
+        124,
+        1,
+        153,
+        120
+      ],
+      "color": "purple",
+      "height": 0.9
+    },
+    {
+      "id": 89,
+      "name": "Grotadmorv",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 105,
+        "attack": 105,
+        "defense": 75,
+        "specialAttack": 65,
+        "specialDefense": 100,
+        "speed": 50
+      },
+      "moves": [
+        124,
+        1,
+        153,
+        120
+      ],
+      "color": "purple",
+      "height": 1.2
+    },
+    {
+      "id": 90,
+      "name": "Kokiyas",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 30,
+        "attack": 65,
+        "defense": 100,
+        "specialAttack": 45,
+        "specialDefense": 25,
+        "speed": 40
+      },
+      "moves": [
+        58,
+        62,
+        128,
+        33
+      ],
+      "color": "purple",
+      "height": 0.3
+    },
+    {
+      "id": 91,
+      "name": "Crustabri",
+      "types": [
+        "Water",
+        "Ice"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 95,
+        "defense": 180,
+        "specialAttack": 85,
+        "specialDefense": 45,
+        "speed": 70
+      },
+      "moves": [
+        131,
+        128,
+        62,
+        153
+      ],
+      "color": "purple",
+      "height": 1.5
+    },
+    {
+      "id": 92,
+      "name": "Fantominus",
+      "types": [
+        "Ghost",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 30,
+        "attack": 35,
+        "defense": 30,
+        "specialAttack": 100,
+        "specialDefense": 35,
+        "speed": 80
+      },
+      "moves": [
+        138,
+        122,
+        153,
+        120
+      ],
+      "color": "purple",
+      "height": 1.3
+    },
+    {
+      "id": 93,
+      "name": "Spectrum",
+      "types": [
+        "Ghost",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 45,
+        "attack": 50,
+        "defense": 45,
+        "specialAttack": 115,
+        "specialDefense": 55,
+        "speed": 95
+      },
+      "moves": [
+        138,
+        122,
+        153,
+        120
+      ],
+      "color": "purple",
+      "height": 1.6
+    },
+    {
+      "id": 94,
+      "name": "Ectoplasma",
+      "types": [
+        "Ghost",
+        "Poison"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 65,
+        "defense": 60,
+        "specialAttack": 130,
+        "specialDefense": 75,
+        "speed": 110
+      },
+      "moves": [
+        138,
+        122,
+        153,
+        120
+      ],
+      "color": "purple",
+      "height": 1.5
+    },
+    {
+      "id": 95,
+      "name": "Onix",
+      "types": [
+        "Rock",
+        "Ground"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 45,
+        "defense": 160,
+        "specialAttack": 30,
+        "specialDefense": 45,
+        "speed": 70
+      },
+      "moves": [
+        21,
+        99,
+        88,
+        20
+      ],
+      "color": "gray",
+      "height": 8.8
+    },
+    {
+      "id": 96,
+      "name": "Soporifik",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 48,
+        "defense": 45,
+        "specialAttack": 43,
+        "specialDefense": 90,
+        "speed": 42
+      },
+      "moves": [
+        94,
+        29,
+        93,
+        1
+      ],
+      "color": "yellow",
+      "height": 1.0
+    },
+    {
+      "id": 97,
+      "name": "Hypnomade",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 85,
+        "attack": 73,
+        "defense": 70,
+        "specialAttack": 73,
+        "specialDefense": 115,
+        "speed": 67
+      },
+      "moves": [
+        94,
+        29,
+        93,
+        1
+      ],
+      "color": "yellow",
+      "height": 1.6
+    },
+    {
+      "id": 98,
+      "name": "Krabby",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 30,
+        "attack": 105,
+        "defense": 90,
+        "specialAttack": 25,
+        "specialDefense": 25,
+        "speed": 50
+      },
+      "moves": [
+        152,
+        23,
+        11,
+        145
+      ],
+      "color": "red",
+      "height": 0.4
+    },
+    {
+      "id": 99,
+      "name": "Krabboss",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 130,
+        "defense": 115,
+        "specialAttack": 50,
+        "specialDefense": 50,
+        "speed": 75
+      },
+      "moves": [
+        152,
+        23,
+        145,
+        11
+      ],
+      "color": "red",
+      "height": 1.3
+    },
+    {
+      "id": 100,
+      "name": "Voltorbe",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 30,
+        "defense": 50,
+        "specialAttack": 55,
+        "specialDefense": 55,
+        "speed": 100
+      },
+      "moves": [
+        153,
+        129,
+        120,
+        33
+      ],
+      "color": "red",
+      "height": 0.5
+    },
+    {
+      "id": 101,
+      "name": "Électrode",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 50,
+        "defense": 70,
+        "specialAttack": 80,
+        "specialDefense": 80,
+        "speed": 150
+      },
+      "moves": [
+        153,
+        129,
+        120,
+        33
+      ],
+      "color": "red",
+      "height": 1.2
+    },
+    {
+      "id": 102,
+      "name": "Noeunoeuf",
+      "types": [
+        "Grass",
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 40,
+        "defense": 80,
+        "specialAttack": 60,
+        "specialDefense": 45,
+        "speed": 40
+      },
+      "moves": [
+        76,
+        140,
+        153,
+        120
+      ],
+      "color": "pink",
+      "height": 0.4
+    },
+    {
+      "id": 103,
+      "name": "Noadkoko",
+      "types": [
+        "Grass",
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 95,
+        "attack": 95,
+        "defense": 85,
+        "specialAttack": 125,
+        "specialDefense": 75,
+        "speed": 55
+      },
+      "moves": [
+        23,
+        140,
+        153,
+        120
+      ],
+      "color": "yellow",
+      "height": 2.0
+    },
+    {
+      "id": 104,
+      "name": "Osselait",
+      "types": [
+        "Ground"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 50,
+        "defense": 95,
+        "specialAttack": 40,
+        "specialDefense": 50,
+        "speed": 35
+      },
+      "moves": [
+        99,
+        155,
+        37,
+        125
+      ],
+      "color": "brown",
+      "height": 0.4
+    },
+    {
+      "id": 105,
+      "name": "Ossatueur",
+      "types": [
+        "Ground"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 80,
+        "defense": 110,
+        "specialAttack": 50,
+        "specialDefense": 80,
+        "speed": 45
+      },
+      "moves": [
+        155,
+        37,
+        125,
+        63
+      ],
+      "color": "brown",
+      "height": 1.0
+    },
+    {
+      "id": 106,
+      "name": "Kicklee",
+      "types": [
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 120,
+        "defense": 53,
+        "specialAttack": 35,
+        "specialDefense": 110,
+        "speed": 87
+      },
+      "moves": [
+        136,
+        26,
+        27,
+        24
+      ],
+      "color": "brown",
+      "height": 1.5
+    },
+    {
+      "id": 107,
+      "name": "Tygnon",
+      "types": [
+        "Fighting"
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 105,
+        "defense": 79,
+        "specialAttack": 35,
+        "specialDefense": 110,
+        "speed": 76
+      },
+      "moves": [
+        5,
+        9,
+        8,
+        7
+      ],
+      "color": "brown",
+      "height": 1.4
+    },
+    {
+      "id": 108,
+      "name": "Excelangue",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 55,
+        "defense": 75,
+        "specialAttack": 60,
+        "specialDefense": 75,
+        "speed": 30
+      },
+      "moves": [
+        21,
+        23,
+        35,
+        63
+      ],
+      "color": "pink",
+      "height": 1.2
+    },
+    {
+      "id": 109,
+      "name": "Smogo",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 65,
+        "defense": 95,
+        "specialAttack": 60,
+        "specialDefense": 45,
+        "speed": 35
+      },
+      "moves": [
+        153,
+        120,
+        124,
+        123
+      ],
+      "color": "purple",
+      "height": 0.6
+    },
+    {
+      "id": 110,
+      "name": "Smogogo",
+      "types": [
+        "Poison"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 90,
+        "defense": 120,
+        "specialAttack": 85,
+        "specialDefense": 70,
+        "speed": 60
+      },
+      "moves": [
+        120,
+        124,
+        123,
+        33
+      ],
+      "color": "purple",
+      "height": 1.2
+    },
+    {
+      "id": 111,
+      "name": "Rhinocorne",
+      "types": [
+        "Ground",
+        "Rock"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 85,
+        "defense": 95,
+        "specialAttack": 30,
+        "specialDefense": 30,
+        "speed": 25
+      },
+      "moves": [
+        31,
+        23,
+        30,
+        130
+      ],
+      "color": "gray",
+      "height": 1.0
+    },
+    {
+      "id": 112,
+      "name": "Rhinoféros",
+      "types": [
+        "Ground",
+        "Rock"
+      ],
+      "stats": {
+        "hp": 105,
+        "attack": 130,
+        "defense": 120,
+        "specialAttack": 45,
+        "specialDefense": 45,
+        "speed": 40
+      },
+      "moves": [
+        31,
+        30,
+        23,
+        63
+      ],
+      "color": "gray",
+      "height": 1.9
+    },
+    {
+      "id": 113,
+      "name": "Leveinard",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 250,
+        "attack": 5,
+        "defense": 5,
+        "specialAttack": 35,
+        "specialDefense": 105,
+        "speed": 50
+      },
+      "moves": [
+        3,
+        1,
+        63,
+        130
+      ],
+      "color": "pink",
+      "height": 1.1
+    },
+    {
+      "id": 114,
+      "name": "Saquedeneu",
+      "types": [
+        "Grass"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 55,
+        "defense": 115,
+        "specialAttack": 100,
+        "specialDefense": 40,
+        "speed": 60
+      },
+      "moves": [
+        21,
+        71,
+        132,
+        20
+      ],
+      "color": "blue",
+      "height": 1.0
+    },
+    {
+      "id": 115,
+      "name": "Kangourex",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 105,
+        "attack": 95,
+        "defense": 80,
+        "specialAttack": 40,
+        "specialDefense": 80,
+        "speed": 90
+      },
+      "moves": [
+        146,
+        5,
+        44,
+        99
+      ],
+      "color": "brown",
+      "height": 2.2
+    },
+    {
+      "id": 116,
+      "name": "Hypotrempe",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 30,
+        "attack": 40,
+        "defense": 70,
+        "specialAttack": 70,
+        "specialDefense": 25,
+        "speed": 60
+      },
+      "moves": [
+        56,
+        55,
+        145,
+        130
+      ],
+      "color": "blue",
+      "height": 0.4
+    },
+    {
+      "id": 117,
+      "name": "Hypocéan",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 65,
+        "defense": 95,
+        "specialAttack": 95,
+        "specialDefense": 45,
+        "speed": 85
+      },
+      "moves": [
+        55,
+        145,
+        63,
+        130
+      ],
+      "color": "blue",
+      "height": 1.2
+    },
+    {
+      "id": 118,
+      "name": "Poissirène",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 45,
+        "attack": 67,
+        "defense": 60,
+        "specialAttack": 35,
+        "specialDefense": 50,
+        "speed": 63
+      },
+      "moves": [
+        127,
+        31,
+        30,
+        64
+      ],
+      "color": "red",
+      "height": 0.6
+    },
+    {
+      "id": 119,
+      "name": "Poissoroy",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 92,
+        "defense": 65,
+        "specialAttack": 65,
+        "specialDefense": 80,
+        "speed": 68
+      },
+      "moves": [
+        127,
+        31,
+        30,
+        64
+      ],
+      "color": "red",
+      "height": 1.3
+    },
+    {
+      "id": 120,
+      "name": "Stari",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 30,
+        "attack": 45,
+        "defense": 55,
+        "specialAttack": 70,
+        "specialDefense": 55,
+        "speed": 85
+      },
+      "moves": [
+        56,
+        129,
+        55,
+        33
+      ],
+      "color": "brown",
+      "height": 0.8
+    },
+    {
+      "id": 121,
+      "name": "Staross",
+      "types": [
+        "Water",
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 75,
+        "defense": 85,
+        "specialAttack": 100,
+        "specialDefense": 85,
+        "speed": 115
+      },
+      "moves": [
+        55,
+        33,
+        63,
+        130
+      ],
+      "color": "purple",
+      "height": 1.1
+    },
+    {
+      "id": 122,
+      "name": "M. Mime",
+      "types": [
+        "Psychic",
+        "Fairy"
+      ],
+      "stats": {
+        "hp": 40,
+        "attack": 45,
+        "defense": 65,
+        "specialAttack": 100,
+        "specialDefense": 120,
+        "speed": 90
+      },
+      "moves": [
+        3,
+        93,
+        63,
+        130
+      ],
+      "color": "pink",
+      "height": 1.3
+    },
+    {
+      "id": 123,
+      "name": "Insécateur",
+      "types": [
+        "Bug",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 70,
+        "attack": 110,
+        "defense": 80,
+        "specialAttack": 55,
+        "specialDefense": 80,
+        "speed": 105
+      },
+      "moves": [
+        163,
+        98,
+        63,
+        130
+      ],
+      "color": "green",
+      "height": 1.5
+    },
+    {
+      "id": 124,
+      "name": "Lippoutou",
+      "types": [
+        "Ice",
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 50,
+        "defense": 35,
+        "specialAttack": 115,
+        "specialDefense": 95,
+        "speed": 95
+      },
+      "moves": [
+        37,
+        34,
+        8,
+        3
+      ],
+      "color": "red",
+      "height": 1.4
+    },
+    {
+      "id": 125,
+      "name": "Élektek",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 83,
+        "defense": 57,
+        "specialAttack": 95,
+        "specialDefense": 85,
+        "speed": 105
+      },
+      "moves": [
+        9,
+        84,
+        98,
+        63
+      ],
+      "color": "yellow",
+      "height": 1.1
+    },
+    {
+      "id": 126,
+      "name": "Magmar",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 95,
+        "defense": 57,
+        "specialAttack": 100,
+        "specialDefense": 85,
+        "speed": 93
+      },
+      "moves": [
+        7,
+        52,
+        63,
+        130
+      ],
+      "color": "red",
+      "height": 1.3
+    },
+    {
+      "id": 127,
+      "name": "Scarabrute",
+      "types": [
+        "Bug"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 125,
+        "defense": 100,
+        "specialAttack": 55,
+        "specialDefense": 70,
+        "speed": 85
+      },
+      "moves": [
+        163,
+        11,
+        63,
+        38
+      ],
+      "color": "brown",
+      "height": 1.5
+    },
+    {
+      "id": 128,
+      "name": "Tauros",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 75,
+        "attack": 100,
+        "defense": 95,
+        "specialAttack": 40,
+        "specialDefense": 70,
+        "speed": 110
+      },
+      "moves": [
+        99,
+        23,
+        33,
+        63
+      ],
+      "color": "brown",
+      "height": 1.4
+    },
+    {
+      "id": 129,
+      "name": "Magicarpe",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 20,
+        "attack": 10,
+        "defense": 55,
+        "specialAttack": 15,
+        "specialDefense": 20,
+        "speed": 80
+      },
+      "moves": [
+        33
+      ],
+      "color": "red",
+      "height": 0.9
+    },
+    {
+      "id": 130,
+      "name": "Léviator",
+      "types": [
+        "Water",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 95,
+        "attack": 125,
+        "defense": 79,
+        "specialAttack": 60,
+        "specialDefense": 100,
+        "speed": 81
+      },
+      "moves": [
+        56,
+        44,
+        63,
+        130
+      ],
+      "color": "blue",
+      "height": 6.5
+    },
+    {
+      "id": 131,
+      "name": "Lokhlass",
+      "types": [
+        "Water",
+        "Ice"
+      ],
+      "stats": {
+        "hp": 130,
+        "attack": 85,
+        "defense": 80,
+        "specialAttack": 85,
+        "specialDefense": 95,
+        "speed": 60
+      },
+      "moves": [
+        56,
+        58,
+        34,
+        55
+      ],
+      "color": "blue",
+      "height": 2.5
+    },
+    {
+      "id": 132,
+      "name": "Métamorph",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 48,
+        "attack": 48,
+        "defense": 48,
+        "specialAttack": 48,
+        "specialDefense": 48,
+        "speed": 48
+      },
+      "moves": [
+        165
+      ],
+      "color": "purple",
+      "height": 0.3
+    },
+    {
+      "id": 133,
+      "name": "Évoli",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 55,
+        "attack": 55,
+        "defense": 50,
+        "specialAttack": 45,
+        "specialDefense": 65,
+        "speed": 55
+      },
+      "moves": [
+        36,
+        44,
+        98,
+        33
+      ],
+      "color": "brown",
+      "height": 0.3
+    },
+    {
+      "id": 134,
+      "name": "Aquali",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "hp": 130,
+        "attack": 65,
+        "defense": 60,
+        "specialAttack": 110,
+        "specialDefense": 95,
+        "speed": 65
+      },
+      "moves": [
+        44,
+        98,
+        55,
+        33
+      ],
+      "color": "blue",
+      "height": 1.0
+    },
+    {
+      "id": 135,
+      "name": "Voltali",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 65,
+        "defense": 60,
+        "specialAttack": 110,
+        "specialDefense": 95,
+        "speed": 130
+      },
+      "moves": [
+        42,
+        24,
+        98,
+        84
+      ],
+      "color": "yellow",
+      "height": 0.8
+    },
+    {
+      "id": 136,
+      "name": "Pyroli",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 130,
+        "defense": 60,
+        "specialAttack": 95,
+        "specialDefense": 110,
+        "speed": 65
+      },
+      "moves": [
+        99,
+        83,
+        44,
+        98
+      ],
+      "color": "red",
+      "height": 0.9
+    },
+    {
+      "id": 137,
+      "name": "Porygon",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 60,
+        "defense": 70,
+        "specialAttack": 85,
+        "specialDefense": 75,
+        "speed": 40
+      },
+      "moves": [
+        161,
+        60,
+        33,
+        63
+      ],
+      "color": "pink",
+      "height": 0.8
+    },
+    {
+      "id": 138,
+      "name": "Amonita",
+      "types": [
+        "Rock",
+        "Water"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 40,
+        "defense": 100,
+        "specialAttack": 90,
+        "specialDefense": 55,
+        "speed": 35
+      },
+      "moves": [
+        131,
+        30,
+        55,
+        38
+      ],
+      "color": "blue",
+      "height": 0.4
+    },
+    {
+      "id": 139,
+      "name": "Amonistar",
+      "types": [
+        "Rock",
+        "Water"
+      ],
+      "stats": {
+        "hp": 70,
+        "attack": 60,
+        "defense": 125,
+        "specialAttack": 115,
+        "specialDefense": 70,
+        "speed": 55
+      },
+      "moves": [
+        56,
+        131,
+        55,
+        30
+      ],
+      "color": "blue",
+      "height": 1.0
+    },
+    {
+      "id": 140,
+      "name": "Kabuto",
+      "types": [
+        "Rock",
+        "Water"
+      ],
+      "stats": {
+        "hp": 30,
+        "attack": 80,
+        "defense": 90,
+        "specialAttack": 55,
+        "specialDefense": 45,
+        "speed": 55
+      },
+      "moves": [
+        56,
+        163,
+        71,
+        10
+      ],
+      "color": "brown",
+      "height": 0.5
+    },
+    {
+      "id": 141,
+      "name": "Kabutops",
+      "types": [
+        "Rock",
+        "Water"
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 115,
+        "defense": 105,
+        "specialAttack": 65,
+        "specialDefense": 70,
+        "speed": 80
+      },
+      "moves": [
+        163,
+        71,
+        10,
+        63
+      ],
+      "color": "brown",
+      "height": 1.3
+    },
+    {
+      "id": 142,
+      "name": "Ptéra",
+      "types": [
+        "Rock",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 105,
+        "defense": 65,
+        "specialAttack": 60,
+        "specialDefense": 75,
+        "speed": 130
+      },
+      "moves": [
+        36,
+        44,
+        17,
+        63
+      ],
+      "color": "purple",
+      "height": 1.8
+    },
+    {
+      "id": 143,
+      "name": "Ronflex",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "hp": 160,
+        "attack": 110,
+        "defense": 65,
+        "specialAttack": 65,
+        "specialDefense": 110,
+        "speed": 30
+      },
+      "moves": [
+        38,
+        34,
+        29,
+        120
+      ],
+      "color": "black",
+      "height": 2.1
+    },
+    {
+      "id": 144,
+      "name": "Artikodin",
+      "types": [
+        "Ice",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 85,
+        "defense": 100,
+        "specialAttack": 95,
+        "specialDefense": 125,
+        "speed": 85
+      },
+      "moves": [
+        64,
+        58,
+        63,
+        143
+      ],
+      "color": "blue",
+      "height": 1.7
+    },
+    {
+      "id": 145,
+      "name": "Électhor",
+      "types": [
+        "Electric",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 90,
+        "defense": 85,
+        "specialAttack": 125,
+        "specialDefense": 90,
+        "speed": 100
+      },
+      "moves": [
+        84,
+        65,
+        63,
+        143
+      ],
+      "color": "yellow",
+      "height": 1.6
+    },
+    {
+      "id": 146,
+      "name": "Sulfura",
+      "types": [
+        "Fire",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 100,
+        "defense": 90,
+        "specialAttack": 125,
+        "specialDefense": 85,
+        "speed": 90
+      },
+      "moves": [
+        83,
+        64,
+        63,
+        143
+      ],
+      "color": "yellow",
+      "height": 2.0
+    },
+    {
+      "id": 147,
+      "name": "Minidraco",
+      "types": [
+        "Dragon"
+      ],
+      "stats": {
+        "hp": 41,
+        "attack": 64,
+        "defense": 45,
+        "specialAttack": 50,
+        "specialDefense": 50,
+        "speed": 50
+      },
+      "moves": [
+        63,
+        21,
+        35,
+        130
+      ],
+      "color": "blue",
+      "height": 1.8
+    },
+    {
+      "id": 148,
+      "name": "Draco",
+      "types": [
+        "Dragon"
+      ],
+      "stats": {
+        "hp": 61,
+        "attack": 84,
+        "defense": 65,
+        "specialAttack": 70,
+        "specialDefense": 70,
+        "speed": 70
+      },
+      "moves": [
+        21,
+        35,
+        130,
+        38
+      ],
+      "color": "blue",
+      "height": 4.0
+    },
+    {
+      "id": 149,
+      "name": "Dracolosse",
+      "types": [
+        "Dragon",
+        "Flying"
+      ],
+      "stats": {
+        "hp": 91,
+        "attack": 134,
+        "defense": 95,
+        "specialAttack": 100,
+        "specialDefense": 100,
+        "speed": 80
+      },
+      "moves": [
+        21,
+        35,
+        63,
+        130
+      ],
+      "color": "brown",
+      "height": 2.2
+    },
+    {
+      "id": 150,
+      "name": "Mewtwo",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 106,
+        "attack": 110,
+        "defense": 90,
+        "specialAttack": 154,
+        "specialDefense": 90,
+        "speed": 130
+      },
+      "moves": [
+        129,
+        94,
+        93,
+        120
+      ],
+      "color": "purple",
+      "height": 2.0
+    },
+    {
+      "id": 151,
+      "name": "Mew",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "hp": 100,
+        "attack": 100,
+        "defense": 100,
+        "specialAttack": 100,
+        "specialDefense": 100,
+        "speed": 100
+      },
+      "moves": [
+        94,
+        5,
+        1,
+        153
+      ],
+      "color": "pink",
+      "height": 0.4
+    }
   ],
   "moves": [
-    {"id":75,"name":"Tranch’Herbe","type":"Grass","category":"Physical","power":55,"accuracy":95,"pp":25,"priority":0,"effect":""},
-    {"id":412,"name":"Éco-Sphère","type":"Grass","category":"Special","power":90,"accuracy":100,"pp":10,"priority":0,"effect":""},
-    {"id":34,"name":"Plaquage","type":"Normal","category":"Physical","power":85,"accuracy":100,"pp":15,"priority":0,"effect":""},
-    {"id":235,"name":"Synthèse","type":"Grass","category":"Status","power":0,"accuracy":100,"pp":5,"priority":0,"effect":"Recover"},
-    {"id":488,"name":"Nitrocharge","type":"Fire","category":"Physical","power":50,"accuracy":100,"pp":20,"priority":0,"effect":"FlameCharge"},
-    {"id":53,"name":"Lance-Flammes","type":"Fire","category":"Special","power":90,"accuracy":100,"pp":15,"priority":0,"effect":""},
-    {"id":413,"name":"Rapace","type":"Flying","category":"Physical","power":120,"accuracy":100,"pp":15,"priority":0,"effect":"RecoilThird"},
-    {"id":355,"name":"Atterrissage","type":"Flying","category":"Status","power":0,"accuracy":100,"pp":5,"priority":0,"effect":"Recover"},
-    {"id":337,"name":"Draco-Griffe","type":"Dragon","category":"Physical","power":80,"accuracy":100,"pp":15,"priority":0,"effect":""},
-    {"id":89,"name":"Séisme","type":"Ground","category":"Physical","power":100,"accuracy":100,"pp":10,"priority":0,"effect":""},
-    {"id":14,"name":"Danse Lames","type":"Normal","category":"Status","power":0,"accuracy":100,"pp":20,"priority":0,"effect":"SwordsDance"},
-    {"id":585,"name":"Pouvoir Lunaire","type":"Fairy","category":"Special","power":95,"accuracy":100,"pp":15,"priority":0,"effect":""},
-    {"id":129,"name":"Météores","type":"Normal","category":"Special","power":60,"accuracy":100,"pp":20,"priority":0,"effect":""},
-    {"id":236,"name":"Rayon Lune","type":"Fairy","category":"Status","power":0,"accuracy":100,"pp":5,"priority":0,"effect":"Recover"}
+    {
+      "id": 1,
+      "name": "Écras’Face",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 2,
+      "name": "Poing Karaté",
+      "type": "Fighting",
+      "category": "Physical",
+      "power": 50,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 3,
+      "name": "Torgnoles",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 15,
+      "accuracy": 85,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 5,
+      "name": "Ultimapoing",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 85,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 6,
+      "name": "Jackpot",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 7,
+      "name": "Poing Feu",
+      "type": "Fire",
+      "category": "Physical",
+      "power": 75,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 8,
+      "name": "Poing Glace",
+      "type": "Ice",
+      "category": "Physical",
+      "power": 75,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 9,
+      "name": "Poing Éclair",
+      "type": "Electric",
+      "category": "Physical",
+      "power": 75,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 10,
+      "name": "Griffe",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 11,
+      "name": "Force Poigne",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 55,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 16,
+      "name": "Tornade",
+      "type": "Flying",
+      "category": "Special",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 17,
+      "name": "Cru-Ailes",
+      "type": "Flying",
+      "category": "Physical",
+      "power": 60,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 20,
+      "name": "Étreinte",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 15,
+      "accuracy": 85,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 21,
+      "name": "Souplesse",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 75,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 22,
+      "name": "Fouet Lianes",
+      "type": "Grass",
+      "category": "Physical",
+      "power": 45,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 23,
+      "name": "Écrasement",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 65,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 24,
+      "name": "Double Pied",
+      "type": "Fighting",
+      "category": "Physical",
+      "power": 30,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 25,
+      "name": "Ultimawashi",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 120,
+      "accuracy": 75,
+      "pp": 5,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 26,
+      "name": "Pied Sauté",
+      "type": "Fighting",
+      "category": "Physical",
+      "power": 100,
+      "accuracy": 95,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 27,
+      "name": "Mawashi Geri",
+      "type": "Fighting",
+      "category": "Physical",
+      "power": 60,
+      "accuracy": 85,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 29,
+      "name": "Coup d’Boule",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 70,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 30,
+      "name": "Koud’Korne",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 65,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 31,
+      "name": "Furie",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 15,
+      "accuracy": 85,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 33,
+      "name": "Charge",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 34,
+      "name": "Plaquage",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 85,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 35,
+      "name": "Ligotage",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 15,
+      "accuracy": 90,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 36,
+      "name": "Bélier",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 90,
+      "accuracy": 85,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 37,
+      "name": "Mania",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 120,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 38,
+      "name": "Damoclès",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 120,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 40,
+      "name": "Dard-Venin",
+      "type": "Poison",
+      "category": "Physical",
+      "power": 15,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 41,
+      "name": "Double Dard",
+      "type": "Bug",
+      "category": "Physical",
+      "power": 25,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 42,
+      "name": "Dard-Nuée",
+      "type": "Bug",
+      "category": "Physical",
+      "power": 25,
+      "accuracy": 95,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 44,
+      "name": "Morsure",
+      "type": "Dark",
+      "category": "Physical",
+      "power": 60,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 51,
+      "name": "Acide",
+      "type": "Poison",
+      "category": "Special",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 52,
+      "name": "Flammèche",
+      "type": "Fire",
+      "category": "Special",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 53,
+      "name": "Lance-Flammes",
+      "type": "Fire",
+      "category": "Special",
+      "power": 90,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 55,
+      "name": "Pistolet à O",
+      "type": "Water",
+      "category": "Special",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 56,
+      "name": "Hydrocanon",
+      "type": "Water",
+      "category": "Special",
+      "power": 110,
+      "accuracy": 80,
+      "pp": 5,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 58,
+      "name": "Laser Glace",
+      "type": "Ice",
+      "category": "Special",
+      "power": 90,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 60,
+      "name": "Rafale Psy",
+      "type": "Psychic",
+      "category": "Special",
+      "power": 65,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 62,
+      "name": "Onde Boréale",
+      "type": "Ice",
+      "category": "Special",
+      "power": 65,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 63,
+      "name": "Ultralaser",
+      "type": "Normal",
+      "category": "Special",
+      "power": 150,
+      "accuracy": 90,
+      "pp": 5,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 64,
+      "name": "Picpic",
+      "type": "Flying",
+      "category": "Physical",
+      "power": 35,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 65,
+      "name": "Bec Vrille",
+      "type": "Flying",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 66,
+      "name": "Sacrifice",
+      "type": "Fighting",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 80,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 71,
+      "name": "Vole-Vie",
+      "type": "Grass",
+      "category": "Special",
+      "power": 20,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 75,
+      "name": "Tranch’Herbe",
+      "type": "Grass",
+      "category": "Physical",
+      "power": 55,
+      "accuracy": 95,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 76,
+      "name": "Lance-Soleil",
+      "type": "Grass",
+      "category": "Special",
+      "power": 120,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 80,
+      "name": "Danse Fleurs",
+      "type": "Grass",
+      "category": "Special",
+      "power": 120,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 83,
+      "name": "Danse Flammes",
+      "type": "Fire",
+      "category": "Special",
+      "power": 35,
+      "accuracy": 85,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 84,
+      "name": "Éclair",
+      "type": "Electric",
+      "category": "Special",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 87,
+      "name": "Fatal-Foudre",
+      "type": "Electric",
+      "category": "Special",
+      "power": 110,
+      "accuracy": 70,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 88,
+      "name": "Jet-Pierres",
+      "type": "Rock",
+      "category": "Physical",
+      "power": 50,
+      "accuracy": 90,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 89,
+      "name": "Séisme",
+      "type": "Ground",
+      "category": "Physical",
+      "power": 100,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 91,
+      "name": "Tunnel",
+      "type": "Ground",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 93,
+      "name": "Choc Mental",
+      "type": "Psychic",
+      "category": "Special",
+      "power": 50,
+      "accuracy": 100,
+      "pp": 25,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 94,
+      "name": "Psyko",
+      "type": "Psychic",
+      "category": "Special",
+      "power": 90,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 98,
+      "name": "Vive-Attaque",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 1,
+      "effect": "Damage"
+    },
+    {
+      "id": 99,
+      "name": "Frénésie",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 20,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 120,
+      "name": "Destruction",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 200,
+      "accuracy": 100,
+      "pp": 5,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 122,
+      "name": "Léchouille",
+      "type": "Ghost",
+      "category": "Physical",
+      "power": 30,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 123,
+      "name": "Purédpois",
+      "type": "Poison",
+      "category": "Special",
+      "power": 30,
+      "accuracy": 70,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 124,
+      "name": "Détritus",
+      "type": "Poison",
+      "category": "Special",
+      "power": 65,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 125,
+      "name": "Massd’Os",
+      "type": "Ground",
+      "category": "Physical",
+      "power": 65,
+      "accuracy": 85,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 127,
+      "name": "Cascade",
+      "type": "Water",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 128,
+      "name": "Claquoir",
+      "type": "Water",
+      "category": "Physical",
+      "power": 35,
+      "accuracy": 85,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 129,
+      "name": "Météores",
+      "type": "Normal",
+      "category": "Special",
+      "power": 60,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 130,
+      "name": "Coud’Krâne",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 130,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 131,
+      "name": "Picanon",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 20,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 132,
+      "name": "Constriction",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 10,
+      "accuracy": 100,
+      "pp": 35,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 136,
+      "name": "Pied Voltige",
+      "type": "Fighting",
+      "category": "Physical",
+      "power": 130,
+      "accuracy": 90,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 138,
+      "name": "Dévorêve",
+      "type": "Psychic",
+      "category": "Special",
+      "power": 100,
+      "accuracy": 100,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 140,
+      "name": "Pilonnage",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 15,
+      "accuracy": 85,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 141,
+      "name": "Vampirisme",
+      "type": "Bug",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 143,
+      "name": "Piqué",
+      "type": "Flying",
+      "category": "Physical",
+      "power": 140,
+      "accuracy": 90,
+      "pp": 5,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 145,
+      "name": "Écume",
+      "type": "Water",
+      "category": "Special",
+      "power": 40,
+      "accuracy": 100,
+      "pp": 30,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 146,
+      "name": "Uppercut",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 70,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 152,
+      "name": "Pince-Masse",
+      "type": "Water",
+      "category": "Physical",
+      "power": 100,
+      "accuracy": 90,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 153,
+      "name": "Explosion",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 250,
+      "accuracy": 100,
+      "pp": 5,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 154,
+      "name": "Combo-Griffe",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 18,
+      "accuracy": 80,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 155,
+      "name": "Osmerang",
+      "type": "Ground",
+      "category": "Physical",
+      "power": 50,
+      "accuracy": 90,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 158,
+      "name": "Croc de Mort",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 80,
+      "accuracy": 90,
+      "pp": 15,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 161,
+      "name": "Triplattaque",
+      "type": "Normal",
+      "category": "Special",
+      "power": 80,
+      "accuracy": 100,
+      "pp": 10,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 163,
+      "name": "Tranche",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 70,
+      "accuracy": 100,
+      "pp": 20,
+      "priority": 0,
+      "effect": "Damage"
+    },
+    {
+      "id": 165,
+      "name": "Lutte",
+      "type": "Normal",
+      "category": "Physical",
+      "power": 50,
+      "accuracy": 100,
+      "pp": 1,
+      "priority": 0,
+      "effect": "Damage"
+    }
   ],
   "items": [
-    {"id":"none","name":"Aucun objet","effect":"","type":"","multiplier":1},
-    {"id":"leftovers","name":"Restes","effect":"Leftovers","type":"","multiplier":1},
-    {"id":"lifeorb","name":"Orbe Vie","effect":"LifeOrb","type":"","multiplier":1.3},
-    {"id":"charcoal","name":"Charbon","effect":"Charcoal","type":"Fire","multiplier":1.2}
+    {
+      "id": "none",
+      "name": "Aucun objet",
+      "effect": "",
+      "type": "",
+      "multiplier": 1
+    },
+    {
+      "id": "leftovers",
+      "name": "Restes",
+      "effect": "Leftovers",
+      "type": "",
+      "multiplier": 1
+    },
+    {
+      "id": "lifeorb",
+      "name": "Orbe Vie",
+      "effect": "LifeOrb",
+      "type": "",
+      "multiplier": 1.3
+    },
+    {
+      "id": "charcoal",
+      "name": "Charbon",
+      "effect": "Charcoal",
+      "type": "Fire",
+      "multiplier": 1.2
+    }
   ]
 }

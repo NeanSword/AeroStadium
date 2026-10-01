@@ -19,6 +19,7 @@ namespace AeroStadium.EditorTools
         private const string SettingsFolder = "Assets/AeroStadium/Settings";
         private const string RendererPath = SettingsFolder + "/ArenaRenderer.asset";
         private const string PipelinePath = SettingsFolder + "/ArenaPipeline.asset";
+        private const string ArenaLitMaterialPath = "Assets/AeroStadium/Resources/Materials/ArenaLit.mat";
 
         [MenuItem("AeroStadium/Prepare Project")]
         public static void Prepare()
@@ -36,7 +37,9 @@ namespace AeroStadium.EditorTools
 
             EnsureAssetFolder(SettingsFolder);
             ConfigureRenderPipeline();
+            ConfigureRuntimeArenaMaterial();
             LocalModelImporter.PrepareModels();
+            ConfigureTitleArtwork();
             EnsureAssetFolder("Assets/AeroStadium/Scenes");
             PrepareScene();
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
@@ -142,9 +145,52 @@ namespace AeroStadium.EditorTools
             SerializedProperty inputHandling = serialized.FindProperty("activeInputHandler");
             if (inputHandling == null)
                 throw new InvalidOperationException("This editor does not expose the activeInputHandler setting.");
-            // Both supports the new Input System UI while keeping editor templates compatible.
-            inputHandling.intValue = 2;
+            // The project uses Input System throughout; enabling the legacy backend
+            // as well produces a URP DebugActionDesc layout mismatch in Unity 6 builds.
+            inputHandling.intValue = 1;
             serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static void ConfigureTitleArtwork()
+        {
+            const string assetPath = "Assets/AeroStadium/Resources/UI/AeroStadiumTitle.png";
+            string absolutePath = Path.Combine(ProjectRoot, assetPath);
+            if (!File.Exists(absolutePath))
+                return;
+
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceSynchronousImport);
+            var importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+            if (importer == null)
+                throw new InvalidOperationException("The title artwork could not be imported as a texture.");
+            importer.sRGBTexture = true;
+            importer.mipmapEnabled = true;
+            importer.wrapMode = TextureWrapMode.Clamp;
+            importer.filterMode = FilterMode.Trilinear;
+            importer.maxTextureSize = 4096;
+            importer.textureCompression = TextureImporterCompression.CompressedHQ;
+            importer.compressionQuality = 100;
+            importer.SaveAndReimport();
+        }
+
+        private static void ConfigureRuntimeArenaMaterial()
+        {
+            const string folder = "Assets/AeroStadium/Resources/Materials";
+            EnsureAssetFolder(folder);
+            var shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null)
+                throw new InvalidOperationException("The URP Lit shader is unavailable while preparing the runtime material.");
+
+            var material = AssetDatabase.LoadAssetAtPath<Material>(ArenaLitMaterialPath);
+            if (material == null)
+            {
+                material = new Material(shader) { name = "ArenaLit" };
+                AssetDatabase.CreateAsset(material, ArenaLitMaterialPath);
+            }
+            else if (material.shader != shader)
+            {
+                material.shader = shader;
+                EditorUtility.SetDirty(material);
+            }
         }
 
         private static void ConfigureRenderPipeline()

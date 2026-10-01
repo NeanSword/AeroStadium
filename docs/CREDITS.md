@@ -15,6 +15,7 @@ Le moteur de combat C#, le stade, les menus, l'adaptation des commandes et les o
 | [Unity Input System](https://github.com/Unity-Technologies/InputSystem) | Clavier, souris, manettes et usages Submit/Cancel. |
 | Unity uGUI et Test Framework | Interface et vérifications dans l'éditeur. |
 | [Blender](https://www.blender.org/) | Conversion et vérification des modèles locaux. |
+| [glTF Transform](https://gltf-transform.dev/) | Normalisation locale des GLB (Draco, WebP et accessoires clairsemés). |
 | [.NET](https://dotnet.microsoft.com/) | Vérifications du moteur sans Unity. |
 | [Pokémon Showdown / Smogon](https://github.com/smogon/pokemon-showdown/blob/master/data/typechart.ts) | Référence consultée pour vérifier la table des types ; aucune dépendance d'exécution. |
 
@@ -26,5 +27,6 @@ Les licences et conditions de ces projets restent applicables à leurs composant
 | --- | --- | --- |
 | Germignon | Pokémon Écarlate / Violet, Nintendo Switch | [The Models Resource, asset 468036](https://models.spriters-resource.com/nintendo_switch/pokemonscarletviolet/asset/468036/) — Poké-Brother. |
 | Ho-Oh | Pokémon Écarlate / Violet, Nintendo Switch | [The Models Resource, asset 352007](https://models.spriters-resource.com/nintendo_switch/pokemonscarletviolet/asset/352007/) — stormygaret15. |
+| Les 151 Pokémon de Kanto | Modèles standards préparés par Pokémon 3D API | [Pokemon-3D-api/assets](https://github.com/Pokemon-3D-api/assets/tree/main/models/opt/regular) — seuls les fichiers réguliers `1.glb` à `151.glb` sont utilisés localement ; aucun modèle chromatique. |
 
-Ces contributeurs sont les personnes indiquées sur les pages sources, pas une attribution des droits sur les personnages. Leurs fichiers restent locaux. Les manifestes locaux consignent les empreintes et les adaptations effectuées. L'animation de repos de Germignon est une création de prévisualisation ; aucune animation originale du jeu Switch n'est revendiquée.
+Les crédits disponibles dans les métadonnées individuelles sont listés dans [GEN1_MODEL_ATTRIBUTIONS.md](GEN1_MODEL_ATTRIBUTIONS.md), avec leur licence déclarée. Ces contributeurs sont les personnes indiquées sur les pages sources, pas une attribution des droits sur les personnages. Tous les fichiers 3D et textures restent locaux. Les manifestes consignent les empreintes et les adaptations effectuées. Les modèles et personnages Pokémon restent la propriété de leurs ayants droit. L'animation de repos de Germignon est une création de prévisualisation ; aucune animation originale du jeu Switch n'est revendiquée.

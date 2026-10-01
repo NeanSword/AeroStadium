@@ -12,7 +12,26 @@ namespace AeroStadium.Presentation
 {
     public sealed class GameBootstrap : MonoBehaviour
     {
-        enum ScreenMode { Selection, Battle, Result }
+        enum ScreenMode { Intro, Title, Selection, Battle, Result }
+        readonly struct IntroEntry
+        {
+            public readonly int Species;
+            public readonly int Generation;
+            public readonly string Name;
+            public IntroEntry(int species, int generation, string name) { Species = species; Generation = generation; Name = name; }
+        }
+        static readonly IntroEntry[] IntroRoster =
+        {
+            new IntroEntry(1, 1, "BULBIZARRE"), new IntroEntry(4, 1, "SALAMÈCHE"),
+            new IntroEntry(7, 1, "CARAPUCE"), new IntroEntry(25, 1, "PIKACHU"),
+            new IntroEntry(39, 1, "RONDOUDOU"), new IntroEntry(65, 1, "ALAKAZAM"),
+            new IntroEntry(74, 1, "RACAILLOU"), new IntroEntry(94, 1, "ECTOPLASMA"),
+            new IntroEntry(130, 1, "LÉVIATOR"), new IntroEntry(143, 1, "RONFLEX"),
+            new IntroEntry(144, 1, "ARTIKODIN"), new IntroEntry(145, 1, "ÉLECTHOR"),
+            new IntroEntry(146, 1, "SULFURA"), new IntroEntry(149, 1, "DRACOLOSSE"),
+            new IntroEntry(150, 1, "MEWTWO"), new IntroEntry(151, 1, "MEW"),
+            new IntroEntry(6, 1, "DRACAUFEU"), new IntroEntry(9, 1, "TORTANK")
+        };
         readonly Color ink = new Color(.055f, .09f, .16f, .96f);
         readonly Color muted = new Color(.69f, .77f, .88f);
         readonly Color gold = new Color(1f, .78f, .33f);
@@ -20,16 +39,20 @@ namespace AeroStadium.Presentation
         readonly List<Button> buttons = new List<Button>();
         readonly Image[] health = new Image[2];
         readonly Text[] healthText = new Text[2];
+        RawImage introWipe;
+        Material introWipeMaterial;
         readonly int[] visibleHp = new int[2];
         Catalog catalog;
         BattleEngine battle;
         ArenaView arena;
         ControllerHints controls;
-        RectTransform canvasRoot, page, pausePanel;
-        Text hints, logText, turnText;
+        RectTransform canvasRoot, page, pausePanel, chromeHeader, controlFooter, promptRect;
+        Text hints, logText, turnText, introCaption, startPrompt;
+        Coroutine introRoutine;
         Font font;
         ScreenMode screen;
-        int selectedSpecies = 250;
+        int selectedSpecies = 6;
+        int selectedRosterPage;
         int? requestedSeed;
         string selectedItem = "leftovers";
         bool busy, paused, smoke, smokeEnded;
@@ -43,36 +66,62 @@ namespace AeroStadium.Presentation
             smoke = Array.IndexOf(args, "--smoke-test") >= 0;
             int speciesIndex = Array.IndexOf(args, "--species");
             if (speciesIndex >= 0 && speciesIndex + 1 < args.Length && int.TryParse(args[speciesIndex + 1], out int species)
-                && (species == 152 || species == 250)) selectedSpecies = species;
+                && species >= 1 && species <= 151) selectedSpecies = species;
             int seedIndex = Array.IndexOf(args, "--seed");
             if (seedIndex >= 0 && seedIndex + 1 < args.Length && int.TryParse(args[seedIndex + 1], out int seed)) requestedSeed = seed;
             font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             var source = Resources.Load<TextAsset>("Data/catalog");
             if (source == null) throw new InvalidOperationException("Catalog missing.");
             catalog = JsonUtility.FromJson<Catalog>(source.text); catalog.Validate();
+            selectedRosterPage = Mathf.Clamp((selectedSpecies - 1) / 10, 0, (catalog.species.Length - 1) / 10);
             arena = new GameObject("Original Aero arena").AddComponent<ArenaView>(); arena.Build();
-            CreateCanvas(); CreateInputs(); ShowSelection();
+            CreateCanvas(); CreateInputs();
             int secondsIndex = Array.IndexOf(args, "--seconds");
             if (secondsIndex >= 0 && secondsIndex + 1 < args.Length && int.TryParse(args[secondsIndex + 1], out int seconds))
                 exitAt = Time.realtimeSinceStartup + Mathf.Clamp(seconds, 10, 300);
             if (smoke) StartCoroutine(SmokePlay());
+            else introRoutine = StartCoroutine(PlayIntro());
         }
 
-        void OnDestroy() { Application.logMessageReceived -= OnLog; }
+        void OnDestroy()
+        {
+            Application.logMessageReceived -= OnLog;
+            if (introWipeMaterial != null) Destroy(introWipeMaterial);
+        }
         void OnLog(string message, string stack, LogType type) { if (type == LogType.Error || type == LogType.Exception || type == LogType.Assert) errors++; }
 
         void Update()
         {
             if (exitAt > 0 && Time.realtimeSinceStartup >= exitAt)
             {
-                int expectedModels = screen == ScreenMode.Selection ? 1 : 2;
+                int expectedModels = screen == ScreenMode.Intro || screen == ScreenMode.Title || screen == ScreenMode.Selection ? 1 : 2;
                 bool passed = errors == 0 && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2));
                 Debug.Log((smoke ? "[smoke-result]" : "[runtime-result]") + " errors=" + errors + " models=" + arena.LoadedModels
                     + " battleEnded=" + smokeEnded + " passed=" + passed);
                 Application.Quit(passed ? 0 : 1); exitAt = 0;
             }
-            if (!busy && controls != null && (controls.CancelPressed || controls.PausePressed) && screen != ScreenMode.Selection)
-                TogglePause();
+            if (screen == ScreenMode.Title && promptRect != null)
+            {
+                float wave = (Mathf.Sin(Time.unscaledTime * 3.2f) + 1f) * .5f;
+                float pulse = .97f + wave * .035f;
+                promptRect.localScale = new Vector3(pulse, pulse, 1);
+                if (startPrompt != null)
+                {
+                    float visibility = .4f + wave * .6f;
+                    startPrompt.color = Color.Lerp(new Color(.62f, .88f, 1f, visibility), new Color(1f, .83f, .42f, visibility), wave);
+                }
+            }
+            if (controls == null) return;
+            if (screen == ScreenMode.Intro && controls.StartPressed)
+            {
+                if (introRoutine != null) StopCoroutine(introRoutine);
+                introRoutine = null;
+                if (introWipe != null) introWipe.gameObject.SetActive(false);
+                ShowTitle();
+            }
+            else if (!busy && screen == ScreenMode.Title && controls.StartPressed) StartBattle();
+            else if (!busy && (screen == ScreenMode.Battle || screen == ScreenMode.Result)
+                     && (controls.CancelPressed || controls.PausePressed)) TogglePause();
         }
 
         void CreateCanvas()
@@ -82,14 +131,16 @@ namespace AeroStadium.Presentation
             var scaler = canvasObject.GetComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1600, 900); scaler.matchWidthOrHeight = .5f;
             canvasRoot = canvasObject.GetComponent<RectTransform>();
-            Panel(canvasRoot, "Top bar", 0, 0, 1600, 80, ink);
-            Label(canvasRoot, "AEROSTADIUM", 44, 18, 700, 45, 32, Color.white, true);
-            Label(canvasRoot, "COMBAT SOLO", 1150, 18, 405, 28, 18, gold, true, TextAnchor.MiddleRight);
-            Label(canvasRoot, "Projet Pokémon indépendant et non officiel", 1030, 47, 525, 22, 13, muted, false, TextAnchor.MiddleRight);
-            Panel(canvasRoot, "Gold rule", 44, 77, 1510, 2, gold);
-            Panel(canvasRoot, "Control strip", 0, 846, 1600, 54, ink);
-            hints = Label(canvasRoot, "", 44, 858, 1240, 28, 18, Color.white);
-            Label(canvasRoot, "PROTOTYPE 01", 1310, 858, 244, 28, 15, muted, true, TextAnchor.MiddleRight);
+            chromeHeader = Rect(canvasRoot, "Brand header", 0, 0, 1600, 80);
+            Panel(chromeHeader, "Top bar", 0, 0, 1600, 80, ink);
+            Label(chromeHeader, "AEROSTADIUM", 44, 18, 700, 45, 32, Color.white, true);
+            Label(chromeHeader, "COMBAT SOLO", 1150, 18, 405, 28, 18, gold, true, TextAnchor.MiddleRight);
+            Label(chromeHeader, "Projet Pokémon indépendant et non officiel", 1030, 47, 525, 22, 13, muted, false, TextAnchor.MiddleRight);
+            Panel(chromeHeader, "Gold rule", 44, 77, 1510, 2, gold);
+            controlFooter = Rect(canvasRoot, "Control footer", 0, 846, 1600, 54);
+            Panel(controlFooter, "Control strip", 0, 0, 1600, 54, ink);
+            hints = Label(controlFooter, "", 44, 12, 1240, 28, 18, Color.white);
+
         }
 
         void CreateInputs()
@@ -104,10 +155,20 @@ namespace AeroStadium.Presentation
         void RefreshHints()
         {
             if (hints == null || controls == null) return;
-            string navigation = controls.Connected ? "Stick / D-pad" : "Flèches";
-            string acceptColor = controls.Family == ControllerFamily.PlayStation ? "77BAFF" : "8FE0AB";
-            hints.text = controls.DeviceName + "   ·   <color=#" + acceptColor + ">[ " + controls.Accept + " ]</color> Choisir"
-                + "   ·   <color=#FFACA4>[ " + controls.Back + " ]</color> Retour   ·   " + navigation + " Naviguer";
+            if (screen == ScreenMode.Intro)
+                hints.text = controls.DeviceName + "   ·   [ " + controls.StartLabel + " ] Passer l’introduction";
+            else if (screen == ScreenMode.Title)
+            {
+                hints.text = controls.DeviceName + "   ·   [ " + controls.StartLabel + " ] Lancer le combat";
+                if (startPrompt != null) startPrompt.text = BuildStartPrompt();
+            }
+            else
+            {
+                string navigation = controls.Connected ? "Stick / D-pad" : "Flèches";
+                string acceptColor = controls.Family == ControllerFamily.PlayStation ? "77BAFF" : "8FE0AB";
+                hints.text = controls.DeviceName + "   ·   <color=#" + acceptColor + ">[ " + controls.Accept + " ]</color> Choisir"
+                    + "   ·   <color=#FFACA4>[ " + controls.Back + " ]</color> Retour   ·   " + navigation + " Naviguer";
+            }
             if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null && buttons.Count > 0)
                 EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
         }
@@ -120,6 +181,148 @@ namespace AeroStadium.Presentation
             page = Rect(canvasRoot, "Current screen", 0, 0, 1600, 900);
         }
 
+        IEnumerator PlayIntro()
+        {
+            screen = ScreenMode.Intro; busy = true;
+            chromeHeader.gameObject.SetActive(false); controlFooter.gameObject.SetActive(true);
+            ResetPage();
+            var slate = Panel(page, "Intro slate", 48, 56, 720, 152, new Color(.025f, .055f, .10f, .78f));
+            Label(slate, "AEROSTADIUM  ·  INTRODUCTION", 24, 13, 660, 30, 17, gold, true);
+            introCaption = Label(slate, "LE STADE S'ÉVEILLE", 24, 49, 660, 48, 32, Color.white, true);
+            Label(slate, "151 POKÉMON DE KANTO · UNE NOUVELLE ARÈNE", 24, 106, 668, 24, 16, muted, true);
+            var available = new List<IntroEntry>();
+            foreach (var entry in IntroRoster) if (arena.HasPokemonModel(entry.Species)) available.Add(entry);
+            Debug.Log("[intro-assets] available=" + available.Count + "/18");
+            if (available.Count == 0)
+            {
+                introRoutine = null; ShowTitle(); yield break;
+            }
+            CreateIntroWipe();
+            IntroEntry opening = available[0];
+            arena.ShowPokemon(0, opening.Species, true);
+            introCaption.text = "GÉNÉRATION " + opening.Generation + "  ·  " + opening.Name;
+            yield return arena.PlayOpeningShot(2.55f);
+            yield return arena.PlayShowcase(0, 1.15f);
+            for (int i = 1; i < available.Count; i++)
+            {
+                IntroEntry entry = available[i];
+                int wipeMode = (i - 1) % 3;
+                yield return PlayIntroWipe(wipeMode, false, .24f);
+                arena.ShowPokemon(0, entry.Species, true);
+                introCaption.text = "GÉNÉRATION " + entry.Generation + "  ·  " + entry.Name;
+                Debug.Log("[intro-cut] mode=" + (wipeMode == 0 ? "horizontal" : wipeMode == 1 ? "vertical" : "circular") + " species=" + entry.Species);
+                yield return null;
+                yield return PlayIntroWipe(wipeMode, true, .24f);
+                yield return arena.PlayShowcase(0, .95f);
+            }
+            introRoutine = null;
+            ShowTitle();
+        }
+
+        void CreateIntroWipe()
+        {
+            Shader shader = Shader.Find("AeroStadium/CinematicWipe");
+            if (shader == null)
+            {
+                Debug.LogError("Cinematic wipe shader missing.");
+                return;
+            }
+            introWipeMaterial = new Material(shader);
+            var imageObject = new GameObject("Intro cinematic wipe", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
+            introWipe = imageObject.GetComponent<RawImage>();
+            RectTransform rect = introWipe.rectTransform;
+            rect.SetParent(canvasRoot, false);
+            rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero; rect.offsetMax = Vector2.zero;
+            introWipe.texture = Texture2D.whiteTexture;
+            introWipe.material = introWipeMaterial;
+            introWipe.raycastTarget = false;
+            introWipeMaterial.SetColor("_Color", new Color(.006f, .016f, .045f, 1f));
+            introWipeMaterial.SetColor("_Accent", gold);
+            introWipeMaterial.SetFloat("_Progress", 1f);
+            introWipe.gameObject.SetActive(false);
+        }
+
+        IEnumerator PlayIntroWipe(int mode, bool reveal, float duration)
+        {
+            if (introWipe == null || introWipeMaterial == null) yield break;
+            introWipe.gameObject.SetActive(true);
+            introWipeMaterial.SetFloat("_Mode", mode);
+            introWipeMaterial.SetColor("_Accent", mode == 1 ? new Color(.3f, .78f, 1f) : mode == 2 ? new Color(1f, .82f, .43f) : gold);
+            float from = reveal ? 0f : 1f;
+            float to = reveal ? 1f : 0f;
+            introWipeMaterial.SetFloat("_Progress", from);
+            duration = Mathf.Max(.05f, duration);
+            for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
+            {
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+                introWipeMaterial.SetFloat("_Progress", Mathf.Lerp(from, to, t));
+                yield return null;
+            }
+            introWipeMaterial.SetFloat("_Progress", to);
+            if (reveal) introWipe.gameObject.SetActive(false);
+        }
+
+        void ShowTitle()
+        {
+            screen = ScreenMode.Title; busy = false;
+            chromeHeader.gameObject.SetActive(false); controlFooter.gameObject.SetActive(false);
+            ResetPage();
+            arena.ClearPokemon(0); arena.ClearPokemon(1); arena.gameObject.SetActive(false);
+
+            Texture2D artwork = Resources.Load<Texture2D>("UI/AeroStadiumTitle");
+            if (artwork == null)
+                Debug.LogError("Title artwork missing: Resources/UI/AeroStadiumTitle.png");
+            else
+            {
+                var backgroundObject = new GameObject("Original title artwork", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
+                var background = backgroundObject.GetComponent<RawImage>();
+                background.rectTransform.SetParent(page, false);
+                background.rectTransform.anchorMin = Vector2.zero; background.rectTransform.anchorMax = Vector2.one;
+                background.rectTransform.offsetMin = Vector2.zero; background.rectTransform.offsetMax = Vector2.zero;
+                background.texture = artwork; background.raycastTarget = false;
+                var aspect = backgroundObject.AddComponent<AspectRatioFitter>();
+                aspect.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+                aspect.aspectRatio = (float)artwork.width / artwork.height;
+            }
+
+            Text aero = Label(page, "AERO", 350, 48, 900, 132, 112, new Color(1f, .87f, .49f), true, TextAnchor.MiddleCenter);
+            StyleTitleLogo(aero, new Color(.035f, .12f, .31f), new Color(.2f, .78f, 1f));
+            Text stadium = Label(page, "STADIUM", 290, 155, 1020, 142, 118, Color.white, true, TextAnchor.MiddleCenter);
+            StyleTitleLogo(stadium, new Color(.035f, .12f, .31f), new Color(.32f, .86f, 1f));
+            Label(page, "BATTLE ARENA", 450, 292, 700, 42, 25, new Color(.91f, .96f, 1f), true, TextAnchor.MiddleCenter);
+
+            Panel(page, "Logo accent left", 340, 325, 180, 4, new Color(.31f, .82f, 1f, .92f));
+            Panel(page, "Logo accent right", 1080, 325, 180, 4, new Color(1f, .79f, .35f, .92f));
+            var hitbox = Rect(page, "Start prompt hit target", 390, 724, 820, 94);
+            var hitGraphic = hitbox.gameObject.AddComponent<Image>();
+            hitGraphic.color = new Color(1f, 1f, 1f, .001f);
+            hitGraphic.raycastTarget = true;
+            var start = hitbox.gameObject.AddComponent<Button>();
+            start.targetGraphic = hitGraphic; start.transition = Selectable.Transition.None;
+            start.onClick.AddListener(() => StartBattle());
+            promptRect = hitbox;
+            startPrompt = Label(hitbox, BuildStartPrompt(), 0, 0, 820, 94, 44, Color.white, true, TextAnchor.MiddleCenter);
+            StyleTitleLogo(startPrompt, new Color(.015f, .09f, .25f), new Color(.33f, .8f, 1f));
+            Panel(page, "Prompt glint left", 337, 770, 30, 4, new Color(.43f, .83f, 1f, .9f));
+            Panel(page, "Prompt glint right", 1233, 770, 30, 4, new Color(.43f, .83f, 1f, .9f));
+            Select(start); RefreshHints();
+            Debug.Log("[title-ready] original artwork, custom AeroStadium logo, blinking text-only Start prompt");
+        }
+
+        string BuildStartPrompt()
+        {
+            return "APPUYEZ SUR " + (controls != null && !controls.Connected ? "ENTRÉE" : "START");
+        }
+
+        static void StyleTitleLogo(Text text, Color outlineColor, Color shadowColor)
+        {
+            var outline = text.gameObject.AddComponent<Outline>();
+            outline.effectColor = outlineColor; outline.effectDistance = new Vector2(4f, -4f);
+            var shadow = text.gameObject.AddComponent<Shadow>();
+            shadow.effectColor = new Color(shadowColor.r, shadowColor.g, shadowColor.b, .9f);
+            shadow.effectDistance = new Vector2(7f, -8f);
+        }
         void ShowSelection()
         {
             ShowSelection(-1);
@@ -128,39 +331,65 @@ namespace AeroStadium.Presentation
         void ShowSelection(int focusIndex)
         {
             screen = ScreenMode.Selection; busy = false; ResetPage();
+            chromeHeader.gameObject.SetActive(true); controlFooter.gameObject.SetActive(true);
             arena.ClearPokemon(1); arena.ShowPokemon(0, selectedSpecies, true);
-            var card = Panel(page, "Choose Pokemon", 48, 147, 452, 630, ink);
-            Label(card, "TON POKÉMON", 28, 28, 395, 45, 28, Color.white, true);
-            Label(card, "Combat d’entraînement · Niveau 50", 28, 76, 395, 25, 16, muted);
-            int row = 0;
-            foreach (int id in new[] { 152, 250 })
+            selectedRosterPage = Mathf.Clamp(selectedRosterPage, 0, (catalog.species.Length - 1) / 10);
+            var card = Panel(page, "Choose Pokemon", 48, 147, 650, 630, ink);
+            Label(card, "CHOISIS UN POKÉMON", 28, 20, 594, 40, 28, Color.white, true);
+            Label(card, "Pokédex de Kanto · 151 espèces · modèles 3D locaux", 28, 61, 594, 25, 16, muted);
+            int totalPages = (catalog.species.Length + 9) / 10;
+            Button previous = Button(card, "◀ PRÉC.", 28, 94, 122, 40,
+                () => { selectedRosterPage = Mathf.Max(0, selectedRosterPage - 1); ShowSelection(0); },
+                selectedRosterPage > 0 ? new Color(.12f, .25f, .42f) : new Color(.08f, .12f, .18f));
+            previous.interactable = selectedRosterPage > 0;
+            Label(card, "PAGE " + (selectedRosterPage + 1) + " / " + totalPages, 160, 94, 324, 40, 17, gold, true, TextAnchor.MiddleCenter);
+            Button next = Button(card, "SUIV. ▶", 500, 94, 122, 40,
+                () => { selectedRosterPage = Mathf.Min(totalPages - 1, selectedRosterPage + 1); ShowSelection(1); },
+                selectedRosterPage + 1 < totalPages ? new Color(.12f, .25f, .42f) : new Color(.08f, .12f, .18f));
+            next.interactable = selectedRosterPage + 1 < totalPages;
+
+            Button selectedButton = null;
+            int first = selectedRosterPage * 10;
+            int last = Mathf.Min(catalog.species.Length, first + 10);
+            for (int index = first; index < last; index++)
             {
-                int choice = id; var species = catalog.GetSpecies(id);
-                int choiceFocus = row;
+                var species = catalog.species[index];
+                int choice = species.id;
+                int column = (index - first) % 2;
+                int row = (index - first) / 2;
+                int focus = buttons.Count;
                 string subtitle = string.Join(" / ", Array.ConvertAll(species.types, TypeName));
-                var button = Button(card, (id == selectedSpecies ? "● " : "") + species.name + "\n<size=17>" + subtitle + "</size>",
-                                    28, 120 + row * 96, 395, 82, () => { selectedSpecies = choice; ShowSelection(choiceFocus); }, id == selectedSpecies ? blue : new Color(.1f, .16f, .25f));
-                row++;
+                string title = (choice == selectedSpecies ? "● " : "") + "#" + choice.ToString("000") + "  " + species.name
+                    + "\n<size=16>" + subtitle + " · " + species.height.ToString("0.0") + " m</size>";
+                var button = Button(card, title, 28 + column * 296, 142 + row * 62, 286, 56,
+                    () => { selectedSpecies = choice; ShowSelection(focus); },
+                    choice == selectedSpecies ? blue : new Color(.1f, .16f, .25f));
+                if (choice == selectedSpecies) selectedButton = button;
             }
-            Label(card, "OBJET TENU", 28, 337, 395, 27, 17, gold, true);
+
+            Label(card, "OBJET TENU", 28, 458, 594, 22, 16, gold, true);
             int itemIndex = 0;
             foreach (string id in new[] { "none", "leftovers", "lifeorb", "charcoal" })
             {
                 string choice = id; var item = catalog.GetItem(id);
-                int choiceFocus = itemIndex + 2;
-                Button(card, item.name, 28 + (itemIndex % 2) * 202, 381 + (itemIndex / 2) * 58, 193, 47,
-                       () => { selectedItem = choice; ShowSelection(choiceFocus); }, id == selectedItem ? blue : new Color(.1f, .16f, .25f));
+                int focus = buttons.Count;
+                Button(card, item.name, 28 + (itemIndex % 2) * 296, 482 + (itemIndex / 2) * 45, 286, 40,
+                    () => { selectedItem = choice; ShowSelection(focus); },
+                    id == selectedItem ? blue : new Color(.1f, .16f, .25f));
                 itemIndex++;
             }
-            var start = Button(card, "ENTRER DANS L’ARÈNE", 28, 525, 395, 65, StartBattle, new Color(.83f, .59f, .21f));
+            var start = Button(card, "ENTRER DANS L’ARÈNE", 28, 577, 594, 46, StartBattle, new Color(.83f, .59f, .21f));
             Label(page, catalog.GetSpecies(selectedSpecies).name.ToUpperInvariant(), 810, 712, 710, 55, 38, Color.white, true, TextAnchor.MiddleRight);
-            Label(page, "Modèle Switch · Pokémon Écarlate / Violet", 810, 769, 710, 28, 17, muted, false, TextAnchor.MiddleRight);
-            Select(focusIndex >= 0 && focusIndex < buttons.Count ? buttons[focusIndex] : start); RefreshHints();
+            Label(page, "Génération I · taille réelle · modèle animé", 810, 769, 710, 28, 17, muted, false, TextAnchor.MiddleRight);
+            Select(focusIndex >= 0 && focusIndex < buttons.Count ? buttons[focusIndex] : selectedButton != null ? selectedButton : start);
+            RefreshHints();
             if (smoke) foreach (var button in buttons) button.interactable = false;
         }
 
         void StartBattle()
         {
+            if (screen == ScreenMode.Battle || busy) return;
+            arena.gameObject.SetActive(true);
             int seed = requestedSeed ?? (Environment.TickCount & int.MaxValue);
             battle = new BattleEngine(catalog, new[] { new TeamMember(selectedSpecies, selectedItem) }, new[] { new TeamMember(selectedSpecies, "none") }, seed);
             Debug.Log("[battle-start] species=" + selectedSpecies + " seed=" + seed);
@@ -171,6 +400,7 @@ namespace AeroStadium.Presentation
 
         void ShowBattle(string message)
         {
+            chromeHeader.gameObject.SetActive(true); controlFooter.gameObject.SetActive(true);
             ResetPage();
             Hud(0, 48, 106, "TON CAMP"); Hud(1, 1100, 106, "ADVERSAIRE · IA");
             turnText = Label(page, "TOUR " + (battle.Turn + 1), 650, 113, 300, 42, 18, gold, true, TextAnchor.MiddleCenter);
@@ -269,7 +499,7 @@ namespace AeroStadium.Presentation
 
         void ShowResult()
         {
-            screen = ScreenMode.Result; ResetPage();
+            screen = ScreenMode.Result; chromeHeader.gameObject.SetActive(true); controlFooter.gameObject.SetActive(true); ResetPage();
             Hud(0, 48, 106, "TON CAMP"); Hud(1, 1100, 106, "ADVERSAIRE · IA"); RefreshHealth();
             var card = Panel(page, "Battle result", 510, 540, 580, 248, ink);
             Label(card, battle.Winner == 0 ? "VICTOIRE !" : battle.Winner == -1 ? "MATCH NUL" : "DÉFAITE", 30, 20, 520, 60, 42, gold, true, TextAnchor.MiddleCenter);
@@ -361,7 +591,7 @@ namespace AeroStadium.Presentation
         static string CategoryName(string category) => category == "Physical" ? "PHYSIQUE" : category == "Special" ? "SPÉCIALE" : "STATUT";
         static string TypeName(string type)
         {
-            switch (type) { case "Grass": return "Plante"; case "Fire": return "Feu"; case "Flying": return "Vol"; case "Fairy": return "Fée"; case "Ground": return "Sol"; case "Dragon": return "Dragon"; default: return type; }
+            switch (type) { case "Normal": return "Normal"; case "Fire": return "Feu"; case "Water": return "Eau"; case "Electric": return "Électrik"; case "Grass": return "Plante"; case "Ice": return "Glace"; case "Fighting": return "Combat"; case "Poison": return "Poison"; case "Ground": return "Sol"; case "Flying": return "Vol"; case "Psychic": return "Psy"; case "Bug": return "Insecte"; case "Rock": return "Roche"; case "Ghost": return "Spectre"; case "Dragon": return "Dragon"; case "Dark": return "Ténèbres"; case "Steel": return "Acier"; case "Fairy": return "Fée"; default: return type; }
         }
     }
 }

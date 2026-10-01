@@ -8,11 +8,13 @@ namespace AeroStadium.Presentation
     /// <summary>Original procedural architecture, separate from combat rules.</summary>
     public sealed class ArenaView : MonoBehaviour
     {
+        static Material arenaLitTemplate;
         readonly GameObject[] pokemon = new GameObject[2];
         readonly int[] shownSpecies = new int[2];
         readonly Vector3[] homes = { new Vector3(-4.4f, 0, 0), new Vector3(4.4f, 0, 0) };
         public int LoadedModels { get; private set; }
         public Camera ArenaCamera { get; private set; }
+        readonly Light[] cinematicSpotlights = new Light[4];
 
         public void Build()
         {
@@ -96,6 +98,7 @@ namespace AeroStadium.Presentation
             Part(PrimitiveType.Cube, "Scoreboard", new Vector3(0, 4.6f, 18), new Vector3(7.6f, 1.7f, .35f), dark);
             Label("AEROSTADIUM", new Vector3(0, 4.85f, 17.78f), .18f, gold.color);
             Label("ARÈNE AÉRO", new Vector3(0, 4.15f, 17.78f), .085f, Color.white);
+            BuildCinematicSpotlights();
         }
 
         public void ShowPokemon(int side, int species, bool preview = false)
@@ -114,6 +117,8 @@ namespace AeroStadium.Presentation
             pokemon[side].name = "Pokemon_" + side + "_" + species;
             shownSpecies[side] = species;
             pokemon[side].AddComponent<ModelIdle>();
+            var motion = pokemon[side].AddComponent<CinematicMotion>();
+            motion.Configure(species);
             LoadedModels = (pokemon[0] != null ? 1 : 0) + (pokemon[1] != null ? 1 : 0);
             FramePokemon(preview);
         }
@@ -126,6 +131,121 @@ namespace AeroStadium.Presentation
             LoadedModels = (pokemon[0] != null ? 1 : 0) + (pokemon[1] != null ? 1 : 0);
         }
 
+        public bool HasPokemonModel(int species)
+        {
+            return Resources.Load<GameObject>("LocalModels/" + species + "/Pokemon") != null;
+        }
+
+        void BuildCinematicSpotlights()
+        {
+            Color[] colors = { new Color(1f, .69f, .35f), new Color(.35f, .76f, 1f), new Color(1f, .88f, .56f), new Color(.52f, .64f, 1f) };
+            for (int i = 0; i < cinematicSpotlights.Length; i++)
+            {
+                float angle = (35f + i * 90f) * Mathf.Deg2Rad;
+                var lightObject = new GameObject("Cinematic spotlight " + (i + 1));
+                var spot = lightObject.AddComponent<Light>();
+                spot.type = LightType.Spot;
+                spot.color = colors[i];
+                spot.intensity = 0f;
+                spot.range = 34f;
+                spot.spotAngle = 48f;
+                spot.shadows = LightShadows.None;
+                lightObject.transform.SetParent(transform, false);
+                lightObject.transform.position = new Vector3(Mathf.Cos(angle) * 13f, 16f, Mathf.Sin(angle) * 13f);
+                lightObject.transform.LookAt(new Vector3(1.8f, .9f, 0f));
+                cinematicSpotlights[i] = spot;
+            }
+        }
+
+        void AnimateCinematicSpotlights(float time)
+        {
+            for (int i = 0; i < cinematicSpotlights.Length; i++)
+            {
+                float sweep = Mathf.Pow(Mathf.Max(0f, Mathf.Sin(time * 1.1f + i * 1.57f)), 3f);
+                cinematicSpotlights[i].intensity = 1.25f + sweep * 2.25f;
+                float angle = (35f + i * 90f + Mathf.Sin(time * .32f + i) * 7f) * Mathf.Deg2Rad;
+                cinematicSpotlights[i].transform.position = new Vector3(Mathf.Cos(angle) * 13f, 16f, Mathf.Sin(angle) * 13f);
+                cinematicSpotlights[i].transform.LookAt(new Vector3(1.8f, .9f, 0f));
+            }
+        }
+
+        public IEnumerator PlayOpeningShot(float duration)
+        {
+            if (ArenaCamera == null) yield break;
+            Vector3 start = new Vector3(-7f, 20f, -25f);
+            Vector3 end = new Vector3(-.3f, 9.5f, -20f);
+            duration = Mathf.Max(.1f, duration);
+            ArenaCamera.fieldOfView = 56f;
+            for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
+            {
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+                ArenaCamera.transform.position = Vector3.Lerp(start, end, t);
+                ArenaCamera.transform.LookAt(Vector3.Lerp(new Vector3(0f, 2.1f, 0f), new Vector3(0f, 1.25f, 0f), t));
+                ArenaCamera.fieldOfView = Mathf.Lerp(56f, 47f, t);
+                AnimateCinematicSpotlights(elapsed);
+                yield return null;
+            }
+            AnimateCinematicSpotlights(duration);
+        }
+        public IEnumerator PlayShowcase(int side, float duration)
+        {
+            if (pokemon[side] == null || ArenaCamera == null) yield break;
+            Transform subject = pokemon[side].transform;
+            Vector3 origin = subject.position;
+            Quaternion rotation = subject.rotation;
+            Renderer[] renderers = subject.GetComponentsInChildren<Renderer>();
+            Bounds bounds = new Bounds(origin + Vector3.up, Vector3.one);
+            if (renderers.Length > 0)
+            {
+                bounds = renderers[0].bounds;
+                for (int i = 1; i < renderers.Length; i++) bounds.Encapsulate(renderers[i].bounds);
+            }
+            var motion = subject.GetComponent<CinematicMotion>();
+            if (motion != null) motion.BeginSpotlightAction();
+            int species = shownSpecies[side];
+            bool airborne = IsAirborne(species);
+            float height = Mathf.Max(bounds.size.y, .5f);
+            float distance = Mathf.Clamp(Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z) * 2.25f, 4.8f, 15f);
+            float travelMax = Mathf.Clamp(height * .28f, .24f, .9f);
+            Vector3 focus = bounds.center;
+            duration = Mathf.Max(.1f, duration);
+            Vector3 cameraStart = ArenaCamera.transform.position;
+            for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
+            {
+                float t = Mathf.Clamp01(elapsed / duration);
+                float ease = Mathf.SmoothStep(0f, 1f, t);
+                float turn = Mathf.Sin(t * Mathf.PI) * 43f + t * 14f;
+                float lift = airborne
+                    ? height * (.12f + Mathf.Sin(elapsed * 6.8f) * .035f)
+                    : height * (.018f + Mathf.Pow(Mathf.Sin(t * Mathf.PI), 2f) * .025f);
+                Vector3 step = -(rotation * Vector3.forward) * (Mathf.Sin(t * Mathf.PI) * travelMax);
+                subject.SetPositionAndRotation(origin + step + Vector3.up * lift,
+                    rotation * Quaternion.Euler(Mathf.Sin(t * Mathf.PI) * 3f, turn, Mathf.Sin(elapsed * 1.3f) * 2.2f));
+                float orbit = Mathf.Sin(t * Mathf.PI * 1.35f) * .24f;
+                Vector3 offset = new Vector3(orbit * distance,
+                    height * (.23f + .025f * Mathf.Sin(t * Mathf.PI)) + lift,
+                    -distance * Mathf.Lerp(1.22f, .88f, ease));
+                Vector3 cameraTarget = focus + offset;
+                float arrival = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / .22f));
+                ArenaCamera.transform.position = Vector3.Lerp(cameraStart, cameraTarget, arrival);
+                ArenaCamera.transform.LookAt(focus + Vector3.up * lift);
+                AnimateCinematicSpotlights(elapsed + side * .8f);
+                yield return null;
+            }
+            // Hold the final pose; the next horizontal, vertical, or circular
+            // wipe covers the swap before another model enters the shot.
+        }
+
+        static bool IsAirborne(int species)
+        {
+            switch (species)
+            {
+                case 6: case 250: case 384: case 635: case 823: case 1008:
+                    return true;
+                default:
+                    return false;
+            }
+        }
         void FramePokemon(bool preview)
         {
             bool small = true;
@@ -190,7 +310,11 @@ namespace AeroStadium.Presentation
 
         static Material Material(Color color, float smoothness, float metallic = 0, bool glow = false)
         {
-            var m = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            if (arenaLitTemplate == null)
+                arenaLitTemplate = Resources.Load<Material>("Materials/ArenaLit");
+            if (arenaLitTemplate == null)
+                throw new System.InvalidOperationException("The runtime URP material is missing from Resources/Materials/ArenaLit.");
+            var m = new Material(arenaLitTemplate);
             m.SetColor("_BaseColor", color); m.SetFloat("_Smoothness", smoothness); m.SetFloat("_Metallic", metallic);
             if (glow) { m.EnableKeyword("_EMISSION"); m.SetColor("_EmissionColor", color * 1.5f); }
             return m;

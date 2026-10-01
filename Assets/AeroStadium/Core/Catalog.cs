@@ -20,6 +20,7 @@ namespace AeroStadium.Core
         public BaseStats stats;
         public int[] moves;
         public string color;
+        public float height;
     }
 
     [Serializable]
@@ -99,6 +100,8 @@ namespace AeroStadium.Core
                 BaseStats s = entry.stats;
                 if (s == null || !ValidStat(s.hp) || !ValidStat(s.attack) || !ValidStat(s.defense) || !ValidStat(s.specialAttack) || !ValidStat(s.specialDefense) || !ValidStat(s.speed))
                     throw new InvalidOperationException("Invalid base stats: " + entry.name);
+                if (float.IsNaN(entry.height) || float.IsInfinity(entry.height) || entry.height < 0 || entry.height > 1000)
+                    throw new InvalidOperationException("Invalid species height: " + entry.name);
                 if (entry.moves == null || entry.moves.Length < 1 || entry.moves.Length > 4)
                     throw new InvalidOperationException("The prototype allows one to four moves: " + entry.name);
                 var known = new HashSet<int>();

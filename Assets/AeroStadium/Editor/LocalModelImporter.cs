@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.Rendering;
 
 namespace AeroStadium.EditorTools
 {
-    /// <summary>Turns ignored, locally exported FBX payloads into ready-to-load URP prefabs.</summary>
+    /// <summary>Turns ignored local FBX or GLB payloads into ready-to-load URP prefabs.</summary>
     public static class LocalModelImporter
     {
         private const string LocalRoot = "Assets/AeroStadium/Resources/LocalModels";
@@ -18,6 +19,7 @@ namespace AeroStadium.EditorTools
         private sealed class ModelManifest
         {
             public int species;
+            public int generation;
             public string name;
             public string modelFile;
             public float targetHeight;
@@ -42,29 +44,45 @@ namespace AeroStadium.EditorTools
         {
             if (!Directory.Exists(LocalRoot))
             {
-                Debug.Log("AeroStadium: aucun modèle local exporté. Exécutez Tools/export_switch_models.py dans Blender.");
-                return;
+                throw new DirectoryNotFoundException("Les 151 modèles Generation I sont absents. Exécutez Tools/prepare_generation_one.ps1.");
             }
+
+            var manifestPaths = Directory.GetFiles(LocalRoot, "manifest.json", SearchOption.AllDirectories);
+            if (manifestPaths.Length != 151)
+                throw new InvalidDataException($"151 manifestes Generation I sont requis, {manifestPaths.Length} trouvés. Exécutez Tools/prepare_generation_one.ps1.");
 
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             var shader = Shader.Find("Universal Render Pipeline/Lit");
             if (shader == null)
                 throw new InvalidOperationException("Le shader URP Lit requis pour les modèles locaux est absent.");
 
-            foreach (var manifestPath in Directory.GetFiles(LocalRoot, "manifest.json", SearchOption.AllDirectories))
+            var preparedSpecies = new HashSet<int>();
+            foreach (var manifestPath in manifestPaths.OrderBy(path => path, StringComparer.OrdinalIgnoreCase))
             {
                 var manifest = JsonUtility.FromJson<ModelManifest>(File.ReadAllText(manifestPath));
-                if (manifest == null || manifest.materials == null || manifest.targetHeight <= 0)
+                if (manifest == null || manifest.materials == null || manifest.generation != 1 ||
+                    manifest.species < 1 || manifest.species > 151 || manifest.targetHeight <= 0)
                     throw new InvalidDataException("Manifeste local invalide : " + manifestPath);
+                var directorySpecies = Path.GetFileName(Path.GetDirectoryName(manifestPath));
+                if (!int.TryParse(directorySpecies, out var folderId) || folderId != manifest.species ||
+                    !preparedSpecies.Add(manifest.species))
+                    throw new InvalidDataException("Identifiant dupliqué ou dossier différent du manifeste : " + manifestPath);
                 var folder = Path.GetDirectoryName(manifestPath).Replace('\\', '/');
                 PrepareModel(folder, manifest, shader);
             }
+            if (preparedSpecies.Count != 151 || Enumerable.Range(1, 151).Any(id => !preparedSpecies.Contains(id)))
+                throw new InvalidDataException("Le lot local n’inclut pas exactement le Pokédex de Kanto (001–151).");
             AssetDatabase.SaveAssets();
         }
 
         private static void PrepareModel(string folder, ModelManifest manifest, Shader shader)
         {
             var modelPath = folder + "/" + manifest.modelFile;
+            if (Path.GetExtension(modelPath).Equals(".glb", StringComparison.OrdinalIgnoreCase))
+            {
+                PrepareGlbModel(folder, manifest, modelPath);
+                return;
+            }
             if (!File.Exists(modelPath))
                 throw new FileNotFoundException("Le FBX local n’existe pas.", modelPath);
 
@@ -215,6 +233,72 @@ namespace AeroStadium.EditorTools
                 if (Mathf.Abs(finalBounds.size.y - manifest.targetHeight) > 0.002f || Mathf.Abs(finalBounds.min.y) > 0.002f)
                     throw new InvalidDataException("La hauteur ou le pivot au sol du prefab n’est pas conforme.");
                 Debug.Log($"AeroStadium: {manifest.name} prêt ({finalBounds.size.y:F2} m), LocalModels/{manifest.species}/Pokemon.");
+            }
+            finally { UnityEngine.Object.DestroyImmediate(wrapper); }
+        }
+
+        private static void PrepareGlbModel(string folder, ModelManifest manifest, string modelPath)
+        {
+            if (!File.Exists(modelPath))
+                throw new FileNotFoundException("Le GLB local n’existe pas.", modelPath);
+
+            AssetDatabase.ImportAsset(modelPath, ImportAssetOptions.ForceSynchronousImport);
+            var importer = AssetImporter.GetAtPath(modelPath);
+            var reportField = importer?.GetType().GetField(
+                "reportItems", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var report = reportField?.GetValue(importer) as GLTFast.Logging.LogItem[];
+            var errors = report?.Where(item => item.Type == LogType.Error || item.Type == LogType.Exception).ToArray();
+            if (errors != null && errors.Length > 0)
+                throw new InvalidDataException("glTFast import errors for " + modelPath + ": " +
+                    string.Join(" | ", errors.Select(item => item.ToString())));
+
+            var source = AssetDatabase.LoadAssetAtPath<GameObject>(modelPath);
+            if (source == null)
+                throw new InvalidDataException("glTFast n’a pas produit de GameObject pour " + modelPath);
+
+            var wrapper = new GameObject(manifest.name);
+            try
+            {
+                var model = (GameObject)PrefabUtility.InstantiatePrefab(source);
+                if (model == null)
+                    throw new InvalidDataException("Impossible d’instancier le modèle GLB : " + modelPath);
+                model.name = "Model";
+                model.transform.SetParent(wrapper.transform, false);
+                foreach (var renderer in model.GetComponentsInChildren<Renderer>(true))
+                {
+                    if (renderer.sharedMaterials.Length == 0 || renderer.sharedMaterials.Any(material => material == null))
+                        throw new InvalidDataException("Matériau glTF absent pour " + renderer.name);
+                    renderer.shadowCastingMode = ShadowCastingMode.On;
+                    renderer.receiveShadows = true;
+                    if (renderer is SkinnedMeshRenderer skinned) skinned.updateWhenOffscreen = true;
+                }
+
+                var bounds = GeometryBounds(model, wrapper.transform);
+                if (bounds.size.y <= 0.00001f)
+                    throw new InvalidDataException("Hauteur du modèle GLB invalide.");
+                var scale = manifest.targetHeight / bounds.size.y;
+                model.transform.localScale *= scale;
+                model.transform.localPosition = new Vector3(-bounds.center.x, -bounds.min.y, -bounds.center.z) * scale;
+
+                var animator = model.GetComponentInChildren<Animator>(true);
+                if (animator != null)
+                {
+                    animator.applyRootMotion = false;
+                    animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+                }
+                var legacyAnimation = model.GetComponentInChildren<Animation>(true);
+                if (legacyAnimation != null && legacyAnimation.clip != null)
+                {
+                    legacyAnimation.clip.wrapMode = WrapMode.Loop;
+                    legacyAnimation.playAutomatically = true;
+                }
+
+                var prefabPath = folder + "/Pokemon.prefab";
+                PrefabUtility.SaveAsPrefabAsset(wrapper, prefabPath);
+                var finalBounds = GeometryBounds(model, wrapper.transform);
+                if (Mathf.Abs(finalBounds.size.y - manifest.targetHeight) > 0.002f || Mathf.Abs(finalBounds.min.y) > 0.002f)
+                    throw new InvalidDataException("La hauteur ou le pivot au sol du prefab GLB n’est pas conforme.");
+                Debug.Log($"AeroStadium: {manifest.name} prêt via glTFast ({finalBounds.size.y:F2} m), LocalModels/{manifest.species}/Pokemon.");
             }
             finally { UnityEngine.Object.DestroyImmediate(wrapper); }
         }
