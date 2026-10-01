@@ -60,6 +60,15 @@ Les modèles, textures et prefabs sont locaux dans `Assets/AeroStadium/Resources
 
 Ne pas publier de ROM, dump, archive de modèle ou payload Pokémon. Les sources et outils du prototype, les réglages Unity et la documentation sont publiables dans AeroStadium. Un clone propre nécessite les modèles locaux pour afficher les deux Pokémon. Les pages sources et crédits figurent dans `docs/CREDITS.md`.
 
+## Publication GitHub confirmée
+
+- Les 91 fichiers du prototype ont été publiés sur `main`, dans [NeanSword/AeroStadium](https://github.com/NeanSword/AeroStadium), avec le [commit initial du prototype](https://github.com/NeanSword/AeroStadium/commit/46401dcd9c1abf99453f1f29f504b23d3be8d729).
+- L'arbre publié correspond exactement aux fichiers locaux vérifiés. Aucun modèle, image, exécutable, DLL ou ROM n'a été inclus.
+- [GitHub Actions — Core checks](https://github.com/NeanSword/AeroStadium/actions/runs/36821743841) a réussi : compilation C# 9 / .NET Standard 2.1 sans erreur ni avertissement, puis **16/16 contrôles du catalogue réel**. Ce workflow tourne sur les modifications de `main` et les pull requests.
+- Les tests Unity/manettes et les builds Windows restent locaux, car le dépôt ne contient pas les modèles. Leurs résultats sont décrits plus haut.
+- La publication a été effectuée via le connecteur GitHub. La lecture Git locale fonctionne ; pour les écritures depuis cette session, utiliser ce connecteur. Le checkout local suit `origin/main`.
+- Les champs de mot de passe/secret de la configuration Unity publique ont été vidés avant publication. Vérifier qu'une future sauvegarde de l'éditeur ne les réintroduit pas dans un commit public.
+
 ## Suite
 
 Passer à une sélection de trois Pokémon et au menu de changement, puis ajouter des modèles/animations et étendre les capacités, objets et règles par étapes testées. L'objectif d'un catalogue complet est encore à développer ; ce journal décrit un prototype jouable, pas le jeu final.
