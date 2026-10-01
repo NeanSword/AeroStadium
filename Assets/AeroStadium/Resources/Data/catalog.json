@@ -1,0 +1,30 @@
+{
+  "species": [
+    {"id":152,"name":"Germignon","types":["Grass"],"stats":{"hp":45,"attack":49,"defense":65,"specialAttack":49,"specialDefense":65,"speed":45},"moves":[75,412,34,235],"color":"#85CF96"},
+    {"id":250,"name":"Ho-Oh","types":["Fire","Flying"],"stats":{"hp":106,"attack":130,"defense":90,"specialAttack":110,"specialDefense":154,"speed":90},"moves":[488,53,413,355],"color":"#F3AB5F"},
+    {"id":445,"name":"Carchacrok","types":["Dragon","Ground"],"stats":{"hp":108,"attack":130,"defense":95,"specialAttack":80,"specialDefense":85,"speed":102},"moves":[337,89,53,14],"color":"#698EE4"},
+    {"id":700,"name":"Nymphali","types":["Fairy"],"stats":{"hp":95,"attack":65,"defense":65,"specialAttack":110,"specialDefense":130,"speed":60},"moves":[585,129,34,236],"color":"#EDA5C7"}
+  ],
+  "moves": [
+    {"id":75,"name":"Tranch’Herbe","type":"Grass","category":"Physical","power":55,"accuracy":95,"pp":25,"priority":0,"effect":""},
+    {"id":412,"name":"Éco-Sphère","type":"Grass","category":"Special","power":90,"accuracy":100,"pp":10,"priority":0,"effect":""},
+    {"id":34,"name":"Plaquage","type":"Normal","category":"Physical","power":85,"accuracy":100,"pp":15,"priority":0,"effect":""},
+    {"id":235,"name":"Synthèse","type":"Grass","category":"Status","power":0,"accuracy":100,"pp":5,"priority":0,"effect":"Recover"},
+    {"id":488,"name":"Nitrocharge","type":"Fire","category":"Physical","power":50,"accuracy":100,"pp":20,"priority":0,"effect":"FlameCharge"},
+    {"id":53,"name":"Lance-Flammes","type":"Fire","category":"Special","power":90,"accuracy":100,"pp":15,"priority":0,"effect":""},
+    {"id":413,"name":"Rapace","type":"Flying","category":"Physical","power":120,"accuracy":100,"pp":15,"priority":0,"effect":"RecoilThird"},
+    {"id":355,"name":"Atterrissage","type":"Flying","category":"Status","power":0,"accuracy":100,"pp":5,"priority":0,"effect":"Recover"},
+    {"id":337,"name":"Draco-Griffe","type":"Dragon","category":"Physical","power":80,"accuracy":100,"pp":15,"priority":0,"effect":""},
+    {"id":89,"name":"Séisme","type":"Ground","category":"Physical","power":100,"accuracy":100,"pp":10,"priority":0,"effect":""},
+    {"id":14,"name":"Danse Lames","type":"Normal","category":"Status","power":0,"accuracy":100,"pp":20,"priority":0,"effect":"SwordsDance"},
+    {"id":585,"name":"Pouvoir Lunaire","type":"Fairy","category":"Special","power":95,"accuracy":100,"pp":15,"priority":0,"effect":""},
+    {"id":129,"name":"Météores","type":"Normal","category":"Special","power":60,"accuracy":100,"pp":20,"priority":0,"effect":""},
+    {"id":236,"name":"Rayon Lune","type":"Fairy","category":"Status","power":0,"accuracy":100,"pp":5,"priority":0,"effect":"Recover"}
+  ],
+  "items": [
+    {"id":"none","name":"Aucun objet","effect":"","type":"","multiplier":1},
+    {"id":"leftovers","name":"Restes","effect":"Leftovers","type":"","multiplier":1},
+    {"id":"lifeorb","name":"Orbe Vie","effect":"LifeOrb","type":"","multiplier":1.3},
+    {"id":"charcoal","name":"Charbon","effect":"Charcoal","type":"Fire","multiplier":1.2}
+  ]
+}

@@ -1,0 +1,7 @@
+{
+    "name": "AeroStadium.Core",
+    "rootNamespace": "AeroStadium.Core",
+    "references": [],
+    "autoReferenced": true,
+    "noEngineReferences": true
+}

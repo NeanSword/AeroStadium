@@ -1,0 +1,31 @@
+name: Core checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  combat-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+      - name: Compile the Unity-compatible combat core
+        run: dotnet build Assets/AeroStadium/Core/AeroStadium.Core.csproj --configuration Release --artifacts-path Builds/DotNet
+      - name: Verify combat behavior and the real catalog
+        run: dotnet run --project Tests/CoreChecks/CoreChecks.csproj --configuration Release -- Assets/AeroStadium/Resources/Data/catalog.json
