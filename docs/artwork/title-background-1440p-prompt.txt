@@ -1,0 +1,7 @@
+Use case: precise-object-edit
+Asset type: final native 2560x1440 background for the Unity game AeroStadium.
+Input image 1 is the approved composition to preserve, not merely an inspiration image.
+Render the same image at native 2560x1440 with finely resolved character outlines, clean facial detail, finely shaded surfaces and crisp environment details for a premium title screen.
+Keep exactly the same nine Pokémon: Pikachu, Umbreon, Gardevoir, Lucario, Zoroark, Greninja, Rowlet, Corviknight and Sprigatito. Preserve each creature's standard colors, identity, anatomy, expression, pose, relative size and position. Preserve the full framing, mountain and waterfall stadium architecture, sky, warm daylight and all character spacing. Keep the upper central sky clear for a separate logo and the lower central ground for a separate Start prompt.
+Improve subtle textures, lighting gradients and definition while retaining the polished colorful anime Pokémon game illustration style. Preserve original shape fidelity rather than redesigning or reposing any Pokémon. No duplicate or additional characters, extra limbs, altered faces, shiny colors, new objects or perspective changes.
+Keep this exclusively a background illustration with Pokémon: no text, numbers, logo, button, interface, border or watermark.

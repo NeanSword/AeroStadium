@@ -6,21 +6,23 @@ Le développement se fait dans [NeanSword/AeroStadium](https://github.com/NeanSw
 
 ## Premier prototype
 
-Le mode actuel est un combat solo **1 contre 1 face à une IA simple**. Le joueur choisit Germignon ou Ho-Oh et un objet tenu ; l'adversaire utilise la même espèce, sans objet. La sélection d'équipe complète n'est pas encore proposée.
+Le mode actuel est un combat solo **1 contre 1 face à une IA simple**. Le catalogue et les modèles locaux couvrent les 151 Pokémon de Kanto. La sélection d'équipe complète n'est pas encore proposée.
 
 - Stade créé pour AeroStadium : terrain circulaire, tribunes, éclairage et tableau d'affichage.
 - Interface en français : sélection du Pokémon et de l'objet, PV, quatre capacités, puissance, catégorie, PP, journal du combat, pause et résultat.
 - Navigation au clavier, à la souris ou à la manette. Les indications suivent la famille de manette détectée, avec Xbox comme référence par défaut et des indications PlayStation et Nintendo. Le changement de périphérique est pris en compte pendant l'exécution.
-- Modèles locaux de Germignon et Ho-Oh provenant de Pokémon Écarlate/Violet. Leurs textures et leur géométrie sont conservées ; la taille et le placement sont réglés dans les prefabs Unity.
+- 151 modèles locaux de génération I, avec leur taille et placement réglés dans les prefabs Unity.
 - Classification moderne des capacités : Nitrocharge utilise l'Attaque et la Défense, tandis que Lance-Flammes utilise l'Attaque Spéciale et la Défense Spéciale.
 
-Le catalogue contient **4 espèces, 14 capacités et 4 choix d'objet**, dont l'absence d'objet. Carchacrok et Nymphali servent à préparer l'extension des données : leurs modèles ne sont pas encore disponibles dans l'interface. Seuls Germignon et Ho-Oh sont actuellement visualisables.
+Le catalogue de combat utilise les données de génération I ; les autres générations, objets et capacités restent à intégrer.
 
 Le moteur prend en charge les 18 types ordinaires, le STAB, la précision, les PP, la priorité, la Vitesse, quelques effets de capacités et trois objets tenus : Restes, Orbe Vie et Charbon. Les statistiques sont calculées au niveau 50, avec une nature neutre, 31 IV et aucun EV.
 
 **Ce prototype n'est pas un moteur complet des générations récentes.** Les talents, coups critiques, altérations de statut, effets secondaires, météo, terrains, formes particulières et nombreux effets de capacités ou d'objets restent à développer. Les arrondis de dégâts sont simplifiés. L'IA privilégie des attaques efficaces et quelques actions de soin ou de préparation ; elle n'est pas conçue comme un adversaire compétitif.
 
-Les animations sont également provisoires : Germignon utilise une animation de repos créée pour la prévisualisation, et Ho-Oh n'a pas encore d'animation de squelette. Les mouvements de présentation et les effets d'attaque du prototype ne sont pas des animations extraites du jeu Switch.
+Les 151 prefabs de Kanto sont préparés localement. Dans les GLB disponibles, seuls 19 modèles contiennent des animations, soit 162 clips ; 132 GLB sont statiques. Unity conserve chaque clip reçu et relie les rôles attaque, dégâts ou K.O. quand les noms les identifient sans ambiguïté. Ces clips communautaires ne sont pas vérifiés comme les animations officielles de chaque espèce ; voir [le relevé des animations](docs/GEN1_ANIMATIONS.md).
+
+L'écran titre local affiche une illustration originale réunissant les neuf générations, un logo AeroStadium transparent et un texte Appuyez sur Start clignotant. Start, Entrée et le clic ouvrent le menu principal : Solo, Multijoueur local, Multijoueur en ligne et Options. Les quatre cartes animées mènent actuellement à la simulation de combat. La navigation à la manette possède un curseur Poké Ball et le menu dispose de sa propre musique en boucle. Voir [le menu principal](docs/MAIN_MENU.md) et [sa musique](docs/MENU_AUDIO.md). Les images restent locales ; leur résolution native et les prompts sont documentés dans [l'écran titre](docs/artwork/title-assets-20261002.md).
 
 ## Ouvrir et construire le projet
 
@@ -51,11 +53,11 @@ dotnet run --project Tests/CoreChecks/CoreChecks.csproj -- Assets/AeroStadium/Re
 
 ## Modèles locaux
 
-**Les modèles et textures Pokémon ne sont pas distribués dans ce dépôt.** Un clone contient le code et les outils, mais pas les deux modèles nécessaires à leur affichage. Les FBX, textures, matériaux et prefabs locaux sont exclus de Git sous `Assets/AeroStadium/Resources/LocalModels`.
+**Les modèles, textures et animations Pokémon ne sont pas distribués dans ce dépôt.** Un clone contient le code et les outils, mais pas les 151 modèles nécessaires à leur affichage. Les GLB, clips, matériaux, contrôleurs et prefabs locaux sont exclus de Git sous `Assets/AeroStadium/Resources/LocalModels`.
 
-`Tools/export_switch_models.py` s'exécute dans Blender pour convertir les GLB préparés localement en FBX et extraire leurs textures. Il vérifie la géométrie, les coordonnées UV et les poids du squelette après un aller-retour FBX. Le menu de préparation Unity crée ensuite les matériaux URP et les prefabs chargés par le jeu. Voir [l'architecture et les limites de l'import](docs/ARCHITECTURE.md#modèles-et-présentation).
+`Tools/prepare_generation_one.ps1` prépare les GLB et manifestes locaux. Le menu Unity importe les clips, crée un contrôleur par modèle et relie aux événements les mouvements reconnus par leur nom. Voir [le relevé des animations](docs/GEN1_ANIMATIONS.md) et [l'architecture](docs/ARCHITECTURE.md#modèles-et-présentation).
 
-Les sources utilisées pour le développement local sont les pages [Germignon](https://models.spriters-resource.com/nintendo_switch/pokemonscarletviolet/asset/468036/) et [Ho-Oh](https://models.spriters-resource.com/nintendo_switch/pokemonscarletviolet/asset/352007/). Les fichiers préparés, leurs empreintes et leurs informations de provenance sont conservés dans les manifestes locaux. Aucune ROM, aucun dump et aucun contenu du projet de recompilation ne sont publiés avec ce prototype.
+Les modèles locaux de génération I viennent de [Pokemon-3D-api/assets](https://github.com/Pokemon-3D-api/assets/tree/main/models/opt/regular), dont le pipeline récupère les GLB sources depuis Sketchfab. Les fichiers préparés, leurs empreintes et leurs informations de provenance sont conservés dans les manifestes locaux. Aucune ROM, aucun dump ni payload de modèle ou d'animation n'est inclus dans ce dépôt.
 
 ## État des vérifications
 

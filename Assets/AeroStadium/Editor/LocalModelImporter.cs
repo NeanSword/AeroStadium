@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Rendering;
+using AeroStadium.Presentation;
 
 namespace AeroStadium.EditorTools
 {
@@ -14,6 +15,8 @@ namespace AeroStadium.EditorTools
     public static class LocalModelImporter
     {
         private const string LocalRoot = "Assets/AeroStadium/Resources/LocalModels";
+        private static int preparedSourceAnimationClips;
+        private static int preparedModelsWithoutSourceAnimation;
 
         [Serializable]
         private sealed class ModelManifest
@@ -56,6 +59,8 @@ namespace AeroStadium.EditorTools
             if (shader == null)
                 throw new InvalidOperationException("Le shader URP Lit requis pour les modèles locaux est absent.");
 
+            preparedSourceAnimationClips = 0;
+            preparedModelsWithoutSourceAnimation = 0;
             var preparedSpecies = new HashSet<int>();
             foreach (var manifestPath in manifestPaths.OrderBy(path => path, StringComparer.OrdinalIgnoreCase))
             {
@@ -73,6 +78,7 @@ namespace AeroStadium.EditorTools
             if (preparedSpecies.Count != 151 || Enumerable.Range(1, 151).Any(id => !preparedSpecies.Contains(id)))
                 throw new InvalidDataException("Le lot local n’inclut pas exactement le Pokédex de Kanto (001–151).");
             AssetDatabase.SaveAssets();
+            Debug.Log($"AeroStadium: {preparedSpecies.Count} models prepared with {preparedSourceAnimationClips} source clips; {preparedModelsWithoutSourceAnimation} have none.");
         }
 
         private static void PrepareModel(string folder, ModelManifest manifest, Shader shader)
@@ -280,18 +286,7 @@ namespace AeroStadium.EditorTools
                 model.transform.localScale *= scale;
                 model.transform.localPosition = new Vector3(-bounds.center.x, -bounds.min.y, -bounds.center.z) * scale;
 
-                var animator = model.GetComponentInChildren<Animator>(true);
-                if (animator != null)
-                {
-                    animator.applyRootMotion = false;
-                    animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
-                }
-                var legacyAnimation = model.GetComponentInChildren<Animation>(true);
-                if (legacyAnimation != null && legacyAnimation.clip != null)
-                {
-                    legacyAnimation.clip.wrapMode = WrapMode.Loop;
-                    legacyAnimation.playAutomatically = true;
-                }
+                ConfigureSourceAnimations(wrapper, model, folder, modelPath, manifest.species);
 
                 var prefabPath = folder + "/Pokemon.prefab";
                 PrefabUtility.SaveAsPrefabAsset(wrapper, prefabPath);
@@ -301,6 +296,148 @@ namespace AeroStadium.EditorTools
                 Debug.Log($"AeroStadium: {manifest.name} prêt via glTFast ({finalBounds.size.y:F2} m), LocalModels/{manifest.species}/Pokemon.");
             }
             finally { UnityEngine.Object.DestroyImmediate(wrapper); }
+        }
+
+        private static void ConfigureSourceAnimations(GameObject wrapper, GameObject model, string folder, string modelPath, int species)
+        {
+            var clips = AssetDatabase.LoadAllAssetsAtPath(modelPath)
+                .OfType<AnimationClip>()
+                .Where(clip => clip != null && clip.length > 0.0001f)
+                .ToArray();
+            if (clips.Length == 0)
+            {
+                preparedModelsWithoutSourceAnimation++;
+                var staticAnimator = model.GetComponentInChildren<Animator>(true);
+                if (staticAnimator != null)
+                {
+                    staticAnimator.applyRootMotion = false;
+                    staticAnimator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+                }
+                Debug.LogWarning($"AeroStadium: #{species:000} has no usable source animation; preparing a static model.");
+                return;
+            }
+
+            var idleIndex = FindClip(clips, "battlewait", "defaultwait", "aidle", "idle", "wait", "stand", "rest", "sleeploop", "appearloop");
+            if (idleIndex < 0) idleIndex = FindFallbackIdle(clips);
+            var attackIndex = FindClip(clips, "fight_b", "attack", "rangeattack", "impactrueno");
+            var damageIndex = FindClip(clips, "fight_d", "damage", "hurt", "dizzy", "stun", "hit");
+            var faintIndex = FindClip(clips, "faint", "ko");
+            if (faintIndex < 0) faintIndex = FindDelimitedClip(clips, "down01_start");
+
+            var controllerPath = folder + "/PokemonAnimations.controller";
+            if (AssetDatabase.LoadAssetAtPath<AnimatorController>(controllerPath) != null)
+                AssetDatabase.DeleteAsset(controllerPath);
+            var controller = AnimatorController.CreateAnimatorControllerAtPath(controllerPath);
+            if (controller == null)
+                throw new InvalidOperationException("Impossible de créer le contrôleur d’animation : " + controllerPath);
+            var stateMachine = controller.layers[0].stateMachine;
+            foreach (var state in stateMachine.states)
+                stateMachine.RemoveState(state.state);
+
+            var idle = stateMachine.AddState("Idle", new Vector3(280, 40));
+            idle.motion = idleIndex < 0 ? null : clips[idleIndex];
+            stateMachine.defaultState = idle;
+            if (idleIndex >= 0) AddTimedTransition(idle, idle, 1f, .08f);
+
+            var attack = AddRoleState(stateMachine, "Attack", clips, attackIndex, idle, 40, 180, .88f);
+            var damage = AddRoleState(stateMachine, "Damage", clips, damageIndex, idle, 280, 180, .82f);
+            AddRoleState(stateMachine, "Faint", clips, faintIndex, idle, 520, 180, -1f);
+
+            for (var i = 0; i < clips.Length; i++)
+            {
+                var sourceState = stateMachine.AddState($"Source_{i:000}", new Vector3(40 + i % 6 * 210, 360 + i / 6 * 55));
+                sourceState.motion = clips[i];
+                if (i == idleIndex || i == attackIndex || i == damageIndex || i == faintIndex) continue;
+                if (Contains(clips[i].name, "_loop", "loop", "wait", "idle"))
+                    AddTimedTransition(sourceState, sourceState, 1f, .08f);
+                else
+                    AddTimedTransition(sourceState, idle, .94f, .1f);
+            }
+
+            var animator = model.GetComponentInChildren<Animator>(true);
+            if (animator == null) animator = model.AddComponent<Animator>();
+            animator.runtimeAnimatorController = controller;
+            animator.applyRootMotion = false;
+            animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+            // Retain the imported rest pose before original animation binding.
+            // Source clips are enabled only by an explicit source review.
+            animator.enabled = false;
+
+            var driver = wrapper.GetComponent<PokemonAnimationDriver>();
+            if (driver == null) driver = wrapper.AddComponent<PokemonAnimationDriver>();
+            driver.Configure(animator,
+                attackIndex < 0 ? 0f : clips[attackIndex].length,
+                damageIndex < 0 ? 0f : clips[damageIndex].length,
+                faintIndex < 0 ? 0f : clips[faintIndex].length);
+
+            preparedSourceAnimationClips += clips.Length;
+            Debug.Log($"AeroStadium: #{species:000} animation prête, {clips.Length} clip(s), idle={ClipName(clips, idleIndex)}, attaque={ClipName(clips, attackIndex)}, dégâts={ClipName(clips, damageIndex)}, K.O.={ClipName(clips, faintIndex)}.");
+            EditorUtility.SetDirty(controller);
+        }
+
+        private static AnimatorState AddRoleState(AnimatorStateMachine stateMachine, string name, AnimationClip[] clips,
+            int clipIndex, AnimatorState idle, float x, float y, float exitTime)
+        {
+            if (clipIndex < 0 || clipIndex >= clips.Length) return null;
+            var state = stateMachine.AddState(name, new Vector3(x, y));
+            state.motion = clips[clipIndex];
+            if (exitTime >= 0f && state != idle) AddTimedTransition(state, idle, exitTime, .1f);
+            return state;
+        }
+
+        private static void AddTimedTransition(AnimatorState from, AnimatorState to, float exitTime, float duration)
+        {
+            var transition = from.AddTransition(to);
+            transition.hasExitTime = true;
+            transition.exitTime = exitTime;
+            transition.hasFixedDuration = true;
+            transition.duration = duration;
+            transition.canTransitionToSelf = from == to;
+        }
+
+        private static int FindClip(AnimationClip[] clips, params string[] tokens)
+        {
+            foreach (var token in tokens)
+                for (var i = 0; i < clips.Length; i++)
+                    if (Contains(clips[i].name, token)) return i;
+            return -1;
+        }
+
+        private static int FindDelimitedClip(AnimationClip[] clips, string token)
+        {
+            for (var i = 0; i < clips.Length; i++)
+            {
+                var name = clips[i].name;
+                var index = name.IndexOf(token, StringComparison.OrdinalIgnoreCase);
+                if (index < 0) continue;
+                var hasLeftBoundary = index == 0 || !char.IsLetter(name[index - 1]);
+                if (hasLeftBoundary) return i;
+            }
+
+            return -1;
+        }
+
+        private static int FindFallbackIdle(AnimationClip[] clips)
+        {
+            for (var i = 0; i < clips.Length; i++)
+                if (string.IsNullOrWhiteSpace(clips[i].name)) return i;
+            for (var i = 0; i < clips.Length; i++)
+                if (!Contains(clips[i].name, "attack", "fight", "rangeattack", "impactrueno", "damage", "hurt", "hit", "dizzy", "stun", "faint", "ko", "walk", "run", "jump", "turn", "sleep", "eat", "roar"))
+                    return i;
+            return -1;
+        }
+
+        private static bool Contains(string value, params string[] tokens)
+        {
+            if (string.IsNullOrEmpty(value)) return false;
+            return tokens.Any(token => value.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        private static string ClipName(AnimationClip[] clips, int index)
+        {
+            return index >= 0 && index < clips.Length
+                ? (string.IsNullOrWhiteSpace(clips[index].name) ? "clip source sans nom" : clips[index].name)
+                : "aucun clip dédié";
         }
 
         private static Bounds GeometryBounds(GameObject model, Transform root)

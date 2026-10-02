@@ -483,7 +483,7 @@ PlayerSettings:
   switchRamDiskSpaceSize: 12
   switchUpgradedPlayerSettingsToNMETA: 0
   ps4NPAgeRating: 12
-  ps4NPTitleSecret:
+  ps4NPTitleSecret: 
   ps4NPTrophyPackPath: 
   ps4ParentalLevel: 11
   ps4ContentID: ED1633-NPXX51362_00-0000000000000000
@@ -614,7 +614,7 @@ PlayerSettings:
   metroPackageName: AeroStadium
   metroPackageVersion: 
   metroCertificatePath: 
-  metroCertificatePassword:
+  metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000

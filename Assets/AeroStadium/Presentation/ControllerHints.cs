@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -12,9 +13,12 @@ namespace AeroStadium.Presentation
     {
         public ControllerFamily Family { get; private set; } = ControllerFamily.Xbox;
         public bool Connected => Gamepad.current != null && Gamepad.current.enabled;
+        public bool UsingGamepad { get; private set; }
         public event Action Changed;
         Gamepad last;
         InputSystemUIInputModule module;
+        bool initialized;
+        readonly HashSet<InputAction> watchedActions = new HashSet<InputAction>();
         public string Accept => !Connected ? "Entrée" : Family == ControllerFamily.PlayStation ? "Croix" : "A";
         public string Back => !Connected ? "Échap" : Family == ControllerFamily.PlayStation ? "Rond" : "B";
         public string DeviceName => !Connected ? "Clavier / souris" : Family == ControllerFamily.PlayStation ? "PlayStation" : Family == ControllerFamily.Nintendo ? "Nintendo" : "Xbox";
@@ -36,15 +40,85 @@ namespace AeroStadium.Presentation
 
         public void Initialize(InputSystemUIInputModule inputModule)
         {
+            Unsubscribe();
             module = inputModule;
-            InputSystem.onDeviceChange -= OnDeviceChange;
-            InputSystem.onDeviceChange += OnDeviceChange;
+            initialized = true;
+            if (isActiveAndEnabled) Subscribe();
             Refresh();
         }
 
-        void Update() { if (last != Gamepad.current) Refresh(); }
+        void OnEnable() { if (initialized) { Subscribe(); Refresh(); } }
+        void OnDisable() { Unsubscribe(); }
+        void OnDestroy() { Unsubscribe(); initialized = false; }
+
+        void Subscribe()
+        {
+            InputSystem.onDeviceChange -= OnDeviceChange;
+            InputSystem.onDeviceChange += OnDeviceChange;
+            if (module == null) return;
+            Watch(module.move); Watch(module.submit); Watch(module.cancel);
+            Watch(module.point); Watch(module.leftClick); Watch(module.rightClick);
+            Watch(module.middleClick); Watch(module.scrollWheel);
+        }
+
+        void Watch(InputActionReference reference)
+        {
+            InputAction action = reference == null ? null : reference.action;
+            if (action != null && watchedActions.Add(action)) action.performed += OnUiAction;
+        }
+
+        void Unsubscribe()
+        {
+            InputSystem.onDeviceChange -= OnDeviceChange;
+            foreach (InputAction action in watchedActions) action.performed -= OnUiAction;
+            watchedActions.Clear();
+        }
+
+        void Update()
+        {
+            if (last != Gamepad.current) Refresh();
+            Gamepad gamepad = Gamepad.current;
+            if (gamepad != null && gamepad.startButton.wasPressedThisFrame) RegisterInput(gamepad);
+            Keyboard keyboard = Keyboard.current;
+            if (keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame))
+                RegisterInput(keyboard);
+        }
         void OnDeviceChange(InputDevice device, InputDeviceChange change) { if (device is Gamepad) Refresh(); }
-        void OnDestroy() { InputSystem.onDeviceChange -= OnDeviceChange; }
+
+        void OnUiAction(InputAction.CallbackContext context)
+        {
+            InputDevice device = context.control?.device;
+            if (device == null) return;
+            // A stick returning to rest must not reclaim the cursor after a mouse
+            // input. The UI action already applies the package's stick dead zone.
+            if (module != null && context.action == module.move?.action
+                && context.ReadValue<Vector2>().sqrMagnitude < .01f) return;
+            if (module != null && (context.action == module.leftClick?.action
+                || context.action == module.rightClick?.action || context.action == module.middleClick?.action)
+                && context.ReadValue<float>() < .5f) return;
+            if (module != null && context.action == module.scrollWheel?.action
+                && context.ReadValue<Vector2>().sqrMagnitude < .01f) return;
+            RegisterInput(device);
+        }
+
+        void RegisterInput(InputDevice device)
+        {
+            if (device is Gamepad gamepad)
+            {
+                if (!gamepad.enabled) return;
+                bool modeChanged = !UsingGamepad;
+                UsingGamepad = true;
+                if (Gamepad.current != gamepad) gamepad.MakeCurrent();
+                if (last != gamepad) Refresh();
+                else if (modeChanged) Changed?.Invoke();
+            }
+            else if (device is Keyboard || device is Mouse || device is Touchscreen || device is Pen)
+            {
+                if (!UsingGamepad) return;
+                UsingGamepad = false;
+                Changed?.Invoke();
+            }
+        }
 
         void Refresh()
         {
@@ -57,6 +131,7 @@ namespace AeroStadium.Presentation
             }
             last = Gamepad.current;
             Family = Identify(last);
+            if (!Connected) UsingGamepad = false;
             // Default UI actions use native Submit/Cancel usages. Switch layouts map
             // those usages to A/B correctly, unlike a remap based on button position.
             Debug.Log("Controller prompts: " + DeviceName);

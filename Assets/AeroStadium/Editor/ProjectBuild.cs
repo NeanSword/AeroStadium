@@ -39,7 +39,9 @@ namespace AeroStadium.EditorTools
             ConfigureRenderPipeline();
             ConfigureRuntimeArenaMaterial();
             LocalModelImporter.PrepareModels();
+            if (Directory.Exists("Assets/AeroStadium/Resources/NativeModels")) NativeModelImporter.PrepareModels();
             ConfigureTitleArtwork();
+            ConfigureTitleAudio();
             EnsureAssetFolder("Assets/AeroStadium/Scenes");
             PrepareScene();
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
@@ -153,23 +155,55 @@ namespace AeroStadium.EditorTools
 
         private static void ConfigureTitleArtwork()
         {
-            const string assetPath = "Assets/AeroStadium/Resources/UI/AeroStadiumTitle.png";
-            string absolutePath = Path.Combine(ProjectRoot, assetPath);
-            if (!File.Exists(absolutePath))
-                return;
+            string[] artworkNames = { "AeroStadiumTitle", "AeroStadiumLogo", "AeroStadiumStart", "AeroStadiumMenuBackground" };
+            foreach (string artworkName in artworkNames)
+            {
+                string assetPath = "Assets/AeroStadium/Resources/UI/" + artworkName + ".png";
+                if (!File.Exists(Path.Combine(ProjectRoot, assetPath)))
+                    continue;
 
-            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceSynchronousImport);
-            var importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
-            if (importer == null)
-                throw new InvalidOperationException("The title artwork could not be imported as a texture.");
-            importer.sRGBTexture = true;
-            importer.mipmapEnabled = true;
-            importer.wrapMode = TextureWrapMode.Clamp;
-            importer.filterMode = FilterMode.Trilinear;
-            importer.maxTextureSize = 4096;
-            importer.textureCompression = TextureImporterCompression.CompressedHQ;
-            importer.compressionQuality = 100;
-            importer.SaveAndReimport();
+                AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceSynchronousImport);
+                var importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+                if (importer == null)
+                    throw new InvalidOperationException("The title artwork could not be imported as a texture: " + assetPath);
+                importer.textureType = TextureImporterType.Default;
+                importer.sRGBTexture = true;
+                importer.alphaSource = TextureImporterAlphaSource.FromInput;
+                importer.alphaIsTransparency = artworkName == "AeroStadiumLogo" || artworkName == "AeroStadiumStart";
+                importer.mipmapEnabled = false;
+                importer.wrapMode = TextureWrapMode.Clamp;
+                importer.filterMode = FilterMode.Bilinear;
+                importer.maxTextureSize = 4096;
+                importer.npotScale = TextureImporterNPOTScale.None;
+                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.SaveAndReimport();
+            }
+        }
+
+        private static void ConfigureTitleAudio()
+        {
+            const string audioFolder = "Assets/AeroStadium/Resources/Audio/";
+            string[] clipNames = { "AeroStadiumTitleTheme", "AeroStadiumMenuTheme", "Cries/pikachu", "Cries/umbreon", "Cries/lucario" };
+            foreach (string clipName in clipNames)
+            {
+                string assetPath = audioFolder + clipName + ".wav";
+                if (!File.Exists(Path.Combine(ProjectRoot, assetPath))) assetPath = audioFolder + clipName + ".ogg";
+                if (!File.Exists(Path.Combine(ProjectRoot, assetPath))) continue;
+                AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceSynchronousImport);
+                var importer = AssetImporter.GetAtPath(assetPath) as AudioImporter;
+                if (importer == null)
+                    throw new InvalidOperationException("The title audio could not be imported: " + assetPath);
+                importer.forceToMono = clipName != "AeroStadiumTitleTheme" && clipName != "AeroStadiumMenuTheme";
+                importer.loadInBackground = false;
+                AudioImporterSampleSettings settings = importer.defaultSampleSettings;
+                // PCM keeps the authored loop boundary intact without encoder padding.
+                settings.compressionFormat = AudioCompressionFormat.PCM;
+                settings.loadType = AudioClipLoadType.DecompressOnLoad;
+                settings.preloadAudioData = true;
+                settings.sampleRateSetting = AudioSampleRateSetting.PreserveSampleRate;
+                importer.defaultSampleSettings = settings;
+                importer.SaveAndReimport();
+            }
         }
 
         private static void ConfigureRuntimeArenaMaterial()

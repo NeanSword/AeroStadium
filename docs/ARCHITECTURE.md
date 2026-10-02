@@ -39,7 +39,7 @@ Le hasard appartient au moteur, et non à Unity. Deux simulations utilisant les 
 
 ## Interface et événements
 
-`GameBootstrap` charge le catalogue, prépare la scène et affiche successivement la sélection, le combat, la pause et le résultat. Le joueur sélectionne Germignon ou Ho-Oh ainsi qu'un objet tenu. Pendant le combat, les quatre capacités sont directement accessibles ; leur type, catégorie, puissance et PP sont visibles.
+`GameBootstrap` charge le catalogue, prépare la scène et affiche successivement la sélection, le combat, la pause et le résultat. Le catalogue actuel couvre les 151 espèces de Kanto. Pendant le combat, les quatre capacités sont directement accessibles ; leur type, catégorie, puissance et PP sont visibles.
 
 Le moteur renvoie des `BattleEvent` pour les attaques, dégâts, soins, changements de statistiques, objets, K.O. et résultat. Le texte du journal et les animations utilisent ces événements. Les PV affichés peuvent évoluer progressivement pendant l'animation, puis sont synchronisés avec l'état final calculé par le moteur.
 
@@ -57,16 +57,11 @@ Les indications sont des noms de touches adaptés à la famille détectée : A/B
 
 `ArenaView` construit un stade original à partir d'éléments de scène : terrain circulaire, marquages, tribunes, supports, éclairage et tableau d'affichage. La caméra et les effets URP assurent une présentation commune aux deux Pokémon. Aucun stade du jeu N64 n'est importé.
 
-Les modèles sont chargés sous `Resources/LocalModels/<identifiant>/Pokemon`. Pour le premier prototype, seuls les identifiants 152 et 250 possèdent un modèle. L'absence d'un prefab attendu est une erreur visible dans les journaux ; aucun Pokémon de remplacement n'est généré pour masquer cette absence.
+Les modèles sont chargés sous `Resources/LocalModels/<identifiant>/Pokemon`. Le lot local couvre les identifiants 1 à 151 ; l'absence d'un prefab attendu est une erreur visible dans les journaux. Aucun Pokémon de remplacement n'est généré pour masquer cette absence.
 
-Le traitement local suit deux étapes :
+La préparation locale produit les manifestes et modèles GLB avec `Tools/prepare_generation_one.ps1`. `LocalModelImporter` importe les GLB, ajuste uniquement le parent Unity à la hauteur PokéAPI et crée les prefabs. Le flux reste local : modèles, textures, clips et contrôleurs générés sont ignorés par Git.
 
-1. `Tools/export_switch_models.py`, exécuté dans Blender, lit les GLB préparés, copie leurs textures intégrées et exporte un FBX. Un aller-retour d'import vérifie les sommets, triangles, coordonnées UV et poids du squelette. Le manifeste local consigne les empreintes, matériaux, provenance et limites du modèle.
-2. `LocalModelImporter` importe le FBX dans Unity, prépare ses matériaux URP et crée un prefab. Un objet parent ajuste uniformément la taille et place le modèle au niveau du sol, sans modifier la géométrie source.
-
-Les tailles de présentation actuelles sont de 0,9 m pour Germignon et de 3,8 m pour Ho-Oh. Ho-Oh utilise encore une pose de repos et un réglage provisoire de l'envergure. Germignon dispose d'une animation de repos créée pour la prévisualisation ; ce clip ne provient pas du jeu Switch. Ho-Oh ne possède pas encore de clip de squelette. Les petits déplacements et effets de combat sont réalisés dans la présentation Unity.
-
-Les sources locales proviennent de Pokémon Écarlate/Violet, via les pages de modèles de Germignon et Ho-Oh documentées dans le README. Le dépôt publie les outils d'import et le code de présentation. Les fichiers de modèles et textures, les archives sources, les ROM, les dumps et les exécutables ne sont pas distribués dans Git.
+Les clips présents dans les GLB sont importés dans un contrôleur par modèle animé, avec un état source indexé pour chaque clip. Le lot local contient 162 clips pour 19 modèles ; les 132 autres GLB ne contiennent aucune animation. Les rôles `Attack`, `Damage` et `Faint` ne sont créés que si le nom du clip permet de les identifier. La provenance communautaire ne confirme pas leur caractère officiel. Voir [GEN1_ANIMATIONS.md](GEN1_ANIMATIONS.md) pour les décomptes et le format natif `.gfbanm`/`.tranm` absent des sources locales.
 
 ## Préparation, compilation et vérifications
 
@@ -76,7 +71,7 @@ Les vérifications de `Tests/CoreChecks` compilent le même moteur de combat sou
 
 Les 16 cas de `Assets/AeroStadium/Tests/Editor` ont réussi avec des périphériques simulés. Ils vérifient les commandes réellement reçues par l'interface, les familles de manette, le branchement/retrait, le stick, le D-pad et la pause. Une session visible de 120 secondes a permis d'observer les modèles et les combats. Les essais matériels de toutes les manettes restent à réaliser.
 
-Le mode `--smoke-test --seconds 120` de l'exécutable sert à lancer une session automatisée bornée : sélection, combat et résultat. Ses boutons sont désactivés pour garder un scénario reproductible. `--species 152` ou `250` choisit le modèle ; `--seed` fixe le hasard. Il vérifie les erreurs remontées et la présence des deux instances de Pokémon. Ce test ne remplace pas une observation du rendu, des animations et de la navigation, ni les essais sur manette physique.
+Le mode `--smoke-test --seconds 120` de l'exécutable sert à lancer une session automatisée bornée : sélection, combat et résultat. Ses boutons sont désactivés pour garder un scénario reproductible. `--species` accepte les identifiants 1 à 151 ; `--seed` fixe le hasard. Il vérifie les erreurs remontées et la présence des deux instances de Pokémon. Ce test ne remplace pas une observation du rendu, des animations et de la navigation, ni les essais sur manette physique.
 
 ## Limites et extension
 
@@ -85,3 +80,11 @@ Le catalogue actuel contient quatre espèces, quatorze capacités et quatre choi
 Les talents, coups critiques, altérations de statut, effets secondaires, météo, terrains, pièges, formes spéciales, règles de combats doubles et effets exhaustifs des capacités et objets restent hors du prototype. Les effets non pris en charge doivent être développés explicitement avant d'ajouter le contenu correspondant.
 
 La prochaine étape de présentation est un combat avec des équipes de trois et un menu de changement de Pokémon. L'ajout de modèles et d'animations peut se faire espèce par espèce, sans changer les identifiants du catalogue. L'extension des règles doit rester dans `Core`, avec des vérifications portant sur leur comportement, tandis que `Presentation` prend en charge leur affichage et leurs animations.
+
+## Menu principal et musiques d’accueil
+
+`GameBootstrap` possède un état `MainMenu` entre le titre et le combat. `MainMenuView` construit les quatre boutons uGUI, icônes vectorielles, panneaux et curseur Poké Ball sur une illustration indépendante. `OnModeSelected` filtre le même appui d’ouverture pendant 0,25 s avant d’appeler la simulation. B/Échap retourne au titre.
+
+`ControllerHints.UsingGamepad` suit le périphérique utilisé, libère ses callbacks et conserve les commandes natives Submit/Cancel. La navigation des cartes est explicite et cyclique. `TitleScreenAudio` et `MainMenuAudio` disposent de leurs propres sources : les pages déclenchent leurs fondus en temps non affecté par la vitesse du jeu et le combat les arrête.
+
+`--main-menu-test` injecte des événements Input System virtuels, vérifie les quatre routes et réalise la dernière par raycast/survol/clic souris. `--menu-audio-test` attend une boucle complète avant le combat. Ces scénarios isolent temporairement les entrées matérielles uniquement côté Unity et les restaurent. Voir [MAIN_MENU.md](MAIN_MENU.md) et [MENU_AUDIO.md](MENU_AUDIO.md).

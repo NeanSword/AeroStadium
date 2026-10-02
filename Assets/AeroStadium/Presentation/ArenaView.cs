@@ -104,7 +104,7 @@ namespace AeroStadium.Presentation
         public void ShowPokemon(int side, int species, bool preview = false)
         {
             if (pokemon[side] != null) Destroy(pokemon[side]);
-            var prefab = Resources.Load<GameObject>("LocalModels/" + species + "/Pokemon");
+            var prefab = PokemonPrefabCatalog.Load(species);
             if (prefab == null)
             {
                 Debug.LogError("Model prefab missing for species " + species);
@@ -116,11 +116,39 @@ namespace AeroStadium.Presentation
             pokemon[side] = Instantiate(prefab, pos, Quaternion.Euler(0, preview ? 25 : side == 0 ? -75 : 75, 0));
             pokemon[side].name = "Pokemon_" + side + "_" + species;
             shownSpecies[side] = species;
-            pokemon[side].AddComponent<ModelIdle>();
-            var motion = pokemon[side].AddComponent<CinematicMotion>();
-            motion.Configure(species);
+            var driver = pokemon[side].GetComponent<PokemonAnimationDriver>();
+            if (driver == null) driver = pokemon[side].AddComponent<PokemonAnimationDriver>();
+            var native = pokemon[side].GetComponent<NativePokemonModel>();
+            if (native != null) driver.ConfigureNative(native);
+            else
+            {
+                var motion = pokemon[side].AddComponent<CinematicMotion>();
+                motion.Configure(species);
+                driver.ConfigureAuthored(motion);
+            }
             LoadedModels = (pokemon[0] != null ? 1 : 0) + (pokemon[1] != null ? 1 : 0);
             FramePokemon(preview);
+        }
+
+        public float PlayAttackAnimation(int side, bool special = false)
+        {
+            if (pokemon[side] == null) return 0f;
+            var driver = pokemon[side].GetComponent<PokemonAnimationDriver>();
+            return driver == null ? 0f : driver.PlayAttack(special);
+        }
+
+        float PlayDamageAnimation(int side)
+        {
+            if (pokemon[side] == null) return 0f;
+            var driver = pokemon[side].GetComponent<PokemonAnimationDriver>();
+            return driver == null ? 0f : driver.PlayDamage();
+        }
+
+        float PlayFaintAnimation(int side)
+        {
+            if (pokemon[side] == null) return 0f;
+            var driver = pokemon[side].GetComponent<PokemonAnimationDriver>();
+            return driver == null ? 0f : driver.PlayFaint();
         }
 
         public void ClearPokemon(int side)
@@ -133,7 +161,7 @@ namespace AeroStadium.Presentation
 
         public bool HasPokemonModel(int species)
         {
-            return Resources.Load<GameObject>("LocalModels/" + species + "/Pokemon") != null;
+            return PokemonPrefabCatalog.Load(species) != null;
         }
 
         void BuildCinematicSpotlights()
@@ -193,34 +221,29 @@ namespace AeroStadium.Presentation
             Transform subject = pokemon[side].transform;
             Vector3 origin = subject.position;
             Quaternion rotation = subject.rotation;
-            Renderer[] renderers = subject.GetComponentsInChildren<Renderer>();
-            Bounds bounds = new Bounds(origin + Vector3.up, Vector3.one);
-            if (renderers.Length > 0)
-            {
-                bounds = renderers[0].bounds;
-                for (int i = 1; i < renderers.Length; i++) bounds.Encapsulate(renderers[i].bounds);
-            }
             var motion = subject.GetComponent<CinematicMotion>();
-            if (motion != null) motion.BeginSpotlightAction();
+            var native = subject.GetComponent<NativePokemonModel>();
+            Bounds localBounds = native != null ? native.RestBounds : motion != null ? motion.RestBounds : new Bounds(Vector3.up * .5f, Vector3.one);
+            Bounds bounds = new Bounds(subject.TransformPoint(localBounds.center), Vector3.zero);
+            for (int i = 0; i < 8; i++) bounds.Encapsulate(subject.TransformPoint(localBounds.center + Vector3.Scale(localBounds.extents,
+                new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1))));
+            if (native != null) native.Play(PokemonMotionAction.Showcase);
+            else if (motion != null) motion.BeginSpotlightAction();
             int species = shownSpecies[side];
-            bool airborne = IsAirborne(species);
+            // The authored animation owns lift and body motion; the camera owns the cinematic travel.
             float height = Mathf.Max(bounds.size.y, .5f);
-            float distance = Mathf.Clamp(Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z) * 2.25f, 4.8f, 15f);
+            float distance = Mathf.Clamp(Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z) * 1.9f, .9f, 18f);
             float travelMax = Mathf.Clamp(height * .28f, .24f, .9f);
             Vector3 focus = bounds.center;
+            if (motion != null) focus += Vector3.up * motion.StandingLift;
             duration = Mathf.Max(.1f, duration);
             Vector3 cameraStart = ArenaCamera.transform.position;
             for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
             {
                 float t = Mathf.Clamp01(elapsed / duration);
                 float ease = Mathf.SmoothStep(0f, 1f, t);
-                float turn = Mathf.Sin(t * Mathf.PI) * 43f + t * 14f;
-                float lift = airborne
-                    ? height * (.12f + Mathf.Sin(elapsed * 6.8f) * .035f)
-                    : height * (.018f + Mathf.Pow(Mathf.Sin(t * Mathf.PI), 2f) * .025f);
-                Vector3 step = -(rotation * Vector3.forward) * (Mathf.Sin(t * Mathf.PI) * travelMax);
-                subject.SetPositionAndRotation(origin + step + Vector3.up * lift,
-                    rotation * Quaternion.Euler(Mathf.Sin(t * Mathf.PI) * 3f, turn, Mathf.Sin(elapsed * 1.3f) * 2.2f));
+                float lift = 0f;
+                subject.SetPositionAndRotation(origin, rotation);
                 float orbit = Mathf.Sin(t * Mathf.PI * 1.35f) * .24f;
                 Vector3 offset = new Vector3(orbit * distance,
                     height * (.23f + .025f * Mathf.Sin(t * Mathf.PI)) + lift,
@@ -236,16 +259,6 @@ namespace AeroStadium.Presentation
             // wipe covers the swap before another model enters the shot.
         }
 
-        static bool IsAirborne(int species)
-        {
-            switch (species)
-            {
-                case 6: case 250: case 384: case 635: case 823: case 1008:
-                    return true;
-                default:
-                    return false;
-            }
-        }
         void FramePokemon(bool preview)
         {
             bool small = true;
@@ -258,19 +271,22 @@ namespace AeroStadium.Presentation
             ArenaCamera.transform.LookAt(new Vector3(0, small ? (preview ? .45f : .8f) : 1.25f, 0));
         }
 
-        public IEnumerator Attack(int side, string type)
+        public IEnumerator Attack(int side, string type, string category = "Physical")
         {
             if (pokemon[side] == null) yield break;
+            float duration = Mathf.Max(.45f, PlayAttackAnimation(side, category == "Special"));
             Vector3 origin = pokemon[side].transform.position;
             Vector3 direction = (homes[1 - side] - homes[side]).normalized;
-            float height = shownSpecies[side] == 152 ? .6f : 2.4f;
+            var native = pokemon[side].GetComponent<NativePokemonModel>();
+            var motion = pokemon[side].GetComponent<CinematicMotion>();
+            float height = Mathf.Max(.25f, (native != null ? native.ModelHeight : motion != null ? motion.ModelHeight : 1f) * .68f);
             Color color = type == "Fire" ? new Color(1, .45f, .1f) : type == "Grass" ? new Color(.4f, 1, .5f) : new Color(.4f, .75f, 1);
             var particle = Part(PrimitiveType.Sphere, "Attack pulse", origin + Vector3.up * height,
                                 Vector3.one * .22f, Material(color, .5f, 0, true));
-            for (float time = 0; time < .45f; time += Time.deltaTime)
+            for (float time = 0; time < duration; time += Time.deltaTime)
             {
-                float t = time / .45f;
-                if (pokemon[side] != null) pokemon[side].transform.position = origin + direction * (Mathf.Sin(t * Mathf.PI) * .32f);
+                float t = time / duration;
+                // The original rig pose supplies anticipation and release without sliding planted feet.
                 particle.transform.position = Vector3.Lerp(origin + Vector3.up * height, homes[1 - side] + Vector3.up * height, t);
                 particle.transform.localScale = Vector3.one * Mathf.Lerp(.22f, .55f, t);
                 yield return null;
@@ -282,14 +298,15 @@ namespace AeroStadium.Presentation
         public IEnumerator Hit(int side, int damage)
         {
             if (pokemon[side] == null) yield break;
+            float duration = Mathf.Max(.22f, PlayDamageAnimation(side));
             Transform root = pokemon[side].transform;
             Quaternion rotation = root.rotation;
             bool small = shownSpecies[side] == 152;
             Label("−" + damage, root.position + Vector3.up * (small ? 1.2f : 4.1f), small ? .08f : .14f,
                 new Color(1, .72f, .4f), true);
-            for (float time = 0; time < .22f; time += Time.deltaTime)
+            for (float time = 0; time < duration; time += Time.deltaTime)
             {
-                root.rotation = rotation * Quaternion.Euler(0, 0, Mathf.Sin(time * 60) * 3);
+                // Recoil is authored on the rig, rather than shaking the complete actor at 60 radians/s.
                 yield return null;
             }
             root.rotation = rotation;
@@ -298,7 +315,9 @@ namespace AeroStadium.Presentation
         public IEnumerator Faint(int side)
         {
             if (pokemon[side] == null) yield break;
-            // A provisional disappearance, independent of unavailable source clips.
+            float faintDuration = PlayFaintAnimation(side);
+            if (faintDuration > 0f)
+                yield return new WaitForSeconds(faintDuration);
             var renderers = pokemon[side].GetComponentsInChildren<Renderer>();
             for (int i = 0; i < 4; i++)
             {
@@ -355,18 +374,5 @@ namespace AeroStadium.Presentation
             if (temporary) Destroy(label.gameObject, 1.1f);
         }
 
-        sealed class ModelIdle : MonoBehaviour
-        {
-            Vector3 initialScale;
-            void Start() { initialScale = transform.localScale; }
-            void LateUpdate()
-            {
-                // Only a root breath; source geometry and source skeleton stay intact.
-                // Attacks animate position independently, so this does not override them.
-                var animator = GetComponentInChildren<Animator>();
-                if (animator != null && animator.runtimeAnimatorController != null) return;
-                transform.localScale = initialScale * (1 + Mathf.Sin(Time.time * 1.65f) * .003f);
-            }
-        }
     }
 }

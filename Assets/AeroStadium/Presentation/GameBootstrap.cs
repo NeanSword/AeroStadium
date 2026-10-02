@@ -5,6 +5,7 @@ using AeroStadium.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ namespace AeroStadium.Presentation
 {
     public sealed class GameBootstrap : MonoBehaviour
     {
-        enum ScreenMode { Intro, Title, Selection, Battle, Result }
+        enum ScreenMode { Intro, Title, MainMenu, Selection, Battle, Result }
         readonly struct IntroEntry
         {
             public readonly int Species;
@@ -45,9 +46,19 @@ namespace AeroStadium.Presentation
         Catalog catalog;
         BattleEngine battle;
         ArenaView arena;
+        TitleScreenAudio titleAudio;
+        MainMenuAudio menuAudio;
+        MainMenuView mainMenuView;
+        Button titleStartButton;
+        Gamepad mainMenuVirtualPad;
+        Keyboard mainMenuVirtualKeyboard;
+        Mouse mainMenuVirtualMouse;
+        readonly List<InputDevice> mainMenuSuppressedDevices = new List<InputDevice>();
+        bool mainMenuInputsIsolated;
         ControllerHints controls;
-        RectTransform canvasRoot, page, pausePanel, chromeHeader, controlFooter, promptRect;
-        Text hints, logText, turnText, introCaption, startPrompt;
+        RectTransform canvasRoot, page, pausePanel, chromeHeader, controlFooter;
+        Text hints, logText, turnText, introCaption, titleControlHint;
+        RawImage titleArtwork, titleLogo, titleStart;
         Coroutine introRoutine;
         Font font;
         ScreenMode screen;
@@ -55,15 +66,27 @@ namespace AeroStadium.Presentation
         int selectedRosterPage;
         int? requestedSeed;
         string selectedItem = "leftovers";
-        bool busy, paused, smoke, smokeEnded;
-        int errors;
-        float exitAt;
+        bool busy, paused, smoke, smokeEnded, titleTest, titleAudioTest;
+        bool mainMenuTest, menuAudioTest, mainMenuTestCompleted, mainMenuChecksPassed = true;
+        bool mainMenuArtworkVerified, mainMenuGuardVerified, mainMenuMusicContinuity;
+        bool mainMenuCursorVerified, mainMenuNavigationVerified, mainMenuPointerVerified, mainMenuMouseClickVerified;
+        int mainMenuOpenedFrame, mainMenuRoutes, mainMenuRouteMask, mainMenuGuardBlocks, mainMenuMaxSelectionChanges;
+        float mainMenuOpenedAt;
+        bool titlePromptWasVisible, titlePromptWasHidden, titleAssetsVerified;
+        int errors, titleBlinkCycles;
+        float exitAt, titleShownAt;
 
         void Awake()
         {
             Application.logMessageReceived += OnLog;
             string[] args = Environment.GetCommandLineArgs();
             smoke = Array.IndexOf(args, "--smoke-test") >= 0;
+            titleAudioTest = Array.IndexOf(args, "--title-audio-test") >= 0;
+            mainMenuTest = Array.IndexOf(args, "--main-menu-test") >= 0;
+            menuAudioTest = Array.IndexOf(args, "--menu-audio-test") >= 0;
+            if ((mainMenuTest || menuAudioTest) && !smoke) IsolateMainMenuTestInputs();
+            titleTest = titleAudioTest || Array.IndexOf(args, "--title-test") >= 0;
+            bool skipIntro = titleTest || mainMenuTest || menuAudioTest || Array.IndexOf(args, "--skip-intro") >= 0;
             int speciesIndex = Array.IndexOf(args, "--species");
             if (speciesIndex >= 0 && speciesIndex + 1 < args.Length && int.TryParse(args[speciesIndex + 1], out int species)
                 && species >= 1 && species <= 151) selectedSpecies = species;
@@ -75,41 +98,104 @@ namespace AeroStadium.Presentation
             catalog = JsonUtility.FromJson<Catalog>(source.text); catalog.Validate();
             selectedRosterPage = Mathf.Clamp((selectedSpecies - 1) / 10, 0, (catalog.species.Length - 1) / 10);
             arena = new GameObject("Original Aero arena").AddComponent<ArenaView>(); arena.Build();
+            if (Array.IndexOf(args, "--animation-review") >= 0)
+            {
+                enabled = false;
+                gameObject.AddComponent<PokemonAnimationReview>().Begin(arena, catalog);
+                return;
+            }
             CreateCanvas(); CreateInputs();
             int secondsIndex = Array.IndexOf(args, "--seconds");
             if (secondsIndex >= 0 && secondsIndex + 1 < args.Length && int.TryParse(args[secondsIndex + 1], out int seconds))
                 exitAt = Time.realtimeSinceStartup + Mathf.Clamp(seconds, 10, 300);
+            if (titleTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + (titleAudioTest ? 140f : 12f);
+            if (mainMenuTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 55f;
+            if (menuAudioTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 90f;
             if (smoke) StartCoroutine(SmokePlay());
+            else if (skipIntro) ShowTitle();
             else introRoutine = StartCoroutine(PlayIntro());
+            if (mainMenuTest && !smoke) StartCoroutine(TestMainMenu());
+            else if (menuAudioTest && !smoke) StartCoroutine(TestMenuAudio());
         }
 
         void OnDestroy()
         {
             Application.logMessageReceived -= OnLog;
             if (introWipeMaterial != null) Destroy(introWipeMaterial);
+            RemoveMainMenuTestDevices();
+            RestoreMainMenuTestInputs();
         }
         void OnLog(string message, string stack, LogType type) { if (type == LogType.Error || type == LogType.Exception || type == LogType.Assert) errors++; }
 
         void Update()
         {
+            bool titleAssetsReady = titleArtwork != null && titleArtwork.texture != null
+                && titleLogo != null && titleLogo.texture != null && titleStart != null && titleStart.texture != null;
+            if (screen == ScreenMode.Title) titleAssetsVerified |= titleAssetsReady;
+            if (screen == ScreenMode.MainMenu && mainMenuView != null)
+            {
+                mainMenuArtworkVerified |= mainMenuView.ArtworkReady;
+                mainMenuMaxSelectionChanges = Mathf.Max(mainMenuMaxSelectionChanges, mainMenuView.SelectionChangeCount);
+            }
             if (exitAt > 0 && Time.realtimeSinceStartup >= exitAt)
             {
-                int expectedModels = screen == ScreenMode.Intro || screen == ScreenMode.Title || screen == ScreenMode.Selection ? 1 : 2;
-                bool passed = errors == 0 && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2));
+                int expectedModels = screen == ScreenMode.Title || screen == ScreenMode.MainMenu ? 0
+                    : screen == ScreenMode.Intro || screen == ScreenMode.Selection ? 1 : 2;
+                bool passed = errors == 0 && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2))
+                    && (!titleTest || (titleAssetsVerified && titleBlinkCycles >= 2
+                        && titlePromptWasVisible && titlePromptWasHidden))
+                    && (!titleAudioTest || (titleAudio != null && titleAudio.MusicReady && titleAudio.ListenerReady
+                        && titleAudio.PlaybackVerified && titleAudio.LoopEnabled && titleAudio.CompletedLoops >= 1
+                        && screen != ScreenMode.Title && titleAudio.FadeOutCompleted
+                        && (titleAudio.ReadyCries == 0 || titleAudio.CriesPlayed > 0)))
+                    && (!mainMenuTest || (mainMenuTestCompleted && mainMenuChecksPassed && mainMenuArtworkVerified
+                        && mainMenuGuardVerified && mainMenuMusicContinuity && mainMenuCursorVerified
+                        && mainMenuNavigationVerified && mainMenuPointerVerified && mainMenuMouseClickVerified
+                        && mainMenuRoutes == 4 && mainMenuRouteMask == 15))
+                    && (!menuAudioTest || (menuAudio != null && menuAudio.MusicReady && menuAudio.ListenerReady
+                        && menuAudio.PlaybackVerified && menuAudio.LoopEnabled && menuAudio.CompletedLoops >= 1
+                        && screen == ScreenMode.Battle && menuAudio.FadeOutCompleted && !menuAudio.MusicPlaying
+                        && titleAudio != null && titleAudio.FadeOutCompleted && !titleAudio.MusicPlaying));
                 Debug.Log((smoke ? "[smoke-result]" : "[runtime-result]") + " errors=" + errors + " models=" + arena.LoadedModels
-                    + " battleEnded=" + smokeEnded + " passed=" + passed);
+                    + " battleEnded=" + smokeEnded + " screen=" + screen + " titleTest=" + titleTest
+                    + " titleTextures=" + titleAssetsReady + " titleAssetsVerified=" + titleAssetsVerified
+                    + " blinkCycles=" + titleBlinkCycles + " blinkVisible=" + titlePromptWasVisible
+                    + " blinkHidden=" + titlePromptWasHidden + " titleAudioTest=" + titleAudioTest
+                    + (titleAudio != null ? titleAudio.Diagnostics : " titleAudio=uninitialized")
+                    + " mainMenuTest=" + mainMenuTest + " mainMenuChecks=" + mainMenuChecksPassed
+                    + " mainMenuCompleted=" + mainMenuTestCompleted + " menuArtwork=" + mainMenuArtworkVerified
+                    + " menuGuard=" + mainMenuGuardVerified + " menuGuardBlocks=" + mainMenuGuardBlocks
+                    + " menuMusicContinuity=" + mainMenuMusicContinuity + " menuCursor=" + mainMenuCursorVerified
+                    + " menuNavigation=" + mainMenuNavigationVerified + " menuPointer=" + mainMenuPointerVerified
+                    + " menuMouseClick=" + mainMenuMouseClickVerified + " menuAudioTest=" + menuAudioTest
+                    + (menuAudio != null ? menuAudio.Diagnostics : " menuAudio=uninitialized")
+                    + " menuSelectionChanges=" + mainMenuMaxSelectionChanges + " menuRoutes=" + mainMenuRoutes
+                    + " menuRouteMask=" + mainMenuRouteMask + " passed=" + passed);
                 Application.Quit(passed ? 0 : 1); exitAt = 0;
             }
-            if (screen == ScreenMode.Title && promptRect != null)
+            if (screen == ScreenMode.Title && titleStart != null)
             {
-                float wave = (Mathf.Sin(Time.unscaledTime * 3.2f) + 1f) * .5f;
-                float pulse = .97f + wave * .035f;
-                promptRect.localScale = new Vector3(pulse, pulse, 1);
-                if (startPrompt != null)
-                {
-                    float visibility = .4f + wave * .6f;
-                    startPrompt.color = Color.Lerp(new Color(.62f, .88f, 1f, visibility), new Color(1f, .83f, .42f, visibility), wave);
-                }
+                float elapsed = Time.unscaledTime - titleShownAt;
+                float phase = Mathf.Repeat(elapsed, 1.8f);
+                titleBlinkCycles = Mathf.FloorToInt(elapsed / 1.8f);
+                float visibility = phase < 1.35f ? 1f : phase < 1.45f ? 1f - (phase - 1.35f) / .1f
+                    : phase < 1.65f ? 0f : (phase - 1.65f) / .15f;
+                titleStart.color = new Color(1f, 1f, 1f, Mathf.Clamp01(visibility));
+                float pulse = 1f + Mathf.Sin(elapsed * Mathf.PI * 2f / 1.8f) * .008f;
+                titleStart.rectTransform.localScale = new Vector3(pulse, pulse, 1f);
+                titlePromptWasVisible |= visibility >= .999f;
+                titlePromptWasHidden |= visibility <= .001f;
+            }
+            if (titleAudioTest && screen == ScreenMode.Title && exitAt > 0 && Time.realtimeSinceStartup >= exitAt - 2.5f)
+            {
+                Debug.Log("[title-audio-transition] leaving title to verify fade-out and source stop");
+                StartBattle();
+            }
+            if (menuAudioTest && screen == ScreenMode.MainMenu && exitAt > 0
+                && Time.realtimeSinceStartup >= exitAt - 3f)
+            {
+                Debug.Log("[menu-audio-transition] leaving menu to verify fade-out and source stop");
+                OnModeSelected(0);
             }
             if (controls == null) return;
             if (screen == ScreenMode.Intro && controls.StartPressed)
@@ -119,7 +205,8 @@ namespace AeroStadium.Presentation
                 if (introWipe != null) introWipe.gameObject.SetActive(false);
                 ShowTitle();
             }
-            else if (!busy && screen == ScreenMode.Title && controls.StartPressed) StartBattle();
+            else if (!busy && screen == ScreenMode.Title && controls.StartPressed) ShowMainMenu();
+            else if (!busy && screen == ScreenMode.MainMenu && controls.CancelPressed) ShowTitle();
             else if (!busy && (screen == ScreenMode.Battle || screen == ScreenMode.Result)
                      && (controls.CancelPressed || controls.PausePressed)) TogglePause();
         }
@@ -159,8 +246,14 @@ namespace AeroStadium.Presentation
                 hints.text = controls.DeviceName + "   ·   [ " + controls.StartLabel + " ] Passer l’introduction";
             else if (screen == ScreenMode.Title)
             {
-                hints.text = controls.DeviceName + "   ·   [ " + controls.StartLabel + " ] Lancer le combat";
-                if (startPrompt != null) startPrompt.text = BuildStartPrompt();
+                hints.text = controls.DeviceName + "   ·   [ " + controls.StartLabel + " ] Ouvrir le menu";
+                if (titleControlHint != null) titleControlHint.text = hints.text;
+            }
+            else if (screen == ScreenMode.MainMenu && mainMenuView != null)
+            {
+                bool gamepad = controls.Connected && controls.UsingGamepad;
+                mainMenuView.SetInputPresentation(gamepad, gamepad ? controls.DeviceName : "Clavier / souris",
+                    gamepad ? controls.Accept : "Entrée", gamepad ? controls.Back : "Échap", gamepad ? "Stick / croix directionnelle" : "Flèches");
             }
             else
             {
@@ -175,9 +268,14 @@ namespace AeroStadium.Presentation
 
         void ResetPage()
         {
+            if (screen != ScreenMode.Title && titleAudio != null) titleAudio.LeaveTitle();
+            if (screen != ScreenMode.MainMenu && menuAudio != null) menuAudio.LeaveMenu();
             if (page != null) Destroy(page.gameObject);
             if (pausePanel != null) Destroy(pausePanel.gameObject);
             paused = false; buttons.Clear();
+            titleArtwork = titleLogo = titleStart = null;
+            titleControlHint = null;
+            titleStartButton = null; mainMenuView = null;
             page = Rect(canvasRoot, "Current screen", 0, 0, 1600, 900);
         }
 
@@ -269,59 +367,308 @@ namespace AeroStadium.Presentation
             chromeHeader.gameObject.SetActive(false); controlFooter.gameObject.SetActive(false);
             ResetPage();
             arena.ClearPokemon(0); arena.ClearPokemon(1); arena.gameObject.SetActive(false);
+            titleShownAt = Time.unscaledTime; titleBlinkCycles = 0;
+            titlePromptWasVisible = titlePromptWasHidden = false;
+            titleAssetsVerified = false;
+            if (titleAudio == null) titleAudio = gameObject.AddComponent<TitleScreenAudio>();
+            titleAudio.ContinueFrontEnd();
 
-            Texture2D artwork = Resources.Load<Texture2D>("UI/AeroStadiumTitle");
-            if (artwork == null)
-                Debug.LogError("Title artwork missing: Resources/UI/AeroStadiumTitle.png");
-            else
-            {
-                var backgroundObject = new GameObject("Original title artwork", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
-                var background = backgroundObject.GetComponent<RawImage>();
-                background.rectTransform.SetParent(page, false);
-                background.rectTransform.anchorMin = Vector2.zero; background.rectTransform.anchorMax = Vector2.one;
-                background.rectTransform.offsetMin = Vector2.zero; background.rectTransform.offsetMax = Vector2.zero;
-                background.texture = artwork; background.raycastTarget = false;
-                var aspect = backgroundObject.AddComponent<AspectRatioFitter>();
-                aspect.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
-                aspect.aspectRatio = (float)artwork.width / artwork.height;
-            }
-
-            Text aero = Label(page, "AERO", 350, 48, 900, 132, 112, new Color(1f, .87f, .49f), true, TextAnchor.MiddleCenter);
-            StyleTitleLogo(aero, new Color(.035f, .12f, .31f), new Color(.2f, .78f, 1f));
-            Text stadium = Label(page, "STADIUM", 290, 155, 1020, 142, 118, Color.white, true, TextAnchor.MiddleCenter);
-            StyleTitleLogo(stadium, new Color(.035f, .12f, .31f), new Color(.32f, .86f, 1f));
-            Label(page, "BATTLE ARENA", 450, 292, 700, 42, 25, new Color(.91f, .96f, 1f), true, TextAnchor.MiddleCenter);
-
-            Panel(page, "Logo accent left", 340, 325, 180, 4, new Color(.31f, .82f, 1f, .92f));
-            Panel(page, "Logo accent right", 1080, 325, 180, 4, new Color(1f, .79f, .35f, .92f));
-            var hitbox = Rect(page, "Start prompt hit target", 390, 724, 820, 94);
+            titleArtwork = TitleImage(page, "Original title artwork", "UI/AeroStadiumTitle", 0, 0, 1600, 900,
+                AspectRatioFitter.AspectMode.EnvelopeParent);
+            // UV crops follow the visible bounds of the current transparent PNGs.
+            titleLogo = TitleImage(page, "AeroStadium illustrated logo", "UI/AeroStadiumLogo", 430, 36, 740, 345,
+                AspectRatioFitter.AspectMode.FitInParent, new Rect(10f / 1774f, 31f / 887f, 1763f / 1774f, 820f / 887f));
+            var hitbox = Rect(page, "Start prompt hit target", 390, 768, 820, 112);
             var hitGraphic = hitbox.gameObject.AddComponent<Image>();
             hitGraphic.color = new Color(1f, 1f, 1f, .001f);
             hitGraphic.raycastTarget = true;
             var start = hitbox.gameObject.AddComponent<Button>();
             start.targetGraphic = hitGraphic; start.transition = Selectable.Transition.None;
-            start.onClick.AddListener(() => StartBattle());
-            promptRect = hitbox;
-            startPrompt = Label(hitbox, BuildStartPrompt(), 0, 0, 820, 94, 44, Color.white, true, TextAnchor.MiddleCenter);
-            StyleTitleLogo(startPrompt, new Color(.015f, .09f, .25f), new Color(.33f, .8f, 1f));
-            Panel(page, "Prompt glint left", 337, 770, 30, 4, new Color(.43f, .83f, 1f, .9f));
-            Panel(page, "Prompt glint right", 1233, 770, 30, 4, new Color(.43f, .83f, 1f, .9f));
+            titleStartButton = start;
+            start.onClick.AddListener(() => { if (screen == ScreenMode.Title && !busy) ShowMainMenu(); });
+            titleStart = TitleImage(hitbox, "Illustrated Start prompt", "UI/AeroStadiumStart", 140, 24, 540, 64,
+                AspectRatioFitter.AspectMode.FitInParent, new Rect(39f / 2172f, 231f / 724f, 2093f / 2172f, 274f / 724f));
+            titleControlHint = Label(page, "", 420, 880, 760, 20, 13, Color.white, false, TextAnchor.MiddleCenter);
+            var hintShadow = titleControlHint.gameObject.AddComponent<Shadow>();
+            hintShadow.effectColor = new Color(.02f, .04f, .08f, .9f);
+            hintShadow.effectDistance = new Vector2(1f, -1f);
             Select(start); RefreshHints();
-            Debug.Log("[title-ready] original artwork, custom AeroStadium logo, blinking text-only Start prompt");
+            Debug.Log("[title-ready] separate background, AeroStadium logo and blinking Start artwork; cycle=1.8s");
         }
 
-        string BuildStartPrompt()
+        void ShowMainMenu()
         {
-            return "APPUYEZ SUR " + (controls != null && !controls.Connected ? "ENTRÉE" : "START");
+            screen = ScreenMode.MainMenu; busy = false;
+            chromeHeader.gameObject.SetActive(false); controlFooter.gameObject.SetActive(false);
+            ResetPage();
+            arena.ClearPokemon(0); arena.ClearPokemon(1); arena.gameObject.SetActive(false);
+            if (menuAudio == null) menuAudio = gameObject.AddComponent<MainMenuAudio>();
+            menuAudio.EnterMenu();
+            mainMenuOpenedFrame = Time.frameCount; mainMenuOpenedAt = Time.unscaledTime;
+            mainMenuView = page.gameObject.AddComponent<MainMenuView>();
+            mainMenuView.Build(page, font, OnModeSelected, ShowTitle);
+            foreach (Button button in mainMenuView.Buttons) buttons.Add(button);
+            RefreshHints();
+            Debug.Log("[main-menu-ready] buttons=" + buttons.Count + " artwork=" + mainMenuView.ArtworkReady
+                + " selected=" + mainMenuView.SelectedIndex + " menuMusicSample=" + menuAudio.PlaybackSample);
         }
 
-        static void StyleTitleLogo(Text text, Color outlineColor, Color shadowColor)
+        void OnModeSelected(int index)
         {
-            var outline = text.gameObject.AddComponent<Outline>();
-            outline.effectColor = outlineColor; outline.effectDistance = new Vector2(4f, -4f);
-            var shadow = text.gameObject.AddComponent<Shadow>();
-            shadow.effectColor = new Color(shadowColor.r, shadowColor.g, shadowColor.b, .9f);
-            shadow.effectDistance = new Vector2(7f, -8f);
+            if (screen != ScreenMode.MainMenu || mainMenuView == null || index < 0 || index >= 4) return;
+            // Start/Enter opening this page cannot also submit its first button.
+            if (Time.frameCount <= mainMenuOpenedFrame + 1 || Time.unscaledTime - mainMenuOpenedAt < .25f)
+            {
+                mainMenuGuardBlocks++;
+                Debug.Log("[main-menu-guard] opening input ignored mode=" + index);
+                return;
+            }
+            mainMenuRoutes++; mainMenuRouteMask |= 1 << index;
+            Debug.Log("[main-menu-route] mode=" + index + " destination=Battle routeMask=" + mainMenuRouteMask);
+            StartBattle();
+        }
+
+        void MenuCheck(bool condition, string label)
+        {
+            if (condition) Debug.Log("[main-menu-check] " + label + " passed=True");
+            else
+            {
+                mainMenuChecksPassed = false;
+                Debug.LogError("[main-menu-check] " + label + " passed=False");
+            }
+        }
+
+        IEnumerator TestMainMenu()
+        {
+            try
+            {
+                yield return new WaitForSecondsRealtime(4f);
+                MenuCheck(screen == ScreenMode.Title && titleStartButton != null, "title Start button available");
+                if (titleStartButton == null) yield break;
+                titleStartButton.onClick.Invoke();
+                MenuCheck(screen == ScreenMode.MainMenu && mainMenuView != null, "Start opens mode menu");
+                if (mainMenuView == null) yield break;
+                mainMenuView.Buttons[0].onClick.Invoke();
+                mainMenuGuardVerified = screen == ScreenMode.MainMenu && mainMenuRoutes == 0 && mainMenuGuardBlocks > 0;
+                MenuCheck(mainMenuGuardVerified, "opening input cannot start battle");
+                yield return new WaitForSecondsRealtime(1.3f);
+                MenuCheck(mainMenuView != null && mainMenuView.Buttons.Count == 4 && mainMenuView.ArtworkReady
+                    && arena.LoadedModels == 0 && !chromeHeader.gameObject.activeSelf && !controlFooter.gameObject.activeSelf,
+                    "four illustrated modes without battle HUD or models");
+                mainMenuMusicContinuity = menuAudio != null && menuAudio.MusicReady && menuAudio.MusicPlaying
+                    && menuAudio.PlaybackSample > 0 && menuAudio.PlaybackVerified
+                    && titleAudio.FadeOutCompleted && !titleAudio.MusicPlaying;
+                MenuCheck(mainMenuMusicContinuity, "menu soundtrack takes over from title music");
+
+                mainMenuVirtualPad = InputSystem.AddDevice<Gamepad>();
+                mainMenuView.SelectMode(0);
+                InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState().WithButton(GamepadButton.DpadDown));
+                yield return null; yield return null;
+                InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState());
+                yield return new WaitForSecondsRealtime(.2f);
+                mainMenuNavigationVerified = mainMenuView != null && mainMenuView.SelectedIndex == 1;
+                mainMenuCursorVerified = controls.UsingGamepad && mainMenuView != null && mainMenuView.CursorVisible;
+                MenuCheck(mainMenuNavigationVerified, "real UI D-pad navigation selects second mode");
+                MenuCheck(mainMenuCursorVerified, "controller selection Poké Ball appears");
+                yield return new WaitForSecondsRealtime(12f);
+
+                mainMenuVirtualKeyboard = InputSystem.AddDevice<Keyboard>();
+                InputSystem.QueueStateEvent(mainMenuVirtualKeyboard, new KeyboardState(Key.UpArrow));
+                yield return null; yield return null;
+                InputSystem.QueueStateEvent(mainMenuVirtualKeyboard, new KeyboardState());
+                yield return new WaitForSecondsRealtime(.2f);
+                mainMenuPointerVerified = !controls.UsingGamepad && mainMenuView != null
+                    && !mainMenuView.CursorVisible && mainMenuView.SelectedIndex == 0;
+                MenuCheck(mainMenuPointerVerified, "keyboard navigation hides controller cursor");
+                if (mainMenuView != null)
+                    mainMenuMaxSelectionChanges = Mathf.Max(mainMenuMaxSelectionChanges, mainMenuView.SelectionChangeCount);
+
+                InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState().WithButton(GamepadButton.East));
+                yield return null; yield return null;
+                InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState());
+                yield return new WaitForSecondsRealtime(1.3f);
+                bool returnedToTitle = screen == ScreenMode.Title && titleStartButton != null
+                    && titleAudio.MusicPlaying && titleAudio.PlaybackSample > 0 && titleAudio.PlaybackVerified
+                    && menuAudio.FadeOutCompleted && !menuAudio.MusicPlaying;
+                MenuCheck(returnedToTitle, "controller Back restores title music and stops menu music");
+                mainMenuMusicContinuity &= returnedToTitle;
+                RemoveMainMenuTestDevices();
+                if (titleStartButton != null) titleStartButton.onClick.Invoke();
+                else ShowMainMenu();
+                yield return new WaitForSecondsRealtime(10f);
+
+                for (int mode = 0; mode < 4; mode++)
+                {
+                    if (screen != ScreenMode.MainMenu) ShowMainMenu();
+                    yield return new WaitForSecondsRealtime(2f);
+                    if (mainMenuView == null) { MenuCheck(false, "menu exists for mode " + mode); yield break; }
+                    mainMenuView.SelectMode(mode);
+                    yield return new WaitForSecondsRealtime(1f);
+                    if (mode == 3)
+                    {
+                        mainMenuView.SelectMode(0);
+                        mainMenuVirtualMouse = InputSystem.AddDevice<Mouse>();
+                        var buttonRect = mainMenuView.Buttons[mode].GetComponent<RectTransform>();
+                        Vector2 position = RectTransformUtility.WorldToScreenPoint(null,
+                            buttonRect.TransformPoint(buttonRect.rect.center));
+                        LogMenuTestPointer("before-position", position);
+                        InputSystem.QueueStateEvent(mainMenuVirtualMouse, new MouseState { position = position });
+                        yield return null; yield return null;
+                        LogMenuTestPointer("after-position", position);
+                        MenuCheck(mainMenuView != null && mainMenuView.SelectedIndex == mode && !controls.UsingGamepad,
+                            "mouse hover selects Options through UI raycast");
+                        InputSystem.QueueStateEvent(mainMenuVirtualMouse,
+                            new MouseState { position = position }.WithButton(MouseButton.Left));
+                        yield return null; yield return null;
+                        LogMenuTestPointer("after-press", position);
+                        InputSystem.QueueStateEvent(mainMenuVirtualMouse, new MouseState { position = position });
+                        yield return null; yield return null;
+                        LogMenuTestPointer("after-release", position);
+                        mainMenuMouseClickVerified = screen == ScreenMode.Battle && (mainMenuRouteMask & (1 << mode)) != 0;
+                        MenuCheck(mainMenuMouseClickVerified, "mouse click activates Options through UI event module");
+                    }
+                    else mainMenuView.Buttons[mode].onClick.Invoke();
+                    MenuCheck(screen == ScreenMode.Battle && arena.LoadedModels == 2 && (mainMenuRouteMask & (1 << mode)) != 0,
+                        "mode " + mode + " launches simulation");
+                    yield return new WaitForSecondsRealtime(1.5f);
+                    MenuCheck(titleAudio.FadeOutCompleted && !titleAudio.MusicPlaying
+                        && menuAudio.FadeOutCompleted && !menuAudio.MusicPlaying, "both soundtracks stop before battle mode " + mode);
+                }
+                mainMenuTestCompleted = true;
+                MenuCheck(mainMenuRoutes == 4 && mainMenuRouteMask == 15, "all four buttons route to battle");
+                Debug.Log("[main-menu-test-complete] routes=" + mainMenuRoutes + " routeMask=" + mainMenuRouteMask
+                    + " artwork=" + mainMenuArtworkVerified + " cursor=" + mainMenuCursorVerified
+                    + " navigation=" + mainMenuNavigationVerified + " checks=" + mainMenuChecksPassed);
+            }
+            finally
+            {
+                RemoveMainMenuTestDevices();
+                RestoreMainMenuTestInputs();
+            }
+        }
+
+        void LogMenuTestPointer(string stage, Vector2 position)
+        {
+            EventSystem eventSystem = EventSystem.current;
+            var module = eventSystem != null ? eventSystem.GetComponent<InputSystemUIInputModule>() : null;
+            var raycasts = new List<RaycastResult>();
+            if (eventSystem != null)
+                eventSystem.RaycastAll(new PointerEventData(eventSystem) { position = position }, raycasts);
+            string hits = "";
+            foreach (RaycastResult hit in raycasts)
+            {
+                if (hits.Length > 0) hits += " | ";
+                hits += hit.gameObject.name + ":depth=" + hit.depth + ":sorting=" + hit.sortingOrder;
+            }
+            InputAction point = module != null ? module.point?.action : null;
+            InputAction click = module != null ? module.leftClick?.action : null;
+            Canvas canvas = canvasRoot != null ? canvasRoot.GetComponent<Canvas>() : null;
+            Debug.Log("[main-menu-pointer-debug] stage=" + stage + " screen=" + screen
+                + " position=" + position + " screenSize=" + Screen.width + "x" + Screen.height
+                + " canvasScale=" + (canvas != null ? canvas.scaleFactor.ToString("F3") : "missing")
+                + " focused=" + Application.isFocused + " eventFocused=" + (eventSystem != null && eventSystem.isFocused)
+                + " virtualMouse=" + (mainMenuVirtualMouse != null ? mainMenuVirtualMouse.deviceId.ToString() : "missing")
+                + " virtualEnabled=" + (mainMenuVirtualMouse != null && mainMenuVirtualMouse.enabled)
+                + " virtualPosition=" + (mainMenuVirtualMouse != null ? mainMenuVirtualMouse.position.ReadValue().ToString() : "missing")
+                + " virtualButton=" + (mainMenuVirtualMouse != null && mainMenuVirtualMouse.leftButton.isPressed)
+                + " currentMouse=" + (Mouse.current != null ? Mouse.current.deviceId.ToString() : "missing")
+                + " pointEnabled=" + (point != null && point.enabled)
+                + " pointDevice=" + (point?.activeControl != null ? point.activeControl.device.deviceId.ToString() : "missing")
+                + " pointValue=" + (point != null ? point.ReadValue<Vector2>().ToString() : "missing")
+                + " clickEnabled=" + (click != null && click.enabled)
+                + " clickDevice=" + (click?.activeControl != null ? click.activeControl.device.deviceId.ToString() : "missing")
+                + " clickValue=" + (click != null ? click.ReadValue<float>().ToString("F1") : "missing")
+                + " pointerOver=" + (eventSystem != null && mainMenuVirtualMouse != null && eventSystem.IsPointerOverGameObject(mainMenuVirtualMouse.deviceId))
+                + " selected=" + (eventSystem != null && eventSystem.currentSelectedGameObject != null ? eventSystem.currentSelectedGameObject.name : "missing")
+                + " hits=" + (hits.Length > 0 ? hits : "none"));
+        }
+
+        IEnumerator TestMenuAudio()
+        {
+            yield return new WaitForSecondsRealtime(4f);
+            if (titleStartButton == null)
+            {
+                Debug.LogError("[menu-audio-test] title Start button missing");
+                yield break;
+            }
+            titleStartButton.onClick.Invoke();
+            Debug.Log("[menu-audio-test] main menu entered; waiting for full loop before battle");
+        }
+
+        void IsolateMainMenuTestInputs()
+        {
+            if ((!mainMenuTest && !menuAudioTest) || mainMenuInputsIsolated) return;
+            mainMenuInputsIsolated = true;
+            // Only Unity's input frontend is suspended. Windows continues to
+            // receive keyboard, mouse and controller events normally.
+            InputSystem.onDeviceChange += OnMainMenuTestDeviceChange;
+            var devices = new List<InputDevice>(InputSystem.devices);
+            foreach (InputDevice device in devices) SuspendMainMenuTestDevice(device);
+            Debug.Log("[main-menu-test-inputs-isolated] physicalDevices=" + mainMenuSuppressedDevices.Count
+                + " frontendOnly=True");
+        }
+
+        void OnMainMenuTestDeviceChange(InputDevice device, InputDeviceChange change)
+        {
+            if (mainMenuInputsIsolated && (change == InputDeviceChange.Added || change == InputDeviceChange.Enabled
+                || change == InputDeviceChange.Reconnected))
+                SuspendMainMenuTestDevice(device);
+        }
+
+        void SuspendMainMenuTestDevice(InputDevice device)
+        {
+            if (device == null || !device.native || !device.added || !device.enabled) return;
+            if (!(device is Gamepad || device is Keyboard || device is Mouse || device is Joystick
+                || device is Touchscreen || device is Pen)) return;
+            if (!mainMenuSuppressedDevices.Contains(device)) mainMenuSuppressedDevices.Add(device);
+            InputSystem.DisableDevice(device, keepSendingEvents: true);
+        }
+
+        void RestoreMainMenuTestInputs()
+        {
+            if (!mainMenuInputsIsolated && mainMenuSuppressedDevices.Count == 0) return;
+            mainMenuInputsIsolated = false;
+            InputSystem.onDeviceChange -= OnMainMenuTestDeviceChange;
+            int restored = 0;
+            foreach (InputDevice device in mainMenuSuppressedDevices)
+            {
+                if (device == null || !device.added || device.enabled) continue;
+                InputSystem.EnableDevice(device);
+                restored++;
+            }
+            mainMenuSuppressedDevices.Clear();
+            Debug.Log("[main-menu-test-inputs-restored] physicalDevices=" + restored + " frontendOnly=True");
+        }
+
+        void RemoveMainMenuTestDevices()
+        {
+            if (mainMenuVirtualPad != null && mainMenuVirtualPad.added) InputSystem.RemoveDevice(mainMenuVirtualPad);
+            if (mainMenuVirtualKeyboard != null && mainMenuVirtualKeyboard.added) InputSystem.RemoveDevice(mainMenuVirtualKeyboard);
+            if (mainMenuVirtualMouse != null && mainMenuVirtualMouse.added) InputSystem.RemoveDevice(mainMenuVirtualMouse);
+            mainMenuVirtualPad = null; mainMenuVirtualKeyboard = null; mainMenuVirtualMouse = null;
+        }
+
+        RawImage TitleImage(Transform parent, string name, string resourcePath, float x, float y, float width, float height,
+            AspectRatioFitter.AspectMode aspectMode = AspectRatioFitter.AspectMode.FitInParent, Rect? uvRect = null)
+        {
+            Texture2D texture = Resources.Load<Texture2D>(resourcePath);
+            if (texture == null)
+            {
+                Debug.LogError("Title artwork missing: Resources/" + resourcePath + ".png");
+                return null;
+            }
+            RectTransform container = Rect(parent, name + " layout", x, y, width, height);
+            var imageObject = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
+            RawImage image = imageObject.GetComponent<RawImage>();
+            image.rectTransform.SetParent(container, false);
+            image.rectTransform.anchorMin = Vector2.zero; image.rectTransform.anchorMax = Vector2.one;
+            image.rectTransform.offsetMin = Vector2.zero; image.rectTransform.offsetMax = Vector2.zero;
+            image.texture = texture; image.raycastTarget = false;
+            image.uvRect = uvRect ?? new Rect(0f, 0f, 1f, 1f);
+            var aspect = imageObject.AddComponent<AspectRatioFitter>();
+            aspect.aspectMode = aspectMode;
+            aspect.aspectRatio = texture.width * image.uvRect.width / (texture.height * image.uvRect.height);
+            return image;
         }
         void ShowSelection()
         {
@@ -473,8 +820,8 @@ namespace AeroStadium.Presentation
                 if (e.Kind == BattleEventKind.MoveUsed)
                 {
                     var move = e.MoveId == 0 ? null : catalog.GetMove(e.MoveId);
-                    if (move == null || move.category != "Status") yield return arena.Attack(e.Side, move == null ? "Normal" : move.type);
-                    else yield return new WaitForSeconds(.35f);
+                    if (move == null || move.category != "Status") yield return arena.Attack(e.Side, move == null ? "Normal" : move.type, move == null ? "Physical" : move.category);
+                    else yield return new WaitForSeconds(Mathf.Clamp(arena.PlayAttackAnimation(e.Side), .35f, 1f));
                 }
                 else if (e.Kind == BattleEventKind.Damage)
                 {

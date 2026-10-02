@@ -255,6 +255,136 @@ namespace AeroStadium.Tests
             Assert.That(Read<bool>("PausePressed"), Is.False);
         }
 
+        [Test]
+        public void ConnectingAControllerDoesNotClaimTheMenuCursor()
+        {
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+            InputSystem.AddDevice<Gamepad>();
+            Assert.That(Read<bool>("Connected"), Is.True);
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+            Assert.That(Read<string>("Accept"), Is.EqualTo("A"));
+        }
+
+        [TestCase("Gamepad", "buttonSouth")]
+        [TestCase("DualSenseGamepadHID", "buttonSouth")]
+        [TestCase("SwitchProControllerHID", "buttonEast")]
+        public void NativeSubmitActivatesTheControllerCursor(string layout, string submitControlName)
+        {
+            var gamepad = (Gamepad)InputSystem.AddDevice(layout);
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+            WriteButton(gamepad.GetChildControl<ButtonControl>(submitControlName), true);
+            Assert.That(module.submit.action.WasPerformedThisFrame(), Is.True);
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void RealNavigationActivatesTheCursorWithoutRepeatingModeChanges(bool useStick)
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            int changes = 0;
+            hintsType.GetEvent("Changed").AddEventHandler(hints, (Action)(() => changes++));
+            InputControl<Vector2> navigation = useStick ? gamepad.leftStick : gamepad.dpad;
+            WriteValue(navigation, Vector2.up);
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+            Assert.That(changes, Is.EqualTo(1));
+            WriteValue(navigation, Vector2.down);
+            Assert.That(changes, Is.EqualTo(1));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void MouseMovementOrClickReturnsToPointerMode(bool click)
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+            WriteValue(gamepad.dpad, Vector2.up);
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+            if (click) WriteButton(mouse.leftButton, true);
+            else WriteValue(mouse.position, new Vector2(250f, 180f));
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+            Assert.That(Read<bool>("Connected"), Is.True);
+            Assert.That(Read<string>("Accept"), Is.EqualTo("A"));
+        }
+
+        [Test]
+        public void AReleasedStickDoesNotReclaimTheCursorFromTheMouse()
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+            WriteValue(gamepad.leftStick, Vector2.up);
+            WriteValue(mouse.position, new Vector2(250f, 180f));
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+            WriteValue(gamepad.leftStick, Vector2.zero);
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+        }
+
+        [Test]
+        public void AutomaticScrollResetDoesNotStealTheControllerCursor()
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+            WriteValue(mouse.scroll, new Vector2(0f, 120f));
+            WriteValue(gamepad.dpad, Vector2.up);
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+            AdvanceInput();
+            Assert.That(mouse.scroll.ReadValue(), Is.EqualTo(Vector2.zero));
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void KeyboardNavigationOrSubmitReturnsToKeyboardMode(bool submit)
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            WriteValue(gamepad.dpad, Vector2.up);
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+            WriteButton(submit ? keyboard.enterKey : keyboard.rightArrowKey, true);
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+        }
+
+        [Test]
+        public void StartAndSpaceSwitchInputModeWithoutDependingOnUiSubmit()
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            WriteButton(gamepad.startButton, true);
+            Invoke("Update");
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+            WriteButton(keyboard.spaceKey, true);
+            Invoke("Update");
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+        }
+
+        [Test]
+        public void RemovingTheLastControllerClearsItsCursorMode()
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            WriteValue(gamepad.dpad, Vector2.up);
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+            InputSystem.RemoveDevice(gamepad);
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+            Assert.That(Read<bool>("Connected"), Is.False);
+        }
+
+        [Test]
+        public void ReinitializationAndDisableDetachUiCallbacks()
+        {
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+            Invoke("Initialize", module);
+            Invoke("Initialize", module);
+            WriteValue(gamepad.dpad, Vector2.up);
+            Assert.That(Read<bool>("UsingGamepad"), Is.True);
+            Invoke("OnDisable");
+            WriteValue(mouse.position, new Vector2(250f, 180f));
+            Assert.That(Read<bool>("UsingGamepad"), Is.True, "Disabled hints must have no action subscription.");
+            Invoke("OnEnable");
+            WriteValue(mouse.position, new Vector2(310f, 210f));
+            Assert.That(Read<bool>("UsingGamepad"), Is.False);
+        }
+
         string Family => hintsType.GetProperty("Family").GetValue(hints).ToString();
 
         T Read<T>(string name) => (T)hintsType.GetProperty(name).GetValue(hints);
