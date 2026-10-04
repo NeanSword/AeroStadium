@@ -98,6 +98,16 @@ namespace AeroStadium.Presentation
             catalog = JsonUtility.FromJson<Catalog>(source.text); catalog.Validate();
             selectedRosterPage = Mathf.Clamp((selectedSpecies - 1) / 10, 0, (catalog.species.Length - 1) / 10);
             arena = new GameObject("Original Aero arena").AddComponent<ArenaView>(); arena.Build();
+            if (Array.IndexOf(args,"--stadium-review")>=0)
+            {
+                enabled=false;gameObject.AddComponent<StadiumReview>().Begin(arena,arena.Stadium);return;
+            }
+            if (Array.IndexOf(args, "--size-review") >= 0)
+            {
+                enabled = false;
+                gameObject.AddComponent<PokemonSizeReview>().Begin(catalog, arena);
+                return;
+            }
             if (Array.IndexOf(args, "--animation-review") >= 0)
             {
                 enabled = false;

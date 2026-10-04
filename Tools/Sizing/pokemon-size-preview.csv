@@ -1,0 +1,1026 @@
+﻿NationalDex,FrenchName,PokedexMetres,DisplayGroup,DisplayMetres
+1,Bulbizarre,0.7,Petit,0.95
+2,Herbizarre,1.0,Compact,1.2
+3,Florizarre,2.0,Grand,1.95
+4,Salamèche,0.6,Petit,0.95
+5,Reptincel,1.1,Moyen,1.55
+6,Dracaufeu,1.7,Grand,1.95
+7,Carapuce,0.5,Petit,0.95
+8,Carabaffe,1.0,Compact,1.2
+9,Tortank,1.6,Grand,1.95
+10,Chenipan,0.3,Très petit,0.75
+11,Chrysacier,0.7,Petit,0.95
+12,Papilusion,1.1,Moyen,1.55
+13,Aspicot,0.3,Très petit,0.75
+14,Coconfort,0.6,Petit,0.95
+15,Dardargnan,1.0,Compact,1.2
+16,Roucool,0.3,Très petit,0.75
+17,Roucoups,1.1,Moyen,1.55
+18,Roucarnage,1.5,Moyen,1.55
+19,Rattata,0.3,Très petit,0.75
+20,Rattatac,0.7,Petit,0.95
+21,Piafabec,0.3,Très petit,0.75
+22,Rapasdepic,1.2,Moyen,1.55
+23,Abo,2.0,Grand,1.95
+24,Arbok,3.5,Massif,2.85
+25,Pikachu,0.4,Très petit,0.75
+26,Raichu,0.8,Compact,1.2
+27,Sabelette,0.6,Petit,0.95
+28,Sablaireau,1.0,Compact,1.2
+29,Nidoran♀,0.4,Très petit,0.75
+30,Nidorina,0.8,Compact,1.2
+31,Nidoqueen,1.3,Moyen,1.55
+32,Nidoran♂,0.5,Petit,0.95
+33,Nidorino,0.9,Compact,1.2
+34,Nidoking,1.4,Moyen,1.55
+35,Mélofée,0.6,Petit,0.95
+36,Mélodelfe,1.3,Moyen,1.55
+37,Goupix,0.6,Petit,0.95
+38,Feunard,1.1,Moyen,1.55
+39,Rondoudou,0.5,Petit,0.95
+40,Grodoudou,1.0,Compact,1.2
+41,Nosferapti,0.8,Compact,1.2
+42,Nosferalto,1.6,Grand,1.95
+43,Mystherbe,0.5,Petit,0.95
+44,Ortide,0.8,Compact,1.2
+45,Rafflesia,1.2,Moyen,1.55
+46,Paras,0.3,Très petit,0.75
+47,Parasect,1.0,Compact,1.2
+48,Mimitoss,1.0,Compact,1.2
+49,Aéromite,1.5,Moyen,1.55
+50,Taupiqueur,0.2,Très petit,0.75
+51,Triopikeur,0.7,Petit,0.95
+52,Miaouss,0.4,Très petit,0.75
+53,Persian,1.0,Compact,1.2
+54,Psykokwak,0.8,Compact,1.2
+55,Akwakwak,1.7,Grand,1.95
+56,Férosinge,0.5,Petit,0.95
+57,Colossinge,1.0,Compact,1.2
+58,Caninos,0.7,Petit,0.95
+59,Arcanin,1.9,Grand,1.95
+60,Ptitard,0.6,Petit,0.95
+61,Têtarte,1.0,Compact,1.2
+62,Tartard,1.3,Moyen,1.55
+63,Abra,0.9,Compact,1.2
+64,Kadabra,1.3,Moyen,1.55
+65,Alakazam,1.5,Moyen,1.55
+66,Machoc,0.8,Compact,1.2
+67,Machopeur,1.5,Moyen,1.55
+68,Mackogneur,1.6,Grand,1.95
+69,Chétiflor,0.7,Petit,0.95
+70,Boustiflor,1.0,Compact,1.2
+71,Empiflor,1.7,Grand,1.95
+72,Tentacool,0.9,Compact,1.2
+73,Tentacruel,1.6,Grand,1.95
+74,Racaillou,0.4,Très petit,0.75
+75,Gravalanch,1.0,Compact,1.2
+76,Grolem,1.4,Moyen,1.55
+77,Ponyta,1.0,Compact,1.2
+78,Galopa,1.7,Grand,1.95
+79,Ramoloss,1.2,Moyen,1.55
+80,Flagadoss,1.6,Grand,1.95
+81,Magnéti,0.3,Très petit,0.75
+82,Magnéton,1.0,Compact,1.2
+83,Canarticho,0.8,Compact,1.2
+84,Doduo,1.4,Moyen,1.55
+85,Dodrio,1.8,Grand,1.95
+86,Otaria,1.1,Moyen,1.55
+87,Lamantine,1.7,Grand,1.95
+88,Tadmorv,0.9,Compact,1.2
+89,Grotadmorv,1.2,Moyen,1.55
+90,Kokiyas,0.3,Très petit,0.75
+91,Crustabri,1.5,Moyen,1.55
+92,Fantominus,1.3,Moyen,1.55
+93,Spectrum,1.6,Grand,1.95
+94,Ectoplasma,1.5,Moyen,1.55
+95,Onix,8.8,Colossal,3.3
+96,Soporifik,1.0,Compact,1.2
+97,Hypnomade,1.6,Grand,1.95
+98,Krabby,0.4,Très petit,0.75
+99,Krabboss,1.3,Moyen,1.55
+100,Voltorbe,0.5,Petit,0.95
+101,Électrode,1.2,Moyen,1.55
+102,Noeunoeuf,0.4,Très petit,0.75
+103,Noadkoko,2.0,Grand,1.95
+104,Osselait,0.4,Très petit,0.75
+105,Ossatueur,1.0,Compact,1.2
+106,Kicklee,1.5,Moyen,1.55
+107,Tygnon,1.4,Moyen,1.55
+108,Excelangue,1.2,Moyen,1.55
+109,Smogo,0.6,Petit,0.95
+110,Smogogo,1.2,Moyen,1.55
+111,Rhinocorne,1.0,Compact,1.2
+112,Rhinoféros,1.9,Grand,1.95
+113,Leveinard,1.1,Moyen,1.55
+114,Saquedeneu,1.0,Compact,1.2
+115,Kangourex,2.2,Très grand,2.4
+116,Hypotrempe,0.4,Très petit,0.75
+117,Hypocéan,1.2,Moyen,1.55
+118,Poissirène,0.6,Petit,0.95
+119,Poissoroy,1.3,Moyen,1.55
+120,Stari,0.8,Compact,1.2
+121,Staross,1.1,Moyen,1.55
+122,M. Mime,1.3,Moyen,1.55
+123,Insécateur,1.5,Moyen,1.55
+124,Lippoutou,1.4,Moyen,1.55
+125,Élektek,1.1,Moyen,1.55
+126,Magmar,1.3,Moyen,1.55
+127,Scarabrute,1.5,Moyen,1.55
+128,Tauros,1.4,Moyen,1.55
+129,Magicarpe,0.9,Compact,1.2
+130,Léviator,6.5,Colossal,3.3
+131,Lokhlass,2.5,Très grand,2.4
+132,Métamorph,0.3,Très petit,0.75
+133,Évoli,0.3,Très petit,0.75
+134,Aquali,1.0,Compact,1.2
+135,Voltali,0.8,Compact,1.2
+136,Pyroli,0.9,Compact,1.2
+137,Porygon,0.8,Compact,1.2
+138,Amonita,0.4,Très petit,0.75
+139,Amonistar,1.0,Compact,1.2
+140,Kabuto,0.5,Petit,0.95
+141,Kabutops,1.3,Moyen,1.55
+142,Ptéra,1.8,Grand,1.95
+143,Ronflex,2.1,Très grand,2.4
+144,Artikodin,1.7,Grand,1.95
+145,Électhor,1.6,Grand,1.95
+146,Sulfura,2.0,Grand,1.95
+147,Minidraco,1.8,Grand,1.95
+148,Draco,4.0,Massif,2.85
+149,Dracolosse,2.2,Très grand,2.4
+150,Mewtwo,2.0,Grand,1.95
+151,Mew,0.4,Très petit,0.75
+152,Germignon,0.9,Compact,1.2
+153,Macronium,1.2,Moyen,1.55
+154,Méganium,1.8,Grand,1.95
+155,Héricendre,0.5,Petit,0.95
+156,Feurisson,0.9,Compact,1.2
+157,Typhlosion,1.7,Grand,1.95
+158,Kaiminus,0.6,Petit,0.95
+159,Crocrodil,1.1,Moyen,1.55
+160,Aligatueur,2.3,Très grand,2.4
+161,Fouinette,0.8,Compact,1.2
+162,Fouinar,1.8,Grand,1.95
+163,Hoothoot,0.7,Petit,0.95
+164,Noarfang,1.6,Grand,1.95
+165,Coxy,1.0,Compact,1.2
+166,Coxyclaque,1.4,Moyen,1.55
+167,Mimigal,0.5,Petit,0.95
+168,Migalos,1.1,Moyen,1.55
+169,Nostenfer,1.8,Grand,1.95
+170,Loupio,0.5,Petit,0.95
+171,Lanturn,1.2,Moyen,1.55
+172,Pichu,0.3,Très petit,0.75
+173,Mélo,0.3,Très petit,0.75
+174,Toudoudou,0.3,Très petit,0.75
+175,Togepi,0.3,Très petit,0.75
+176,Togetic,0.6,Petit,0.95
+177,Natu,0.2,Très petit,0.75
+178,Xatu,1.5,Moyen,1.55
+179,Wattouat,0.6,Petit,0.95
+180,Lainergie,0.8,Compact,1.2
+181,Pharamp,1.4,Moyen,1.55
+182,Joliflor,0.4,Très petit,0.75
+183,Marill,0.4,Très petit,0.75
+184,Azumarill,0.8,Compact,1.2
+185,Simularbre,1.2,Moyen,1.55
+186,Tarpaud,1.1,Moyen,1.55
+187,Granivol,0.4,Très petit,0.75
+188,Floravol,0.6,Petit,0.95
+189,Cotovol,0.8,Compact,1.2
+190,Capumain,0.8,Compact,1.2
+191,Tournegrin,0.3,Très petit,0.75
+192,Héliatronc,0.8,Compact,1.2
+193,Yanma,1.2,Moyen,1.55
+194,Axoloto,0.4,Très petit,0.75
+195,Maraiste,1.4,Moyen,1.55
+196,Mentali,0.9,Compact,1.2
+197,Noctali,1.0,Compact,1.2
+198,Cornèbre,0.5,Petit,0.95
+199,Roigada,2.0,Grand,1.95
+200,Feuforêve,0.7,Petit,0.95
+201,Zarbi A,0.5,Petit,0.95
+202,Qulbutoké,1.3,Moyen,1.55
+203,Girafarig,1.5,Moyen,1.55
+204,Pomdepik,0.6,Petit,0.95
+205,Foretress,1.2,Moyen,1.55
+206,Insolourdo,1.5,Moyen,1.55
+207,Scorplane,1.1,Moyen,1.55
+208,Steelix,9.2,Colossal,3.3
+209,Snubbull,0.6,Petit,0.95
+210,Granbull,1.4,Moyen,1.55
+211,Qwilfish,0.5,Petit,0.95
+212,Cizayox,1.8,Grand,1.95
+213,Caratroc,0.6,Petit,0.95
+214,Scarhino,1.5,Moyen,1.55
+215,Farfuret,0.9,Compact,1.2
+216,Teddiursa,0.6,Petit,0.95
+217,Ursaring,1.8,Grand,1.95
+218,Limagma,0.7,Petit,0.95
+219,Volcaropod,0.8,Compact,1.2
+220,Marcacrin,0.4,Très petit,0.75
+221,Cochignon,1.1,Moyen,1.55
+222,Corayon,0.6,Petit,0.95
+223,Rémoraid,0.6,Petit,0.95
+224,Octillery,0.9,Compact,1.2
+225,Cadoizo,0.9,Compact,1.2
+226,Démanta,2.1,Très grand,2.4
+227,Airmure,1.7,Grand,1.95
+228,Malosse,0.6,Petit,0.95
+229,Démolosse,1.4,Moyen,1.55
+230,Hyporoi,1.8,Grand,1.95
+231,Phanpy,0.5,Petit,0.95
+232,Donphan,1.1,Moyen,1.55
+233,Porygon2,0.6,Petit,0.95
+234,Cerfrousse,1.4,Moyen,1.55
+235,Queulorior,1.2,Moyen,1.55
+236,Debugant,0.7,Petit,0.95
+237,Kapoera,1.4,Moyen,1.55
+238,Lippouti,0.6,Petit,0.95
+239,Élekid,0.6,Petit,0.95
+240,Magby,0.7,Petit,0.95
+241,Écrémeuh,1.2,Moyen,1.55
+242,Leuphorie,1.5,Moyen,1.55
+243,Raikou,1.9,Grand,1.95
+244,Entei,2.1,Très grand,2.4
+245,Suicune,2.0,Grand,1.95
+246,Embrylex,0.6,Petit,0.95
+247,Ymphect,1.2,Moyen,1.55
+248,Tyranocif,2.0,Grand,1.95
+249,Lugia,5.2,Colossal,3.3
+250,Ho-Oh,3.8,Massif,2.85
+251,Celebi,0.6,Petit,0.95
+252,Arcko,0.5,Petit,0.95
+253,Massko,0.9,Compact,1.2
+254,Jungko,1.7,Grand,1.95
+255,Poussifeu,0.4,Très petit,0.75
+256,Galifeu,0.9,Compact,1.2
+257,Braségali,1.9,Grand,1.95
+258,Gobou,0.4,Très petit,0.75
+259,Flobio,0.7,Petit,0.95
+260,Laggron,1.6,Grand,1.95
+261,Medhyèna,0.5,Petit,0.95
+262,Grahyèna,1.0,Compact,1.2
+263,Zigzaton,0.4,Très petit,0.75
+264,Linéon,0.5,Petit,0.95
+265,Chenipotte,0.3,Très petit,0.75
+266,Armulys,0.6,Petit,0.95
+267,Charmillon,1.0,Compact,1.2
+268,Blindalys,0.7,Petit,0.95
+269,Papinox,1.2,Moyen,1.55
+270,Nénupiot,0.5,Petit,0.95
+271,Lombre,1.2,Moyen,1.55
+272,Ludicolo,1.5,Moyen,1.55
+273,Grainipiot,0.5,Petit,0.95
+274,Pifeuil,1.0,Compact,1.2
+275,Tengalice,1.3,Moyen,1.55
+276,Nirondelle,0.3,Très petit,0.75
+277,Hélédelle,0.7,Petit,0.95
+278,Goélise,0.6,Petit,0.95
+279,Bekipan,1.2,Moyen,1.55
+280,Tarsal,0.4,Très petit,0.75
+281,Kirlia,0.8,Compact,1.2
+282,Gardevoir,1.6,Grand,1.95
+283,Arakdo,0.5,Petit,0.95
+284,Maskadra,0.8,Compact,1.2
+285,Balignon,0.4,Très petit,0.75
+286,Chapignon,1.2,Moyen,1.55
+287,Parecool,0.8,Compact,1.2
+288,Vigoroth,1.4,Moyen,1.55
+289,Monaflèmit,2.0,Grand,1.95
+290,Ningale,0.5,Petit,0.95
+291,Ninjask,0.8,Compact,1.2
+292,Munja,0.8,Compact,1.2
+293,Chuchmur,0.6,Petit,0.95
+294,Ramboum,1.0,Compact,1.2
+295,Brouhabam,1.5,Moyen,1.55
+296,Makuhita,1.0,Compact,1.2
+297,Hariyama,2.3,Très grand,2.4
+298,Azurill,0.2,Très petit,0.75
+299,Tarinor,1.0,Compact,1.2
+300,Skitty,0.6,Petit,0.95
+301,Delcatty,1.1,Moyen,1.55
+302,Ténéfix,0.5,Petit,0.95
+303,Mysdibule,0.6,Petit,0.95
+304,Galekid,0.4,Très petit,0.75
+305,Galegon,0.9,Compact,1.2
+306,Galeking,2.1,Très grand,2.4
+307,Méditikka,0.6,Petit,0.95
+308,Charmina,1.3,Moyen,1.55
+309,Dynavolt,0.6,Petit,0.95
+310,Élecsprint,1.5,Moyen,1.55
+311,Posipi,0.4,Très petit,0.75
+312,Négapi,0.4,Très petit,0.75
+313,Muciole,0.7,Petit,0.95
+314,Lumivole,0.6,Petit,0.95
+315,Rosélia,0.3,Très petit,0.75
+316,Gloupti,0.4,Très petit,0.75
+317,Avaltout,1.7,Grand,1.95
+318,Carvanha,0.8,Compact,1.2
+319,Sharpedo,1.8,Grand,1.95
+320,Wailmer,2.0,Grand,1.95
+321,Wailord,14.5,Colossal,3.3
+322,Chamallot,0.7,Petit,0.95
+323,Camérupt,1.9,Grand,1.95
+324,Chartor,0.5,Petit,0.95
+325,Spoink,0.7,Petit,0.95
+326,Groret,0.9,Compact,1.2
+327,Spinda,1.1,Moyen,1.55
+328,Kraknoix,0.7,Petit,0.95
+329,Vibraninf,1.1,Moyen,1.55
+330,Libégon,2.0,Grand,1.95
+331,Cacnea,0.4,Très petit,0.75
+332,Cacturne,1.3,Moyen,1.55
+333,Tylton,0.4,Très petit,0.75
+334,Altaria,1.1,Moyen,1.55
+335,Mangriff,1.3,Moyen,1.55
+336,Séviper,2.7,Très grand,2.4
+337,Séléroc,1.0,Compact,1.2
+338,Solaroc,1.2,Moyen,1.55
+339,Barloche,0.4,Très petit,0.75
+340,Barbicha,0.9,Compact,1.2
+341,Écrapince,0.6,Petit,0.95
+342,Colhomard,1.1,Moyen,1.55
+343,Balbuto,0.5,Petit,0.95
+344,Kaorine,1.5,Moyen,1.55
+345,Lilia,1.0,Compact,1.2
+346,Vacilys,1.5,Moyen,1.55
+347,Anorith,0.7,Petit,0.95
+348,Armaldo,1.5,Moyen,1.55
+349,Barpau,0.6,Petit,0.95
+350,Milobellus,6.2,Colossal,3.3
+351,Morphéo,0.3,Très petit,0.75
+352,Kecleon,1.0,Compact,1.2
+353,Polichombr,0.6,Petit,0.95
+354,Branette,1.1,Moyen,1.55
+355,Skelénox,0.8,Compact,1.2
+356,Téraclope,1.6,Grand,1.95
+357,Tropius,2.0,Grand,1.95
+358,Éoko,0.6,Petit,0.95
+359,Absol,1.2,Moyen,1.55
+360,Okéoké,0.6,Petit,0.95
+361,Stalgamin,0.7,Petit,0.95
+362,Oniglali,1.5,Moyen,1.55
+363,Obalie,0.8,Compact,1.2
+364,Phogleur,1.1,Moyen,1.55
+365,Kaimorse,1.4,Moyen,1.55
+366,Coquiperl,0.4,Très petit,0.75
+367,Serpang,1.7,Grand,1.95
+368,Rosabyss,1.8,Grand,1.95
+369,Relicanth,1.0,Compact,1.2
+370,Lovdisc,0.6,Petit,0.95
+371,Draby,0.6,Petit,0.95
+372,Drackhaus,1.1,Moyen,1.55
+373,Drattak,1.5,Moyen,1.55
+374,Terhal,0.6,Petit,0.95
+375,Métang,1.2,Moyen,1.55
+376,Métalosse,1.6,Grand,1.95
+377,Regirock,1.7,Grand,1.95
+378,Regice,1.8,Grand,1.95
+379,Registeel,1.9,Grand,1.95
+380,Latias,1.4,Moyen,1.55
+381,Latios,2.0,Grand,1.95
+382,Kyogre,4.5,Massif,2.85
+383,Groudon,3.5,Massif,2.85
+384,Rayquaza,7.0,Colossal,3.3
+385,Jirachi,0.3,Très petit,0.75
+386,Deoxys Forme Normale,1.7,Grand,1.95
+387,Tortipouss,0.4,Très petit,0.75
+388,Boskara,1.1,Moyen,1.55
+389,Torterra,2.2,Très grand,2.4
+390,Ouisticram,0.5,Petit,0.95
+391,Chimpenfeu,0.9,Compact,1.2
+392,Simiabraz,1.2,Moyen,1.55
+393,Tiplouf,0.4,Très petit,0.75
+394,Prinplouf,0.8,Compact,1.2
+395,Pingoléon,1.7,Grand,1.95
+396,Étourmi,0.3,Très petit,0.75
+397,Étourvol,0.6,Petit,0.95
+398,Étouraptor,1.2,Moyen,1.55
+399,Keunotor,0.5,Petit,0.95
+400,Castorno,1.0,Compact,1.2
+401,Crikzik,0.3,Très petit,0.75
+402,Mélokrik,1.0,Compact,1.2
+403,Lixy,0.5,Petit,0.95
+404,Luxio,0.9,Compact,1.2
+405,Luxray,1.4,Moyen,1.55
+406,Rozbouton,0.2,Très petit,0.75
+407,Roserade,0.9,Compact,1.2
+408,Kranidos,0.9,Compact,1.2
+409,Charkos,1.6,Grand,1.95
+410,Dinoclier,0.5,Petit,0.95
+411,Bastiodon,1.3,Moyen,1.55
+412,Cheniti Cape Plante,0.2,Très petit,0.75
+413,Cheniselle Cape Plante,0.5,Petit,0.95
+414,Papilord,0.9,Compact,1.2
+415,Apitrini,0.3,Très petit,0.75
+416,Apireine,1.2,Moyen,1.55
+417,Pachirisu,0.4,Très petit,0.75
+418,Mustébouée,0.7,Petit,0.95
+419,Mustéflott,1.1,Moyen,1.55
+420,Ceribou,0.4,Très petit,0.75
+421,Ceriflor Temps Couvert,0.5,Petit,0.95
+422,Sancoki Mer Occident,0.3,Très petit,0.75
+423,Tritosor Mer Occident,0.9,Compact,1.2
+424,Capidextre,1.2,Moyen,1.55
+425,Baudrive,0.4,Très petit,0.75
+426,Grodrive,1.2,Moyen,1.55
+427,Laporeille,0.4,Très petit,0.75
+428,Lockpin,1.2,Moyen,1.55
+429,Magirêve,0.9,Compact,1.2
+430,Corboss,0.9,Compact,1.2
+431,Chaglam,0.5,Petit,0.95
+432,Chaffreux,1.0,Compact,1.2
+433,Korillon,0.2,Très petit,0.75
+434,Moufouette,0.4,Très petit,0.75
+435,Moufflair,1.0,Compact,1.2
+436,Archéomire,0.5,Petit,0.95
+437,Archéodong,1.3,Moyen,1.55
+438,Manzaï,0.5,Petit,0.95
+439,Mime Jr.,0.6,Petit,0.95
+440,Ptiravi,0.6,Petit,0.95
+441,Pijako,0.5,Petit,0.95
+442,Spiritomb,1.0,Compact,1.2
+443,Griknot,0.7,Petit,0.95
+444,Carmache,1.4,Moyen,1.55
+445,Carchacrok,1.9,Grand,1.95
+446,Goinfrex,0.6,Petit,0.95
+447,Riolu,0.7,Petit,0.95
+448,Lucario,1.2,Moyen,1.55
+449,Hippopotas,0.8,Compact,1.2
+450,Hippodocus,2.0,Grand,1.95
+451,Rapion,0.8,Compact,1.2
+452,Drascore,1.3,Moyen,1.55
+453,Cradopaud,0.7,Petit,0.95
+454,Coatox,1.3,Moyen,1.55
+455,Vortente,1.4,Moyen,1.55
+456,Écayon,0.4,Très petit,0.75
+457,Luminéon,1.2,Moyen,1.55
+458,Babimanta,1.0,Compact,1.2
+459,Blizzi,1.0,Compact,1.2
+460,Blizzaroi,2.2,Très grand,2.4
+461,Dimoret,1.1,Moyen,1.55
+462,Magnézone,1.2,Moyen,1.55
+463,Coudlangue,1.7,Grand,1.95
+464,Rhinastoc,2.4,Très grand,2.4
+465,Bouldeneu,2.0,Grand,1.95
+466,Élekable,1.8,Grand,1.95
+467,Maganon,1.6,Grand,1.95
+468,Togekiss,1.5,Moyen,1.55
+469,Yanmega,1.9,Grand,1.95
+470,Phyllali,1.0,Compact,1.2
+471,Givrali,0.8,Compact,1.2
+472,Scorvol,2.0,Grand,1.95
+473,Mammochon,2.5,Très grand,2.4
+474,Porygon-Z,0.9,Compact,1.2
+475,Gallame,1.6,Grand,1.95
+476,Tarinorme,1.4,Moyen,1.55
+477,Noctunoir,2.2,Très grand,2.4
+478,Momartik,1.3,Moyen,1.55
+479,Motisma,0.3,Très petit,0.75
+480,Créhelf,0.3,Très petit,0.75
+481,Créfollet,0.3,Très petit,0.75
+482,Créfadet,0.3,Très petit,0.75
+483,Dialga,5.4,Colossal,3.3
+484,Palkia,4.2,Massif,2.85
+485,Heatran,1.7,Grand,1.95
+486,Regigigas,3.7,Massif,2.85
+487,Giratina Forme Alternative,4.5,Massif,2.85
+488,Cresselia,1.5,Moyen,1.55
+489,Phione,0.4,Très petit,0.75
+490,Manaphy,0.3,Très petit,0.75
+491,Darkrai,1.5,Moyen,1.55
+492,Shaymin Forme Terrestre,0.2,Très petit,0.75
+493,Arceus,3.2,Massif,2.85
+494,Victini,0.4,Très petit,0.75
+495,Vipélierre,0.6,Petit,0.95
+496,Lianaja,0.8,Compact,1.2
+497,Majaspic,3.3,Massif,2.85
+498,Gruikui,0.5,Petit,0.95
+499,Grotichon,1.0,Compact,1.2
+500,Roitiflam,1.6,Grand,1.95
+501,Moustillon,0.5,Petit,0.95
+502,Mateloutre,0.8,Compact,1.2
+503,Clamiral,1.5,Moyen,1.55
+504,Ratentif,0.5,Petit,0.95
+505,Miradar,1.1,Moyen,1.55
+506,Ponchiot,0.4,Très petit,0.75
+507,Ponchien,0.9,Compact,1.2
+508,Mastouffe,1.2,Moyen,1.55
+509,Chacripan,0.4,Très petit,0.75
+510,Léopardus,1.1,Moyen,1.55
+511,Feuillajou,0.6,Petit,0.95
+512,Feuiloutan,1.1,Moyen,1.55
+513,Flamajou,0.5,Petit,0.95
+514,Flamoutan,1.0,Compact,1.2
+515,Flotajou,0.6,Petit,0.95
+516,Flotoutan,1.0,Compact,1.2
+517,Munna,0.6,Petit,0.95
+518,Mushana,1.1,Moyen,1.55
+519,Poichigeon,0.3,Très petit,0.75
+520,Colombeau,0.6,Petit,0.95
+521,Déflaisan,1.2,Moyen,1.55
+522,Zébibron,0.8,Compact,1.2
+523,Zéblitz,1.6,Grand,1.95
+524,Nodulithe,0.4,Très petit,0.75
+525,Géolithe,0.9,Compact,1.2
+526,Gigalithe,1.7,Grand,1.95
+527,Chovsourir,0.4,Très petit,0.75
+528,Rhinolove,0.9,Compact,1.2
+529,Rototaupe,0.3,Très petit,0.75
+530,Minotaupe,0.7,Petit,0.95
+531,Nanméouïe,1.1,Moyen,1.55
+532,Charpenti,0.6,Petit,0.95
+533,Ouvrifier,1.2,Moyen,1.55
+534,Bétochef,1.4,Moyen,1.55
+535,Tritonde,0.5,Petit,0.95
+536,Batracné,0.8,Compact,1.2
+537,Crapustule,1.5,Moyen,1.55
+538,Judokrak,1.3,Moyen,1.55
+539,Karaclée,1.4,Moyen,1.55
+540,Larveyette,0.3,Très petit,0.75
+541,Couverdure,0.5,Petit,0.95
+542,Manternel,1.2,Moyen,1.55
+543,Venipatte,0.4,Très petit,0.75
+544,Scobolide,1.2,Moyen,1.55
+545,Brutapode,2.5,Très grand,2.4
+546,Doudouvet,0.3,Très petit,0.75
+547,Farfaduvet,0.7,Petit,0.95
+548,Chlorobule,0.5,Petit,0.95
+549,Fragilady,1.1,Moyen,1.55
+550,Bargantua Motif Rouge,1.0,Compact,1.2
+551,Mascaïman,0.7,Petit,0.95
+552,Escroco,1.0,Compact,1.2
+553,Crocorible,1.5,Moyen,1.55
+554,Darumarond,0.6,Petit,0.95
+555,Darumacho Mode Normal,1.3,Moyen,1.55
+556,Maracachi,1.0,Compact,1.2
+557,Crabicoque,0.3,Très petit,0.75
+558,Crabaraque,1.4,Moyen,1.55
+559,Baggiguane,0.6,Petit,0.95
+560,Baggaïd,1.1,Moyen,1.55
+561,Cryptéro,1.4,Moyen,1.55
+562,Tutafeh,0.5,Petit,0.95
+563,Tutankafer,1.7,Grand,1.95
+564,Carapagos,0.7,Petit,0.95
+565,Mégapagos,1.2,Moyen,1.55
+566,Arkéapti,0.5,Petit,0.95
+567,Aéroptéryx,1.4,Moyen,1.55
+568,Miamiasme,0.6,Petit,0.95
+569,Miasmax,1.9,Grand,1.95
+570,Zorua,0.7,Petit,0.95
+571,Zoroark,1.6,Grand,1.95
+572,Chinchidou,0.4,Très petit,0.75
+573,Pashmilla,0.5,Petit,0.95
+574,Scrutella,0.4,Très petit,0.75
+575,Mesmérella,0.7,Petit,0.95
+576,Sidérella,1.5,Moyen,1.55
+577,Nucléos,0.3,Très petit,0.75
+578,Méios,0.6,Petit,0.95
+579,Symbios,1.0,Compact,1.2
+580,Couaneton,0.5,Petit,0.95
+581,Lakmécygne,1.3,Moyen,1.55
+582,Sorbébé,0.4,Très petit,0.75
+583,Sorboul,1.1,Moyen,1.55
+584,Sorbouboul,1.3,Moyen,1.55
+585,Vivaldaim Forme Printemps,0.6,Petit,0.95
+586,Haydaim Forme Printemps,1.9,Grand,1.95
+587,Emolga,0.4,Très petit,0.75
+588,Carabing,0.5,Petit,0.95
+589,Lançargot,1.0,Compact,1.2
+590,Trompignon,0.2,Très petit,0.75
+591,Gaulet,0.6,Petit,0.95
+592,Viskuse,1.2,Moyen,1.55
+593,Moyade,2.2,Très grand,2.4
+594,Mamanbo,1.2,Moyen,1.55
+595,Statitik,0.1,Très petit,0.75
+596,Mygavolt,0.8,Compact,1.2
+597,Grindur,0.6,Petit,0.95
+598,Noacier,1.0,Compact,1.2
+599,Tic,0.3,Très petit,0.75
+600,Clic,0.6,Petit,0.95
+601,Cliticlic,0.6,Petit,0.95
+602,Anchwatt,0.2,Très petit,0.75
+603,Lampéroie,1.2,Moyen,1.55
+604,Ohmassacre,2.1,Très grand,2.4
+605,Lewsor,0.5,Petit,0.95
+606,Neitram,1.0,Compact,1.2
+607,Funécire,0.3,Très petit,0.75
+608,Mélancolux,0.6,Petit,0.95
+609,Lugulabre,1.0,Compact,1.2
+610,Coupenotte,0.6,Petit,0.95
+611,Incisache,1.0,Compact,1.2
+612,Tranchodon,1.8,Grand,1.95
+613,Polarhume,0.5,Petit,0.95
+614,Polagriffe,2.6,Très grand,2.4
+615,Hexagel,1.1,Moyen,1.55
+616,Escargaume,0.4,Très petit,0.75
+617,Limaspeed,0.8,Compact,1.2
+618,Limonde,0.7,Petit,0.95
+619,Kungfouine,0.8,Compact,1.2
+620,Shaofouine,1.4,Moyen,1.55
+621,Drakkarmin,1.6,Grand,1.95
+622,Gringolem,1.0,Compact,1.2
+623,Golemastoc,2.8,Très grand,2.4
+624,Scalpion,0.5,Petit,0.95
+625,Scalproie,1.6,Grand,1.95
+626,Frison,1.6,Grand,1.95
+627,Furaiglon,0.5,Petit,0.95
+628,Gueriaigle,1.5,Moyen,1.55
+629,Vostourno,0.5,Petit,0.95
+630,Vaututrice,1.2,Moyen,1.55
+631,Aflamanoir,1.4,Moyen,1.55
+632,Fermite,0.3,Très petit,0.75
+633,Solochi,0.8,Compact,1.2
+634,Diamat,1.4,Moyen,1.55
+635,Trioxhydre,1.8,Grand,1.95
+636,Pyronille,1.1,Moyen,1.55
+637,Pyrax,1.6,Grand,1.95
+638,Cobaltium,2.1,Très grand,2.4
+639,Terrakium,1.9,Grand,1.95
+640,Viridium,2.0,Grand,1.95
+641,Boréas Forme Avatar,1.5,Moyen,1.55
+642,Fulguris Forme Avatar,1.5,Moyen,1.55
+643,Reshiram,3.2,Massif,2.85
+644,Zekrom,2.9,Très grand,2.4
+645,Démétéros Forme Avatar,1.5,Moyen,1.55
+646,Kyurem,3.0,Très grand,2.4
+647,Keldeo Aspect Normal,1.4,Moyen,1.55
+648,Meloetta Forme Chant,0.6,Petit,0.95
+649,Genesect,1.5,Moyen,1.55
+650,Marisson,0.4,Très petit,0.75
+651,Boguérisse,0.7,Petit,0.95
+652,Blindépique,1.6,Grand,1.95
+653,Feunnec,0.4,Très petit,0.75
+654,Roussil,1.0,Compact,1.2
+655,Goupelin,1.5,Moyen,1.55
+656,Grenousse,0.3,Très petit,0.75
+657,Croâporal,0.6,Petit,0.95
+658,Amphinobi,1.5,Moyen,1.55
+659,Sapereau,0.4,Très petit,0.75
+660,Excavarenne,1.0,Compact,1.2
+661,Passerouge,0.3,Très petit,0.75
+662,Braisillon,0.7,Petit,0.95
+663,Flambusard,1.2,Moyen,1.55
+664,Lépidonille,0.3,Très petit,0.75
+665,Pérégrain,0.3,Très petit,0.75
+666,Prismillon Motif Blizzard,1.2,Moyen,1.55
+667,Hélionceau,0.6,Petit,0.95
+668,Némélios,1.5,Moyen,1.55
+669,Flabébé Fleur Rouge,0.1,Très petit,0.75
+670,Floette Fleur Rouge,0.2,Très petit,0.75
+671,Florges Fleur Rouge,1.1,Moyen,1.55
+672,Cabriolaine,0.9,Compact,1.2
+673,Chevroum,1.7,Grand,1.95
+674,Pandespiègle,0.6,Petit,0.95
+675,Pandarbare,2.1,Très grand,2.4
+676,Couafarel Forme Sauvage,1.2,Moyen,1.55
+677,Psystigri,0.3,Très petit,0.75
+678,Mistigrix Mâle,0.6,Petit,0.95
+679,Monorpale,0.8,Compact,1.2
+680,Dimoclès,0.8,Compact,1.2
+681,Exagide Forme Parade,1.7,Grand,1.95
+682,Fluvetin,0.2,Très petit,0.75
+683,Cocotine,0.8,Compact,1.2
+684,Sucroquin,0.4,Très petit,0.75
+685,Cupcanaille,0.8,Compact,1.2
+686,Sepiatop,0.4,Très petit,0.75
+687,Sepiatroce,1.5,Moyen,1.55
+688,Opermine,0.5,Petit,0.95
+689,Golgopathe,1.3,Moyen,1.55
+690,Venalgue,0.5,Petit,0.95
+691,Kravarech,1.8,Grand,1.95
+692,Flingouste,0.5,Petit,0.95
+693,Gamblast,1.3,Moyen,1.55
+694,Galvaran,0.5,Petit,0.95
+695,Iguolta,1.0,Compact,1.2
+696,Ptyranidur,0.8,Compact,1.2
+697,Rexillius,2.5,Très grand,2.4
+698,Amagara,1.3,Moyen,1.55
+699,Dragmara,2.7,Très grand,2.4
+700,Nymphali,1.0,Compact,1.2
+701,Brutalibré,0.8,Compact,1.2
+702,Dedenne,0.2,Très petit,0.75
+703,Strassie,0.3,Très petit,0.75
+704,Mucuscule,0.3,Très petit,0.75
+705,Colimucus,0.8,Compact,1.2
+706,Muplodocus,2.0,Grand,1.95
+707,Trousselin,0.2,Très petit,0.75
+708,Brocélôme,0.4,Très petit,0.75
+709,Desséliande,1.5,Moyen,1.55
+710,Pitrouille Taille Mini,0.3,Très petit,0.75
+711,Banshitrouye Taille Mini,0.7,Petit,0.95
+712,Grelaçon,1.0,Compact,1.2
+713,Séracrawl,2.0,Grand,1.95
+714,Sonistrelle,0.5,Petit,0.95
+715,Bruyverne,1.5,Moyen,1.55
+716,Xerneas Mode Paisible,3.0,Très grand,2.4
+717,Yveltal,5.8,Colossal,3.3
+718,Zygarde Forme 50 %,5.0,Massif,2.85
+719,Diancie,0.7,Petit,0.95
+720,Hoopa Hoopa Enchaîné,0.5,Petit,0.95
+721,Volcanion,1.7,Grand,1.95
+722,Brindibou,0.3,Très petit,0.75
+723,Efflèche,0.7,Petit,0.95
+724,Archéduc,1.6,Grand,1.95
+725,Flamiaou,0.4,Très petit,0.75
+726,Matoufeu,0.7,Petit,0.95
+727,Félinferno,1.8,Grand,1.95
+728,Otaquin,0.4,Très petit,0.75
+729,Otarlette,0.6,Petit,0.95
+730,Oratoria,1.8,Grand,1.95
+731,Picassaut,0.3,Très petit,0.75
+732,Piclairon,0.6,Petit,0.95
+733,Bazoucan,1.1,Moyen,1.55
+734,Manglouton,0.4,Très petit,0.75
+735,Argouste,0.7,Petit,0.95
+736,Larvibule,0.4,Très petit,0.75
+737,Chrysapile,0.5,Petit,0.95
+738,Lucanon,1.5,Moyen,1.55
+739,Crabagarre,0.6,Petit,0.95
+740,Crabominable,1.7,Grand,1.95
+741,Plumeline Style Flamenco,0.6,Petit,0.95
+742,Bombydou,0.1,Très petit,0.75
+743,Rubombelle,0.2,Très petit,0.75
+744,Rocabot,0.5,Petit,0.95
+745,Lougaroc Forme Diurne,0.8,Compact,1.2
+746,Froussardine Forme Solitaire,0.2,Très petit,0.75
+747,Vorastérie,0.4,Très petit,0.75
+748,Prédastérie,0.7,Petit,0.95
+749,Tiboudet,1.0,Compact,1.2
+750,Bourrinos,2.5,Très grand,2.4
+751,Araqua,0.3,Très petit,0.75
+752,Tarenbulle,1.8,Grand,1.95
+753,Mimantis,0.3,Très petit,0.75
+754,Floramantis,0.9,Compact,1.2
+755,Spododo,0.2,Très petit,0.75
+756,Lampignon,1.0,Compact,1.2
+757,Tritox,0.6,Petit,0.95
+758,Malamandre,1.2,Moyen,1.55
+759,Nounourson,0.5,Petit,0.95
+760,Chelours,2.1,Très grand,2.4
+761,Croquine,0.3,Très petit,0.75
+762,Candine,0.7,Petit,0.95
+763,Sucreine,1.2,Moyen,1.55
+764,Guérilande,0.1,Très petit,0.75
+765,Gouroutan,1.5,Moyen,1.55
+766,Quartermac,2.0,Grand,1.95
+767,Sovkipou,0.5,Petit,0.95
+768,Sarmuraï,2.0,Grand,1.95
+769,Bacabouh,0.5,Petit,0.95
+770,Trépassable,1.3,Moyen,1.55
+771,Concombaffe,0.3,Très petit,0.75
+772,Type:0,1.9,Grand,1.95
+773,Silvallié Type : Normal,2.3,Très grand,2.4
+774,Météno Forme Météore,0.3,Très petit,0.75
+775,Dodoala,0.4,Très petit,0.75
+776,Boumata,2.0,Grand,1.95
+777,Togedemaru,0.3,Très petit,0.75
+778,Mimiqui Forme Déguisée,0.2,Très petit,0.75
+779,Denticrisse,0.9,Compact,1.2
+780,Draïeul,3.0,Très grand,2.4
+781,Sinistrail,3.9,Massif,2.85
+782,Bébécaille,0.6,Petit,0.95
+783,Écaïd,1.2,Moyen,1.55
+784,Ékaïser,1.6,Grand,1.95
+785,Tokorico,1.8,Grand,1.95
+786,Tokopiyon,1.2,Moyen,1.55
+787,Tokotoro,1.9,Grand,1.95
+788,Tokopisco,1.3,Moyen,1.55
+789,Cosmog,0.2,Très petit,0.75
+790,Cosmovum,0.1,Très petit,0.75
+791,Solgaleo,3.4,Massif,2.85
+792,Lunala,4.0,Massif,2.85
+793,Zéroïd,1.2,Moyen,1.55
+794,Mouscoto,2.4,Très grand,2.4
+795,Cancrelove,1.8,Grand,1.95
+796,Câblifère,3.8,Massif,2.85
+797,Bamboiselle,9.2,Colossal,3.3
+798,Katagami,0.3,Très petit,0.75
+799,Engloutyran,5.5,Colossal,3.3
+800,Necrozma,2.4,Très grand,2.4
+801,Magearna,1.0,Compact,1.2
+802,Marshadow,0.7,Petit,0.95
+803,Vémini,0.6,Petit,0.95
+804,Mandrillon,3.6,Massif,2.85
+805,Ama-Ama,5.5,Colossal,3.3
+806,Pierroteknik,1.8,Grand,1.95
+807,Zeraora,1.5,Moyen,1.55
+808,Meltan,0.2,Très petit,0.75
+809,Melmetal,2.5,Très grand,2.4
+810,Ouistempo,0.3,Très petit,0.75
+811,Badabouin,0.7,Petit,0.95
+812,Gorythmic,2.1,Très grand,2.4
+813,Flambino,0.3,Très petit,0.75
+814,Lapyro,0.6,Petit,0.95
+815,Pyrobut,1.4,Moyen,1.55
+816,Larméléon,0.3,Très petit,0.75
+817,Arrozard,0.7,Petit,0.95
+818,Lézargus,1.9,Grand,1.95
+819,Rongourmand,0.3,Très petit,0.75
+820,Rongrigou,0.6,Petit,0.95
+821,Minisange,0.2,Très petit,0.75
+822,Bleuseille,0.8,Compact,1.2
+823,Corvaillus,2.2,Très grand,2.4
+824,Larvadar,0.4,Très petit,0.75
+825,Coléodôme,0.4,Très petit,0.75
+826,Astronelle,0.4,Très petit,0.75
+827,Goupilou,0.6,Petit,0.95
+828,Roublenard,1.2,Moyen,1.55
+829,Tournicoton,0.4,Très petit,0.75
+830,Blancoton,0.5,Petit,0.95
+831,Moumouton,0.6,Petit,0.95
+832,Moumouflon,1.3,Moyen,1.55
+833,Khélocrok,0.3,Très petit,0.75
+834,Torgamord,1.0,Compact,1.2
+835,Voltoutou,0.3,Très petit,0.75
+836,Fulgudog,1.0,Compact,1.2
+837,Charbi,0.3,Très petit,0.75
+838,Wagomine,1.1,Moyen,1.55
+839,Monthracite,2.8,Très grand,2.4
+840,Verpom,0.2,Très petit,0.75
+841,Pomdrapi,0.3,Très petit,0.75
+842,Dratatin,0.4,Très petit,0.75
+843,Dunaja,2.2,Très grand,2.4
+844,Dunaconda,3.8,Massif,2.85
+845,Nigosier,0.8,Compact,1.2
+846,Embrochet,0.5,Petit,0.95
+847,Hastacuda,1.3,Moyen,1.55
+848,Toxizap,0.4,Très petit,0.75
+849,Salarsen Forme Aigüe,1.6,Grand,1.95
+850,Grillepattes,0.7,Petit,0.95
+851,Scolocendre,3.0,Très grand,2.4
+852,Poulpaf,0.6,Petit,0.95
+853,Krakos,1.6,Grand,1.95
+854,Théffroi Forme Contrefaçon,0.1,Très petit,0.75
+855,Polthégeist Forme Contrefaçon,0.2,Très petit,0.75
+856,Bibichut,0.4,Très petit,0.75
+857,Chapotus,0.6,Petit,0.95
+858,Sorcilence,2.1,Très grand,2.4
+859,Grimalin,0.4,Très petit,0.75
+860,Fourbelin,0.8,Compact,1.2
+861,Angoliath,1.5,Moyen,1.55
+862,Ixon,1.6,Grand,1.95
+863,Berserkatt,0.8,Compact,1.2
+864,Corayôme,1.0,Compact,1.2
+865,Palarticho,0.8,Compact,1.2
+866,M. Glaquette,1.5,Moyen,1.55
+867,Tutétékri,1.6,Grand,1.95
+868,Crèmy,0.2,Très petit,0.75
+869,Charmilly Lait Vanille,0.3,Très petit,0.75
+870,Hexadron,3.0,Très grand,2.4
+871,Wattapik,0.3,Très petit,0.75
+872,Frissonille,0.3,Très petit,0.75
+873,Beldeneige,1.3,Moyen,1.55
+874,Dolman,2.5,Très grand,2.4
+875,Bekaglaçon Tête de Gel,1.4,Moyen,1.55
+876,Wimessir Mâle,0.9,Compact,1.2
+877,Morpeko Mode Rassasié,0.3,Très petit,0.75
+878,Charibari,1.2,Moyen,1.55
+879,Pachyradjah,3.0,Très grand,2.4
+880,Galvagon,1.8,Grand,1.95
+881,Galvagla,2.3,Très grand,2.4
+882,Hydragon,2.3,Très grand,2.4
+883,Hydragla,2.0,Grand,1.95
+884,Duralugon,1.8,Grand,1.95
+885,Fantyrm,0.5,Petit,0.95
+886,Dispareptil,1.4,Moyen,1.55
+887,Lanssorien,3.0,Très grand,2.4
+888,Zacian Héros Aguerri,2.8,Très grand,2.4
+889,Zamazenta Héros Aguerri,2.9,Très grand,2.4
+890,Éthernatos,20.0,Colossal,3.3
+891,Wushours,0.6,Petit,0.95
+892,Shifours Style Poing Final,1.9,Grand,1.95
+893,Zarude,1.8,Grand,1.95
+894,Regieleki,1.2,Moyen,1.55
+895,Regidrago,2.1,Très grand,2.4
+896,Blizzeval,2.2,Très grand,2.4
+897,Spectreval,2.0,Grand,1.95
+898,Sylveroy,1.1,Moyen,1.55
+899,Cerbyllin,1.8,Grand,1.95
+900,Hachécateur,1.8,Grand,1.95
+901,Ursaking,2.4,Très grand,2.4
+902,Paragruel Mâle,3.0,Très grand,2.4
+903,Farfurex,1.3,Moyen,1.55
+904,Qwilpik,2.5,Très grand,2.4
+905,Amovénus Forme Avatar,1.6,Grand,1.95
+906,Poussacha,0.4,Très petit,0.75
+907,Matourgeon,0.9,Compact,1.2
+908,Miascarade,1.5,Moyen,1.55
+909,Chochodile,0.4,Très petit,0.75
+910,Crocogril,1.0,Compact,1.2
+911,Flâmigator,1.6,Grand,1.95
+912,Coiffeton,0.5,Petit,0.95
+913,Canarbello,1.2,Moyen,1.55
+914,Palmaval,1.8,Grand,1.95
+915,Gourmelet,0.5,Petit,0.95
+916,Fragroin Mâle,1.0,Compact,1.2
+917,Tissenboule,0.3,Très petit,0.75
+918,Filentrappe,1.0,Compact,1.2
+919,Lilliterelle,0.2,Très petit,0.75
+920,Gambex,1.0,Compact,1.2
+921,Pohm,0.3,Très petit,0.75
+922,Pohmotte,0.4,Très petit,0.75
+923,Pohmarmotte,0.9,Compact,1.2
+924,Compagnol,0.3,Très petit,0.75
+925,Famignol Famille de Trois,0.3,Très petit,0.75
+926,Pâtachiot,0.3,Très petit,0.75
+927,Briochien,0.5,Petit,0.95
+928,Olivini,0.3,Très petit,0.75
+929,Olivado,0.6,Petit,0.95
+930,Arboliva,1.4,Moyen,1.55
+931,Tapatoès Plumage Vert,0.6,Petit,0.95
+932,Selutin,0.4,Très petit,0.75
+933,Amassel,0.6,Petit,0.95
+934,Gigansel,2.3,Très grand,2.4
+935,Charbambin,0.6,Petit,0.95
+936,Carmadura,1.5,Moyen,1.55
+937,Malvalame,1.6,Grand,1.95
+938,Têtampoule,0.3,Très petit,0.75
+939,Ampibidou,1.2,Moyen,1.55
+940,Zapétrel,0.4,Très petit,0.75
+941,Fulgulairo,1.4,Moyen,1.55
+942,Grondogue,0.5,Petit,0.95
+943,Dogrino,1.1,Moyen,1.55
+944,Gribouraigne,0.2,Très petit,0.75
+945,Tag-Tag,0.7,Petit,0.95
+946,Virovent,0.6,Petit,0.95
+947,Virevorreur,1.2,Moyen,1.55
+948,Terracool,0.9,Compact,1.2
+949,Terracruel,1.9,Grand,1.95
+950,Craparoi,1.3,Moyen,1.55
+951,Pimito,0.3,Très petit,0.75
+952,Scovilain,0.9,Compact,1.2
+953,Léboulérou,0.2,Très petit,0.75
+954,Bérasca,0.3,Très petit,0.75
+955,Flotillon,0.2,Très petit,0.75
+956,Cléopsytra,1.9,Grand,1.95
+957,Forgerette,0.4,Très petit,0.75
+958,Forgella,0.7,Petit,0.95
+959,Forgelina,0.7,Petit,0.95
+960,Taupikeau,1.2,Moyen,1.55
+961,Triopikeau,1.2,Moyen,1.55
+962,Lestombaile,1.5,Moyen,1.55
+963,Dofin,1.3,Moyen,1.55
+964,Superdofin Forme Ordinaire,1.3,Moyen,1.55
+965,Vrombi,1.0,Compact,1.2
+966,Vrombotor,1.8,Grand,1.95
+967,Motorizard,1.6,Grand,1.95
+968,Ferdeter,2.5,Très grand,2.4
+969,Germéclat,0.7,Petit,0.95
+970,Floréclat,1.5,Moyen,1.55
+971,Toutombe,0.6,Petit,0.95
+972,Tomberro,2.0,Grand,1.95
+973,Flamenroule,1.6,Grand,1.95
+974,Piétacé,1.2,Moyen,1.55
+975,Balbalèze,4.5,Massif,2.85
+976,Délestin,2.5,Très grand,2.4
+977,Oyacata,12.0,Colossal,3.3
+978,Nigirigon Forme Courbée,0.3,Très petit,0.75
+979,Courrousinge,1.2,Moyen,1.55
+980,Terraiste,1.8,Grand,1.95
+981,Farigiraf,3.2,Massif,2.85
+982,Deusolourdo Forme Double,3.6,Massif,2.85
+983,Scalpereur,2.0,Grand,1.95
+984,Fort-Ivoire,2.2,Très grand,2.4
+985,Hurle-Queue,1.2,Moyen,1.55
+986,Fongus-Furie,1.2,Moyen,1.55
+987,Flotte-Mèche,1.4,Moyen,1.55
+988,Rampe-Ailes,3.2,Massif,2.85
+989,Pelage-Sablé,2.3,Très grand,2.4
+990,Roue-de-Fer,0.9,Compact,1.2
+991,Hotte-de-Fer,0.6,Petit,0.95
+992,Paume-de-Fer,1.8,Grand,1.95
+993,Têtes-de-Fer,1.3,Moyen,1.55
+994,Mite-de-Fer,1.2,Moyen,1.55
+995,Épine-de-Fer,1.6,Grand,1.95
+996,Frigodo,0.5,Petit,0.95
+997,Cryodo,0.8,Compact,1.2
+998,Glaivodo,2.1,Très grand,2.4
+999,Mordudor Forme Coffre,0.3,Très petit,0.75
+1000,Gromago,1.2,Moyen,1.55
+1001,Chongjian,1.5,Moyen,1.55
+1002,Baojian,1.9,Grand,1.95
+1003,Dinglu,2.7,Très grand,2.4
+1004,Yuyu,0.4,Très petit,0.75
+1005,Rugit-Lune,2.0,Grand,1.95
+1006,Garde-de-Fer,1.4,Moyen,1.55
+1007,Koraidon Forme Finale,2.5,Très grand,2.4
+1008,Miraidon Mode Ultime,3.5,Massif,2.85
+1009,Serpente-Eau,3.5,Massif,2.85
+1010,Vert-de-Fer,1.5,Moyen,1.55
+1011,Pomdramour,0.4,Très petit,0.75
+1012,Poltchageist Forme Imitation,0.1,Très petit,0.75
+1013,Théffroyable Forme Médiocre,0.2,Très petit,0.75
+1014,Félicanis,1.8,Grand,1.95
+1015,Fortusimia,1.0,Compact,1.2
+1016,Favianos,1.4,Moyen,1.55
+1017,Ogerpon Masque Turquoise,1.2,Moyen,1.55
+1018,Pondralugon,2.0,Grand,1.95
+1019,Pomdorochi,1.8,Grand,1.95
+1020,Feu-Perçant,3.5,Massif,2.85
+1021,Ire-Foudre,5.2,Colossal,3.3
+1022,Roc-de-Fer,1.6,Grand,1.95
+1023,Chef-de-Fer,1.5,Moyen,1.55
+1024,Terapagos Forme Normale,0.2,Très petit,0.75
+1025,Pêchaminus,0.3,Très petit,0.75

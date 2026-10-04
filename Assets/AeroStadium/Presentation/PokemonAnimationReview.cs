@@ -58,6 +58,10 @@ namespace AeroStadium.Presentation
             int repeatIndex = Array.IndexOf(args, "--review-action-repeats");
             if (repeatIndex >= 0 && repeatIndex + 1 < args.Length && int.TryParse(args[repeatIndex + 1], out int requestedRepeats))
                 repeats = Mathf.Clamp(requestedRepeats, 1, 10);
+            int idleSeconds = 8;
+            int idleAt = Array.IndexOf(args, "--review-idle-seconds");
+            if (idleAt >= 0 && idleAt + 1 < args.Length && int.TryParse(args[idleAt + 1], out int requestedIdle))
+                idleSeconds = Mathf.Clamp(requestedIdle, 2, 120);
             bool reviewFaint = Array.IndexOf(args, "--review-faint") >= 0;
             var species = new List<int> { 6, 18, 133, 25, 130, 94, 9, 65, 42, 77, 131, 143 };
             int index = Array.IndexOf(args, "--review-species");
@@ -83,13 +87,13 @@ namespace AeroStadium.Presentation
                 float actionDuration = native != null
                     ? native.GetActionDuration(PokemonMotionAction.Special) + native.GetActionDuration(PokemonMotionAction.Physical) + native.GetActionDuration(PokemonMotionAction.Damage)
                     : profile.AttackDuration * 2f + profile.HitDuration;
-                float duration = 8f + repeats * (actionDuration + .65f) + 2f;
+                float duration = idleSeconds + repeats * (actionDuration + .65f) + 2f;
                 if (reviewFaint) duration += (native != null ? native.GetActionDuration(PokemonMotionAction.Faint) : profile.HitDuration) + 1.5f;
                 var shot = StartCoroutine(arena.PlayShowcase(0, duration));
                 driver.PlayIdle();
                 probe?.BeginPhase("idle");
                 caption.text = $"{id:000} · {catalog.GetSpecies(id).name.ToUpperInvariant()}    —    Cycle complet : attention, déplacement, expression, retour au repos";
-                yield return new WaitForSeconds(8f);
+                yield return new WaitForSeconds(idleSeconds);
                 for (int cycle = 0; cycle < repeats; cycle++)
                 {
                     caption.text = $"{catalog.GetSpecies(id).name.ToUpperInvariant()}    —    Préparation et lancement d’une attaque spéciale ({cycle + 1}/{repeats})";
@@ -139,6 +143,9 @@ namespace AeroStadium.Presentation
             public int species;
             public float targetHeight, importedReferenceHeight, maxPositionDrift, maxRotationDriftDegrees, maxScaleDrift;
             public bool normalizationStable = true, validSamples = true;
+            public bool groundingEnabled;
+            public int groundingVertices, groundingSamples;
+            public float groundingMaximumCpuMs, groundingMaximumRaise, groundingMinimumBodyFloor;
             public NativeBoundsPhase[] phases;
         }
         [Serializable] sealed class NativeBoundsPhase
@@ -163,6 +170,7 @@ namespace AeroStadium.Presentation
             readonly List<Geometry> geometry = new List<Geometry>();
             readonly List<NativeBoundsPhase> phases = new List<NativeBoundsPhase>();
             readonly NativeBoundsResult result;
+            readonly NativeGrounding grounding;
             NativeBoundsPhase current;
             public NativeBoundsProbe(Transform root, NativePokemonModel model)
             {
@@ -170,6 +178,9 @@ namespace AeroStadium.Presentation
                 if (normalization == null) throw new InvalidDataException("NativeNormalization absent.");
                 initialPosition = normalization.localPosition; initialRotation = normalization.localRotation; initialScale = normalization.localScale;
                 result = new NativeBoundsResult { species = model.Species, targetHeight = model.ModelHeight, importedReferenceHeight = model.RestBounds.size.y };
+                grounding = model.GetComponentInChildren<NativeGrounding>(true);
+                result.groundingEnabled = grounding != null && grounding.enabled;
+                result.groundingVertices = grounding != null ? grounding.BodyVertexCount : 0;
                 foreach (var renderer in model.ModelRoot.GetComponentsInChildren<Renderer>(true))
                 {
                     var skin = renderer as SkinnedMeshRenderer;
@@ -191,6 +202,14 @@ namespace AeroStadium.Presentation
             public void Sample()
             {
                 if (current == null) return;
+                if (grounding != null && grounding.enabled)
+                {
+                    result.groundingMaximumCpuMs = grounding.MaximumCpuMilliseconds;
+                    result.groundingMaximumRaise = grounding.MaximumRaiseMetres;
+                    result.groundingMinimumBodyFloor = result.groundingSamples == 0 ? grounding.LastGroundedFloor
+                        : Mathf.Min(result.groundingMinimumBodyFloor, grounding.LastGroundedFloor);
+                    result.groundingSamples++;
+                }
                 result.maxPositionDrift = Mathf.Max(result.maxPositionDrift, Vector3.Distance(initialPosition, normalization.localPosition));
                 result.maxRotationDriftDegrees = Mathf.Max(result.maxRotationDriftDegrees, Quaternion.Angle(initialRotation, normalization.localRotation));
                 result.maxScaleDrift = Mathf.Max(result.maxScaleDrift, Vector3.Distance(initialScale, normalization.localScale));

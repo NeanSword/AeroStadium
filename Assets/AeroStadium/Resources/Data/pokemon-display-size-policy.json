@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "maximumHorizontalMetres": 5.5,
+  "bands": [
+    {
+      "maximumPokedexMetres": 0.4,
+      "displayMetres": 0.75,
+      "name": "Très petit"
+    },
+    {
+      "maximumPokedexMetres": 0.7,
+      "displayMetres": 0.95,
+      "name": "Petit"
+    },
+    {
+      "maximumPokedexMetres": 1.0,
+      "displayMetres": 1.2,
+      "name": "Compact"
+    },
+    {
+      "maximumPokedexMetres": 1.5,
+      "displayMetres": 1.55,
+      "name": "Moyen"
+    },
+    {
+      "maximumPokedexMetres": 2.0,
+      "displayMetres": 1.95,
+      "name": "Grand"
+    },
+    {
+      "maximumPokedexMetres": 3.0,
+      "displayMetres": 2.4,
+      "name": "Très grand"
+    },
+    {
+      "maximumPokedexMetres": 5.0,
+      "displayMetres": 2.85,
+      "name": "Massif"
+    },
+    {
+      "maximumPokedexMetres": 10000,
+      "displayMetres": 3.3,
+      "name": "Colossal"
+    }
+  ]
+}

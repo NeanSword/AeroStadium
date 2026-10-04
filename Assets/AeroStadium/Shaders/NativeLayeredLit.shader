@@ -1,3 +1,5 @@
+// Native atlases, UV controls and color values are preserved. Lighting and
+// masked emission are an explicit URP adaptation, not the source GPU program.
 Shader "AeroStadium/NativeLayeredLit"
 {
     Properties
@@ -12,6 +14,14 @@ Shader "AeroStadium/NativeLayeredLit"
         _Layer1OverLerpValue("Intensité de couche", Float) = 1
         _Layer1UVTranslateU("Translation de couche U", Float) = 0
         _Layer1UVTranslateV("Translation de couche V", Float) = 0
+        _ConstantColor("Multiplicateur natif animé", Color) = (1,1,1,1)
+        _ConstantColorValue("Multiplicateur natif actif", Float) = 1
+        _FixMultiplierColor("Multiplicateur de présentation", Color) = (1,1,1,1)
+        _EmissionMaskTex("Masque lumineux natif", 2D) = "black" {}
+        _EmissionMaskUse("Masque lumineux actif", Float) = 0
+        _EmissionMaskVal("Intensité lumineuse animée", Float) = 1
+        _EmissionScale("Échelle lumineuse", Float) = 1
+        _SwitchEmissionMaskTexUV("UV lumineux de couche", Float) = 0
         [Normal] _NormalMap("Relief", 2D) = "bump" {}
         _NormalEnabled("Relief actif", Float) = 0
         _Smoothness("Brillance", Range(0,1)) = .18
@@ -41,9 +51,12 @@ Shader "AeroStadium/NativeLayeredLit"
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
             TEXTURE2D(_LayerMap); SAMPLER(sampler_LayerMap);
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
+            TEXTURE2D(_EmissionMaskTex); SAMPLER(sampler_EmissionMaskTex);
             CBUFFER_START(UnityPerMaterial)
                 float4 _BaseMap_ST, _LayerMap_ST, _NormalMap_ST, _BaseColor, _BaseUv, _LayerUv;
+                float4 _EmissionMaskTex_ST, _ConstantColor, _FixMultiplierColor;
                 float _LayerEnabled, _LayerUvChannel, _Layer1OverLerpValue, _Layer1UVTranslateU, _Layer1UVTranslateV, _NormalEnabled, _Smoothness, _Cull;
+                float _ConstantColorValue, _EmissionMaskUse, _EmissionMaskVal, _EmissionScale, _SwitchEmissionMaskTexUV;
             CBUFFER_END
             struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD2; float2 layerUv : TEXCOORD3; };
             struct Varyings
@@ -71,14 +84,24 @@ Shader "AeroStadium/NativeLayeredLit"
             }
             half4 Frag(Varyings input) : SV_Target
             {
-                float2 colorUv = (input.uv + _BaseUv.xy) * _BaseMap_ST.xy + _BaseMap_ST.zw;
+                // Native atlas origins are in transformed texture space. The
+                // animated ST offset already includes the source texture scale.
+                float2 colorUv = input.uv * _BaseMap_ST.xy + _BaseMap_ST.zw + _BaseUv.xy;
                 half4 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, colorUv);
                 float2 layerSource = lerp(input.uv,input.layerUv,step(.5,_LayerUvChannel));
-                float2 layerUv = (layerSource + _LayerUv.xy) * _LayerMap_ST.xy + _LayerMap_ST.zw + float2(_Layer1UVTranslateU,_Layer1UVTranslateV);
+                float2 layerUv = layerSource * _LayerMap_ST.xy + _LayerMap_ST.zw + _LayerUv.xy + float2(_Layer1UVTranslateU,_Layer1UVTranslateV);
                 half3 layer = SAMPLE_TEXTURE2D(_LayerMap, sampler_LayerMap, layerUv).rgb;
                 half3 albedo = lerp(color.rgb, lerp(layer, color.rgb, color.a), saturate(_LayerEnabled * _Layer1OverLerpValue)) * _BaseColor.rgb;
+                albedo *= lerp(half3(1,1,1), _ConstantColor.rgb, saturate(_ConstantColorValue)) * _FixMultiplierColor.rgb;
+                float2 emissionSource = lerp(input.uv, layerSource, step(.5,_SwitchEmissionMaskTexUV));
+                float2 emissionUv = emissionSource * _EmissionMaskTex_ST.xy + _EmissionMaskTex_ST.zw;
+                half emissionMask = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, emissionUv).r;
+                half emission = saturate(emissionMask * _EmissionMaskUse * _EmissionMaskVal * _EmissionScale);
                 SurfaceData surface = (SurfaceData)0;
-                surface.albedo = albedo;
+                // A masked source texel keeps its color when unlit. Removing its
+                // diffuse share avoids doubling the color under arena lights.
+                surface.albedo = albedo * (1 - emission);
+                surface.emission = albedo * emission;
                 surface.alpha = 1;
                 surface.specular = half3(.04,.04,.04);
                 surface.smoothness = _Smoothness;

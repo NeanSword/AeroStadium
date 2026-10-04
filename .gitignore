@@ -42,3 +42,9 @@ output/animations/
 Assets/AeroStadium/Resources/NativeModels/
 
 Assets/AeroStadium/Resources/NativeModels.meta
+
+# Locally recovered Stadium 2 environments and generated reports.
+Assets/AeroStadium/Resources/Stadiums/
+Assets/AeroStadium/Resources/Stadiums.meta
+LocalStadiumSources/
+output/stadiums/

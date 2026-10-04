@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace AeroStadium.Presentation
 {
-    /// <summary>Original procedural architecture, separate from combat rules.</summary>
+    /// <summary>Combat presentation with recovered Stadium 2 environments.</summary>
     public sealed class ArenaView : MonoBehaviour
     {
         static Material arenaLitTemplate;
@@ -15,6 +15,8 @@ namespace AeroStadium.Presentation
         public int LoadedModels { get; private set; }
         public Camera ArenaCamera { get; private set; }
         readonly Light[] cinematicSpotlights = new Light[4];
+
+        public StadiumEnvironment Stadium { get; private set; }
 
         public void Build()
         {
@@ -49,6 +51,15 @@ namespace AeroStadium.Presentation
             var bloom = volume.profile.Add<Bloom>(); bloom.intensity.Override(.22f); bloom.threshold.Override(1.1f);
             volume.profile.Add<Tonemapping>().mode.Override(TonemappingMode.ACES);
 
+            Stadium = new GameObject("Recovered Stadium 2 environment").AddComponent<StadiumEnvironment>();
+            Stadium.transform.SetParent(transform,false);
+            string[] args=System.Environment.GetCommandLineArgs();int stadiumArg=System.Array.IndexOf(args,"--stadium");
+            string stadiumKey=stadiumArg>=0&&stadiumArg+1<args.Length?args[stadiumArg+1]:"free_battle";
+            Stadium.Load(stadiumKey);BuildCinematicSpotlights();
+        }
+
+        void BuildLegacyArchitecture()
+        {
             var grass = Material(new Color(.09f, .34f, .31f), .16f);
             var metal = Material(new Color(.12f, .22f, .35f), .38f, .4f);
             var pale = Material(new Color(.69f, .79f, .86f), .35f, .35f);
@@ -126,6 +137,10 @@ namespace AeroStadium.Presentation
                 motion.Configure(species);
                 driver.ConfigureAuthored(motion);
             }
+            var importedMotion = pokemon[side].GetComponent<CinematicMotion>();
+            Bounds local = native != null ? native.RestBounds : importedMotion.RestBounds;
+            float height = native != null ? native.ModelHeight : importedMotion.ModelHeight;
+            PokemonDisplaySize.Apply(pokemon[side], species, local, height);
             LoadedModels = (pokemon[0] != null ? 1 : 0) + (pokemon[1] != null ? 1 : 0);
             FramePokemon(preview);
         }
@@ -259,16 +274,43 @@ namespace AeroStadium.Presentation
             // wipe covers the swap before another model enters the shot.
         }
 
+        public Bounds PokemonWorldBounds(int side)
+        {
+            if (pokemon[side] == null) return new Bounds(homes[side],Vector3.zero);
+            var native=pokemon[side].GetComponent<NativePokemonModel>();
+            var motion=pokemon[side].GetComponent<CinematicMotion>();
+            Bounds local=native!=null?native.RestBounds:motion.RestBounds;
+            return PokemonDisplaySize.WorldBounds(pokemon[side].transform,local);
+        }
+
+        float PokemonWorldHeight(int side)
+        {
+            if (pokemon[side]==null) return 1f;
+            var native=pokemon[side].GetComponent<NativePokemonModel>();
+            if (native!=null) return native.WorldModelHeight;
+            var motion=pokemon[side].GetComponent<CinematicMotion>();
+            return motion!=null?motion.ModelHeight*pokemon[side].transform.TransformVector(Vector3.up).magnitude:1f;
+        }
+
         void FramePokemon(bool preview)
         {
-            bool small = true;
-            foreach (int species in shownSpecies) if (species != 0 && species != 152) small = false;
-            // Move the camera for smaller species; preserve the model's actual
-            // size so a future mixed-size matchup retains its proportions.
-            ArenaCamera.transform.position = small
-                ? (preview ? new Vector3(0, 2.4f, -6.5f) : new Vector3(0, 3.7f, -9.5f))
-                : new Vector3(-.3f, 7.4f, -15.5f);
-            ArenaCamera.transform.LookAt(new Vector3(0, small ? (preview ? .45f : .8f) : 1.25f, 0));
+            Bounds bounds=new Bounds();bool found=false;
+            for (int side=0;side<2;side++)
+            {
+                if (pokemon[side]==null) continue;
+                Bounds part=PokemonWorldBounds(side);
+                if (!found) { bounds=part;found=true; }
+                else { bounds.Encapsulate(part.min);bounds.Encapsulate(part.max); }
+            }
+            if (!found) return;
+            ArenaCamera.fieldOfView=43f;
+            Vector3 focus=bounds.center;
+            float tanVertical=Mathf.Tan(ArenaCamera.fieldOfView*.5f*Mathf.Deg2Rad);
+            float fit=Mathf.Max((bounds.extents.x+.75f)/(tanVertical*ArenaCamera.aspect),
+                (bounds.extents.y+.65f)/tanVertical)+bounds.extents.z;
+            float distance=Mathf.Clamp(fit*1.1f,preview?4f:12f,24f);
+            ArenaCamera.transform.position=focus+new Vector3(-.018f,.34f,-1f).normalized*distance;
+            ArenaCamera.transform.LookAt(focus);
         }
 
         public IEnumerator Attack(int side, string type, string category = "Physical")
@@ -277,9 +319,8 @@ namespace AeroStadium.Presentation
             float duration = Mathf.Max(.45f, PlayAttackAnimation(side, category == "Special"));
             Vector3 origin = pokemon[side].transform.position;
             Vector3 direction = (homes[1 - side] - homes[side]).normalized;
-            var native = pokemon[side].GetComponent<NativePokemonModel>();
-            var motion = pokemon[side].GetComponent<CinematicMotion>();
-            float height = Mathf.Max(.25f, (native != null ? native.ModelHeight : motion != null ? motion.ModelHeight : 1f) * .68f);
+            float height = Mathf.Max(.25f, PokemonWorldHeight(side) * .68f);
+            float targetHeight = Mathf.Max(.25f, PokemonWorldHeight(1-side) * .68f);
             Color color = type == "Fire" ? new Color(1, .45f, .1f) : type == "Grass" ? new Color(.4f, 1, .5f) : new Color(.4f, .75f, 1);
             var particle = Part(PrimitiveType.Sphere, "Attack pulse", origin + Vector3.up * height,
                                 Vector3.one * .22f, Material(color, .5f, 0, true));
@@ -287,7 +328,7 @@ namespace AeroStadium.Presentation
             {
                 float t = time / duration;
                 // The original rig pose supplies anticipation and release without sliding planted feet.
-                particle.transform.position = Vector3.Lerp(origin + Vector3.up * height, homes[1 - side] + Vector3.up * height, t);
+                particle.transform.position = Vector3.Lerp(origin + Vector3.up * height, homes[1 - side] + Vector3.up * targetHeight, t);
                 particle.transform.localScale = Vector3.one * Mathf.Lerp(.22f, .55f, t);
                 yield return null;
             }
@@ -301,8 +342,8 @@ namespace AeroStadium.Presentation
             float duration = Mathf.Max(.22f, PlayDamageAnimation(side));
             Transform root = pokemon[side].transform;
             Quaternion rotation = root.rotation;
-            bool small = shownSpecies[side] == 152;
-            Label("−" + damage, root.position + Vector3.up * (small ? 1.2f : 4.1f), small ? .08f : .14f,
+            float labelHeight = PokemonWorldHeight(side)+.35f;
+            Label("−" + damage, root.position + Vector3.up * labelHeight, .10f,
                 new Color(1, .72f, .4f), true);
             for (float time = 0; time < duration; time += Time.deltaTime)
             {

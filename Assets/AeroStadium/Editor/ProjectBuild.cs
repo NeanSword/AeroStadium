@@ -95,8 +95,12 @@ namespace AeroStadium.EditorTools
             };
             try
             {
-                Prepare();
+                // Developer retry after an unchanged, fully prepared asset catalogue.
+                if (Array.IndexOf(Environment.GetCommandLineArgs(), "--reuse-prepared-assets") < 0) Prepare();
+                if (Array.IndexOf(Environment.GetCommandLineArgs(),"--prepare-stadiums")>=0) StadiumArenaImport.Prepare();
                 Validation();
+                if (Directory.Exists("Assets/AeroStadium/Resources/NativeModels") && Array.IndexOf(Environment.GetCommandLineArgs(),"--stadium-only-validation")<0) NativeModelValidation.VerifyAll();
+                if (Array.IndexOf(Environment.GetCommandLineArgs(),"--stadium-only-validation")<0) PokemonSizeValidation.VerifyAll();
                 Directory.CreateDirectory(Path.GetDirectoryName(report.outputPath));
                 BuildReport build = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {

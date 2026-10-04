@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace AeroStadium.Presentation
@@ -26,13 +28,16 @@ namespace AeroStadium.Presentation
         [SerializeField] Transform modelRoot;
         [SerializeField] Animator animator;
         [SerializeField] NativePokemonClip[] clips;
-        int playing = -1;
         bool allowLocomotion;
-        Transform[] motionRoots = Array.Empty<Transform>();
-        Vector3[] rootPositions = Array.Empty<Vector3>();
+        [SerializeField] Transform[] motionRoots = Array.Empty<Transform>();
+        [SerializeField] Vector3[] rootPositions = Array.Empty<Vector3>();
+        [SerializeField] string[] motionRootPaths = Array.Empty<string>();
+        int[] locomotionStateHashes = Array.Empty<int>();
+        int[][] locomotionRootIndices = Array.Empty<int[]>();
 
         public int Species => species;
         public float ModelHeight => targetHeight;
+        public float WorldModelHeight => targetHeight * transform.TransformVector(Vector3.up).magnitude;
         public Bounds RestBounds => referenceBounds;
         public Transform ModelRoot => modelRoot;
         public int ClipCount => clips == null ? 0 : clips.Length;
@@ -43,9 +48,10 @@ namespace AeroStadium.Presentation
             species = id; targetHeight = height; referenceBounds = bounds;
             modelRoot = root; animator = target; clips = sourceClips;
             ConfigureAnimator();
+            PrepareMotionRoots(true);
         }
 
-        void Awake() { ConfigureAnimator(); }
+        void Awake() { ConfigureAnimator(); PrepareMotionRoots(false); }
         void ConfigureAnimator()
         {
             if (animator == null && modelRoot != null) animator = modelRoot.GetComponent<Animator>();
@@ -106,8 +112,6 @@ namespace AeroStadium.Presentation
             if (clips == null || index < 0 || index >= clips.Length || animator == null || animator.runtimeAnimatorController == null) return false;
             int state = Animator.StringToHash(stateName);
             if (!animator.HasState(0, state)) return false;
-            playing = index;
-            BindMotionRoots(clips[index]);
             animator.enabled = true;
             animator.CrossFadeInFixedTime(state, .12f, 0, 0f);
             return true;
@@ -127,28 +131,60 @@ namespace AeroStadium.Presentation
             return -1;
         }
 
-        void BindMotionRoots(NativePokemonClip clip)
+        void PrepareMotionRoots(bool captureReferencePose)
         {
-            var paths = clip.rootMotionPaths ?? Array.Empty<string>();
-            motionRoots = new Transform[paths.Length]; rootPositions = new Vector3[paths.Length];
-            for (int i = 0; i < paths.Length; i++)
+            if (clips == null || modelRoot == null) return;
+            var indices = new Dictionary<string, int>(StringComparer.Ordinal);
+            var paths = new List<string>();
+            var roots = new List<Transform>();
+            locomotionStateHashes = new int[clips.Length];
+            locomotionRootIndices = new int[clips.Length][];
+            for (int i = 0; i < clips.Length; i++)
             {
-                motionRoots[i] = string.IsNullOrEmpty(paths[i]) ? modelRoot : modelRoot.Find(paths[i]);
-                if (motionRoots[i] != null) rootPositions[i] = motionRoots[i].localPosition;
+                NativePokemonClip clip = clips[i];
+                if (!clip.hasRootMotion || (clip.role != NativePokemonClipRole.Run && clip.role != NativePokemonClipRole.Walk)) continue;
+                locomotionStateHashes[i] = Animator.StringToHash($"Base Layer.Native_{i:000}");
+                var used = new List<int>();
+                foreach (string path in clip.rootMotionPaths ?? Array.Empty<string>())
+                {
+                    string key = path ?? string.Empty;
+                    if (!indices.TryGetValue(key, out int index))
+                    {
+                        Transform root = key.Length == 0 ? modelRoot : modelRoot.Find(key);
+                        if (root == null) throw new InvalidDataException("Racine de locomotion native absente : " + key);
+                        index = paths.Count; indices.Add(key, index); paths.Add(key); roots.Add(root);
+                    }
+                    if (!used.Contains(index)) used.Add(index);
+                }
+                locomotionRootIndices[i] = used.ToArray();
             }
+            bool validReference = motionRootPaths != null && motionRoots != null && rootPositions != null &&
+                motionRootPaths.Length == paths.Count && motionRoots.Length == paths.Count && rootPositions.Length == paths.Count;
+            for (int i = 0; validReference && i < paths.Count; i++)
+                validReference = motionRootPaths[i] == paths[i] && motionRoots[i] == roots[i];
+            if (!captureReferencePose && validReference) return;
+            motionRootPaths = paths.ToArray(); motionRoots = roots.ToArray(); rootPositions = new Vector3[roots.Count];
+            for (int i = 0; i < motionRoots.Length; i++) rootPositions[i] = motionRoots[i].localPosition;
         }
 
         void LateUpdate()
         {
-            if (playing < 0 || clips == null || playing >= clips.Length || allowLocomotion || !clips[playing].hasRootMotion) return;
-            // Prevent a run/walk curve from drifting outside its battle position. Vertical animation remains native.
-            if (clips[playing].role != NativePokemonClipRole.Run && clips[playing].role != NativePokemonClipRole.Walk) return;
-            for (int i = 0; i < motionRoots.Length; i++)
+            if (allowLocomotion || animator == null || !animator.enabled || animator.runtimeAnimatorController == null) return;
+            // Incoming states own the presentation policy during a crossfade. Automatic returns to Idle release it.
+            int active = animator.IsInTransition(0) ? animator.GetNextAnimatorStateInfo(0).fullPathHash
+                : animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+            for (int state = 0; state < locomotionStateHashes.Length; state++)
             {
-                if (motionRoots[i] == null) continue;
-                Vector3 position = motionRoots[i].localPosition;
-                position.x = rootPositions[i].x; position.z = rootPositions[i].z;
-                motionRoots[i].localPosition = position;
+                if (locomotionStateHashes[state] == 0 || locomotionStateHashes[state] != active) continue;
+                // Anchors are serialized from the fixed import reference pose, never from a preceding attack.
+                foreach (int i in locomotionRootIndices[state])
+                {
+                    if (motionRoots[i] == null) continue;
+                    Vector3 position = motionRoots[i].localPosition;
+                    position.x = rootPositions[i].x; position.z = rootPositions[i].z;
+                    motionRoots[i].localPosition = position;
+                }
+                return;
             }
         }
     }
