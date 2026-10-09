@@ -90,7 +90,7 @@ namespace AeroStadium.EditorTools
                 editorVersion = Application.unityVersion,
                 scene = ScenePath,
                 backend = "Mono",
-                outputPath = Path.Combine(ProjectRoot, "Builds", "Windows", "AeroStadium.exe"),
+                outputPath = Path.Combine(ProjectRoot, "Builds", Array.IndexOf(Environment.GetCommandLineArgs(), "--stadium-reference-build") >= 0 ? "WindowsReference" : "Windows", "AeroStadium.exe"),
                 result = "NotStarted"
             };
             try

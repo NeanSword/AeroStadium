@@ -12,6 +12,44 @@ namespace AeroStadium.Presentation
         readonly GameObject[] pokemon = new GameObject[2];
         readonly int[] shownSpecies = new int[2];
         readonly Vector3[] homes = { new Vector3(-4.4f, 0, 0), new Vector3(4.4f, 0, 0) };
+        Vector3 battleCenter,battleAxis=Vector3.right;
+        float fieldLength,fieldWidth,battleYaw; bool previewMode;
+        public bool BattlePositionsValid
+        {
+            get {
+                if(fieldLength<=0)return true;
+                Vector3 across=Vector3.Cross(Vector3.up,battleAxis);
+                for(int side=0;side<2;side++)if(pokemon[side]!=null){
+                    Bounds b=PokemonWorldBounds(side);Vector3 offset=b.center-battleCenter;
+                    if(Mathf.Abs(Vector3.Dot(offset,battleAxis))+ProjectedRadius(b,battleAxis)>fieldLength*.5f+.01f||
+                       Mathf.Abs(Vector3.Dot(offset,across))+ProjectedRadius(b,across)>fieldWidth*.5f+.01f)return false;
+                }
+                return true;
+            }
+        }
+        static float ProjectedRadius(Bounds b,Vector3 axis)=>Mathf.Abs(axis.x)*b.extents.x+Mathf.Abs(axis.y)*b.extents.y+Mathf.Abs(axis.z)*b.extents.z;
+        public void ConfigureBattleField(Vector3 center,Vector3 axis,float length,float width)
+        {
+            battleCenter=center;battleAxis=axis.normalized;fieldLength=length;fieldWidth=width;
+            battleYaw=Mathf.Atan2(-battleAxis.z,battleAxis.x)*Mathf.Rad2Deg;
+            PlaceBattleActors();if(!previewMode)FramePokemon(false);
+        }
+        void PlaceBattleActors()
+        {
+            float spacing=fieldLength>0?Mathf.Min(4.4f,fieldLength*.34f):4.4f;
+            for(int side=0;side<2;side++){
+                float distance=spacing;
+                if(pokemon[side]!=null&&!previewMode){
+                    pokemon[side].transform.rotation=Quaternion.Euler(0,battleYaw+(side==0?-75:75),0);
+                    if(fieldLength>0){Bounds b=PokemonWorldBounds(side);
+                        float radius=ProjectedRadius(b,battleAxis)+Mathf.Abs(Vector3.Dot(b.center-pokemon[side].transform.position,battleAxis));
+                        distance=Mathf.Min(distance,Mathf.Max(.4f,fieldLength*.5f-radius-.3f));
+                    }
+                }
+                homes[side]=battleCenter+battleAxis*(side==0?-distance:distance);
+                if(pokemon[side]!=null&&!previewMode)pokemon[side].transform.position=homes[side];
+            }
+        }
         public int LoadedModels { get; private set; }
         public Camera ArenaCamera { get; private set; }
         readonly Light[] cinematicSpotlights = new Light[4];
@@ -56,6 +94,8 @@ namespace AeroStadium.Presentation
             string[] args=System.Environment.GetCommandLineArgs();int stadiumArg=System.Array.IndexOf(args,"--stadium");
             string stadiumKey=stadiumArg>=0&&stadiumArg+1<args.Length?args[stadiumArg+1]:"free_battle";
             Stadium.Load(stadiumKey);BuildCinematicSpotlights();
+            if(System.Array.IndexOf(args,"--stadium-original")>=0)
+                ArenaCamera.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing=false;
         }
 
         void BuildLegacyArchitecture()
@@ -121,10 +161,11 @@ namespace AeroStadium.Presentation
                 Debug.LogError("Model prefab missing for species " + species);
                 return;
             }
+            previewMode=preview;
             Vector3 pos = preview ? new Vector3(1.8f, 0, 0) : homes[side];
             // Prepared Switch meshes face local -Z. Turn the heads toward the
             // opposing battle position, keeping a slight view of both faces.
-            pokemon[side] = Instantiate(prefab, pos, Quaternion.Euler(0, preview ? 25 : side == 0 ? -75 : 75, 0));
+            pokemon[side] = Instantiate(prefab, pos, Quaternion.Euler(0, preview ? 25 : battleYaw+(side == 0 ? -75 : 75), 0));
             pokemon[side].name = "Pokemon_" + side + "_" + species;
             shownSpecies[side] = species;
             var driver = pokemon[side].GetComponent<PokemonAnimationDriver>();
@@ -142,6 +183,7 @@ namespace AeroStadium.Presentation
             float height = native != null ? native.ModelHeight : importedMotion.ModelHeight;
             PokemonDisplaySize.Apply(pokemon[side], species, local, height);
             LoadedModels = (pokemon[0] != null ? 1 : 0) + (pokemon[1] != null ? 1 : 0);
+            if(!preview)PlaceBattleActors();
             FramePokemon(preview);
         }
 
@@ -306,10 +348,19 @@ namespace AeroStadium.Presentation
             ArenaCamera.fieldOfView=43f;
             Vector3 focus=bounds.center;
             float tanVertical=Mathf.Tan(ArenaCamera.fieldOfView*.5f*Mathf.Deg2Rad);
-            float fit=Mathf.Max((bounds.extents.x+.75f)/(tanVertical*ArenaCamera.aspect),
-                (bounds.extents.y+.65f)/tanVertical)+bounds.extents.z;
+            Vector3 horizontal=preview?Vector3.right:battleAxis;
+            Vector3 backward=Vector3.Cross(Vector3.up,horizontal);
+            float fit=Mathf.Max((ProjectedRadius(bounds,horizontal)+.75f)/(tanVertical*ArenaCamera.aspect),
+                (bounds.extents.y+.65f)/tanVertical)+ProjectedRadius(bounds,backward);
             float distance=Mathf.Clamp(fit*1.1f,preview?4f:12f,24f);
-            ArenaCamera.transform.position=focus+new Vector3(-.018f,.34f,-1f).normalized*distance;
+            Vector3 offset=backward-horizontal*.018f+Vector3.up*.34f;
+            if(!preview&&fieldLength>0&&Stadium!=null){
+                foreach(float elevation in new[]{.34f,.7f,1.2f,2f}){
+                    offset=backward-horizontal*.018f+Vector3.up*elevation;
+                    if(!Stadium.CameraPathBlocked(focus+offset.normalized*distance,focus))break;
+                }
+            }
+            ArenaCamera.transform.position=focus+offset.normalized*distance;
             ArenaCamera.transform.LookAt(focus);
         }
 
