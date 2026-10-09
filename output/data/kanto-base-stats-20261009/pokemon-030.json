@@ -1,0 +1,13 @@
+{
+  "id": 30,
+  "name": "Nidorina",
+  "source_identifier": "nidorina",
+  "stats": {
+    "hp": 70,
+    "attack": 62,
+    "defense": 67,
+    "specialAttack": 55,
+    "specialDefense": 55,
+    "speed": 56
+  }
+}

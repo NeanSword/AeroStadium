@@ -1,0 +1,13 @@
+{
+  "id": 74,
+  "name": "Racaillou",
+  "source_identifier": "geodude",
+  "stats": {
+    "hp": 40,
+    "attack": 80,
+    "defense": 100,
+    "specialAttack": 30,
+    "specialDefense": 30,
+    "speed": 20
+  }
+}

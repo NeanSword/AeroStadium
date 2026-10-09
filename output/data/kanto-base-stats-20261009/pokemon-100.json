@@ -1,0 +1,13 @@
+{
+  "id": 100,
+  "name": "Voltorbe",
+  "source_identifier": "voltorb",
+  "stats": {
+    "hp": 40,
+    "attack": 30,
+    "defense": 50,
+    "specialAttack": 55,
+    "specialDefense": 55,
+    "speed": 100
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 76,
+  "name": "Grolem",
+  "source_identifier": "golem",
+  "stats": {
+    "hp": 80,
+    "attack": 120,
+    "defense": 130,
+    "specialAttack": 55,
+    "specialDefense": 65,
+    "speed": 45
+  }
+}

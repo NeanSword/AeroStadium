@@ -1,0 +1,13 @@
+{
+  "id": 57,
+  "name": "Colossinge",
+  "source_identifier": "primeape",
+  "stats": {
+    "hp": 65,
+    "attack": 105,
+    "defense": 60,
+    "specialAttack": 60,
+    "specialDefense": 70,
+    "speed": 95
+  }
+}

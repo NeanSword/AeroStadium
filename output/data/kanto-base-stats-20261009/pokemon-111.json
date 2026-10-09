@@ -1,0 +1,13 @@
+{
+  "id": 111,
+  "name": "Rhinocorne",
+  "source_identifier": "rhyhorn",
+  "stats": {
+    "hp": 80,
+    "attack": 85,
+    "defense": 95,
+    "specialAttack": 30,
+    "specialDefense": 30,
+    "speed": 25
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 139,
+  "name": "Amonistar",
+  "source_identifier": "omastar",
+  "stats": {
+    "hp": 70,
+    "attack": 60,
+    "defense": 125,
+    "specialAttack": 115,
+    "specialDefense": 70,
+    "speed": 55
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 110,
+  "name": "Smogogo",
+  "source_identifier": "weezing",
+  "stats": {
+    "hp": 65,
+    "attack": 90,
+    "defense": 120,
+    "specialAttack": 85,
+    "specialDefense": 70,
+    "speed": 60
+  }
+}

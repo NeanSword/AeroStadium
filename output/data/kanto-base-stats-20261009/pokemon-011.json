@@ -1,0 +1,13 @@
+{
+  "id": 11,
+  "name": "Chrysacier",
+  "source_identifier": "metapod",
+  "stats": {
+    "hp": 50,
+    "attack": 20,
+    "defense": 55,
+    "specialAttack": 25,
+    "specialDefense": 25,
+    "speed": 30
+  }
+}

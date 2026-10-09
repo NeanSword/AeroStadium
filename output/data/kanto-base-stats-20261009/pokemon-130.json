@@ -1,0 +1,13 @@
+{
+  "id": 130,
+  "name": "Léviator",
+  "source_identifier": "gyarados",
+  "stats": {
+    "hp": 95,
+    "attack": 125,
+    "defense": 79,
+    "specialAttack": 60,
+    "specialDefense": 100,
+    "speed": 81
+  }
+}

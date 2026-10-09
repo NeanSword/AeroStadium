@@ -1,0 +1,13 @@
+{
+  "id": 84,
+  "name": "Doduo",
+  "source_identifier": "doduo",
+  "stats": {
+    "hp": 35,
+    "attack": 85,
+    "defense": 45,
+    "specialAttack": 35,
+    "specialDefense": 35,
+    "speed": 75
+  }
+}

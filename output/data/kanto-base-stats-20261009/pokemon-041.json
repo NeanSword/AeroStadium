@@ -1,0 +1,13 @@
+{
+  "id": 41,
+  "name": "Nosferapti",
+  "source_identifier": "zubat",
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 35,
+    "specialAttack": 30,
+    "specialDefense": 40,
+    "speed": 55
+  }
+}

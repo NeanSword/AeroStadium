@@ -1,0 +1,13 @@
+{
+  "id": 145,
+  "name": "Électhor",
+  "source_identifier": "zapdos",
+  "stats": {
+    "hp": 90,
+    "attack": 90,
+    "defense": 85,
+    "specialAttack": 125,
+    "specialDefense": 90,
+    "speed": 100
+  }
+}

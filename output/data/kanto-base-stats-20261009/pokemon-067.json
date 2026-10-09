@@ -1,0 +1,13 @@
+{
+  "id": 67,
+  "name": "Machopeur",
+  "source_identifier": "machoke",
+  "stats": {
+    "hp": 80,
+    "attack": 100,
+    "defense": 70,
+    "specialAttack": 50,
+    "specialDefense": 60,
+    "speed": 45
+  }
+}

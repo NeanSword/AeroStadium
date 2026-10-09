@@ -1,0 +1,13 @@
+{
+  "id": 89,
+  "name": "Grotadmorv",
+  "source_identifier": "muk",
+  "stats": {
+    "hp": 105,
+    "attack": 105,
+    "defense": 75,
+    "specialAttack": 65,
+    "specialDefense": 100,
+    "speed": 50
+  }
+}

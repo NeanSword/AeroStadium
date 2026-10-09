@@ -1,0 +1,13 @@
+{
+  "id": 119,
+  "name": "Poissoroy",
+  "source_identifier": "seaking",
+  "stats": {
+    "hp": 80,
+    "attack": 92,
+    "defense": 65,
+    "specialAttack": 65,
+    "specialDefense": 80,
+    "speed": 68
+  }
+}

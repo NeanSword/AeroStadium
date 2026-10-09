@@ -1,0 +1,13 @@
+{
+  "id": 101,
+  "name": "Électrode",
+  "source_identifier": "electrode",
+  "stats": {
+    "hp": 60,
+    "attack": 50,
+    "defense": 70,
+    "specialAttack": 80,
+    "specialDefense": 80,
+    "speed": 150
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 56,
+  "name": "Férosinge",
+  "source_identifier": "mankey",
+  "stats": {
+    "hp": 40,
+    "attack": 80,
+    "defense": 35,
+    "specialAttack": 35,
+    "specialDefense": 45,
+    "speed": 70
+  }
+}

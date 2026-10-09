@@ -1,0 +1,13 @@
+{
+  "id": 71,
+  "name": "Empiflor",
+  "source_identifier": "victreebel",
+  "stats": {
+    "hp": 80,
+    "attack": 105,
+    "defense": 65,
+    "specialAttack": 100,
+    "specialDefense": 70,
+    "speed": 70
+  }
+}

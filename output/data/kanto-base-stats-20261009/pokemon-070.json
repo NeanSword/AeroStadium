@@ -1,0 +1,13 @@
+{
+  "id": 70,
+  "name": "Boustiflor",
+  "source_identifier": "weepinbell",
+  "stats": {
+    "hp": 65,
+    "attack": 90,
+    "defense": 50,
+    "specialAttack": 85,
+    "specialDefense": 45,
+    "speed": 55
+  }
+}

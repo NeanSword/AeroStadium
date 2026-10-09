@@ -1,0 +1,13 @@
+{
+  "id": 129,
+  "name": "Magicarpe",
+  "source_identifier": "magikarp",
+  "stats": {
+    "hp": 20,
+    "attack": 10,
+    "defense": 55,
+    "specialAttack": 15,
+    "specialDefense": 20,
+    "speed": 80
+  }
+}

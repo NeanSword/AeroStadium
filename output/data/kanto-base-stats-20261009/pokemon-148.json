@@ -1,0 +1,13 @@
+{
+  "id": 148,
+  "name": "Draco",
+  "source_identifier": "dragonair",
+  "stats": {
+    "hp": 61,
+    "attack": 84,
+    "defense": 65,
+    "specialAttack": 70,
+    "specialDefense": 70,
+    "speed": 70
+  }
+}

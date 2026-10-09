@@ -1,0 +1,13 @@
+{
+  "id": 77,
+  "name": "Ponyta",
+  "source_identifier": "ponyta",
+  "stats": {
+    "hp": 50,
+    "attack": 85,
+    "defense": 55,
+    "specialAttack": 65,
+    "specialDefense": 65,
+    "speed": 90
+  }
+}

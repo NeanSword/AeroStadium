@@ -1,0 +1,13 @@
+{
+  "id": 52,
+  "name": "Miaouss",
+  "source_identifier": "meowth",
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 35,
+    "specialAttack": 40,
+    "specialDefense": 40,
+    "speed": 90
+  }
+}

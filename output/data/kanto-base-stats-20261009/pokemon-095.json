@@ -1,0 +1,13 @@
+{
+  "id": 95,
+  "name": "Onix",
+  "source_identifier": "onix",
+  "stats": {
+    "hp": 35,
+    "attack": 45,
+    "defense": 160,
+    "specialAttack": 30,
+    "specialDefense": 45,
+    "speed": 70
+  }
+}

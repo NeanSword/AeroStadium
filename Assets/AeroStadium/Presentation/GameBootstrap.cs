@@ -49,6 +49,16 @@ namespace AeroStadium.Presentation
         TitleScreenAudio titleAudio;
         MainMenuAudio menuAudio;
         MainMenuView mainMenuView;
+        PokemonSelectionView selectionView;
+        RenderTexture selectionPreview;
+        int inspectionCameraMask;
+        Color inspectionCameraBackground;
+        CameraClearFlags inspectionCameraClear;
+        TeamMember[] selectedTeam;
+        readonly int[] visibleMaximumHp = new int[2];
+        readonly Text[] pokemonNames = new Text[2];
+        bool selectionTest, selectionTestCompleted;
+        int selectionSwitches;
         Button titleStartButton;
         Gamepad mainMenuVirtualPad;
         Keyboard mainMenuVirtualKeyboard;
@@ -84,9 +94,10 @@ namespace AeroStadium.Presentation
             titleAudioTest = Array.IndexOf(args, "--title-audio-test") >= 0;
             mainMenuTest = Array.IndexOf(args, "--main-menu-test") >= 0;
             menuAudioTest = Array.IndexOf(args, "--menu-audio-test") >= 0;
-            if ((mainMenuTest || menuAudioTest) && !smoke) IsolateMainMenuTestInputs();
+            selectionTest = Array.IndexOf(args, "--selection-test") >= 0;
+            if ((mainMenuTest || menuAudioTest || selectionTest) && !smoke) IsolateMainMenuTestInputs();
             titleTest = titleAudioTest || Array.IndexOf(args, "--title-test") >= 0;
-            bool skipIntro = titleTest || mainMenuTest || menuAudioTest || Array.IndexOf(args, "--skip-intro") >= 0;
+            bool skipIntro = titleTest || mainMenuTest || menuAudioTest || selectionTest || Array.IndexOf(args, "--skip-intro") >= 0;
             int speciesIndex = Array.IndexOf(args, "--species");
             if (speciesIndex >= 0 && speciesIndex + 1 < args.Length && int.TryParse(args[speciesIndex + 1], out int species)
                 && species >= 1 && species <= 151) selectedSpecies = species;
@@ -121,16 +132,19 @@ namespace AeroStadium.Presentation
             if (titleTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + (titleAudioTest ? 140f : 12f);
             if (mainMenuTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 55f;
             if (menuAudioTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 90f;
+            if (selectionTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 180f;
             if (smoke) StartCoroutine(SmokePlay());
             else if (skipIntro) ShowTitle();
             else introRoutine = StartCoroutine(PlayIntro());
             if (mainMenuTest && !smoke) StartCoroutine(TestMainMenu());
             else if (menuAudioTest && !smoke) StartCoroutine(TestMenuAudio());
+            else if (selectionTest && !smoke) StartCoroutine(TestSelection());
         }
 
         void OnDestroy()
         {
             Application.logMessageReceived -= OnLog;
+            ReleaseSelectionPreview();
             if (introWipeMaterial != null) Destroy(introWipeMaterial);
             RemoveMainMenuTestDevices();
             RestoreMainMenuTestInputs();
@@ -151,7 +165,7 @@ namespace AeroStadium.Presentation
             {
                 int expectedModels = screen == ScreenMode.Title || screen == ScreenMode.MainMenu ? 0
                     : screen == ScreenMode.Intro || screen == ScreenMode.Selection ? 1 : 2;
-                bool passed = errors == 0 && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2))
+                bool passed = errors == 0 && (!selectionTest || (selectionTestCompleted && selectionSwitches > 0)) && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2))
                     && (!titleTest || (titleAssetsVerified && titleBlinkCycles >= 2
                         && titlePromptWasVisible && titlePromptWasHidden))
                     && (!titleAudioTest || (titleAudio != null && titleAudio.MusicReady && titleAudio.ListenerReady
@@ -180,7 +194,8 @@ namespace AeroStadium.Presentation
                     + " menuMouseClick=" + mainMenuMouseClickVerified + " menuAudioTest=" + menuAudioTest
                     + (menuAudio != null ? menuAudio.Diagnostics : " menuAudio=uninitialized")
                     + " menuSelectionChanges=" + mainMenuMaxSelectionChanges + " menuRoutes=" + mainMenuRoutes
-                    + " menuRouteMask=" + mainMenuRouteMask + " passed=" + passed);
+                    + " menuRouteMask=" + mainMenuRouteMask + " selectionTest=" + selectionTest
+                    + " selectionCompleted=" + selectionTestCompleted + " selectionSwitches=" + selectionSwitches + " passed=" + passed);
                 Application.Quit(passed ? 0 : 1); exitAt = 0;
             }
             if (screen == ScreenMode.Title && titleStart != null)
@@ -217,6 +232,7 @@ namespace AeroStadium.Presentation
             }
             else if (!busy && screen == ScreenMode.Title && controls.StartPressed) ShowMainMenu();
             else if (!busy && screen == ScreenMode.MainMenu && controls.CancelPressed) ShowTitle();
+            else if (!busy && screen == ScreenMode.Selection && controls.CancelPressed) ShowMainMenu();
             else if (!busy && (screen == ScreenMode.Battle || screen == ScreenMode.Result)
                      && (controls.CancelPressed || controls.PausePressed)) TogglePause();
         }
@@ -265,6 +281,12 @@ namespace AeroStadium.Presentation
                 mainMenuView.SetInputPresentation(gamepad, gamepad ? controls.DeviceName : "Clavier / souris",
                     gamepad ? controls.Accept : "Entrée", gamepad ? controls.Back : "Échap", gamepad ? "Stick / croix directionnelle" : "Flèches");
             }
+            else if (screen == ScreenMode.Selection && selectionView != null)
+            {
+                bool gamepad = controls.Connected && controls.UsingGamepad;
+                selectionView.SetInputPresentation(gamepad, gamepad ? controls.DeviceName : "Clavier / souris",
+                    gamepad ? controls.Accept : "Entrée", gamepad ? controls.Back : "Échap");
+            }
             else
             {
                 string navigation = controls.Connected ? "Stick / D-pad" : "Flèches";
@@ -279,8 +301,10 @@ namespace AeroStadium.Presentation
         void ResetPage()
         {
             if (screen != ScreenMode.Title && titleAudio != null) titleAudio.LeaveTitle();
-            if (screen != ScreenMode.MainMenu && menuAudio != null) menuAudio.LeaveMenu();
-            if (page != null) Destroy(page.gameObject);
+            if (screen != ScreenMode.MainMenu && screen != ScreenMode.Selection && menuAudio != null) menuAudio.LeaveMenu();
+            ReleaseSelectionPreview();
+            selectionView = null;
+            if (page != null) { page.gameObject.SetActive(false); Destroy(page.gameObject); }
             if (pausePanel != null) Destroy(pausePanel.gameObject);
             paused = false; buttons.Clear();
             titleArtwork = titleLogo = titleStart = null;
@@ -408,6 +432,11 @@ namespace AeroStadium.Presentation
 
         void ShowMainMenu()
         {
+            if (selectionView != null)
+            {
+                var draft = selectionView.GetTeam();
+                selectedTeam = draft.Length == 0 ? null : draft;
+            }
             screen = ScreenMode.MainMenu; busy = false;
             chromeHeader.gameObject.SetActive(false); controlFooter.gameObject.SetActive(false);
             ResetPage();
@@ -434,8 +463,10 @@ namespace AeroStadium.Presentation
                 return;
             }
             mainMenuRoutes++; mainMenuRouteMask |= 1 << index;
-            Debug.Log("[main-menu-route] mode=" + index + " destination=Battle routeMask=" + mainMenuRouteMask);
-            StartBattle();
+            // Legacy audio/menu reviews still use their established simulation routes.
+            Debug.Log("[main-menu-route] mode=" + index + " destination=" + (mainMenuTest || menuAudioTest ? "Battle" : "Selection") + " routeMask=" + mainMenuRouteMask);
+            if (mainMenuTest || menuAudioTest) StartBattle();
+            else ShowSelection();
         }
 
         void MenuCheck(bool condition, string label)
@@ -607,7 +638,7 @@ namespace AeroStadium.Presentation
 
         void IsolateMainMenuTestInputs()
         {
-            if ((!mainMenuTest && !menuAudioTest) || mainMenuInputsIsolated) return;
+            if ((!mainMenuTest && !menuAudioTest && !selectionTest) || mainMenuInputsIsolated) return;
             mainMenuInputsIsolated = true;
             // Only Unity's input frontend is suspended. Windows continues to
             // receive keyboard, mouse and controller events normally.
@@ -680,67 +711,130 @@ namespace AeroStadium.Presentation
             aspect.aspectRatio = texture.width * image.uvRect.width / (texture.height * image.uvRect.height);
             return image;
         }
-        void ShowSelection()
+        IEnumerator TestSelection()
         {
-            ShowSelection(-1);
+            yield return new WaitForSecondsRealtime(3f);
+            titleStartButton.onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.5f);
+            mainMenuView.Buttons[0].onClick.Invoke();
+            MenuCheck(screen == ScreenMode.Selection && selectionView != null, "solo opens team selection");
+            if (selectionView == null) yield break;
+            MenuCheck(selectionView.FilteredCount == 151 && selectionView.PageCount == 7
+                && selectionView.Cards.Count == 24 && !selectionView.CanLaunch, "151 rentals and seven pages");
+            yield return new WaitForSecondsRealtime(4f);
+            mainMenuVirtualMouse = InputSystem.AddDevice<Mouse>();
+            InputSystem.QueueStateEvent(mainMenuVirtualMouse, new MouseState { position = new Vector2(-100, -100) });
+            yield return null; yield return null;
+            mainMenuVirtualPad = InputSystem.AddDevice<Gamepad>();
+            EventSystem.current.SetSelectedGameObject(selectionView.Cards[0].gameObject);
+            InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState().WithButton(GamepadButton.DpadRight));
+            yield return null; yield return null;
+            InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState());
+            yield return new WaitForSecondsRealtime(.3f);
+            Debug.Log("[selection-pad-diagnostics] focus=" + selectionView.FocusedSpecies + " cursor=" + selectionView.CursorVisible
+                + " gamepad=" + controls.UsingGamepad + " selected=" + EventSystem.current.currentSelectedGameObject?.name);
+            MenuCheck(selectionView.FocusedSpecies == 2 && selectionView.CursorVisible && controls.UsingGamepad,
+                "selection D-pad moves focus and displays controller cursor");
+            InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState().WithButton(GamepadButton.South));
+            yield return null; yield return null;
+            InputSystem.QueueStateEvent(mainMenuVirtualPad, new GamepadState());
+            yield return new WaitForSecondsRealtime(.3f);
+            MenuCheck(selectionView.TeamCount == 1 && selectionView.GetTeam()[0].speciesId == 2,
+                "controller confirmation adds the focused Pokémon");
+            selectionView.RemoveAt(0);
+            selectionView.ChangePage(6);
+            MenuCheck(selectionView.PageIndex == 6 && selectionView.Cards.Count == 7, "last page covers IDs145 through151");
+            yield return new WaitForSecondsRealtime(5f);
+            selectionView.SetSearch("151");
+            MenuCheck(selectionView.FilteredCount == 1 && selectionView.Cards.Count == 1, "Pokédex number search");
+            selectionView.SetSearch("electhor");
+            MenuCheck(selectionView.FilteredCount == 1, "French search ignores diacritics");
+            selectionView.SetSearch("zz-no-result");
+            MenuCheck(selectionView.FilteredCount == 0 && !selectionView.CanLaunch, "empty search keeps team validation safe");
+            selectionView.SetSearch("");
+            yield return null;
+            if (mainMenuVirtualMouse == null) mainMenuVirtualMouse = InputSystem.AddDevice<Mouse>();
+            Canvas.ForceUpdateCanvases();
+            var card = selectionView.Cards[0].GetComponent<RectTransform>();
+            Vector2 position = RectTransformUtility.WorldToScreenPoint(null, card.TransformPoint(card.rect.center));
+            InputSystem.QueueStateEvent(mainMenuVirtualMouse, new MouseState { position = position });
+            yield return null; yield return null;
+            InputSystem.QueueStateEvent(mainMenuVirtualMouse, new MouseState { position = position }.WithButton(MouseButton.Left));
+            yield return null; yield return null;
+            InputSystem.QueueStateEvent(mainMenuVirtualMouse, new MouseState { position = position });
+            yield return null; yield return null;
+            MenuCheck(selectionView.TeamCount == 1 && selectionView.GetTeam()[0].speciesId == 1
+                && !controls.UsingGamepad, "mouse click selects rental and updates input prompts");
+            selectionView.RemoveAt(0);
+            foreach (int id in new[] { 6, 9, 3, 25, 94, 149 }) selectionView.TryAdd(id);
+            MenuCheck(selectionView.CanLaunch && selectionView.TeamCount == 6 && !selectionView.TryAdd(6)
+                && !selectionView.TryAdd(150), "six unique rentals, duplicates and overflow rejected");
+            selectionView.RemoveAt(5);
+            MenuCheck(!selectionView.CanLaunch, "removing a rental disables battle confirmation");
+            selectionView.TryAdd(149);
+            selectionView.SetSearch("006");
+            yield return new WaitForSecondsRealtime(7f);
+            MenuCheck(arena.LoadedModels == 1 && selectionPreview != null && menuAudio.MusicPlaying,
+                "one animated preview and continuous menu soundtrack");
+            selectionView.StartButton.onClick.Invoke();
+            yield return new WaitForSecondsRealtime(1.5f);
+            MenuCheck(screen == ScreenMode.Battle && battle.Team(0).Count == 6 && battle.Team(1).Count == 6
+                && battle.Team(0)[0].SpeciesId == 6 && battle.Team(0)[5].SpeciesId == 149
+                && selectionPreview == null && arena.ArenaCamera.targetTexture == null
+                && !menuAudio.MusicPlaying, "chosen six reach the arena and inspection target is released");
+            int turns = 0;
+            while (!battle.IsFinished && selectionSwitches == 0 && turns < 35 && Time.realtimeSinceStartup < exitAt - 15f)
+            {
+                yield return PlayTurn(battle.ChooseAi(0)); turns++;
+                yield return new WaitForSecondsRealtime(.3f);
+            }
+            MenuCheck(selectionSwitches > 0 && visibleMaximumHp[0] == battle.Active(0).MaxHp
+                && visibleMaximumHp[1] == battle.Active(1).MaxHp, "KO replacement synchronizes models and health maximums");
+            selectionTestCompleted = mainMenuChecksPassed;
+            Debug.Log("[selection-review] turns=" + turns + " switches=" + selectionSwitches + " passed=" + selectionTestCompleted);
+            // Devices are restored by OnDestroy when the automatic review ends.
+            // Leave the resulting battle on screen until the requested review deadline.
         }
 
-        void ShowSelection(int focusIndex)
+        void ReleaseSelectionPreview()
+        {
+            if (selectionPreview == null) return;
+            if (arena != null && arena.ArenaCamera != null)
+            {
+                arena.ArenaCamera.targetTexture = null;
+                arena.ArenaCamera.orthographic = false;
+                arena.ArenaCamera.cullingMask = inspectionCameraMask;
+                arena.ArenaCamera.backgroundColor = inspectionCameraBackground;
+                arena.ArenaCamera.clearFlags = inspectionCameraClear;
+                arena.ArenaCamera.ResetAspect();
+            }
+            selectionPreview.Release(); Destroy(selectionPreview); selectionPreview = null;
+        }
+
+        void ShowSelection()
         {
             screen = ScreenMode.Selection; busy = false; ResetPage();
-            chromeHeader.gameObject.SetActive(true); controlFooter.gameObject.SetActive(true);
-            arena.ClearPokemon(1); arena.ShowPokemon(0, selectedSpecies, true);
-            selectedRosterPage = Mathf.Clamp(selectedRosterPage, 0, (catalog.species.Length - 1) / 10);
-            var card = Panel(page, "Choose Pokemon", 48, 147, 650, 630, ink);
-            Label(card, "CHOISIS UN POKÉMON", 28, 20, 594, 40, 28, Color.white, true);
-            Label(card, "Pokédex de Kanto · 151 espèces · modèles 3D locaux", 28, 61, 594, 25, 16, muted);
-            int totalPages = (catalog.species.Length + 9) / 10;
-            Button previous = Button(card, "◀ PRÉC.", 28, 94, 122, 40,
-                () => { selectedRosterPage = Mathf.Max(0, selectedRosterPage - 1); ShowSelection(0); },
-                selectedRosterPage > 0 ? new Color(.12f, .25f, .42f) : new Color(.08f, .12f, .18f));
-            previous.interactable = selectedRosterPage > 0;
-            Label(card, "PAGE " + (selectedRosterPage + 1) + " / " + totalPages, 160, 94, 324, 40, 17, gold, true, TextAnchor.MiddleCenter);
-            Button next = Button(card, "SUIV. ▶", 500, 94, 122, 40,
-                () => { selectedRosterPage = Mathf.Min(totalPages - 1, selectedRosterPage + 1); ShowSelection(1); },
-                selectedRosterPage + 1 < totalPages ? new Color(.12f, .25f, .42f) : new Color(.08f, .12f, .18f));
-            next.interactable = selectedRosterPage + 1 < totalPages;
-
-            Button selectedButton = null;
-            int first = selectedRosterPage * 10;
-            int last = Mathf.Min(catalog.species.Length, first + 10);
-            for (int index = first; index < last; index++)
-            {
-                var species = catalog.species[index];
-                int choice = species.id;
-                int column = (index - first) % 2;
-                int row = (index - first) / 2;
-                int focus = buttons.Count;
-                string subtitle = string.Join(" / ", Array.ConvertAll(species.types, TypeName));
-                string title = (choice == selectedSpecies ? "● " : "") + "#" + choice.ToString("000") + "  " + species.name
-                    + "\n<size=16>" + subtitle + " · " + species.height.ToString("0.0") + " m</size>";
-                var button = Button(card, title, 28 + column * 296, 142 + row * 62, 286, 56,
-                    () => { selectedSpecies = choice; ShowSelection(focus); },
-                    choice == selectedSpecies ? blue : new Color(.1f, .16f, .25f));
-                if (choice == selectedSpecies) selectedButton = button;
-            }
-
-            Label(card, "OBJET TENU", 28, 458, 594, 22, 16, gold, true);
-            int itemIndex = 0;
-            foreach (string id in new[] { "none", "leftovers", "lifeorb", "charcoal" })
-            {
-                string choice = id; var item = catalog.GetItem(id);
-                int focus = buttons.Count;
-                Button(card, item.name, 28 + (itemIndex % 2) * 296, 482 + (itemIndex / 2) * 45, 286, 40,
-                    () => { selectedItem = choice; ShowSelection(focus); },
-                    id == selectedItem ? blue : new Color(.1f, .16f, .25f));
-                itemIndex++;
-            }
-            var start = Button(card, "ENTRER DANS L’ARÈNE", 28, 577, 594, 46, StartBattle, new Color(.83f, .59f, .21f));
-            Label(page, catalog.GetSpecies(selectedSpecies).name.ToUpperInvariant(), 810, 712, 710, 55, 38, Color.white, true, TextAnchor.MiddleRight);
-            Label(page, "Génération I · taille réelle · modèle animé", 810, 769, 710, 28, 17, muted, false, TextAnchor.MiddleRight);
-            Select(focusIndex >= 0 && focusIndex < buttons.Count ? buttons[focusIndex] : selectedButton != null ? selectedButton : start);
-            RefreshHints();
-            if (smoke) foreach (var button in buttons) button.interactable = false;
+            chromeHeader.gameObject.SetActive(false); controlFooter.gameObject.SetActive(false);
+            arena.gameObject.SetActive(true); arena.ClearPokemon(1);
+            if (menuAudio == null) menuAudio = gameObject.AddComponent<MainMenuAudio>();
+            menuAudio.EnterMenu();
+            inspectionCameraMask = arena.ArenaCamera.cullingMask;
+            inspectionCameraBackground = arena.ArenaCamera.backgroundColor;
+            inspectionCameraClear = arena.ArenaCamera.clearFlags;
+            selectionPreview = new RenderTexture(1024, 534, 24, RenderTextureFormat.ARGB32);
+            selectionPreview.name = "Animated Pokémon inspection"; selectionPreview.Create();
+            arena.ArenaCamera.targetTexture = selectionPreview;
+            arena.ArenaCamera.aspect = 1024f / 534f;
+            selectionView = page.gameObject.AddComponent<PokemonSelectionView>();
+            selectionView.PartnerAdded += id => {
+                if (screen == ScreenMode.Selection) { selectedSpecies = id; arena.ShowPokemon(0, id, true); arena.FrameInspection(true); }
+            };
+            int[] saved = selectedTeam == null ? null : Array.ConvertAll(selectedTeam, member => member.speciesId);
+            selectionView.Build(page, font, catalog, selectionPreview,
+                id => { if (screen == ScreenMode.Selection) { selectedSpecies = id; arena.ShowPokemon(0, id, true); arena.FrameInspection(); } },
+                team => { selectedTeam = team; StartBattle(); }, ShowMainMenu, saved);
+            arena.ShowPokemon(0, selectedSpecies, true); arena.FrameInspection(); RefreshHints();
+            Debug.Log("[selection-ready] species=" + catalog.species.Length + " team=" + selectionView.TeamCount);
         }
 
         void StartBattle()
@@ -748,9 +842,24 @@ namespace AeroStadium.Presentation
             if (screen == ScreenMode.Battle || busy) return;
             arena.gameObject.SetActive(true);
             int seed = requestedSeed ?? (Environment.TickCount & int.MaxValue);
-            battle = new BattleEngine(catalog, new[] { new TeamMember(selectedSpecies, selectedItem) }, new[] { new TeamMember(selectedSpecies, "none") }, seed);
+            ReleaseSelectionPreview();
+            var player = selectedTeam ?? new[] { new TeamMember(selectedSpecies, selectedItem) };
+            var opponent = new TeamMember[player.Length];
+            var rng = new System.Random(seed);
+            var chosen = new HashSet<int>();
+            for (int i = 0; i < opponent.Length; i++)
+            {
+                int id;
+                do { id = catalog.species[rng.Next(catalog.species.Length)].id; } while (!chosen.Add(id));
+                opponent[i] = new TeamMember(id, "none");
+            }
+            if (selectedTeam == null) opponent[0] = new TeamMember(selectedSpecies, "none");
+            battle = new BattleEngine(catalog, player, opponent, seed);
             Debug.Log("[battle-start] species=" + selectedSpecies + " seed=" + seed);
-            arena.ShowPokemon(0, selectedSpecies); arena.ShowPokemon(1, selectedSpecies);
+            arena.ShowPokemon(0, battle.Active(0).SpeciesId); arena.ShowPokemon(1, battle.Active(1).SpeciesId);
+            visibleMaximumHp[0] = battle.Active(0).MaxHp; visibleMaximumHp[1] = battle.Active(1).MaxHp;
+            Debug.Log("[selection-battle-team] player=" + string.Join(",", Array.ConvertAll(player, member => member.speciesId.ToString()))
+                + " opponent=" + string.Join(",", Array.ConvertAll(opponent, member => member.speciesId.ToString())));
             screen = ScreenMode.Battle; visibleHp[0] = battle.Active(0).Hp; visibleHp[1] = battle.Active(1).Hp;
             ShowBattle("À toi de jouer. Choisis une attaque.");
         }
@@ -792,7 +901,7 @@ namespace AeroStadium.Presentation
             var pokemon = battle.Active(side);
             var card = Panel(page, "Health " + side, x, y, 452, 119, ink);
             Label(card, sideName, 18, 10, 260, 20, 13, side == 0 ? new Color(.58f, .91f, .71f) : gold, true);
-            Label(card, pokemon.Name, 18, 31, 300, 35, 25, Color.white, true);
+            pokemonNames[side] = Label(card, pokemon.Name, 18, 31, 300, 35, 25, Color.white, true);
             Label(card, "N. " + pokemon.Level, 338, 35, 93, 28, 17, muted, false, TextAnchor.MiddleRight);
             Panel(card, "Health background", 18, 80, 285, 13, new Color(.18f, .23f, .31f));
             health[side] = Panel(card, "Health remaining", 18, 80, 285, 13, new Color(.32f, .87f, .61f)).GetComponent<Image>();
@@ -804,7 +913,7 @@ namespace AeroStadium.Presentation
             for (int side = 0; side < 2; side++)
             {
                 if (health[side] == null) continue;
-                int maximum = battle.Active(side).MaxHp; float ratio = Mathf.Clamp01(visibleHp[side] / (float)maximum);
+                int maximum = visibleMaximumHp[side]; float ratio = Mathf.Clamp01(visibleHp[side] / (float)maximum);
                 health[side].rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 285 * ratio);
                 health[side].color = ratio > .5f ? new Color(.32f, .87f, .61f) : ratio > .2f ? gold : new Color(.97f, .37f, .36f);
                 healthText[side].text = visibleHp[side] + " / " + maximum;
@@ -820,6 +929,12 @@ namespace AeroStadium.Presentation
         IEnumerator PlayTurn(BattleChoice choice)
         {
             busy = true; foreach (var button in buttons) button.interactable = false;
+            var hpBeforeTurn = new int[2][];
+            for (int side = 0; side < 2; side++)
+            {
+                hpBeforeTurn[side] = new int[battle.Team(side).Count];
+                for (int i = 0; i < battle.Team(side).Count; i++) hpBeforeTurn[side][i] = battle.Team(side)[i].Hp;
+            }
             IReadOnlyList<BattleEvent> events;
             try { events = battle.ResolveTurn(choice, battle.ChooseAi(1)); }
             catch (Exception exception) { Debug.LogException(exception); busy = false; ShowBattle("Choix impossible : " + exception.Message); yield break; }
@@ -842,13 +957,26 @@ namespace AeroStadium.Presentation
                 else if (e.Kind == BattleEventKind.Heal)
                 {
                     int target = e.TargetSide >= 0 ? e.TargetSide : e.Side;
-                    visibleHp[target] = Mathf.Min(battle.Active(target).MaxHp, visibleHp[target] + e.Amount); RefreshHealth();
+                    visibleHp[target] = Mathf.Min(visibleMaximumHp[target], visibleHp[target] + e.Amount); RefreshHealth();
                     yield return new WaitForSeconds(.3f);
                 }
                 else if (e.Kind == BattleEventKind.Fainted) yield return arena.Faint(e.Side);
+                else if (e.Kind == BattleEventKind.Switched)
+                {
+                    var entrant = battle.Team(e.Side)[e.TeamIndex];
+                    visibleMaximumHp[e.Side] = entrant.MaxHp;
+                    visibleHp[e.Side] = hpBeforeTurn[e.Side][e.TeamIndex];
+                    if (pokemonNames[e.Side] != null) pokemonNames[e.Side].text = entrant.Name;
+                    arena.ShowPokemon(e.Side, entrant.SpeciesId); RefreshHealth();
+                    selectionSwitches++;
+                    Debug.Log("[selection-replacement] side=" + e.Side + " species=" + entrant.SpeciesId
+                        + " hp=" + visibleHp[e.Side] + " maxHp=" + visibleMaximumHp[e.Side]);
+                    yield return new WaitForSeconds(.65f);
+                }
                 else yield return new WaitForSeconds(.23f);
             }
             visibleHp[0] = battle.Active(0).Hp; visibleHp[1] = battle.Active(1).Hp;
+            visibleMaximumHp[0] = battle.Active(0).MaxHp; visibleMaximumHp[1] = battle.Active(1).MaxHp;
             busy = false;
             if (battle.IsFinished) { smokeEnded = true; ShowResult(); }
             else ShowBattle("Choisis la prochaine attaque.");

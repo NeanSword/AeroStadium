@@ -1,0 +1,13 @@
+{
+  "id": 90,
+  "name": "Kokiyas",
+  "source_identifier": "shellder",
+  "stats": {
+    "hp": 30,
+    "attack": 65,
+    "defense": 100,
+    "specialAttack": 45,
+    "specialDefense": 25,
+    "speed": 40
+  }
+}

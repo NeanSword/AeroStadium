@@ -1,0 +1,13 @@
+{
+  "id": 135,
+  "name": "Voltali",
+  "source_identifier": "jolteon",
+  "stats": {
+    "hp": 65,
+    "attack": 65,
+    "defense": 60,
+    "specialAttack": 110,
+    "specialDefense": 95,
+    "speed": 130
+  }
+}

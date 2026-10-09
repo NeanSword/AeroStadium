@@ -1,0 +1,13 @@
+{
+  "id": 88,
+  "name": "Tadmorv",
+  "source_identifier": "grimer",
+  "stats": {
+    "hp": 80,
+    "attack": 80,
+    "defense": 50,
+    "specialAttack": 40,
+    "specialDefense": 50,
+    "speed": 25
+  }
+}

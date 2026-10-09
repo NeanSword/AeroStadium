@@ -25,7 +25,11 @@ internal static class Program
             ("Flame Charge/Swords Dance apply stages; switching resets them", StagesAndSwitch),
             ("Recover clamps healing and Protect blocks damage", RecoveryAndProtect),
             ("RecoilThird uses damage actually inflicted, including a nearly KO target", MoveRecoil),
-            ("Unknown data and unsupported effects fail validation", InvalidCatalog)
+            ("Unknown data and unsupported effects fail validation", InvalidCatalog),
+            ("IV/EV profiles preserve defaults and exact known stats", TrainingStats),
+            ("IV/EV limits and total cap reject invalid teams", TrainingLimits),
+            ("IV/EV profiles are isolated from caller mutations", TrainingIsolation),
+            ("Training changes damage categories and battle initiative", TrainingCombat)
         };
         if (args.Length > 0) checks.Add(("Actual Unity seed JSON validates and replays", () => ActualCatalog(args[0])));
         int failed = 0;
@@ -260,6 +264,65 @@ internal static class Program
         bad = Fixture(); bad.moves[0].effect = "UnimplementedModernEffect"; Throws(bad.Validate);
         bad = Fixture(); bad.moves[0].category = "Fire"; Throws(bad.Validate);
         bad = Fixture(); bad.species[0].types = new[] { "Fire", "Fire" }; Throws(bad.Validate);
+    }
+    private static BattleEngine Trained(Catalog catalog, StatValues ivs=null, StatValues evs=null)
+    {
+        return new BattleEngine(catalog,new[] {new TeamMember(1025) {ivs=ivs,evs=evs}},new[] {new TeamMember(4096)},123);
+    }
+    private static string SixStats(BattlePokemon p)
+    {
+        return string.Join(",",p.MaxHp,p.Attack,p.Defense,p.SpecialAttack,p.SpecialDefense,p.Speed);
+    }
+    private static void TrainingStats()
+    {
+        Catalog c=Fixture();c.species[0].stats=Stats(78,84,78,109,85,100);
+        Require(SixStats(Trained(c).Active(0))=="153,104,98,129,105,120","Legacy rental stats changed.");
+        Require(SixStats(Trained(c,new StatValues(0)).Active(0))=="138,89,83,114,90,105","Explicit zero IVs were replaced by defaults.");
+        Require(SixStats(Trained(c,null,new StatValues {hp=4,specialAttack=252,speed=252}).Active(0))=="154,104,98,161,105,152","Known level50 trained Charizard stats differ.");
+        var a=new BattleEngine(c,new[]{new TeamMember(1025) {evs=new StatValues {attack=3}}},new[]{new TeamMember(4096)},1,100);
+        var b=new BattleEngine(c,new[]{new TeamMember(1025) {evs=new StatValues {attack=4}}},new[]{new TeamMember(4096)},1,100);
+        Require(a.Active(0).Attack==204&&b.Active(0).Attack==205,"EV remainder was used as a fractional point.");
+    }
+    private static void TrainingLimits()
+    {
+        foreach(int bad in new[]{-1,32,int.MaxValue})Throws(()=>Trained(Fixture(),new StatValues {speed=bad}));
+        foreach(int bad in new[]{-1,253,int.MaxValue})Throws(()=>Trained(Fixture(),null,new StatValues {hp=bad}));
+        Trained(Fixture(),null,new StatValues {attack=252,speed=252,hp=6});
+        Throws(()=>Trained(Fixture(),null,new StatValues {attack=252,speed=252,hp=7}));
+        string[] fields={"hp","attack","defense","specialAttack","specialDefense","speed"};
+        foreach(string field in fields) {
+            var ivs=new StatValues(31);typeof(StatValues).GetField(field).SetValue(ivs,32);
+            Throws(()=>Trained(Fixture(),ivs));
+            var evs=new StatValues();typeof(StatValues).GetField(field).SetValue(evs,253);
+            Throws(()=>Trained(Fixture(),null,evs));
+        }
+    }
+    private static void TrainingIsolation()
+    {
+        var ivs=new StatValues(31);var evs=new StatValues {attack=252};
+        var shared=new TeamMember(1025) {ivs=ivs,evs=evs};
+        var e=new BattleEngine(Fixture(),new[]{shared},new[]{shared},1);
+        ivs.attack=0;evs.attack=0;e.Active(0).IndividualValues.speed=0;e.Active(0).EffortValues.attack=0;
+        Require(e.Active(0).IndividualValues.attack==31&&e.Active(1).IndividualValues.attack==31,"Caller IV mutation leaked into a fighter.");
+        Require(e.Active(0).EffortValues.attack==252&&e.Active(1).EffortValues.attack==252,"EV profiles were shared.");
+        var options=new JsonSerializerOptions {IncludeFields=true};
+        var restored=JsonSerializer.Deserialize<TeamMember>(JsonSerializer.Serialize(new TeamMember(1025) {ivs=new StatValues(0),evs=new StatValues {speed=252}},options),options);
+        Require(Trained(Fixture(),restored.ivs,restored.evs).Active(0).IndividualValues.hp==0,"Team JSON lost explicit zero IVs.");
+    }
+    private static int TrainingHit(StatValues evs,int slot)
+    {
+        return Trained(Fixture(),null,evs).ResolveTurn(BattleChoice.Move(slot),BattleChoice.Move(2)).First(e=>e.Kind==BattleEventKind.Damage&&e.TargetSide==1).Amount;
+    }
+    private static void TrainingCombat()
+    {
+        Require(TrainingHit(new StatValues {attack=252},0)>TrainingHit(null,0),"Attack EVs did not affect physical damage.");
+        Require(TrainingHit(new StatValues {attack=252},1)==TrainingHit(null,1),"Attack EVs leaked into special damage.");
+        Require(TrainingHit(new StatValues {specialAttack=252},1)>TrainingHit(null,1),"Special Attack EVs did not affect special damage.");
+        Require(TrainingHit(new StatValues {specialAttack=252},0)==TrainingHit(null,0),"Special Attack EVs leaked into physical damage.");
+        Catalog c=Fixture();c.species[0].stats.speed=c.species[1].stats.speed=100;
+        var slow=Trained(c,new StatValues(0));var fast=Trained(c,new StatValues(0),new StatValues {speed=252});
+        Require(slow.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0)).First(e=>e.Kind==BattleEventKind.MoveUsed).Side==1,"Zero Speed IVs should act second.");
+        Require(fast.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0)).First(e=>e.Kind==BattleEventKind.MoveUsed).Side==0,"Speed EVs did not change initiative.");
     }
     private static void ActualCatalog(string path)
     {

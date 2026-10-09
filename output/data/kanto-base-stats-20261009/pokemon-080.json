@@ -1,0 +1,13 @@
+{
+  "id": 80,
+  "name": "Flagadoss",
+  "source_identifier": "slowbro",
+  "stats": {
+    "hp": 95,
+    "attack": 75,
+    "defense": 110,
+    "specialAttack": 100,
+    "specialDefense": 80,
+    "speed": 30
+  }
+}

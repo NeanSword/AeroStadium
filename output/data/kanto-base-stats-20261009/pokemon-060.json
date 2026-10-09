@@ -1,0 +1,13 @@
+{
+  "id": 60,
+  "name": "Ptitard",
+  "source_identifier": "poliwag",
+  "stats": {
+    "hp": 40,
+    "attack": 50,
+    "defense": 40,
+    "specialAttack": 40,
+    "specialDefense": 40,
+    "speed": 90
+  }
+}

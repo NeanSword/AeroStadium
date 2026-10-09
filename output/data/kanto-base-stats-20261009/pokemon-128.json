@@ -1,0 +1,13 @@
+{
+  "id": 128,
+  "name": "Tauros",
+  "source_identifier": "tauros",
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 95,
+    "specialAttack": 40,
+    "specialDefense": 70,
+    "speed": 110
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 24,
+  "name": "Arbok",
+  "source_identifier": "arbok",
+  "stats": {
+    "hp": 60,
+    "attack": 95,
+    "defense": 69,
+    "specialAttack": 65,
+    "specialDefense": 79,
+    "speed": 80
+  }
+}

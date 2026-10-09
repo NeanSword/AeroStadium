@@ -1,0 +1,13 @@
+{
+  "id": 35,
+  "name": "Mélofée",
+  "source_identifier": "clefairy",
+  "stats": {
+    "hp": 70,
+    "attack": 45,
+    "defense": 48,
+    "specialAttack": 60,
+    "specialDefense": 65,
+    "speed": 35
+  }
+}

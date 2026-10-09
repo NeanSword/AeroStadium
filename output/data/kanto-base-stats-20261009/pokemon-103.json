@@ -1,0 +1,13 @@
+{
+  "id": 103,
+  "name": "Noadkoko",
+  "source_identifier": "exeggutor",
+  "stats": {
+    "hp": 95,
+    "attack": 95,
+    "defense": 85,
+    "specialAttack": 125,
+    "specialDefense": 75,
+    "speed": 55
+  }
+}

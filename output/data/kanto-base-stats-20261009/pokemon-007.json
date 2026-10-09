@@ -1,0 +1,13 @@
+{
+  "id": 7,
+  "name": "Carapuce",
+  "source_identifier": "squirtle",
+  "stats": {
+    "hp": 44,
+    "attack": 48,
+    "defense": 65,
+    "specialAttack": 50,
+    "specialDefense": 64,
+    "speed": 43
+  }
+}

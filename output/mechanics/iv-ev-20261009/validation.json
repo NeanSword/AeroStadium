@@ -1,0 +1,20 @@
+{
+  "core_checks_passed": 20,
+  "core_checks_total": 20,
+  "unity_compilation_exit": 0,
+  "limits": {
+    "iv_per_stat": [
+      0,
+      31
+    ],
+    "ev_per_stat": [
+      0,
+      252
+    ],
+    "ev_total": 510
+  },
+  "windows_build_updated": false,
+  "source_backup": "before",
+  "status": "integrated_and_validated_in_unity_project",
+  "credits_balance_last_observed": "272.2102050000"
+}

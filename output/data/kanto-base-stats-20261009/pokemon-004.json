@@ -1,0 +1,13 @@
+{
+  "id": 4,
+  "name": "Salamèche",
+  "source_identifier": "charmander",
+  "stats": {
+    "hp": 39,
+    "attack": 52,
+    "defense": 43,
+    "specialAttack": 60,
+    "specialDefense": 50,
+    "speed": 65
+  }
+}

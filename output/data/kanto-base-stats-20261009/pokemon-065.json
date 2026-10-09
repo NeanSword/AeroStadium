@@ -1,0 +1,13 @@
+{
+  "id": 65,
+  "name": "Alakazam",
+  "source_identifier": "alakazam",
+  "stats": {
+    "hp": 55,
+    "attack": 50,
+    "defense": 45,
+    "specialAttack": 135,
+    "specialDefense": 95,
+    "speed": 120
+  }
+}

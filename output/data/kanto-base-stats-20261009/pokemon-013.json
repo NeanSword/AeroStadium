@@ -1,0 +1,13 @@
+{
+  "id": 13,
+  "name": "Aspicot",
+  "source_identifier": "weedle",
+  "stats": {
+    "hp": 40,
+    "attack": 35,
+    "defense": 30,
+    "specialAttack": 20,
+    "specialDefense": 20,
+    "speed": 50
+  }
+}

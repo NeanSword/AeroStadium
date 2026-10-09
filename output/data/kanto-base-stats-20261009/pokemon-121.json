@@ -1,0 +1,13 @@
+{
+  "id": 121,
+  "name": "Staross",
+  "source_identifier": "starmie",
+  "stats": {
+    "hp": 60,
+    "attack": 75,
+    "defense": 85,
+    "specialAttack": 100,
+    "specialDefense": 85,
+    "speed": 115
+  }
+}

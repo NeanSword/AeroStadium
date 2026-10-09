@@ -1,0 +1,13 @@
+{
+  "id": 127,
+  "name": "Scarabrute",
+  "source_identifier": "pinsir",
+  "stats": {
+    "hp": 65,
+    "attack": 125,
+    "defense": 100,
+    "specialAttack": 55,
+    "specialDefense": 70,
+    "speed": 85
+  }
+}

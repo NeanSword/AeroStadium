@@ -1,0 +1,13 @@
+{
+  "id": 68,
+  "name": "Mackogneur",
+  "source_identifier": "machamp",
+  "stats": {
+    "hp": 90,
+    "attack": 130,
+    "defense": 80,
+    "specialAttack": 65,
+    "specialDefense": 85,
+    "speed": 55
+  }
+}

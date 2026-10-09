@@ -1,0 +1,13 @@
+{
+  "id": 97,
+  "name": "Hypnomade",
+  "source_identifier": "hypno",
+  "stats": {
+    "hp": 85,
+    "attack": 73,
+    "defense": 70,
+    "specialAttack": 73,
+    "specialDefense": 115,
+    "speed": 67
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 12,
+  "name": "Papilusion",
+  "source_identifier": "butterfree",
+  "stats": {
+    "hp": 60,
+    "attack": 45,
+    "defense": 50,
+    "specialAttack": 90,
+    "specialDefense": 80,
+    "speed": 70
+  }
+}

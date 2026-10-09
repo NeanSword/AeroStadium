@@ -1,0 +1,13 @@
+{
+  "id": 36,
+  "name": "Mélodelfe",
+  "source_identifier": "clefable",
+  "stats": {
+    "hp": 95,
+    "attack": 70,
+    "defense": 73,
+    "specialAttack": 95,
+    "specialDefense": 90,
+    "speed": 60
+  }
+}

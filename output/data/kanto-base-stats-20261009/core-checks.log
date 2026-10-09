@@ -1,0 +1,17 @@
+PASS Physical/special categories select independent attack AND defense stats
+PASS IDs above 255 survive JSON and resolve by ID rather than array position
+PASS 18-type chart: immunity, dual weakness and modern Steel interactions
+PASS KO skips the queued action and reserves replace only after the turn
+PASS PP are consumed once and exhausted teams can use Struggle
+PASS Invalid second-side command is atomic, including the random stream
+PASS Seeded replay produces identical events and final states
+PASS Move priority outranks speed
+PASS Charcoal boosts only its matching type
+PASS Life Orb boosts damage and applies max-HP recoil
+PASS Leftovers heals only after damage and never exceeds maximum HP
+PASS Flame Charge/Swords Dance apply stages; switching resets them
+PASS Recover clamps healing and Protect blocks damage
+PASS RecoilThird uses damage actually inflicted, including a nearly KO target
+PASS Unknown data and unsupported effects fail validation
+PASS Actual Unity seed JSON validates and replays
+16/16 checks passed.

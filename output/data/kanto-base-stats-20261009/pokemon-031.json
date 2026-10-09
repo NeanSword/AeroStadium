@@ -1,0 +1,13 @@
+{
+  "id": 31,
+  "name": "Nidoqueen",
+  "source_identifier": "nidoqueen",
+  "stats": {
+    "hp": 90,
+    "attack": 92,
+    "defense": 87,
+    "specialAttack": 75,
+    "specialDefense": 85,
+    "speed": 76
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 107,
+  "name": "Tygnon",
+  "source_identifier": "hitmonchan",
+  "stats": {
+    "hp": 50,
+    "attack": 105,
+    "defense": 79,
+    "specialAttack": 35,
+    "specialDefense": 110,
+    "speed": 76
+  }
+}

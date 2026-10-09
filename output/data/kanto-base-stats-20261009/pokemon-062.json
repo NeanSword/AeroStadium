@@ -1,0 +1,13 @@
+{
+  "id": 62,
+  "name": "Tartard",
+  "source_identifier": "poliwrath",
+  "stats": {
+    "hp": 90,
+    "attack": 95,
+    "defense": 95,
+    "specialAttack": 70,
+    "specialDefense": 90,
+    "speed": 70
+  }
+}

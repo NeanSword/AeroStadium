@@ -1,0 +1,13 @@
+{
+  "id": 131,
+  "name": "Lokhlass",
+  "source_identifier": "lapras",
+  "stats": {
+    "hp": 130,
+    "attack": 85,
+    "defense": 80,
+    "specialAttack": 85,
+    "specialDefense": 95,
+    "speed": 60
+  }
+}

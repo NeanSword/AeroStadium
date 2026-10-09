@@ -1,0 +1,13 @@
+{
+  "id": 10,
+  "name": "Chenipan",
+  "source_identifier": "caterpie",
+  "stats": {
+    "hp": 45,
+    "attack": 30,
+    "defense": 35,
+    "specialAttack": 20,
+    "specialDefense": 20,
+    "speed": 45
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 48,
+  "name": "Mimitoss",
+  "source_identifier": "venonat",
+  "stats": {
+    "hp": 60,
+    "attack": 55,
+    "defense": 50,
+    "specialAttack": 40,
+    "specialDefense": 55,
+    "speed": 45
+  }
+}

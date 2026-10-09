@@ -1,0 +1,13 @@
+{
+  "id": 115,
+  "name": "Kangourex",
+  "source_identifier": "kangaskhan",
+  "stats": {
+    "hp": 105,
+    "attack": 95,
+    "defense": 80,
+    "specialAttack": 40,
+    "specialDefense": 80,
+    "speed": 90
+  }
+}

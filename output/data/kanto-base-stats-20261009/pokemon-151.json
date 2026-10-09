@@ -1,0 +1,13 @@
+{
+  "id": 151,
+  "name": "Mew",
+  "source_identifier": "mew",
+  "stats": {
+    "hp": 100,
+    "attack": 100,
+    "defense": 100,
+    "specialAttack": 100,
+    "specialDefense": 100,
+    "speed": 100
+  }
+}

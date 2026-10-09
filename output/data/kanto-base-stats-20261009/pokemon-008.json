@@ -1,0 +1,13 @@
+{
+  "id": 8,
+  "name": "Carabaffe",
+  "source_identifier": "wartortle",
+  "stats": {
+    "hp": 59,
+    "attack": 63,
+    "defense": 80,
+    "specialAttack": 65,
+    "specialDefense": 80,
+    "speed": 58
+  }
+}

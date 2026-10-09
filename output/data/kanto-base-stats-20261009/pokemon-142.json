@@ -1,0 +1,13 @@
+{
+  "id": 142,
+  "name": "Ptéra",
+  "source_identifier": "aerodactyl",
+  "stats": {
+    "hp": 80,
+    "attack": 105,
+    "defense": 65,
+    "specialAttack": 60,
+    "specialDefense": 75,
+    "speed": 130
+  }
+}

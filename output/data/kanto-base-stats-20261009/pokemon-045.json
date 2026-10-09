@@ -1,0 +1,13 @@
+{
+  "id": 45,
+  "name": "Rafflesia",
+  "source_identifier": "vileplume",
+  "stats": {
+    "hp": 75,
+    "attack": 80,
+    "defense": 85,
+    "specialAttack": 110,
+    "specialDefense": 90,
+    "speed": 50
+  }
+}

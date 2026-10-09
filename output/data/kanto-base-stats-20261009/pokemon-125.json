@@ -1,0 +1,13 @@
+{
+  "id": 125,
+  "name": "Élektek",
+  "source_identifier": "electabuzz",
+  "stats": {
+    "hp": 65,
+    "attack": 83,
+    "defense": 57,
+    "specialAttack": 95,
+    "specialDefense": 85,
+    "speed": 105
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 118,
+  "name": "Poissirène",
+  "source_identifier": "goldeen",
+  "stats": {
+    "hp": 45,
+    "attack": 67,
+    "defense": 60,
+    "specialAttack": 35,
+    "specialDefense": 50,
+    "speed": 63
+  }
+}

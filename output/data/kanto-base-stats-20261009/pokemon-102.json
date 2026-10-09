@@ -1,0 +1,13 @@
+{
+  "id": 102,
+  "name": "Noeunoeuf",
+  "source_identifier": "exeggcute",
+  "stats": {
+    "hp": 60,
+    "attack": 40,
+    "defense": 80,
+    "specialAttack": 60,
+    "specialDefense": 45,
+    "speed": 40
+  }
+}

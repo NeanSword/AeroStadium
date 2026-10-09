@@ -1,0 +1,13 @@
+{
+  "id": 86,
+  "name": "Otaria",
+  "source_identifier": "seel",
+  "stats": {
+    "hp": 65,
+    "attack": 45,
+    "defense": 55,
+    "specialAttack": 45,
+    "specialDefense": 70,
+    "speed": 45
+  }
+}

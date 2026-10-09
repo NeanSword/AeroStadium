@@ -1,0 +1,13 @@
+{
+  "id": 144,
+  "name": "Artikodin",
+  "source_identifier": "articuno",
+  "stats": {
+    "hp": 90,
+    "attack": 85,
+    "defense": 100,
+    "specialAttack": 95,
+    "specialDefense": 125,
+    "speed": 85
+  }
+}

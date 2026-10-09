@@ -1,0 +1,13 @@
+{
+  "id": 147,
+  "name": "Minidraco",
+  "source_identifier": "dratini",
+  "stats": {
+    "hp": 41,
+    "attack": 64,
+    "defense": 45,
+    "specialAttack": 50,
+    "specialDefense": 50,
+    "speed": 50
+  }
+}

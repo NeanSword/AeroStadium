@@ -1,0 +1,13 @@
+{
+  "id": 132,
+  "name": "Métamorph",
+  "source_identifier": "ditto",
+  "stats": {
+    "hp": 48,
+    "attack": 48,
+    "defense": 48,
+    "specialAttack": 48,
+    "specialDefense": 48,
+    "speed": 48
+  }
+}

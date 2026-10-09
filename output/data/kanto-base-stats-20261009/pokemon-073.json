@@ -1,0 +1,13 @@
+{
+  "id": 73,
+  "name": "Tentacruel",
+  "source_identifier": "tentacruel",
+  "stats": {
+    "hp": 80,
+    "attack": 70,
+    "defense": 65,
+    "specialAttack": 80,
+    "specialDefense": 120,
+    "speed": 100
+  }
+}

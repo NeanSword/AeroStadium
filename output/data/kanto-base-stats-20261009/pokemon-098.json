@@ -1,0 +1,13 @@
+{
+  "id": 98,
+  "name": "Krabby",
+  "source_identifier": "krabby",
+  "stats": {
+    "hp": 30,
+    "attack": 105,
+    "defense": 90,
+    "specialAttack": 25,
+    "specialDefense": 25,
+    "speed": 50
+  }
+}

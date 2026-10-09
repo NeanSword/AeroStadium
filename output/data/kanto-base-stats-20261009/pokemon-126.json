@@ -1,0 +1,13 @@
+{
+  "id": 126,
+  "name": "Magmar",
+  "source_identifier": "magmar",
+  "stats": {
+    "hp": 65,
+    "attack": 95,
+    "defense": 57,
+    "specialAttack": 100,
+    "specialDefense": 85,
+    "speed": 93
+  }
+}

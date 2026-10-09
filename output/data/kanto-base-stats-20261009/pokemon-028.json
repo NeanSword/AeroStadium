@@ -1,0 +1,13 @@
+{
+  "id": 28,
+  "name": "Sablaireau",
+  "source_identifier": "sandslash",
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 110,
+    "specialAttack": 45,
+    "specialDefense": 55,
+    "speed": 65
+  }
+}

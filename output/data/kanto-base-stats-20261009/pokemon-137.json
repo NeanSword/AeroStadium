@@ -1,0 +1,13 @@
+{
+  "id": 137,
+  "name": "Porygon",
+  "source_identifier": "porygon",
+  "stats": {
+    "hp": 65,
+    "attack": 60,
+    "defense": 70,
+    "specialAttack": 85,
+    "specialDefense": 75,
+    "speed": 40
+  }
+}

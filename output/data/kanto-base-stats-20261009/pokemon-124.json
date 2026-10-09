@@ -1,0 +1,13 @@
+{
+  "id": 124,
+  "name": "Lippoutou",
+  "source_identifier": "jynx",
+  "stats": {
+    "hp": 65,
+    "attack": 50,
+    "defense": 35,
+    "specialAttack": 115,
+    "specialDefense": 95,
+    "speed": 95
+  }
+}

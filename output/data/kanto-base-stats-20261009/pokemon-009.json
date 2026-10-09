@@ -1,0 +1,13 @@
+{
+  "id": 9,
+  "name": "Tortank",
+  "source_identifier": "blastoise",
+  "stats": {
+    "hp": 79,
+    "attack": 83,
+    "defense": 100,
+    "specialAttack": 85,
+    "specialDefense": 105,
+    "speed": 78
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 75,
+  "name": "Gravalanch",
+  "source_identifier": "graveler",
+  "stats": {
+    "hp": 55,
+    "attack": 95,
+    "defense": 115,
+    "specialAttack": 45,
+    "specialDefense": 45,
+    "speed": 35
+  }
+}

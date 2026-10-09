@@ -1,0 +1,13 @@
+{
+  "id": 66,
+  "name": "Machoc",
+  "source_identifier": "machop",
+  "stats": {
+    "hp": 70,
+    "attack": 80,
+    "defense": 50,
+    "specialAttack": 35,
+    "specialDefense": 35,
+    "speed": 35
+  }
+}

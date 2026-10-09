@@ -46,7 +46,9 @@ Les fichiers audio préparés, les cris et les archives restent locaux et ignor�
 
 ## Musique du menu principal
 
-Piste choisie par l’utilisateur : [Pokémon Center – Epic Pokémon Theme Remix](https://www.youtube.com/watch?v=YMBPE0KaOv4), chaîne [Epic PokeMix](https://www.youtube.com/channel/UC6rhI9J4hkPIXC6joginohg). La description de la source mentionne Junichi Masuda et Go Ichinose pour les compositions originales et Suno AI pour le remix ; il s’agit des crédits déclarés par cette source. AeroStadium a préparé le découpage, le raccord compensé et le niveau de la boucle utilisée localement. La musique du titre reste celle de Vetrom. Sources et enregistrements restent locaux et ignorés par Git ; voir [MENU_AUDIO.md](MENU_AUDIO.md).
+Piste active : [Pokémon : Main Title Intro [EPIC COVER] (Fan music)](https://www.youtube.com/watch?v=JckTGvghi0k), chaîne [Alexis DL](https://www.youtube.com/channel/UCi0rPiqZNemz3hV40NPePOA). La description crédite Jun’ichi Masuda pour la composition et Alexis DL pour l’orchestration et l’arrangement. AeroStadium réalise le découpage, le raccord et le niveau de la boucle locale. Les métadonnées et ces crédits sont sauvegardés pour les crédits finaux dans `output/audio/youtube-JckTGvghi0k/request-and-credits.json`. Voir [MENU_AUDIO.md](MENU_AUDIO.md).
+
+L’ancienne piste [Pokémon Center – Epic Pokémon Theme Remix](https://www.youtube.com/watch?v=YMBPE0KaOv4), Epic PokeMix, reste archivée localement. La musique du titre reste celle de Vetrom. Les sources et enregistrements audio sont locaux et ignorés par Git.
 
 ## Références et inspection des animations
 

@@ -1,0 +1,13 @@
+{
+  "id": 50,
+  "name": "Taupiqueur",
+  "source_identifier": "diglett",
+  "stats": {
+    "hp": 10,
+    "attack": 55,
+    "defense": 25,
+    "specialAttack": 35,
+    "specialDefense": 45,
+    "speed": 95
+  }
+}

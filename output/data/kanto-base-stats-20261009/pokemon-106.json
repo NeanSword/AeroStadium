@@ -1,0 +1,13 @@
+{
+  "id": 106,
+  "name": "Kicklee",
+  "source_identifier": "hitmonlee",
+  "stats": {
+    "hp": 50,
+    "attack": 120,
+    "defense": 53,
+    "specialAttack": 35,
+    "specialDefense": 110,
+    "speed": 87
+  }
+}

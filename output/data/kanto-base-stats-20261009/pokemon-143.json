@@ -1,0 +1,13 @@
+{
+  "id": 143,
+  "name": "Ronflex",
+  "source_identifier": "snorlax",
+  "stats": {
+    "hp": 160,
+    "attack": 110,
+    "defense": 65,
+    "specialAttack": 65,
+    "specialDefense": 110,
+    "speed": 30
+  }
+}

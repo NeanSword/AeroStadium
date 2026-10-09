@@ -1,0 +1,13 @@
+{
+  "id": 91,
+  "name": "Crustabri",
+  "source_identifier": "cloyster",
+  "stats": {
+    "hp": 50,
+    "attack": 95,
+    "defense": 180,
+    "specialAttack": 85,
+    "specialDefense": 45,
+    "speed": 70
+  }
+}

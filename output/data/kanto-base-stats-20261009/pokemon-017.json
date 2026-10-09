@@ -1,0 +1,13 @@
+{
+  "id": 17,
+  "name": "Roucoups",
+  "source_identifier": "pidgeotto",
+  "stats": {
+    "hp": 63,
+    "attack": 60,
+    "defense": 55,
+    "specialAttack": 50,
+    "specialDefense": 50,
+    "speed": 71
+  }
+}

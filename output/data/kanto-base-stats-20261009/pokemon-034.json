@@ -1,0 +1,13 @@
+{
+  "id": 34,
+  "name": "Nidoking",
+  "source_identifier": "nidoking",
+  "stats": {
+    "hp": 81,
+    "attack": 102,
+    "defense": 77,
+    "specialAttack": 85,
+    "specialDefense": 75,
+    "speed": 85
+  }
+}

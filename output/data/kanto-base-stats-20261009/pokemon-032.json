@@ -1,0 +1,13 @@
+{
+  "id": 32,
+  "name": "Nidoran♂",
+  "source_identifier": "nidoran-m",
+  "stats": {
+    "hp": 46,
+    "attack": 57,
+    "defense": 40,
+    "specialAttack": 40,
+    "specialDefense": 40,
+    "speed": 50
+  }
+}

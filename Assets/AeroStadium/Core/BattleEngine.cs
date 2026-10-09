@@ -8,6 +8,8 @@ namespace AeroStadium.Core
     {
         public int speciesId;
         public string itemId;
+        // Null preserves the original rental profile: IV31 and EV0 in every stat.
+        public StatValues ivs, evs;
         public TeamMember() { }
         public TeamMember(int speciesId, string itemId = null) { this.speciesId = speciesId; this.itemId = itemId; }
     }
@@ -74,6 +76,9 @@ namespace AeroStadium.Core
         public string ItemId { get { return HeldItem == null ? null : HeldItem.id; } }
         public IReadOnlyList<MoveSlot> Moves { get; private set; }
         public bool IsFainted { get { return Hp == 0; } }
+        readonly StatValues individualValues, effortValues;
+        public StatValues IndividualValues { get { return individualValues.Copy(); } }
+        public StatValues EffortValues { get { return effortValues.Copy(); } }
         internal ItemDefinition HeldItem;
         internal bool Protected;
         internal bool UsedProtectLastTurn;
@@ -83,17 +88,24 @@ namespace AeroStadium.Core
             Species = catalog.GetSpecies(member.speciesId);
             HeldItem = catalog.GetItem(member.itemId);
             Level = level;
+            individualValues=(member.ivs??new StatValues(31)).Copy();
+            effortValues=(member.evs??new StatValues()).Copy();
+            individualValues.Validate(31,-1,nameof(member.ivs));
+            effortValues.Validate(252,510,nameof(member.evs));
             BaseStats b = Species.stats;
-            MaxHp = ((2 * b.hp + 31) * level / 100) + level + 10;
+            MaxHp = ScaledBase(b.hp,individualValues.hp,effortValues.hp,level) + level + 10;
             Hp = MaxHp;
-            Attack = Stat(b.attack, level); Defense = Stat(b.defense, level);
-            SpecialAttack = Stat(b.specialAttack, level); SpecialDefense = Stat(b.specialDefense, level);
-            Speed = Stat(b.speed, level);
+            Attack = Stat(b.attack,individualValues.attack,effortValues.attack,level);
+            Defense = Stat(b.defense,individualValues.defense,effortValues.defense,level);
+            SpecialAttack = Stat(b.specialAttack,individualValues.specialAttack,effortValues.specialAttack,level);
+            SpecialDefense = Stat(b.specialDefense,individualValues.specialDefense,effortValues.specialDefense,level);
+            Speed = Stat(b.speed,individualValues.speed,effortValues.speed,level);
             var slots = new MoveSlot[Species.moves.Length];
             for (int i = 0; i < slots.Length; i++) slots[i] = new MoveSlot(catalog.GetMove(Species.moves[i]));
             Moves = Array.AsReadOnly(slots);
         }
-        private static int Stat(int basis, int level) { return ((2 * basis + 31) * level / 100) + 5; }
+        private static int ScaledBase(int basis,int iv,int ev,int level) { return (2*basis+iv+ev/4)*level/100; }
+        private static int Stat(int basis,int iv,int ev,int level) { return ScaledBase(basis,iv,ev,level)+5; }
         internal int EffectiveAttack { get { return ApplyStage(Attack, AttackStage); } }
         internal int EffectiveSpeed { get { return ApplyStage(Speed, SpeedStage); } }
         private static int ApplyStage(int stat, int stage)

@@ -1,0 +1,13 @@
+{
+  "id": 138,
+  "name": "Amonita",
+  "source_identifier": "omanyte",
+  "stats": {
+    "hp": 35,
+    "attack": 40,
+    "defense": 100,
+    "specialAttack": 90,
+    "specialDefense": 55,
+    "speed": 35
+  }
+}

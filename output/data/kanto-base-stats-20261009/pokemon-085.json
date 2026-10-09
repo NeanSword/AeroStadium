@@ -1,0 +1,13 @@
+{
+  "id": 85,
+  "name": "Dodrio",
+  "source_identifier": "dodrio",
+  "stats": {
+    "hp": 60,
+    "attack": 110,
+    "defense": 70,
+    "specialAttack": 60,
+    "specialDefense": 60,
+    "speed": 110
+  }
+}

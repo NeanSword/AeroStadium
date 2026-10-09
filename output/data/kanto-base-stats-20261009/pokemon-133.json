@@ -1,0 +1,13 @@
+{
+  "id": 133,
+  "name": "Évoli",
+  "source_identifier": "eevee",
+  "stats": {
+    "hp": 55,
+    "attack": 55,
+    "defense": 50,
+    "specialAttack": 45,
+    "specialDefense": 65,
+    "speed": 55
+  }
+}

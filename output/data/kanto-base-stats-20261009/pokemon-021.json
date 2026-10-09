@@ -1,0 +1,13 @@
+{
+  "id": 21,
+  "name": "Piafabec",
+  "source_identifier": "spearow",
+  "stats": {
+    "hp": 40,
+    "attack": 60,
+    "defense": 30,
+    "specialAttack": 31,
+    "specialDefense": 31,
+    "speed": 70
+  }
+}

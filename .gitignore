@@ -48,3 +48,6 @@ Assets/AeroStadium/Resources/Stadiums/
 Assets/AeroStadium/Resources/Stadiums.meta
 LocalStadiumSources/
 output/stadiums/
+
+# Local selection portraits, contact sheets and UI validation artifacts.
+output/ui/

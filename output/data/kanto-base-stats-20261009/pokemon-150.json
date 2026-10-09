@@ -1,0 +1,13 @@
+{
+  "id": 150,
+  "name": "Mewtwo",
+  "source_identifier": "mewtwo",
+  "stats": {
+    "hp": 106,
+    "attack": 110,
+    "defense": 90,
+    "specialAttack": 154,
+    "specialDefense": 90,
+    "speed": 130
+  }
+}

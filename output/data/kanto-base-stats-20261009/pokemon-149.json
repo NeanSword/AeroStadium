@@ -1,0 +1,13 @@
+{
+  "id": 149,
+  "name": "Dracolosse",
+  "source_identifier": "dragonite",
+  "stats": {
+    "hp": 91,
+    "attack": 134,
+    "defense": 95,
+    "specialAttack": 100,
+    "specialDefense": 100,
+    "speed": 80
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 53,
+  "name": "Persian",
+  "source_identifier": "persian",
+  "stats": {
+    "hp": 65,
+    "attack": 70,
+    "defense": 60,
+    "specialAttack": 65,
+    "specialDefense": 65,
+    "speed": 115
+  }
+}

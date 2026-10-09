@@ -1,0 +1,13 @@
+{
+  "id": 51,
+  "name": "Triopikeur",
+  "source_identifier": "dugtrio",
+  "stats": {
+    "hp": 35,
+    "attack": 100,
+    "defense": 50,
+    "specialAttack": 50,
+    "specialDefense": 70,
+    "speed": 120
+  }
+}

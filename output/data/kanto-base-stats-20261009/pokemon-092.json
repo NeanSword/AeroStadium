@@ -1,0 +1,13 @@
+{
+  "id": 92,
+  "name": "Fantominus",
+  "source_identifier": "gastly",
+  "stats": {
+    "hp": 30,
+    "attack": 35,
+    "defense": 30,
+    "specialAttack": 100,
+    "specialDefense": 35,
+    "speed": 80
+  }
+}

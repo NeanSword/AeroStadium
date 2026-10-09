@@ -1,0 +1,13 @@
+{
+  "id": 23,
+  "name": "Abo",
+  "source_identifier": "ekans",
+  "stats": {
+    "hp": 35,
+    "attack": 60,
+    "defense": 44,
+    "specialAttack": 40,
+    "specialDefense": 54,
+    "speed": 55
+  }
+}

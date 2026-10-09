@@ -1,0 +1,13 @@
+{
+  "id": 117,
+  "name": "Hypocéan",
+  "source_identifier": "seadra",
+  "stats": {
+    "hp": 55,
+    "attack": 65,
+    "defense": 95,
+    "specialAttack": 95,
+    "specialDefense": 45,
+    "speed": 85
+  }
+}

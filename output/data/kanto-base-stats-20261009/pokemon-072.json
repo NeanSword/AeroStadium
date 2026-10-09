@@ -1,0 +1,13 @@
+{
+  "id": 72,
+  "name": "Tentacool",
+  "source_identifier": "tentacool",
+  "stats": {
+    "hp": 40,
+    "attack": 40,
+    "defense": 35,
+    "specialAttack": 50,
+    "specialDefense": 100,
+    "speed": 70
+  }
+}

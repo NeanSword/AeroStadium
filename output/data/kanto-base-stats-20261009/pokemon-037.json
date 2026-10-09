@@ -1,0 +1,13 @@
+{
+  "id": 37,
+  "name": "Goupix",
+  "source_identifier": "vulpix",
+  "stats": {
+    "hp": 38,
+    "attack": 41,
+    "defense": 40,
+    "specialAttack": 50,
+    "specialDefense": 65,
+    "speed": 65
+  }
+}

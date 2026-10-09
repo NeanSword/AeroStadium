@@ -1,0 +1,13 @@
+{
+  "id": 16,
+  "name": "Roucool",
+  "source_identifier": "pidgey",
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 40,
+    "specialAttack": 35,
+    "specialDefense": 35,
+    "speed": 56
+  }
+}

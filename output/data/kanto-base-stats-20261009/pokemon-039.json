@@ -1,0 +1,13 @@
+{
+  "id": 39,
+  "name": "Rondoudou",
+  "source_identifier": "jigglypuff",
+  "stats": {
+    "hp": 115,
+    "attack": 45,
+    "defense": 20,
+    "specialAttack": 45,
+    "specialDefense": 25,
+    "speed": 20
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 78,
+  "name": "Galopa",
+  "source_identifier": "rapidash",
+  "stats": {
+    "hp": 65,
+    "attack": 100,
+    "defense": 70,
+    "specialAttack": 80,
+    "specialDefense": 80,
+    "speed": 105
+  }
+}

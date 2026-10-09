@@ -1,0 +1,13 @@
+{
+  "id": 113,
+  "name": "Leveinard",
+  "source_identifier": "chansey",
+  "stats": {
+    "hp": 250,
+    "attack": 5,
+    "defense": 5,
+    "specialAttack": 35,
+    "specialDefense": 105,
+    "speed": 50
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 136,
+  "name": "Pyroli",
+  "source_identifier": "flareon",
+  "stats": {
+    "hp": 65,
+    "attack": 130,
+    "defense": 60,
+    "specialAttack": 95,
+    "specialDefense": 110,
+    "speed": 65
+  }
+}

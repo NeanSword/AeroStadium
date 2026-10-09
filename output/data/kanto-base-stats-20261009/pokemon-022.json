@@ -1,0 +1,13 @@
+{
+  "id": 22,
+  "name": "Rapasdepic",
+  "source_identifier": "fearow",
+  "stats": {
+    "hp": 65,
+    "attack": 90,
+    "defense": 65,
+    "specialAttack": 61,
+    "specialDefense": 61,
+    "speed": 100
+  }
+}

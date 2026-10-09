@@ -1,0 +1,13 @@
+{
+  "id": 87,
+  "name": "Lamantine",
+  "source_identifier": "dewgong",
+  "stats": {
+    "hp": 90,
+    "attack": 70,
+    "defense": 80,
+    "specialAttack": 70,
+    "specialDefense": 95,
+    "speed": 70
+  }
+}

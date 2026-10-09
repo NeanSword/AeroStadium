@@ -1,0 +1,13 @@
+{
+  "id": 140,
+  "name": "Kabuto",
+  "source_identifier": "kabuto",
+  "stats": {
+    "hp": 30,
+    "attack": 80,
+    "defense": 90,
+    "specialAttack": 55,
+    "specialDefense": 45,
+    "speed": 55
+  }
+}

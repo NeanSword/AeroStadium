@@ -1,0 +1,13 @@
+{
+  "id": 109,
+  "name": "Smogo",
+  "source_identifier": "koffing",
+  "stats": {
+    "hp": 40,
+    "attack": 65,
+    "defense": 95,
+    "specialAttack": 60,
+    "specialDefense": 45,
+    "speed": 35
+  }
+}

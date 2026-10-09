@@ -1,0 +1,13 @@
+{
+  "id": 6,
+  "name": "Dracaufeu",
+  "source_identifier": "charizard",
+  "stats": {
+    "hp": 78,
+    "attack": 84,
+    "defense": 78,
+    "specialAttack": 109,
+    "specialDefense": 85,
+    "speed": 100
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 3,
+  "name": "Florizarre",
+  "source_identifier": "venusaur",
+  "stats": {
+    "hp": 80,
+    "attack": 82,
+    "defense": 83,
+    "specialAttack": 100,
+    "specialDefense": 100,
+    "speed": 80
+  }
+}

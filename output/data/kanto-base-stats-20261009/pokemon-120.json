@@ -1,0 +1,13 @@
+{
+  "id": 120,
+  "name": "Stari",
+  "source_identifier": "staryu",
+  "stats": {
+    "hp": 30,
+    "attack": 45,
+    "defense": 55,
+    "specialAttack": 70,
+    "specialDefense": 55,
+    "speed": 85
+  }
+}

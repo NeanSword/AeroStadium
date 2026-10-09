@@ -1,0 +1,13 @@
+{
+  "id": 94,
+  "name": "Ectoplasma",
+  "source_identifier": "gengar",
+  "stats": {
+    "hp": 60,
+    "attack": 65,
+    "defense": 60,
+    "specialAttack": 130,
+    "specialDefense": 75,
+    "speed": 110
+  }
+}

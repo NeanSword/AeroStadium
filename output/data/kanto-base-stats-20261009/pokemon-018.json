@@ -1,0 +1,13 @@
+{
+  "id": 18,
+  "name": "Roucarnage",
+  "source_identifier": "pidgeot",
+  "stats": {
+    "hp": 83,
+    "attack": 80,
+    "defense": 75,
+    "specialAttack": 70,
+    "specialDefense": 70,
+    "speed": 101
+  }
+}

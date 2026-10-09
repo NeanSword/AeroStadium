@@ -1,0 +1,13 @@
+{
+  "id": 43,
+  "name": "Mystherbe",
+  "source_identifier": "oddish",
+  "stats": {
+    "hp": 45,
+    "attack": 50,
+    "defense": 55,
+    "specialAttack": 75,
+    "specialDefense": 65,
+    "speed": 30
+  }
+}

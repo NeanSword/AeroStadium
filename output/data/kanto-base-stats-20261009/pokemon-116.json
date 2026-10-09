@@ -1,0 +1,13 @@
+{
+  "id": 116,
+  "name": "Hypotrempe",
+  "source_identifier": "horsea",
+  "stats": {
+    "hp": 30,
+    "attack": 40,
+    "defense": 70,
+    "specialAttack": 70,
+    "specialDefense": 25,
+    "speed": 60
+  }
+}

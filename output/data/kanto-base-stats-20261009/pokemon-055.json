@@ -1,0 +1,13 @@
+{
+  "id": 55,
+  "name": "Akwakwak",
+  "source_identifier": "golduck",
+  "stats": {
+    "hp": 80,
+    "attack": 82,
+    "defense": 78,
+    "specialAttack": 95,
+    "specialDefense": 80,
+    "speed": 85
+  }
+}

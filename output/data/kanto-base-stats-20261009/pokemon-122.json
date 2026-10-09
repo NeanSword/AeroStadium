@@ -1,0 +1,13 @@
+{
+  "id": 122,
+  "name": "M. Mime",
+  "source_identifier": "mr-mime",
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 65,
+    "specialAttack": 100,
+    "specialDefense": 120,
+    "speed": 90
+  }
+}

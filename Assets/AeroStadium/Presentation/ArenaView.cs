@@ -187,6 +187,23 @@ namespace AeroStadium.Presentation
             FramePokemon(preview);
         }
 
+        public void FrameInspection(bool greeting = false)
+        {
+            if (pokemon[0] == null) return;
+            foreach (var node in pokemon[0].GetComponentsInChildren<Transform>(true)) node.gameObject.layer = 31;
+            Bounds bounds = PokemonWorldBounds(0);
+            ArenaCamera.cullingMask = 1 << 31;
+            ArenaCamera.orthographic = true;
+            ArenaCamera.clearFlags = CameraClearFlags.SolidColor;
+            ArenaCamera.backgroundColor = new Color(.025f, .08f, .18f);
+            ArenaCamera.orthographicSize = Mathf.Max(.35f, bounds.extents.y + .1f,
+                (bounds.extents.x + .1f) / ArenaCamera.aspect) * 1.35f;
+            ArenaCamera.transform.position = bounds.center + new Vector3(0, .12f, -1).normalized * (bounds.size.magnitude * 2f + 5f);
+            ArenaCamera.transform.LookAt(bounds.center);
+            var native = pokemon[0].GetComponent<NativePokemonModel>();
+            if (greeting && native != null) native.Play(PokemonMotionAction.Showcase);
+        }
+
         public float PlayAttackAnimation(int side, bool special = false)
         {
             if (pokemon[side] == null) return 0f;

@@ -1,0 +1,13 @@
+{
+  "id": 38,
+  "name": "Feunard",
+  "source_identifier": "ninetales",
+  "stats": {
+    "hp": 73,
+    "attack": 76,
+    "defense": 75,
+    "specialAttack": 81,
+    "specialDefense": 100,
+    "speed": 100
+  }
+}

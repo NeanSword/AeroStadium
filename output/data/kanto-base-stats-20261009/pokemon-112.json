@@ -1,0 +1,13 @@
+{
+  "id": 112,
+  "name": "Rhinoféros",
+  "source_identifier": "rhydon",
+  "stats": {
+    "hp": 105,
+    "attack": 130,
+    "defense": 120,
+    "specialAttack": 45,
+    "specialDefense": 45,
+    "speed": 40
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 69,
+  "name": "Chétiflor",
+  "source_identifier": "bellsprout",
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 35,
+    "specialAttack": 70,
+    "specialDefense": 30,
+    "speed": 40
+  }
+}

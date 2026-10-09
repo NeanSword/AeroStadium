@@ -1,0 +1,13 @@
+{
+  "id": 27,
+  "name": "Sabelette",
+  "source_identifier": "sandshrew",
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 85,
+    "specialAttack": 20,
+    "specialDefense": 30,
+    "speed": 40
+  }
+}

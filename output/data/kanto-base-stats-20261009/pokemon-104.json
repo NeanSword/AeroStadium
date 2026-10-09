@@ -1,0 +1,13 @@
+{
+  "id": 104,
+  "name": "Osselait",
+  "source_identifier": "cubone",
+  "stats": {
+    "hp": 50,
+    "attack": 50,
+    "defense": 95,
+    "specialAttack": 40,
+    "specialDefense": 50,
+    "speed": 35
+  }
+}

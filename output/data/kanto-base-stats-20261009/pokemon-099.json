@@ -1,0 +1,13 @@
+{
+  "id": 99,
+  "name": "Krabboss",
+  "source_identifier": "kingler",
+  "stats": {
+    "hp": 55,
+    "attack": 130,
+    "defense": 115,
+    "specialAttack": 50,
+    "specialDefense": 50,
+    "speed": 75
+  }
+}

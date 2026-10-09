@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-09T06:46:35.797272+00:00",
+  "source": "PokéAPI database",
+  "source_commit": "2fe95532d27a9bf340575253aff50868319d8182",
+  "sources": {
+    "pokemon.csv": {
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon.csv",
+      "sha256": "16c81c33188b0eac403aa2f759fcbe9e42c611f722d263f5b5a6a5bff9f8ce6b"
+    },
+    "stats.csv": {
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/stats.csv",
+      "sha256": "ee8c541b45b64f40f0eb2545c767294b5801ce8a1410e19d8c33a54e6f1c3b9c"
+    },
+    "pokemon_stats.csv": {
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon_stats.csv",
+      "sha256": "fa2c44263a3706468682fefc3e0b3c4f5487fe9febed7d4ebcd6939c34b16aa8"
+    }
+  },
+  "policy": "Current base stats; standard default forms of Kanto species1..151; no regional/Mega/Gigantamax variants; not historical generation1stats",
+  "species_count": 151,
+  "values_checked": 906,
+  "changed_species_count": 0,
+  "changes": [],
+  "non_stat_data_unchanged": true,
+  "catalog_sha256_before": "d4a57eda8ea7d659a1940a87466eee47609ae7f9d53cfa43763ed5be93ff54e9",
+  "catalog_sha256_after": "d4a57eda8ea7d659a1940a87466eee47609ae7f9d53cfa43763ed5be93ff54e9"
+}

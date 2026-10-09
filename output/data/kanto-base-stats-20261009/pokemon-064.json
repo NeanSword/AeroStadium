@@ -1,0 +1,13 @@
+{
+  "id": 64,
+  "name": "Kadabra",
+  "source_identifier": "kadabra",
+  "stats": {
+    "hp": 40,
+    "attack": 35,
+    "defense": 30,
+    "specialAttack": 120,
+    "specialDefense": 70,
+    "speed": 105
+  }
+}

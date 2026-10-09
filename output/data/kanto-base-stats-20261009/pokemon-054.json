@@ -1,0 +1,13 @@
+{
+  "id": 54,
+  "name": "Psykokwak",
+  "source_identifier": "psyduck",
+  "stats": {
+    "hp": 50,
+    "attack": 52,
+    "defense": 48,
+    "specialAttack": 65,
+    "specialDefense": 50,
+    "speed": 55
+  }
+}

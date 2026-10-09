@@ -1,0 +1,13 @@
+{
+  "id": 96,
+  "name": "Soporifik",
+  "source_identifier": "drowzee",
+  "stats": {
+    "hp": 60,
+    "attack": 48,
+    "defense": 45,
+    "specialAttack": 43,
+    "specialDefense": 90,
+    "speed": 42
+  }
+}
