@@ -38,8 +38,12 @@ namespace AeroStadium.EditorTools
             EnsureAssetFolder(SettingsFolder);
             ConfigureRenderPipeline();
             ConfigureRuntimeArenaMaterial();
-            LocalModelImporter.PrepareModels();
-            if (Directory.Exists("Assets/AeroStadium/Resources/NativeModels")) NativeModelImporter.PrepareModels();
+            if (Directory.Exists("Assets/AeroStadium/Resources/NativeModels"))
+            {
+                NativeModelImporter.PrepareModels();
+                NativeAssetMemoryOptimization.Optimize();
+            }
+            else LocalModelImporter.PrepareModels();
             ConfigureTitleArtwork();
             ConfigureTitleAudio();
             EnsureAssetFolder("Assets/AeroStadium/Scenes");
@@ -102,7 +106,11 @@ namespace AeroStadium.EditorTools
                 if (Directory.Exists("Assets/AeroStadium/Resources/NativeModels") && Array.IndexOf(Environment.GetCommandLineArgs(),"--stadium-only-validation")<0) NativeModelValidation.VerifyAll();
                 if (Array.IndexOf(Environment.GetCommandLineArgs(),"--stadium-only-validation")<0) PokemonSizeValidation.VerifyAll();
                 Directory.CreateDirectory(Path.GetDirectoryName(report.outputPath));
-                BuildReport build = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+                // Validation must not leave its151 model/texture sets alive during serialization.
+                NativeAssetMemoryOptimization.ReleaseEditorCache();
+                BuildReport build;
+                using (new NativeOnlyBuildScope())
+                build = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {
                     scenes = new[] { ScenePath },
                     locationPathName = report.outputPath,

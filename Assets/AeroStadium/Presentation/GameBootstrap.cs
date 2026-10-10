@@ -65,6 +65,7 @@ namespace AeroStadium.Presentation
         Mouse mainMenuVirtualMouse;
         readonly List<InputDevice> mainMenuSuppressedDevices = new List<InputDevice>();
         bool mainMenuInputsIsolated;
+        InputSettings.BackgroundBehavior mainMenuOriginalBackgroundBehavior;
         ControllerHints controls;
         RectTransform canvasRoot, page, pausePanel, chromeHeader, controlFooter;
         Text hints, logText, turnText, introCaption, titleControlHint;
@@ -640,6 +641,9 @@ namespace AeroStadium.Presentation
         {
             if ((!mainMenuTest && !menuAudioTest && !selectionTest) || mainMenuInputsIsolated) return;
             mainMenuInputsIsolated = true;
+            mainMenuOriginalBackgroundBehavior = InputSystem.settings.backgroundBehavior;
+            // A review uses virtual devices even while its window is being observed.
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             // Only Unity's input frontend is suspended. Windows continues to
             // receive keyboard, mouse and controller events normally.
             InputSystem.onDeviceChange += OnMainMenuTestDeviceChange;
@@ -668,6 +672,7 @@ namespace AeroStadium.Presentation
         void RestoreMainMenuTestInputs()
         {
             if (!mainMenuInputsIsolated && mainMenuSuppressedDevices.Count == 0) return;
+            if (mainMenuInputsIsolated) InputSystem.settings.backgroundBehavior = mainMenuOriginalBackgroundBehavior;
             mainMenuInputsIsolated = false;
             InputSystem.onDeviceChange -= OnMainMenuTestDeviceChange;
             int restored = 0;
@@ -772,6 +777,13 @@ namespace AeroStadium.Presentation
             selectionView.RemoveAt(5);
             MenuCheck(!selectionView.CanLaunch, "removing a rental disables battle confirmation");
             selectionView.TryAdd(149);
+            foreach (int inspectionId in new[] { 6, 130, 94, 150 })
+            {
+                selectionView.SetSearch(inspectionId.ToString("000"));
+                yield return new WaitForSecondsRealtime(4.5f);
+                MenuCheck(arena.LoadedModels == 1 && selectionView.FocusedSpeciesId == inspectionId,
+                    "animated inspection stays isolated for species " + inspectionId);
+            }
             selectionView.SetSearch("006");
             yield return new WaitForSecondsRealtime(7f);
             MenuCheck(arena.LoadedModels == 1 && selectionPreview != null && menuAudio.MusicPlaying,
@@ -790,10 +802,19 @@ namespace AeroStadium.Presentation
             }
             MenuCheck(selectionSwitches > 0 && visibleMaximumHp[0] == battle.Active(0).MaxHp
                 && visibleMaximumHp[1] == battle.Active(1).MaxHp, "KO replacement synchronizes models and health maximums");
+            yield return new WaitForSecondsRealtime(3f);
+            ShowSelection();
+            yield return new WaitForSecondsRealtime(1f);
+            EventSystem.current.SetSelectedGameObject(selectionView.Cards[5].gameObject);
+            yield return new WaitForSecondsRealtime(1f);
+            MenuCheck(screen == ScreenMode.Selection && selectionView.TeamCount == 6 && selectionView.CanLaunch
+                && arena.LoadedModels == 1 && selectionPreview != null && arena.ArenaCamera.orthographic
+                && arena.ArenaCamera.targetTexture == selectionPreview && menuAudio.MusicPlaying,
+                "return from combat restores the full draft and isolated animated inspection");
             selectionTestCompleted = mainMenuChecksPassed;
             Debug.Log("[selection-review] turns=" + turns + " switches=" + selectionSwitches + " passed=" + selectionTestCompleted);
             // Devices are restored by OnDestroy when the automatic review ends.
-            // Leave the resulting battle on screen until the requested review deadline.
+            // Keep the completed team desk visible until the requested review deadline.
         }
 
         void ReleaseSelectionPreview()
@@ -827,13 +848,13 @@ namespace AeroStadium.Presentation
             arena.ArenaCamera.aspect = 1024f / 534f;
             selectionView = page.gameObject.AddComponent<PokemonSelectionView>();
             selectionView.PartnerAdded += id => {
-                if (screen == ScreenMode.Selection) { selectedSpecies = id; arena.ShowPokemon(0, id, true); arena.FrameInspection(true); }
+                if (screen == ScreenMode.Selection) { selectedSpecies = id; arena.ShowInspectionPokemon(id, true); }
             };
             int[] saved = selectedTeam == null ? null : Array.ConvertAll(selectedTeam, member => member.speciesId);
             selectionView.Build(page, font, catalog, selectionPreview,
-                id => { if (screen == ScreenMode.Selection) { selectedSpecies = id; arena.ShowPokemon(0, id, true); arena.FrameInspection(); } },
+                id => { if (screen == ScreenMode.Selection) { selectedSpecies = id; arena.ShowInspectionPokemon(id, true); } },
                 team => { selectedTeam = team; StartBattle(); }, ShowMainMenu, saved);
-            arena.ShowPokemon(0, selectedSpecies, true); arena.FrameInspection(); RefreshHints();
+            arena.ShowInspectionPokemon(selectedSpecies, true); RefreshHints();
             Debug.Log("[selection-ready] species=" + catalog.species.Length + " team=" + selectionView.TeamCount);
         }
 

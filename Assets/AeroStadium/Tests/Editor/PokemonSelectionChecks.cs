@@ -187,6 +187,19 @@ namespace AeroStadium.Tests
             CollectionAssert.AreEqual(Enumerable.Range(1, 6).ToArray(), TeamIds(GetTeam()));
         }
 
+        [Test]
+        public void MouseHoverEnergyFollowsTheInspectedPartnerInsteadOfThePreviousSelectedButton()
+        {
+            var visible=Read<IReadOnlyList<Button>>("Cards");
+            EventSystem.current.SetSelectedGameObject(visible[0].gameObject);
+            ExecuteEvents.Execute(visible[23].gameObject,new PointerEventData(EventSystem.current),ExecuteEvents.pointerEnterHandler);
+            Assert.That(Read<int>("FocusedSpeciesId"),Is.EqualTo(24));
+            viewType.GetMethod("Update",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(view,null);
+            var energyType=FindType("AeroStadium.Presentation.PokemonCardEnergy");
+            var active=energyType.GetField("focused",BindingFlags.Instance|BindingFlags.NonPublic);
+            Assert.That((bool)active.GetValue(visible[23].GetComponentInChildren(energyType)),Is.True);
+            Assert.That((bool)active.GetValue(visible[0].GetComponentInChildren(energyType)),Is.False);
+        }
         void Build(int[] saved = null)
         {
             launchCount = 0;

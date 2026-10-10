@@ -217,8 +217,9 @@ namespace AeroStadium.EditorTools
         static Texture2D LoadTexture(string folder, string file, bool normalMap = false, bool flipGreen = false, bool srgb = true, TextureBinding settings = null)
         {
             if (string.IsNullOrEmpty(file)) throw new InvalidDataException("Texture native sans chemin");
-            string path = folder + "/textures/" + Path.GetFileName(file);
-            if (!Path.HasExtension(path)) path += ".png";
+            string filename = Path.GetFileName(file);
+            if (!Path.HasExtension(filename)) filename += ".png";
+            string path = NativeAssetMemoryOptimization.TexturePath(folder, filename);
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
             var importer = AssetImporter.GetAtPath(path) as TextureImporter;
             if (importer == null) throw new FileNotFoundException("Texture native absente", path);

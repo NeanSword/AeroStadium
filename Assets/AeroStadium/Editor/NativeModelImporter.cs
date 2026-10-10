@@ -99,6 +99,7 @@ namespace AeroStadium.EditorTools
                 if (Path.GetFileName(folder) != m.species.ToString("000") || Path.GetFileName(m.modelFile) != m.modelFile)
                     throw new InvalidDataException("Dossier ou chemin du modèle invalide : " + manifestPath);
                 PrepareModel(folder, m);
+                if (ids.Count % 5 == 0) NativeAssetMemoryOptimization.ReleaseEditorCache();
             }
             if (requested != null && !requested.SetEquals(ids)) throw new InvalidDataException("Catalogue natif sélectionné incomplet.");
             AssetDatabase.SaveAssets();
@@ -107,7 +108,7 @@ namespace AeroStadium.EditorTools
 
         static void PrepareModel(string folder, Manifest m)
         {
-            string path = folder + "/" + m.modelFile;
+            string path = NativeAssetMemoryOptimization.ModelPath(folder, m.modelFile);
             if (!File.Exists(path)) throw new FileNotFoundException("GLB natif absent", path);
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
             var importer = AssetImporter.GetAtPath(path);
@@ -195,6 +196,7 @@ namespace AeroStadium.EditorTools
                 }
                 if (m.species == 109 || m.species == 110)
                     actor.AddComponent<NativePersistentSmoke>().Configure(native);
+                NativeAssetMemoryOptimization.DetachModel(model, folder);
                 PrefabUtility.SaveAsPrefabAsset(actor, folder + "/Pokemon.prefab");
                 var report = new ImportReport { species = m.species, sourceClipCount = clips.Length,
                     targetHeight = m.targetHeight, referenceHeight = normalized.size.y, referenceFloor = normalized.min.y,

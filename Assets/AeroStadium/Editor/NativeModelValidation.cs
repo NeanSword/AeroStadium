@@ -186,6 +186,7 @@ namespace AeroStadium.EditorTools
                 catch (Exception exception) { result.error = exception.ToString(); errors.Add($"{result.species:000} : {exception.Message}"); }
                 finally { if (instance != null) UnityEngine.Object.DestroyImmediate(instance); }
                 results.Add(result);
+                if (results.Count % 5 == 0) NativeAssetMemoryOptimization.ReleaseEditorCache();
                 Debug.Log($"[native-unity-validation] species={result.species} clips={result.clips} poses={result.poses} passed={result.passed}");
             }
             report.results = results.ToArray(); report.errors = errors.ToArray(); report.models = results.Count;

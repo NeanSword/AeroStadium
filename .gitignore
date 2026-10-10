@@ -51,3 +51,10 @@ output/stadiums/
 
 # Local selection portraits, contact sheets and UI validation artifacts.
 output/ui/
+
+# Original native payloads are authoring-only, preserved locally.
+Assets/AeroStadium/NativeModelAuthoring/
+Assets/AeroStadium/NativeModelAuthoring.meta
+Assets/AeroStadium/LegacyModelsBuildHold/
+Assets/AeroStadium/LegacyModelsBuildHold.meta
+output/memory/

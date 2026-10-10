@@ -19,7 +19,7 @@ namespace AeroStadium.EditorTools
         const int Size = 256, Layer = 31;
         [Serializable] sealed class Manifest { public int species; public string modelFile; public Entry[] animations; }
         [Serializable] sealed class Entry { public string semantic; }
-        [Serializable] sealed class Result { public int species, foregroundPixels, bytes; public string error; }
+        [Serializable] sealed class Result { public int species, foregroundPixels, transparentPixels, bytes; public string error; }
         [Serializable] sealed class Report { public string utc; public int generated; public bool passed; public Result[] results; }
 
         [MenuItem("AeroStadium/Exporter les portraits de sélection")]
@@ -27,6 +27,9 @@ namespace AeroStadium.EditorTools
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Portrait export requires edit mode.");
             Directory.CreateDirectory(Output); Directory.CreateDirectory("output/ui");
+            int first = Argument("--portrait-first",1), last = Argument("--portrait-last",151);
+            if(first<1 || last>151 || first>last) throw new ArgumentOutOfRangeException("Portrait range must be within Kanto.");
+            int expected=last-first+1;
             var results = new List<Result>(); int generated = 0;
             RenderTexture previous = RenderTexture.active, target = null;
             Texture2D pixels = null; Scene preview = default;
@@ -36,7 +39,7 @@ namespace AeroStadium.EditorTools
                 var camera = PreviewObject("Selection portrait camera", preview).AddComponent<Camera>();
                 camera.enabled = false; camera.cameraType = CameraType.Preview; camera.scene = preview;
                 camera.cullingMask = 1 << Layer; camera.clearFlags = CameraClearFlags.SolidColor;
-                camera.backgroundColor = new Color(.055f, .09f, .16f, 1f);
+                camera.backgroundColor = Color.clear;
                 camera.orthographic = true; camera.aspect = 1f; camera.allowHDR = false; camera.allowMSAA = false;
                 camera.useOcclusionCulling = false;
                 var data = camera.GetUniversalAdditionalCameraData();
@@ -50,7 +53,7 @@ namespace AeroStadium.EditorTools
                 var request = new UniversalRenderPipeline.SingleCameraRequest { destination = target };
                 if (!RenderPipeline.SupportsRenderRequest(camera, request))
                     throw new InvalidOperationException("The configured pipeline does not support URP SingleCameraRequest.");
-                for (int id = 1; id <= 151; id++)
+                for (int id = first; id <= last; id++)
                 {
                     GameObject actor = null; var result = new Result { species = id };
                     try
@@ -81,16 +84,15 @@ namespace AeroStadium.EditorTools
                         RenderPipeline.SubmitRenderRequest(camera, request);
                         RenderTexture.active = target;
                         pixels.ReadPixels(new Rect(0, 0, Size, Size), 0, 0, false); pixels.Apply(false, false);
-                        Color32[] colors = pixels.GetPixels32(); Color32 backdrop = colors[0];
+                        Color32[] colors = pixels.GetPixels32();
                         for (int i = 0; i < colors.Length; i++)
                         {
-                            Color32 c = colors[i];
-                            if (Math.Abs(c.r - backdrop.r) + Math.Abs(c.g - backdrop.g) + Math.Abs(c.b - backdrop.b) > 30)
-                                result.foregroundPixels++;
-                            colors[i].a = 255;
+                            if(colors[i].a>16) result.foregroundPixels++;
+                            if(colors[i].a==0) result.transparentPixels++;
                         }
                         if (result.foregroundPixels < 128) throw new InvalidDataException("Portrait contains no visible model.");
-                        pixels.SetPixels32(colors); pixels.Apply(false, false);
+                        if (result.transparentPixels < Size*Size/4 || colors[0].a!=0 || colors[Size-1].a!=0)
+                            throw new InvalidDataException("Portrait background alpha is not transparent; existing PNG retained.");
                         byte[] png = pixels.EncodeToPNG();
                         if (png == null || png.Length < 512) throw new InvalidDataException("Empty PNG.");
                         result.bytes = png.Length; File.WriteAllBytes(Output + "/" + id.ToString("000") + ".png", png);
@@ -98,6 +100,7 @@ namespace AeroStadium.EditorTools
                     }
                     catch (Exception e) { result.error = e.Message; Debug.LogError("[selection-portrait] #" + id + " " + e.Message); }
                     finally { if (actor != null) Object.DestroyImmediate(actor); results.Add(result); }
+                    if((id-first+1)%5==0) NativeAssetMemoryOptimization.ReleaseEditorCache();
                 }
             }
             finally
@@ -106,7 +109,7 @@ namespace AeroStadium.EditorTools
                 if (pixels != null) Object.DestroyImmediate(pixels);
                 if (target != null) { target.Release(); Object.DestroyImmediate(target); }
                 if (preview.IsValid()) EditorSceneManager.ClosePreviewScene(preview);
-                var report = new Report { utc = DateTime.UtcNow.ToString("o"), generated = generated, passed = generated == 151, results = results.ToArray() };
+                var report = new Report { utc = DateTime.UtcNow.ToString("o"), generated = generated, passed = generated == expected, results = results.ToArray() };
                 File.WriteAllText("output/ui/selection-portraits.json", JsonUtility.ToJson(report, true));
                 AssetDatabase.Refresh();
                 foreach (var result in results) if (string.IsNullOrEmpty(result.error) && result.bytes > 0)
@@ -114,13 +117,20 @@ namespace AeroStadium.EditorTools
                     var importer = AssetImporter.GetAtPath(Output + "/" + result.species.ToString("000") + ".png") as TextureImporter;
                     if (importer == null) throw new InvalidDataException("Portrait texture importer unavailable.");
                     importer.textureType = TextureImporterType.Default; importer.sRGBTexture = true; importer.mipmapEnabled = false;
-                    importer.alphaSource = TextureImporterAlphaSource.None; importer.textureCompression = TextureImporterCompression.Uncompressed;
+                    importer.alphaSource = TextureImporterAlphaSource.FromInput; importer.alphaIsTransparency=true; importer.textureCompression = TextureImporterCompression.Uncompressed;
                     importer.maxTextureSize = Size; importer.wrapMode = TextureWrapMode.Clamp; importer.filterMode = FilterMode.Bilinear;
                     importer.SaveAndReimport();
                 }
             }
-            Debug.Log("[selection-portraits] generated=" + generated + " passed=" + (generated == 151));
-            if (generated != 151) throw new InvalidDataException("Selection portraits incomplete: " + generated + "/151.");
+            Debug.Log("[selection-portraits] generated=" + generated + " passed=" + (generated == expected));
+            if (generated != expected) throw new InvalidDataException("Selection portraits incomplete: " + generated + "/" + expected + ".");
+        }
+
+        static int Argument(string name,int fallback)
+        {
+            string[] args=Environment.GetCommandLineArgs();
+            for(int i=0;i<args.Length-1;i++) if(args[i]==name && int.TryParse(args[i+1],out int value)) return value;
+            return fallback;
         }
 
         static GameObject PreviewObject(string name, Scene scene)

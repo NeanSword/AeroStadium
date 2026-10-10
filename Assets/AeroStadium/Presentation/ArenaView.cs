@@ -185,6 +185,20 @@ namespace AeroStadium.Presentation
             LoadedModels = (pokemon[0] != null ? 1 : 0) + (pokemon[1] != null ? 1 : 0);
             if(!preview)PlaceBattleActors();
             FramePokemon(preview);
+            RuntimeAssetMemory.NotifyModelChanged();
+        }
+
+        public void ShowInspectionPokemon(int species, bool greeting = false)
+        {
+            bool changed = !previewMode || pokemon[0] == null || shownSpecies[0] != species;
+            if (changed) ShowPokemon(0, species, true);
+            if (changed || !ArenaCamera.orthographic) FrameInspection();
+            if (greeting && pokemon[0] != null)
+            {
+                var native = pokemon[0].GetComponent<NativePokemonModel>();
+                float duration = native != null ? native.Play(PokemonMotionAction.Showcase) : 0f;
+                Debug.Log("[inspection-greeting] species=" + species + " native=" + (native != null) + " duration=" + duration);
+            }
         }
 
         public void FrameInspection(bool greeting = false)
@@ -197,9 +211,12 @@ namespace AeroStadium.Presentation
             ArenaCamera.clearFlags = CameraClearFlags.SolidColor;
             ArenaCamera.backgroundColor = new Color(.025f, .08f, .18f);
             ArenaCamera.orthographicSize = Mathf.Max(.35f, bounds.extents.y + .1f,
-                (bounds.extents.x + .1f) / ArenaCamera.aspect) * 1.35f;
-            ArenaCamera.transform.position = bounds.center + new Vector3(0, .12f, -1).normalized * (bounds.size.magnitude * 2f + 5f);
-            ArenaCamera.transform.LookAt(bounds.center);
+                (bounds.extents.x + .1f) / ArenaCamera.aspect) * 1.6f;
+            // Reserve the upper portion of the inspection image for its name and types.
+            // The stable offset avoids following animated bones and pumping the camera.
+            Vector3 inspectionCenter = bounds.center + Vector3.up * (ArenaCamera.orthographicSize * .295f);
+            ArenaCamera.transform.position = inspectionCenter + new Vector3(0, .12f, -1).normalized * (bounds.size.magnitude * 2f + 5f);
+            ArenaCamera.transform.LookAt(inspectionCenter);
             var native = pokemon[0].GetComponent<NativePokemonModel>();
             if (greeting && native != null) native.Play(PokemonMotionAction.Showcase);
         }
@@ -227,10 +244,12 @@ namespace AeroStadium.Presentation
 
         public void ClearPokemon(int side)
         {
-            if (pokemon[side] != null) Destroy(pokemon[side]);
+            bool removed = pokemon[side] != null;
+            if (removed) Destroy(pokemon[side]);
             pokemon[side] = null;
             shownSpecies[side] = 0;
             LoadedModels = (pokemon[0] != null ? 1 : 0) + (pokemon[1] != null ? 1 : 0);
+            if (removed) RuntimeAssetMemory.NotifyModelChanged(true);
         }
 
         public bool HasPokemonModel(int species)

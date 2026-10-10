@@ -33,10 +33,20 @@ namespace AeroStadium.Presentation
         readonly List<CanvasGroup> slotBalls = new List<CanvasGroup>();
         readonly Dictionary<int,Texture2D> portraits = new Dictionary<int,Texture2D>();
         readonly float[] slotBounce = new float[6];
-        RectTransform watermark; float messageAt;
+        RectTransform watermark; float messageAt, previewAt;
+        CanvasGroup entrance, previewGroup, messageGroup, statsGroup;
+        RawImage previewImage;
+        MainMenuPanel previewBorder, battleGlow;
+
+        PokemonSelectionBackdrop backdrop;
+        readonly List<MainMenuPanel> readiness = new List<MainMenuPanel>();
+        readonly List<MainMenuPanel> statBars = new List<MainMenuPanel>();
+        readonly List<Text> statNumbers = new List<Text>();
+        readonly float[] statTargets = new float[6];
+        Color previewAccent = Royal, requestedAccent = Royal;
         sealed class CardMotion
         {
-            public RectTransform Rect, Sheen; public MainMenuPanel Halo; public CanvasGroup Group;
+            public RectTransform Rect; public MainMenuPanel Halo; public CanvasGroup Group; public PokemonCardEnergy Energy;
             public Vector2 Rest; public float Born, Focus; public Color Accent;
         }
         public event Action<int> PartnerAdded;
@@ -72,13 +82,17 @@ namespace AeroStadium.Presentation
             if(parent==null || uiFont==null || data==null) throw new ArgumentNullException("Selection needs a parent, font and catalog.");
             if(root!=null) { root.gameObject.SetActive(false); Release(root.gameObject); }
             team.Clear(); filtered.Clear(); cards.Clear(); visibleSpeciesIds.Clear(); surfaces.Clear(); badges.Clear(); slots.Clear(); slotLabels.Clear(); motion.Clear(); slotPortraits.Clear(); slotBalls.Clear();
-            for(int i=0;i<6;i++) slotBounce[i]=-100f;
+            readiness.Clear(); statBars.Clear(); statNumbers.Clear();
+            for(int i=0;i<6;i++) { slotBounce[i]=-100f; statTargets[i]=0; }
+            previewAccent=requestedAccent=Royal; previewAt=-100f;
             catalog = data; font = uiFont; inspect = onInspect; launch = onLaunch; returnAction = onReturn;
             page=filter=0; focused=pendingInspect=-1; lastInspect=-1f; launchRequested=false;
             opened = Time.unscaledTime; openedFrame=Time.frameCount; root = Rect(parent,"Équipe",0,0,1600,900);
+            entrance=root.gameObject.AddComponent<CanvasGroup>(); entrance.alpha=0;
             var art = Resources.Load<Texture2D>("UI/AeroStadiumMenuBackground");
             Raw(root,"Illustration",0,0,1600,900,art,new Color(.75f,.85f,1f));
             Panel(root,"Lecture",0,0,1600,900,new Color(.02f,.11f,.34f,.71f));
+            backdrop=Rect(root,"Lignes du championnat",0,0,1600,900).gameObject.AddComponent<PokemonSelectionBackdrop>(); backdrop.raycastTarget=false;
             Panel(root,"Bannière royale",0,0,1600,133,new Color(.02f,.23f,.59f,.94f));
             Panel(root,"Ligne championnat",0,129,1600,4,Gold);
             watermark=Ball(root,"Pokéball du stade",1190,105,390,.09f); watermark.localRotation=Quaternion.Euler(0,0,-18);
@@ -110,15 +124,29 @@ namespace AeroStadium.Presentation
             var sheet=Panel(root,"Fiche",970,140,586,518,new Color(.025f,.17f,.42f,.97f)); sheet.BorderWidth=3; sheet.BorderColor=Gold;
             Panel(root,"Cartouche inspection",984,151,558,87,Royal);
             Ball(root,"Capsule inspection",1488,155,44,.34f);
-            Raw(root,"Modèle animé",996,160,534,278,preview,Color.white);
+            previewBorder=Panel(root,"Cadre du partenaire",991,155,544,288,Navy); previewBorder.BorderWidth=3; previewBorder.BorderColor=Royal;
+            previewImage=Raw(root,"Modèle animé",996,160,534,278,preview,Color.white);
+            previewGroup=previewImage.gameObject.AddComponent<CanvasGroup>();
             nameLabel = Label(root,"",996,164,492,42,28,Ivory); nameLabel.fontStyle=FontStyle.Bold;
             var nameOutline=nameLabel.gameObject.AddComponent<Outline>(); nameOutline.effectColor=Navy; nameOutline.effectDistance=new Vector2(2,-2);
             typesLabel = Label(root,"",996,215,506,26,16,Gold);
             add = MakeButton(root,"AJOUTER À L’ÉQUIPE",996,443,534,44,()=> RequestAdd(focused),18);
-            statsLabel = Label(root,"",996,499,254,141,17,Pale);
+            var statDesk=Rect(root,"Qualités du partenaire",996,499,254,141);
+            statsGroup=statDesk.gameObject.AddComponent<CanvasGroup>();
+            statsLabel=Label(statDesk,"STATISTIQUES DE BASE",0,0,254,18,13,Color.white); statsLabel.fontStyle=FontStyle.Bold;
+            string[] statNames={ "PV", "Attaque", "Défense", "Att. spé.", "Déf. spé.", "Vitesse" };
+            for(int i=0;i<6;i++)
+            {
+                float y=25+i*19;
+                Label(statDesk,statNames[i],0,y,88,18,13,Pale);
+                Panel(statDesk,"Repère "+statNames[i],91,y+7,120,6,new Color(.14f,.28f,.44f));
+                var gauge=Panel(statDesk,"Jauge "+statNames[i],91,y+7,0,6,Gold); gauge.Corner=3; statBars.Add(gauge);
+                statNumbers.Add(Label(statDesk,"",216,y,38,18,13,Ivory,TextAnchor.MiddleRight));
+            }
             movesLabel = Label(root,"",1270,499,263,141,16,Pale);
             Label(root,"TON ÉQUIPE  /  LES SIX DE DÉPART",44,674,565,26,18,Ivory);
-            count = Label(root,"",660,675,270,25,15,Gold,TextAnchor.MiddleRight);
+            for(int i=0;i<6;i++) { var lamp=Panel(root,"Voyant partenaire "+(i+1),681+i*20,684,14,7,new Color(.26f,.44f,.67f)); lamp.Corner=3; readiness.Add(lamp); }
+            count = Label(root,"",808,675,122,25,15,Gold,TextAnchor.MiddleRight);
             Label(root,"LOCATION · NIVEAU 50 · SANS OBJET",986,674,552,25,15,Pale,TextAnchor.MiddleCenter);
             for(int i=0;i<6;i++)
             {
@@ -131,9 +159,13 @@ namespace AeroStadium.Presentation
                 Label(button.transform,(i+1).ToString(),5,5,25,25,14,Color.white,TextAnchor.MiddleCenter).fontStyle=FontStyle.Bold;
                 label.transform.SetAsLastSibling(); slots.Add(button); slotLabels.Add(label);
             }
-            Ball(root,"Annonce",44,824,25,1f);
-            message=Label(root,"L’aventure commence avec ton premier partenaire !",78,824,854,27,17,Ivory); message.fontStyle=FontStyle.Bold; messageAt=Time.unscaledTime;
-            start=MakeButton(root,"",970,710,586,98,Launch,23);
+            var notice=Rect(root,"Annonce réservée",44,818,888,21); notice.gameObject.AddComponent<RectMask2D>();
+            Ball(notice,"Annonce",0,1,19,1f);
+            message=Label(notice,"L’aventure commence avec ton premier partenaire !",27,0,860,21,15,Ivory); message.fontStyle=FontStyle.Bold;
+            messageGroup=message.gameObject.AddComponent<CanvasGroup>(); messageAt=Time.unscaledTime;
+            start=MakeButton(root,"",970,710,586,98,Launch,21);
+            start.gameObject.AddComponent<RectMask2D>();
+            battleGlow=Panel(start.transform,"Invitation au combat",4,4,578,90,Color.clear); battleGlow.Corner=20; battleGlow.BorderWidth=3; battleGlow.transform.SetAsFirstSibling();
             back=MakeButton(root,"RETOUR",44,841,140,36,()=> { if(!OpeningGuardActive) returnAction?.Invoke(); },15);
             hints=Label(root,"",212,840,1344,40,17,Pale);
             cursor=Rect(root,"Curseur Pokéball",0,0,35,35);
@@ -160,6 +192,7 @@ namespace AeroStadium.Presentation
             if(team.Contains(id)) { Notify("Déjà dans tes six !",Gold); return false; }
             if(team.Count>=6) { Notify("Équipe complète ! Retire un partenaire pour changer.",Gold); return false; }
             catalog.GetSpecies(id); team.Add(id); RefreshTeam();
+            for(int i=0;i<visibleSpeciesIds.Count;i++) if(visibleSpeciesIds[i]==id) motion[i].Energy.Celebrate();
             Inspect(id); pendingInspect=-1; slotBounce[team.Count-1]=Time.unscaledTime;
             Notify(catalog.GetSpecies(id).name+" te rejoint !",Ivory); PartnerAdded?.Invoke(id);
             if(CanLaunch) Focus(start); return true;
@@ -215,20 +248,21 @@ namespace AeroStadium.Presentation
                 var portrait=Portrait(id);
                 if(portrait!=null) Raw(rt,"Portrait",33,1,72,72,portrait,Color.white);
                 else { var icon=Rect(rt,"Emblème",53,20,32,32).gameObject.AddComponent<MainMenuIcon>(); icon.Kind=MainMenuIcon.Symbol.PokeBall; icon.raycastTarget=false; }
+                var energy=Rect(rt,"Énergie du partenaire",1,0,136,64).gameObject.AddComponent<PokemonCardEnergy>();
+                energy.Configure(s.types[0],TypeColor(s.types[0]),id);
                 for(int t=0;t<s.types.Length;t++) { float width=s.types.Length==1?130:64; var ribbon=Panel(rt,"Type "+s.types[t],4+t*66,64,width,16,TypeColor(s.types[t])); ribbon.Corner=4; Label(rt,TypeName(s.types[t]).ToUpperInvariant(),4+t*66,64,width,16,9,Color.white,TextAnchor.MiddleCenter).fontStyle=FontStyle.Bold; }
                 Label(rt,s.name,4,82,130,21,14,Ivory,TextAnchor.MiddleCenter).fontStyle=FontStyle.Bold;
                 Label(rt,"#"+id.ToString("000"),5,4,43,20,10,Pale);
                 var memberPill=Panel(rt,"Badge équipe",108,5,25,25,Red); memberPill.Corner=12;
                 badges.Add(Label(rt,"",108,5,25,25,12,Color.white,TextAnchor.MiddleCenter));
-                var sheen=Panel(rt,"Reflet",-30,0,16,105,new Color(1,1,1,.1f)); sheen.Corner=0; sheen.rectTransform.localRotation=Quaternion.Euler(0,0,-17);
                 var group=rt.gameObject.AddComponent<CanvasGroup>(); group.alpha=0;
-                motion.Add(new CardMotion { Rect=rt,Halo=halo,Sheen=sheen.rectTransform,Group=group,Rest=rt.anchoredPosition,Born=Time.unscaledTime+cell*.022f,Accent=TypeColor(s.types[0]) });
+                motion.Add(new CardMotion { Rect=rt,Halo=halo,Energy=energy,Group=group,Rest=rt.anchoredPosition,Born=Time.unscaledTime+cell*.022f,Accent=TypeColor(s.types[0]) });
                 cards.Add(button); visibleSpeciesIds.Add(id); surfaces.Add(surface);
             }
             if(filtered.Count==0) Label(grid,"Aucun partenaire trouvé. Essaie un autre nom !",0,150,888,60,22,Navy,TextAnchor.MiddleCenter);
             LinkNavigation(); RefreshTeam();
             if(cards.Count>0) { if(selectFirst || !editing) Focus(cards[0]); Inspect(filtered[first].id); }
-            else { focused=pendingInspect=-1; nameLabel.text="AUCUN RÉSULTAT"; typesLabel.text="Modifie le nom, le numéro ou le type."; statsLabel.text=movesLabel.text=""; RefreshTeam(); if(selectFirst || !editing) Focus(typeButton); }
+            else { focused=pendingInspect=-1; nameLabel.text="AUCUN RÉSULTAT"; typesLabel.text="Modifie le nom, le numéro ou le type."; statsGroup.alpha=0; movesLabel.text=""; RefreshTeam(); if(selectFirst || !editing) Focus(typeButton); }
         }
         void LinkNavigation()
         {
@@ -258,19 +292,25 @@ namespace AeroStadium.Presentation
         void Inspect(int id)
         {
             if(focused==id) return; focused=id; pendingInspect=id;
-            var s=catalog.GetSpecies(id);
+            var s=catalog.GetSpecies(id); previewAt=Time.unscaledTime; requestedAccent=TypeColor(s.types[0]);
             nameLabel.text=s.name.ToUpperInvariant()+"  <size=17>#"+id.ToString("000")+"</size>";
             typesLabel.text=""; foreach(string type in s.types) typesLabel.text+="<color=#"+ColorUtility.ToHtmlStringRGB(TypeColor(type))+">■ "+TypeName(type).ToUpperInvariant()+"</color>  "; typesLabel.text+=" · "+s.height.ToString("0.0",CultureInfo.GetCultureInfo("fr-FR"))+" m";
-            var v=s.stats; statsLabel.text="<color=#FFFFFF>STATISTIQUES DE BASE</color>\nPV  "+v.hp+"       ATT.  "+v.attack+"\nDÉF.  "+v.defense+"       VIT.  "+v.speed+"\nATT. SPÉ.  "+v.specialAttack+"\nDÉF. SPÉ.  "+v.specialDefense;
+            var v=s.stats; int[] values={ v.hp,v.attack,v.defense,v.specialAttack,v.specialDefense,v.speed }; statsGroup.alpha=1;
+            for(int i=0;i<6;i++) { statTargets[i]=120*Mathf.Clamp01(values[i]/255f); statNumbers[i].text=values[i].ToString(); }
             movesLabel.text="<color=#FFFFFF>CAPACITÉS</color>";
             foreach(int move in s.moves) movesLabel.text+="\n"+catalog.GetMove(move).name;
             RefreshTeam();
         }
         void RefreshTeam()
         {
-            for(int i=0;i<6;i++) { bool filled=i<team.Count; slots[i].interactable=true; slotLabels[i].text=filled?catalog.GetSpecies(team[i]).name:"PLACE LIBRE"; slotPortraits[i].texture=filled?Portrait(team[i]):null; slotPortraits[i].gameObject.SetActive(filled); slotBalls[i].gameObject.SetActive(!filled); }
-            count.text=team.Count+" / 6   ·   NIVEAU 50";
-            start.interactable=CanLaunch; start.GetComponentInChildren<Text>().text=CanLaunch?"ÉQUIPE PRÊTE  ›  COMBATTRE":"COMPLÈTE TON ÉQUIPE  ·  "+team.Count+" / 6";
+            for(int i=0;i<6;i++)
+            {
+                bool filled=i<team.Count; slots[i].interactable=true; slotLabels[i].text=filled?catalog.GetSpecies(team[i]).name:"PLACE LIBRE";
+                slotPortraits[i].texture=filled?Portrait(team[i]):null; slotPortraits[i].gameObject.SetActive(filled); slotBalls[i].gameObject.SetActive(!filled);
+                slots[i].GetComponent<MainMenuPanel>().SetBorder(filled?Gold:new Color(.59f,.75f,.95f,.6f));
+            }
+            count.text=team.Count+" / 6 PRÊTS";
+            start.interactable=CanLaunch; start.GetComponentInChildren<Text>().text=CanLaunch?"TON ÉQUIPE EST PRÊTE\nEN ROUTE POUR LE COMBAT  ›":"CHOISIS SIX PARTENAIRES\nÉQUIPE  ·  "+team.Count+" / 6";
             add.interactable=focused>0 && team.Count<6 && !team.Contains(focused);
             add.GetComponentInChildren<Text>().text=focused>0 && team.Contains(focused)?"DÉJÀ DANS TON ÉQUIPE":team.Count>=6?"ÉQUIPE COMPLÈTE":"AJOUTER À L’ÉQUIPE";
             for(int i=0;i<badges.Count;i++) { int slot=team.IndexOf(visibleSpeciesIds[i]); badges[i].text=slot>=0?(slot+1).ToString():""; badges[i].transform.parent.Find("Badge équipe").gameObject.SetActive(slot>=0); }
@@ -298,7 +338,7 @@ namespace AeroStadium.Presentation
             float now=Time.unscaledTime, blend=1f-Mathf.Exp(-Time.unscaledDeltaTime*14f);
             for(int i=0;i<cards.Count;i++)
             {
-                bool active=selected==cards[i].gameObject, member=team.Contains(visibleSpeciesIds[i]);
+                bool active=focused==visibleSpeciesIds[i], member=team.Contains(visibleSpeciesIds[i]);
                 var m=motion[i]; m.Focus=Mathf.Lerp(m.Focus,active?1f:0f,blend);
                 float enter=Mathf.Clamp01((now-m.Born)/.34f); float arrival=1f-Mathf.Pow(1f-enter,3f);
                 m.Group.alpha=arrival; m.Rect.anchoredPosition=m.Rest+new Vector2(0,46f*(1f-arrival)+m.Focus*5f);
@@ -307,18 +347,31 @@ namespace AeroStadium.Presentation
                 var target=active?new Color(.035f,.30f,.62f):member?new Color(.035f,.25f,.38f):Navy;
                 surfaces[i].color=Color.Lerp(surfaces[i].color,target,blend);
                 surfaces[i].SetBorder(active?Gold:member?Gold:new Color(.24f,.52f,.85f,.8f));
-                m.Halo.SetBorder(new Color(1f,.85f,.21f,m.Focus*(.6f+.4f*Mathf.Sin(now*5f))));
-                m.Sheen.anchoredPosition=new Vector2(-35+Mathf.Repeat(now*.58f+i*.17f,1f)*220,0);
-                m.Sheen.gameObject.SetActive(active);
+                Color edge=Color.Lerp(m.Accent,Ivory,.48f); edge.a=m.Focus*(.62f+.20f*Mathf.Sin(now*5f));
+                m.Halo.SetBorder(edge);
+                m.Energy.Tick(active,member,now);
             }
             for(int i=0;i<slots.Count;i++)
             {
                 float age=Mathf.Max(0,now-slotBounce[i]), bounce=Mathf.Exp(-age*4.5f)*Mathf.Sin(age*22f);
-                var slot=(RectTransform)slots[i].transform; slot.anchoredPosition=new Vector2(44+i*150,-705+bounce*18f);
-                float lift=Mathf.Exp(-age*4.5f)*.16f; bool active=selected==slots[i].gameObject;
-                slot.localScale=Vector3.one*(1f+lift+(active?.045f:0));
+                var slot=(RectTransform)slots[i].transform; bool active=selected==slots[i].gameObject;
+                float scale=1f+Mathf.Exp(-age*4.5f)*.08f+(active?.03f:0);
+                float top=Mathf.Clamp(705-bounce*12,700,815-103*scale);
+                slot.anchoredPosition=new Vector2(44+i*150,-top); slot.localScale=Vector3.one*scale;
             }
-            float messageAge=Mathf.Clamp01((now-messageAt)/.4f); message.rectTransform.anchoredPosition=new Vector2(78,-824-(1f-messageAge)*15);
+            // All motion is local and uses unscaled time, so focus/navigation positions stay predictable.
+            float intro=Mathf.Clamp01((now-opened)/.25f); entrance.alpha=1f-Mathf.Pow(1f-intro,3f);
+            float messageAge=Mathf.Clamp01((now-messageAt)/.24f), messageEase=1f-Mathf.Pow(1f-messageAge,3f);
+            message.rectTransform.anchoredPosition=new Vector2(27,-(1f-messageEase)*6);
+            messageGroup.alpha=.45f+.55f*messageEase;
+            float previewAge=Mathf.Clamp01((now-previewAt)/.28f), previewEase=1f-Mathf.Pow(1f-previewAge,3f);
+            previewGroup.alpha=focused>0?.65f+.35f*previewEase:0f;
+            previewImage.rectTransform.anchoredPosition=new Vector2(996,-160-(1f-previewEase)*7);
+            previewAccent=Color.Lerp(previewAccent,requestedAccent,blend); previewBorder.SetBorder(previewAccent);
+            backdrop.Tick(now*.018f,previewAccent);
+            for(int i=0;i<statBars.Count;i++) { var r=statBars[i].rectTransform; r.sizeDelta=new Vector2(Mathf.Lerp(r.sizeDelta.x,statTargets[i],blend),6); statBars[i].color=Color.Lerp(previewAccent,Ivory,.22f); }
+            for(int i=0;i<readiness.Count;i++) readiness[i].color=Color.Lerp(readiness[i].color,i<team.Count?Gold:new Color(.26f,.44f,.67f),blend);
+            battleGlow.SetBorder(CanLaunch?new Color(1f,.83f,.24f,.45f+.2f*Mathf.Sin(now*2.8f)):Color.clear);
             if(watermark!=null) watermark.localRotation=Quaternion.Euler(0,0,-18+Mathf.Sin(now*.45f)*9);
             bool show=controller && selected!=null && selected.transform.IsChildOf(root);
             cursor.gameObject.SetActive(show);
@@ -353,6 +406,45 @@ namespace AeroStadium.Presentation
         { var r=Rect(parent,text,x,y,w,h);var panel=r.gameObject.AddComponent<MainMenuPanel>();panel.color=Royal;panel.Corner=20;panel.BorderWidth=2;panel.BorderColor=Ivory;var b=r.gameObject.AddComponent<Button>();b.targetGraphic=panel;var colors=b.colors;colors.selectedColor=new Color(1f,.90f,.56f);colors.highlightedColor=colors.selectedColor;colors.disabledColor=new Color(.44f,.55f,.70f,.82f);b.colors=colors;b.onClick.AddListener(()=>action());Label(r,text,8,2,w-16,h-4,size,Ivory,TextAnchor.MiddleCenter).fontStyle=FontStyle.Bold;if(w>170) Ball(r,"Capsule",12,(h-27)/2,27,1);return b; }
         static string TypeName(string t)
         { switch(t) { case "Grass":return "Plante";case "Fire":return "Feu";case "Water":return "Eau";case "Electric":return "Électrik";case "Bug":return "Insecte";case "Poison":return "Poison";case "Ground":return "Sol";case "Flying":return "Vol";case "Psychic":return "Psy";case "Fighting":return "Combat";case "Rock":return "Roche";case "Ghost":return "Spectre";case "Ice":return "Glace";case "Dragon":return "Dragon";case "Fairy":return "Fée";case "Steel":return "Acier";case "Dark":return "Ténèbres";default:return "Normal"; } }
+    }
+    // Low-contrast field contours and travelling floodlights connect the desk to the arena.
+    // This is a single non-interactive graphic behind the entire interface.
+    sealed class PokemonSelectionBackdrop : MaskableGraphic
+    {
+        float phase; Color accent;
+        public void Tick(float nextPhase,Color nextAccent)
+        {
+            phase=nextPhase; accent=nextAccent; SetVerticesDirty();
+        }
+        protected override void OnPopulateMesh(VertexHelper mesh)
+        {
+            mesh.Clear(); Color line=new Color(.59f,.79f,1f,.10f);
+            const int segments=64;
+            for(int i=0;i<segments;i++)
+            {
+                float a=i*Mathf.PI*2/segments,b=(i+1)*Mathf.PI*2/segments;
+                Segment(mesh,Orbit(a,620,330),Orbit(b,620,330),2,line);
+                Segment(mesh,Orbit(a,601,313),Orbit(b,601,313),1,line);
+            }
+            Segment(mesh,new Vector2(0,885),new Vector2(1600,885),2,line);
+            for(int i=0;i<8;i++)
+            {
+                float angle=(phase+i/8f)*Mathf.PI*2; Vector2 p=Orbit(angle,620,330);
+                Color light=Color.Lerp(accent,Color.white,.7f); light.a=.32f;
+                Segment(mesh,p-new Vector2(4,0),p+new Vector2(4,0),3,light);
+            }
+        }
+        static Vector2 Orbit(float angle,float x,float y) => new Vector2(1100+Mathf.Cos(angle)*x,450+Mathf.Sin(angle)*y);
+        void Segment(VertexHelper mesh,Vector2 a,Vector2 b,float width,Color tint)
+        {
+            Vector2 side=new Vector2(-(b-a).y,(b-a).x).normalized*(width*.5f);
+            int first=mesh.currentVertCount; Vertex(mesh,a-side,tint); Vertex(mesh,a+side,tint); Vertex(mesh,b+side,tint); Vertex(mesh,b-side,tint);
+            mesh.AddTriangle(first,first+1,first+2); mesh.AddTriangle(first,first+2,first+3);
+        }
+        void Vertex(VertexHelper mesh,Vector2 p,Color tint)
+        {
+            Rect r=rectTransform.rect; MainMenuPanel.AddVertex(mesh,new Vector2(r.xMin+p.x,r.yMax-p.y),tint);
+        }
     }
     sealed class PokemonSelectionFocus : MonoBehaviour,ISelectHandler,IPointerEnterHandler
     {
