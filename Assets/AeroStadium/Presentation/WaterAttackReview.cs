@@ -16,7 +16,7 @@ namespace AeroStadium.Presentation
             public int cycle, directDamage, hpBefore, hpAfterHit, hpAfterBlock, directReactions, blockedReactions;
             public bool directEvent, protectEvent, blockedEvent, directCompleted, directSplash, shieldFormed;
             public bool blockedCompleted, stoppedAtShield, blockedSplash, surfaceContact, cleanup, shieldRunoff, pairedEmitters, pairedContacts;
-            public bool activationSound,blockSound,directSound,blockedSound;
+            public bool activationSound,blockSound,directSound,blockedSound,directPacketDetached,blockedPacketDetached;public float directPacketFraction,blockedPacketFraction,packetLength;
             public bool guardAnimated;public int guardJoints;public float guardPeakAngle;
             public int activations, contacts, blocks, waterCasts;
             public float activationSeconds, directImpactSeconds;
@@ -92,8 +92,8 @@ namespace AeroStadium.Presentation
                 SetPhase("1 / 3 · PISTOLET À O TOUCHE","Dracaufeu reçoit l’attaque sans protection.");
                 if(iteration==0){capturing=true;captureStarted=Time.realtimeSinceStartup;StartCoroutine(CaptureMotion());}
                 yield return Pause(iteration==0?3:4);
-                yield return Observe(arena.Attack(0,"Water","Special",55,true,-1,(float)directEffectiveness),"01-direct-impact.png",.95f,iteration==0);
-                result.directCompleted=arena.LastWaterCompleted;result.directSound=arena.LastWaterSound;result.pairedEmitters=arena.LastWaterEmitterCount==2;
+                yield return Observe(arena.Attack(0,"Water","Special",55,true,-1,(float)directEffectiveness),"01-direct-impact.png",.59f,iteration==0);
+                result.directPacketDetached=arena.LastWaterDetachedBeforeImpact;result.directPacketFraction=arena.LastWaterPacketFraction;result.packetLength=arena.LastWaterMaxPacketLength;result.directCompleted=arena.LastWaterCompleted;result.directSound=arena.LastWaterSound;result.pairedEmitters=arena.LastWaterEmitterCount==2;
                 result.directReactions=arena.LastWaterTargetReactions;result.directSplash=arena.LastWaterSplash;
                 result.directImpactSeconds=arena.LastWaterImpactTime;
                 yield return arena.Hit(1,result.directDamage,true,(float)directEffectiveness); Health(result.hpAfterHit,battle.Active(1).MaxHp);
@@ -113,11 +113,11 @@ namespace AeroStadium.Presentation
                 result.guardPeakAngle=arena.LastProtectPeakAngle;
                 yield return Pause(4);
 
-                Overview();SetPhase("3 / 3 · PISTOLET À O RENCONTRE ABRI","Les deux jets s’écrasent sur Abri ; l’eau éclabousse et ruisselle.");
+                Overview();SetPhase("3 / 3 · PISTOLET À O RENCONTRE ABRI","Les deux salves éclatent sur Abri ; l’eau éclabousse et ruisselle.");
                 yield return Pause(2);
                 int blockBefore=arena.ProtectBlockCount,damageBefore=arena.DamagePoseCount;
                 yield return Observe(arena.Attack(0,"Water","Special",55,false,1),"03-shield-runoff.png",1.20f,iteration==0);
-                result.blockedCompleted=arena.LastWaterCompleted;result.pairedEmitters &= arena.LastWaterEmitterCount==2;result.pairedContacts=arena.LastWaterEmitterContacts==2;result.blockedSound=arena.LastWaterSound;
+                result.blockedPacketDetached=arena.LastWaterDetachedBeforeImpact;result.blockedPacketFraction=arena.LastWaterPacketFraction;result.blockedCompleted=arena.LastWaterCompleted;result.pairedEmitters &= arena.LastWaterEmitterCount==2;result.pairedContacts=arena.LastWaterEmitterContacts==2;result.blockedSound=arena.LastWaterSound;
                 result.stoppedAtShield=arena.LastWaterWasBlocked;result.shieldRunoff=arena.LastWaterShieldRunoff;result.contacts=arena.LastWaterShieldContacts;
                 result.blockedReactions=arena.DamagePoseCount-damageBefore;result.blockedSplash=arena.LastWaterSplash;
                 result.blocks=arena.ProtectBlockCount-blockBefore;result.blockSound=arena.LastProtectBlockSound;
@@ -149,11 +149,13 @@ namespace AeroStadium.Presentation
         IEnumerator Pause(float seconds){yield return new WaitForSecondsRealtime(seconds);}
         IEnumerator Observe(IEnumerator action,string still,float at,bool save)
         {
-            bool finished=false,captured=false;float began=Time.realtimeSinceStartup;
+            bool finished=false,captured=false,flightCaptured=false;float began=Time.realtimeSinceStartup;
             StartCoroutine(Perform());
             while(!finished)
             {
                 yield return new WaitForEndOfFrame();
+                if(save&&!flightCaptured&&still=="01-direct-impact.png"&&Time.realtimeSinceStartup-began>=.35f)
+                {ModernArenaReview.Capture(arena.ArenaCamera,Path.Combine(output,"00-detached-projectiles.png"));flightCaptured=true;}
                 if(save&&!captured&&Time.realtimeSinceStartup-began>=at)
                 {ModernArenaReview.Capture(arena.ArenaCamera,Path.Combine(output,still));captured=true;}
             }
@@ -227,7 +229,7 @@ namespace AeroStadium.Presentation
             foreach(var c in cycles)passed &= c.directEvent&&c.protectEvent&&c.blockedEvent&&c.directDamage>0
                 &&c.hpAfterHit<c.hpBefore&&c.hpAfterBlock==c.hpAfterHit&&c.directCompleted&&c.directReactions==1&&c.directSplash
                 &&c.directSound&&c.blockedSound&&c.activationSound&&c.blockSound&&c.guardAnimated&&c.guardJoints>0&&c.guardPeakAngle>1&&c.shieldFormed&&c.activations==1&&c.blockedCompleted&&c.stoppedAtShield&&c.contacts==1&&c.blocks==1
-                &&c.blockedReactions==0&&!c.blockedSplash&&c.surfaceContact&&c.shieldRunoff&&c.pairedEmitters&&c.pairedContacts&&c.cleanup;
+                &&c.blockedReactions==0&&!c.blockedSplash&&c.surfaceContact&&c.shieldRunoff&&c.pairedEmitters&&c.pairedContacts&&c.directPacketDetached&&c.blockedPacketDetached&&c.directPacketFraction<.40f&&c.blockedPacketFraction<.40f&&c.cleanup;
             var report=new Report{passed=passed,errors=errors,frames=frames,seconds=Time.realtimeSinceStartup-started,
                 directory=output,cycles=cycles.ToArray(),captureTimes=captureTimes??frameTimes.ToArray(),stages=frameStages.ToArray(),
                 captureSeconds=frameTimes.Count>0?frameTimes[frameTimes.Count-1]:0};

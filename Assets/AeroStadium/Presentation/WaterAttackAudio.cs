@@ -78,39 +78,58 @@ namespace AeroStadium.Presentation
             samples = Mathf.Clamp(samples, SampleRate / 2, SampleRate * 5);
             var pcm = new float[samples]; var noise = new Noise(0x2b49a16du);
             float seconds = samples / (float)SampleRate;
-            float body = 0f, mid = 0f, air = 0f, dropPhase = 0f, dropEnvelope = 0f, dropFrequency = 1800f;
-            int nextDrop = 0;
+            float phaseStep = DefaultDuration / samples;
+            float body = 0f, mid = 0f, air = 0f, dropPhase = 0f, dropEnvelope = 0f, dropFrequency = 1800f, dropAge = 1f;
+            float nextDrop = .645f;
+            float dropDecay = Mathf.Exp(-49f * phaseStep), dropFall = Mathf.Exp(-8.5f * phaseStep);
             for (int i = 0; i < samples; i++)
             {
                 float t = i / (float)SampleRate, phase = t / seconds * DefaultDuration;
                 float n = noise.Next();
                 body += .045f * (n - body); mid += .16f * (n - mid); air += .38f * (n - air);
-                float charge = Smooth(phase / .045f) * (1f - Smooth((phase - .13f) / .12f));
-                float jet = Smooth((phase - .14f) / .10f) * (1f - Smooth((phase - 1.24f) / .24f));
+
+                // A small gulp gathers pressure, then one short squirt leaves the source.
+                float charge = Smooth(phase / .025f) * (1f - Smooth((phase - .10f) / .055f));
+                float launch = Smooth((phase - .155f) / .012f) * (1f - Smooth((phase - .225f) / .052f));
+                float launchAge = Mathf.Max(0f, phase - .155f);
+                float punch = Mathf.Sin(2f * Mathf.PI * (155f * launchAge + 350f * launchAge * launchAge))
+                    * Mathf.Exp(-launchAge * 29f);
+                float chargeBubbles = .055f * Mathf.Sin(2f * Mathf.PI * (390f * t + 1500f * t * t));
+                float liquid = .92f * mid + .50f * body + .24f * (air - mid);
+
+                // Detached flight loses energy and is quiet before the separate wet impact.
+                float flightAge = Mathf.Max(0f, phase - .25f);
+                float flight = Smooth((phase - .245f) / .025f) * Mathf.Exp(-flightAge * 6.5f)
+                    * (1f - Smooth((phase - .44f) / .055f));
                 float contactAge = Mathf.Max(0f, phase - .52f);
-                float impact = Smooth((phase - .52f) / .01f) * Mathf.Exp(-contactAge * 18f);
-                float tail = Smooth((phase - 1.25f) / .04f) * Mathf.Exp(-Mathf.Max(0f, phase - 1.25f) * 9f);
-                if (i >= nextDrop)
+                float impact = Smooth((phase - .52f) / .006f) * Mathf.Exp(-contactAge * 25f);
+                float splash = impact * (1.12f * mid + .72f * (air - mid)
+                    + .24f * Mathf.Sin(2f * Mathf.PI * (172f * contactAge - 85f * contactAge * contactAge))
+                        * Mathf.Exp(-contactAge * 21f));
+                float falling = Smooth((phase - .55f) / .02f) * Mathf.Exp(-Mathf.Max(0f, phase - .55f) * 11f);
+
+                // Individual falling drops continue after the short splash has decayed.
+                if (phase >= nextDrop && phase < 1.26f)
                 {
-                    nextDrop = i + Mathf.RoundToInt(SampleRate * (.024f + .035f * (noise.Next() + 1f) * .5f));
-                    dropEnvelope = .11f + .15f * (noise.Next() + 1f) * .5f;
-                    dropFrequency = 1350f + 1350f * (noise.Next() + 1f) * .5f;
+                    nextDrop = phase + .075f + .055f * (noise.Next() + 1f) * .5f;
+                    dropEnvelope = (.055f + .075f * (noise.Next() + 1f) * .5f)
+                        * Mathf.Exp(-Mathf.Max(0f, phase - .645f) * 1.9f);
+                    dropFrequency = 1500f + 1300f * (noise.Next() + 1f) * .5f;
+                    dropPhase = 0f; dropAge = 0f;
                 }
-                dropEnvelope *= .994f; dropFrequency *= .9997f;
+                dropEnvelope *= dropDecay; dropFrequency *= dropFall; dropAge += phaseStep;
                 dropPhase += 2f * Mathf.PI * dropFrequency / SampleRate;
-                float wetPulse = .87f + .08f * Mathf.Sin(2f * Mathf.PI * 19f * t) + .05f * Mathf.Sin(2f * Mathf.PI * 31f * t);
-                float liquid = .88f * mid + .42f * body + .30f * (air - mid);
-                float droplet = dropEnvelope * (Mathf.Sin(dropPhase) + .23f * Mathf.Sin(dropPhase * 1.91f));
-                float chargeBubbles = Mathf.Sin(2f * Mathf.PI * (540f * t + 1600f * t * t)) * .09f;
-                float splash = impact * (1.05f * mid + .65f * (air - mid) + .12f * Mathf.Sin(2f * Mathf.PI * 180f * contactAge) * Mathf.Exp(-contactAge * 23f));
-                float value = charge * (.32f * body + chargeBubbles)
-                    + jet * (liquid * wetPulse + droplet * .67f) + splash + tail * (mid * .25f + droplet * .9f);
+                float droplet = dropEnvelope * Smooth(dropAge / .0025f) * (Mathf.Sin(dropPhase) + .23f * Mathf.Sin(dropPhase * 1.91f));
+                float tailEnd = 1f - Smooth((phase - 1.26f) / .09f);
+                float value = charge * (.30f * body + chargeBubbles)
+                    + launch * (liquid + .20f * punch)
+                    + flight * (.15f * (air - mid) + .035f * mid)
+                    + splash + falling * (.14f * mid + .055f * body) + droplet * .78f;
                 float fade = Smooth(t / .007f) * Smooth((seconds - t) / .08f);
-                pcm[i] = .82f * (float)Math.Tanh(value * 1.5f) * fade;
+                pcm[i] = .82f * (float)Math.Tanh(value * 1.5f) * fade * tailEnd;
             }
             return pcm;
         }
-
         public static PcmStats AnalyzePcm(float[] pcm)
         {
             if (pcm == null) return new PcmStats { sampleRate = SampleRate, finite = false };

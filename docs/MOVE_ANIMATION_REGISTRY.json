@@ -438,9 +438,10 @@
     "category": "Special",
     "status": "validated",
     "official_reference": "https://unite.pokemon.com/en-gb/news/blastoise-has-blasted-into-pokemon-unite/",
-    "validation_scope": "Tortank9 direct hit + Abri activation + liquid shield collision on Dracaufeu6; not all species or full UI playback",
+    "validation_scope": "Tortank9 -> Dracaufeu6: real BattleEngine hit + Abri + dual liquid contacts, 3cycles/120s; not all species or full menu playback",
     "emission": "Tortank9: two animated cannon muzzle markers EffWideUse01/02; other species mappings remain to audit",
-    "shield_response": "Liquid stops, splashes, flows down shield to floor; no reflected beam"
+    "shield_response": "Liquid stops, splashes, flows down shield to floor; no reflected beam",
+    "motion": "Brief detached liquid packet emitted .17-.25s; no source connection in flight; impact~.52s"
   },
   {
     "id": 56,
@@ -490,8 +491,9 @@
     "name": "Bulles d’O",
     "type": "Water",
     "category": "Special",
-    "status": "queued",
-    "official_reference": null
+    "status": "validated",
+    "official_reference": "https://www.pokemon.com/es/noticias-pokemon/lapras-ya-esta-disponible-en-pokemon-unite",
+    "validation_scope": "Tortank9 -> Dracaufeu6: real BattleEngine hit + Abri + dual liquid contacts, 3cycles/120s; not all species or full menu playback"
   },
   {
     "id": 62,
@@ -1162,8 +1164,9 @@
     "name": "Écume",
     "type": "Water",
     "category": "Special",
-    "status": "queued",
-    "official_reference": null
+    "status": "preview_validated",
+    "official_reference": null,
+    "validation_scope": "Presentation-only cloud/pop/shield preview; no Kanto learner in current catalogue; unavailable for team assignment"
   },
   {
     "id": 146,

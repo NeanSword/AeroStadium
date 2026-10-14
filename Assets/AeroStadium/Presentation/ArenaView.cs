@@ -431,6 +431,7 @@ namespace AeroStadium.Presentation
         public IEnumerator Attack(int side, string type, string category = "Physical", int moveId = 0, bool targetHit = true, int protectedTarget = -1,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) yield break;
+            if(moveId==61||moveId==145){yield return BubbleVolley(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==56){yield return HydroJet(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==55){yield return WaterJet(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==53) { yield return FireBreath(side,targetHit,protectedTarget,hitEffectiveness);yield break; }
@@ -619,6 +620,9 @@ namespace AeroStadium.Presentation
             LastWaterSource=paired?"EffWideUse01 + EffWideUse02 (paired cannons)":LastFireMouth;
         }
         public bool LastWaterCompleted {get;private set;}
+        public bool LastWaterDetachedBeforeImpact {get;private set;}
+        public float LastWaterMaxPacketLength {get;private set;}
+        public float LastWaterPacketFraction {get;private set;}
         public bool LastWaterSound {get;private set;}
         public bool LastWaterSplash {get;private set;}
         public bool LastWaterWasBlocked {get;private set;}
@@ -637,7 +641,7 @@ namespace AeroStadium.Presentation
         {
             LastWaterCompleted=LastWaterSound=LastWaterSplash=LastWaterWasBlocked=LastWaterShieldRunoff=false;
             LastWaterTargetReactions=LastWaterShieldContacts=LastWaterEmitterContacts=0;LastWaterImpactTime=-1;
-            LastWaterContactPoint=LastWaterContactNormal=Vector3.zero;
+            LastWaterContactPoint=LastWaterContactNormal=Vector3.zero;LastWaterDetachedBeforeImpact=false;LastWaterMaxPacketLength=LastWaterPacketFraction=0;
             if(pokemon[1-side]==null)yield break;
             float nativeDuration=PlayAttackAnimation(side,true);
             WaterEndpoints(side,out Vector3 source,out Vector3 secondary,out bool paired,out Vector3 target,out float width);
@@ -664,10 +668,14 @@ namespace AeroStadium.Presentation
                         effect.SetShieldContact(contact,normal,shell.ShieldBounds,pokemon[protectedTarget].transform.position.y);
                         if(second!=null&&TraceProtection(protectedTarget,secondary,target,out Vector3 secondContact,out Vector3 secondNormal))
                             {second.SetShieldContact(secondContact,secondNormal,shell.ShieldBounds,pokemon[protectedTarget].transform.position.y);if(effect.ImpactReached&&second.ImpactReached)LastWaterEmitterContacts=2;}
-                        LastWaterWasBlocked=true;LastWaterContactPoint=contact;LastWaterContactNormal=normal;
+                        contact=effect.ShieldContactPoint;normal=effect.ShieldContactNormal;LastWaterWasBlocked=true;LastWaterContactPoint=contact;LastWaterContactNormal=normal;
                         if(!shieldReacted&&effect.ImpactReached){int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);LastWaterShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;}
                         if(effect.ContactOpacity>.005f&&effect.RunoffDrops>0)LastWaterShieldRunoff=true;
                     }
+                    LastWaterMaxPacketLength=Mathf.Max(LastWaterMaxPacketLength,effect.ProjectileLength,second!=null?second.ProjectileLength:0);
+                    LastWaterPacketFraction=Mathf.Max(LastWaterPacketFraction,effect.ProjectileLength/Mathf.Max(.1f,Vector3.Distance(effect.TrajectoryOrigin,target)),second!=null?second.ProjectileLength/Mathf.Max(.1f,Vector3.Distance(second.TrajectoryOrigin,target)):0);
+                    if(!effect.ImpactReached&&effect.ProjectileLength>.01f&&effect.ProjectileDetached&&effect.SourceConnectionCleared
+                        &&(second==null||(!second.ImpactReached&&second.ProjectileLength>.01f&&second.ProjectileDetached&&second.SourceConnectionCleared)))LastWaterDetachedBeforeImpact=true;
                     if(targetHit&&!impactReacted&&effect.ImpactReached) {
                         int before=DamagePoseCount;PlayDamageAnimation(1-side,hitEffectiveness);impactReacted=true;LastWaterTargetReactions=DamagePoseCount-before;LastWaterImpactTime=effect.EffectProgress*effect.Duration;
                     }
@@ -675,7 +683,7 @@ namespace AeroStadium.Presentation
                     if(sound!=null)sound.transform.position=paired?(source+secondary)*.5f:source;
                     yield return null;
                 }
-                LastWaterCompleted=effect.Completed&&(second==null||second.Completed)&&effect.ImpactReached&&effect.Validate(out _)&&(second==null||second.Validate(out _))&&LastWaterSound&&(LastWaterTargetReactions==(targetHit?1:0));
+                LastWaterCompleted=LastWaterDetachedBeforeImpact&&LastWaterPacketFraction<.40f&&effect.Completed&&(second==null||second.Completed)&&effect.ImpactReached&&effect.Validate(out _)&&(second==null||second.Validate(out _))&&LastWaterSound&&(LastWaterTargetReactions==(targetHit?1:0));
                 LastWaterPeakDroplets=effect.PeakDroplets+(second!=null?second.PeakDroplets:0);WaterCasts++;
                 Debug.Log("[water-gun] side="+side+" emitters="+LastWaterSource+" completed="+LastWaterCompleted+" droplets="+LastWaterPeakDroplets+" runoff="+LastWaterShieldRunoff);
             } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);if(second!=null)Destroy(second.gameObject);}
@@ -740,6 +748,70 @@ namespace AeroStadium.Presentation
                 LastHydroCompleted=effect.Completed&&effect.ImpactReached&&effect.Validate(out _)&&LastHydroSound&&(LastHydroTargetReactions==(targetHit?1:0));
                 LastHydroPeakDroplets=effect.PeakDroplets;HydroCasts++;
                 Debug.Log("[hydro-pump] side="+side+" emitters="+LastHydroSource+" completed="+LastHydroCompleted+" droplets="+LastHydroPeakDroplets+" runoff="+LastHydroShieldRunoff);
+            } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
+        }
+
+        public bool LastBubbleCompleted {get;private set;}
+        public bool LastBubbleSound {get;private set;}
+        public bool LastBubbleSplash {get;private set;}
+        public bool LastBubbleWasBlocked {get;private set;}
+        public bool LastBubbleShieldRunoff {get;private set;}
+        public int LastBubbleEmitterCount {get;private set;} public int LastBubbleEmitterContacts {get;private set;}
+        public int LastBubbleTargetReactions {get;private set;}
+        public int LastBubbleShieldContacts {get;private set;}
+        public int LastBubblePeakBubbles {get;private set;}
+        public int BubbleCasts {get;private set;} public int LastBubbleContactPops {get;private set;} public int LastBubbleEmissions {get;private set;}
+        public float LastBubbleImpactTime {get;private set;}
+        public float LastBubbleAudioPeak {get;private set;}
+        public string LastBubbleSource {get;private set;}
+        public Vector3 LastBubbleContactPoint {get;private set;}
+        public Vector3 LastBubbleContactNormal {get;private set;}
+        IEnumerator BubbleVolley(int side,int moveId,bool targetHit,int protectedTarget,float hitEffectiveness)
+        {
+            LastBubbleCompleted=LastBubbleSound=LastBubbleSplash=LastBubbleWasBlocked=LastBubbleShieldRunoff=false;
+            LastBubbleTargetReactions=LastBubbleShieldContacts=LastBubbleEmitterContacts=0;LastBubbleImpactTime=-1;
+            LastBubbleContactPoint=LastBubbleContactNormal=Vector3.zero;LastBubbleContactPops=LastBubbleEmissions=0;
+            if(pokemon[1-side]==null)yield break;
+            float nativeDuration=PlayAttackAnimation(side,true);
+            WaterEndpoints(side,out Vector3 source,out Vector3 secondary,out bool paired,out Vector3 target,out float width);
+            LastBubbleEmitterCount=paired?2:1;LastBubbleSource=LastWaterSource;
+            Transform effectParent=EffectParent();Bounds victim=PokemonWorldBounds(1-side);
+            Vector3 missOffset=targetHit||protectedTarget>=0?Vector3.zero:Vector3.Cross(Vector3.up,(target-source).normalized).normalized*(victim.extents.magnitude+width*3);
+            var effect=BubbleAttackEffect.Create(effectParent,source,target+missOffset,width*.75f,moveId);
+            if(paired)effect.SetSecondaryEmitter(secondary);
+            effect.ImpactEnabled=targetHit;effect.SetVictimBounds(victim);
+            var sound=BubbleAttackAudio.Play(effectParent,paired?(source+secondary)*.5f:source,moveId,effect.Duration);
+            var bubbleStats=BubbleAttackAudio.AnalyzePcm(BubbleAttackAudio.CreateOriginalPcm(moveId));LastBubbleAudioPeak=bubbleStats.peak;
+            LastBubbleSound=sound!=null&&sound.clip!=null&&sound.isPlaying&&bubbleStats.finite&&LastBubbleAudioPeak>0&&LastBubbleAudioPeak<=1;
+            var animator=pokemon[side].GetComponentInChildren<Animator>();float speed=animator!=null?animator.speed:1;
+            if(animator!=null&&nativeDuration>.1f)animator.speed=Mathf.Clamp(nativeDuration/effect.Duration,.35f,1.2f);
+            bool impactReacted=false,shieldReacted=false;
+            try {
+                while(effect.IsPlaying) {
+                    WaterEndpoints(side,out source,out secondary,out paired,out target,out width);LastBubbleSource=LastWaterSource;
+                    effect.SetEndpoints(source,target+missOffset);effect.SetVictimBounds(PokemonWorldBounds(1-side));
+                    if(paired)effect.SetSecondaryEmitter(secondary);
+                    if(protectedTarget>=0&&TraceProtection(protectedTarget,source,target,out Vector3 contact,out Vector3 normal)) {
+                        var shell=GetActiveProtection(protectedTarget);
+                        effect.SetShieldContact(contact,normal);effect.SetShieldSurface(shell.ShieldBounds,pokemon[protectedTarget].transform.position.y);
+                        if(paired&&TraceProtection(protectedTarget,secondary,target,out Vector3 secondContact,out Vector3 secondNormal))
+                            {effect.SetSecondaryShieldContact(secondContact,secondNormal);}
+                        LastBubbleWasBlocked=true;LastBubbleContactPoint=contact;LastBubbleContactNormal=normal;
+                        if(!shieldReacted&&effect.ImpactReached){int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);LastBubbleShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;}
+                        if(effect.ContactOpacity>.005f&&effect.RunoffDrops>0)LastBubbleShieldRunoff=true;
+                    }
+                    LastBubbleEmitterContacts=(effect.PrimaryShieldPops>0?1:0)+(effect.SecondaryShieldPops>0?1:0);
+                    LastBubbleContactPops=effect.TotalContactPops;LastBubbleEmissions=effect.EmissionCount;
+                    if(targetHit&&!impactReacted&&effect.ImpactReached) {
+                        int before=DamagePoseCount;PlayDamageAnimation(1-side,hitEffectiveness);impactReacted=true;LastBubbleTargetReactions=DamagePoseCount-before;LastBubbleImpactTime=effect.EffectProgress*effect.Duration;
+                    }
+                    if(targetHit&&effect.EffectProgress>.45f&&effect.ImpactOpacity>.005f)LastBubbleSplash=true;
+                    if(sound!=null)sound.transform.position=paired?(source+secondary)*.5f:source;
+                    yield return null;
+                }
+                LastBubbleCompleted=LastBubbleEmissions==(moveId==61?24:16)&&LastBubbleContactPops>0&&effect.Completed&&effect.ImpactReached&&effect.Validate(out _)&&LastBubbleSound&&(LastBubbleTargetReactions==(targetHit?1:0));
+                LastBubblePeakBubbles=effect.PeakBubbles;BubbleCasts++;
+                Debug.Log("[bubbles] side="+side+" emitters="+LastBubbleSource+" completed="+LastBubbleCompleted+" droplets="+LastBubblePeakBubbles+" runoff="+LastBubbleShieldRunoff);
             } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
         }
 

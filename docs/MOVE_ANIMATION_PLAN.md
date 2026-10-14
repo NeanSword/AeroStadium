@@ -20,3 +20,12 @@ Les jets liquides arrêtés par Abri s’écrasent sur la surface, produisent un
 55 et56 ont chacun passé120secondes/3cycles sur Tortank→Dracaufeu. Portée précise conservée dans le registre : ces revues ne prouvent pas toutes les espèces ni un tour complet de GameBootstrap. Prochain lot : Bulles d’O61/Écume145, puis Vibraqua352/Ébullition503/Surf57. Prévoir des signatures distinctes et anatomie vérifiée. Lance-Flamme53 et Abri182 restent conservés.
 
 Les séquences PNG de revue sont temporaires : exporter une vidéo avec les horodatages, la décoder intégralement, conserver métadonnées/captures finales/WAV puis supprimer uniquement les PNG numérotés archivés. Les dossiers output/attacks et output/arenas restent ignorés par Git.
+
+
+## Dernier lot : projectile55, bulles61 et aperçu145
+
+55 est une salve de liquide brève, détachée des canons, pas un jet continu. Émission0,17–0,25s, masse allongée autour de21%du trajet, impact vers0,52s, queue consommée vers0,60s ; son de départ bref/impact/gouttes. Trajectoire capturée à la sortie, contact liquide et ruissellement préservés.56 conserve son jet continu de pression.
+
+61 utilise24bulles translucides indépendantes, ciblées, qui éclatent au contact ;145 diffuse16bulles plus larges/lentes avec un son plus léger. Le catalogue actuel n’a aucun apprenant Kanto pour145 : effet disponible comme aperçu de présentation, aucune attribution aux équipes ni apprentissage modifié.61 légal sur Tortank. Référence61 officielle UNITE : https://www.pokemon.com/es/noticias-pokemon/lapras-ya-esta-disponible-en-pokemon-unite ; les deux dessins de mouvement sont originaux, sans copie de médias.
+
+Après ce lot, poursuivre par Vibraqua352, Ébullition503 puis Surf57. Garder une source anatomique vérifiée, une réponse d’Abri adaptée à la matière, et des preuves spécifiques avant validation. Aucun crédit supplémentaire.
