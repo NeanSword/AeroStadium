@@ -1,3 +1,17 @@
+## À la prochaine reprise — Nettoyage local avant les animations
+
+- Demande utilisateur du 2026-10-14 : avant de retravailler les animations, optimiser l'espace local et supprimer les fichiers devenus inutiles. Étape enregistrée, aucune suppression effectuée aujourd'hui.
+- Inventaire initial du projet : Builds 10,77 Gio ; Library 11,58 Gio ; output 2,89 Gio ; LocalModelSources 2,09 Gio ; LocalStadiumSources 0,17 Gio ; Logs 0,10 Gio. Ces volumes sont des mesures, pas des volumes entièrement supprimables.
+- Examiner d'abord les séquences d'images déjà exportées en vidéos, captures redondantes, anciennes copies d'exécutables et sauvegardes intermédiaires devenues inutiles. Conserver les preuves finales, scénarios non validés, derniers exécutables utiles, sources, modèles, textures, animations et données d'origine. Vérifier les chemins absolus avant toute suppression ; limiter le nettoyage aux dossiers confirmés du projet. Ne pas vider Library par défaut : son contenu devra être régénéré par Unity.
+- Ne pas lancer de runtime ni reprendre les animations avant cette étape. Pistolet à O reste non validé : le scénario source corrigé (DanseLames14 à la place de43) doit encore être recompilé puis testé.
+- L'autorisation de crédits du 2026-10-14 concernait la réparation du push. Elle ne remplace pas la contrainte zéro crédit du programme des animations.
+
+## 2026-10-14 — Push GitHub Desktop réparé
+
+- Les tentatives envoyaient un pack de2,69Gio, supérieur à la limite GitHub de2Gio par push. Les5197fichiers générés sous output/attacks/ et output/arenas/ ont été retirés uniquement du suivi Git et ajoutés au .gitignore ; ils sont conservés localement. Les autres fichiers du commit original sont identiques, hors ajout des règles d'exclusion.
+- Commit original2a8458320ae403708a16e48c13cc8367121d1787 sauvegardé dans refs/local-backups/push-repair-20261014-2a84583. Commit corrigébb834a826f745034f8a48e6266d4c42ef3be102f envoyé normalement via la session connectée GitHub Desktop, sans force-push. main local et origin/main et main sur le serveur vérifiés identiques et arborescence propre après l'envoi.
+- Preuves locales ignorées : output/ui/push-repair-20261014/before.json et repair.json. Cette nouvelle entrée du journal est enregistrée localement après le push ; elle n'a pas encore été publiée.
+
 ## 2026-10-14 — Programme de toutes les animations, premier lot Pistolet à O
 
 - Nouvelle contrainte : utiliser uniquement le quota, zéro crédit supplémentaire. Solde de référence245.8217700000. Dernier quota 99%,solde245.8217700000. Arrêt avec marge ; reprendre seulement après renouvellement/instruction utilisateur, sans reset/API payant. Cette consigne remplace les plafonds de crédits précédents.
