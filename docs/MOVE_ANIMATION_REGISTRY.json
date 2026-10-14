@@ -436,16 +436,22 @@
     "name": "Pistolet à O",
     "type": "Water",
     "category": "Special",
-    "status": "compiled_pending_review",
-    "official_reference": "https://unite.pokemon.com/en-gb/news/blastoise-has-blasted-into-pokemon-unite/"
+    "status": "validated",
+    "official_reference": "https://unite.pokemon.com/en-gb/news/blastoise-has-blasted-into-pokemon-unite/",
+    "validation_scope": "Tortank9 direct hit + Abri activation + liquid shield collision on Dracaufeu6; not all species or full UI playback",
+    "emission": "Tortank9: two animated cannon muzzle markers EffWideUse01/02; other species mappings remain to audit",
+    "shield_response": "Liquid stops, splashes, flows down shield to floor; no reflected beam"
   },
   {
     "id": 56,
     "name": "Hydrocanon",
     "type": "Water",
     "category": "Special",
-    "status": "queued",
-    "official_reference": null
+    "status": "validated",
+    "official_reference": "https://unite.pokemon.com/fr-ca/news/blastoise-has-blasted-into-pokemon-unite/",
+    "validation_scope": "Tortank9 direct hit + Abri activation + liquid shield collision on Dracaufeu6; not all species or full UI playback",
+    "emission": "Tortank9: two animated cannon muzzle markers EffWideUse01/02; other species mappings remain to audit",
+    "shield_response": "Liquid stops, splashes, flows down shield to floor; no reflected beam"
   },
   {
     "id": 57,

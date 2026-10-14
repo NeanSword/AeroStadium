@@ -8,7 +8,7 @@ namespace AeroStadium.Presentation
     public sealed class WaterGunEffect : MonoBehaviour
     {
         const int Sheets = 3, Segments = 28, Across = 6;
-        const int StreamDrops = 72, ImpactDrops = 24, MouthDrops = 8;
+        const int StreamDrops = 72, ImpactDrops = 72, MouthDrops = 8;
         const int RingSegments = 28, Rings = 2, Fans = 8, FanSegments = 7;
         const float TotalDuration = 1.65f, HitTime = .52f, ReleaseTime = 1.24f;
         readonly UnityEngine.Object[] owned = new UnityEngine.Object[6];
@@ -17,9 +17,10 @@ namespace AeroStadium.Presentation
         Shader shader;
         Vector3[] jetVertices, jetNormals, dropVertices, splashVertices, splashNormals;
         Color[] jetColors, dropColors, splashColors;
-        Vector3 source, target, shieldContact, deflectedDirection;
-        float radius, elapsed, victimRadius, victimHeight, deflectedLength;
-        bool initialized, released, deflected;
+        Vector3 source, target, shieldContact, shieldNormal;
+        float radius, elapsed, victimRadius, victimHeight, groundY; Bounds shieldBounds;
+        public int RunoffDrops {get;private set;}
+        bool initialized, released, shielded;
 
         public bool ImpactEnabled { get; set; } = true;
         public float Duration => TotalDuration;
@@ -64,12 +65,25 @@ namespace AeroStadium.Presentation
             victimRadius = Mathf.Clamp(Mathf.Max(bounds.extents.x, bounds.extents.z), radius, 2f);
         }
 
-        public void SetDeflection(Vector3 point, Vector3 direction, float length)
+        public void SetShieldContact(Vector3 point, Vector3 outwardNormal, Bounds surface, float floorY)
         {
-            if (!Finite(point) || !Finite(direction) || direction.sqrMagnitude < .0001f
-                || float.IsNaN(length) || float.IsInfinity(length)) return;
-            deflected = true; shieldContact = point; deflectedDirection = direction.normalized;
-            deflectedLength = Mathf.Max(.1f, length); ImpactEnabled = false;
+            if (!Finite(point) || !Finite(outwardNormal) || outwardNormal.sqrMagnitude < .0001f) return;
+            shielded=true;shieldContact=point;shieldNormal=outwardNormal.normalized;
+            shieldBounds=surface;groundY=floorY+.025f;ImpactEnabled=false;
+        }
+
+        Vector3 RunoffPoint(float p, float lateral)
+        {
+            Vector3 r=shieldBounds.extents;
+            r=new Vector3(Mathf.Max(.1f,r.x),Mathf.Max(.1f,r.y),Mathf.Max(.1f,r.z));
+            Vector3 c=shieldBounds.center;
+            Vector3 n=new Vector3((shieldContact.x-c.x)/r.x,(shieldContact.y-c.y)/r.y,(shieldContact.z-c.z)/r.z).normalized;
+            float yaw=Mathf.Atan2(n.z,n.x)+lateral*.18f*Mathf.Sin(p*Mathf.PI);
+            float elevation=Mathf.Lerp(Mathf.Asin(Mathf.Clamp(n.y,-1,1)),-1.20f,Mathf.Clamp01(p/.70f));
+            Vector3 radial=new Vector3(Mathf.Cos(elevation)*Mathf.Cos(yaw),Mathf.Sin(elevation),Mathf.Cos(elevation)*Mathf.Sin(yaw));
+            Vector3 point=c+Vector3.Scale(radial,r)+radial*.028f;
+            if(p>.70f)point.y=Mathf.Lerp(point.y,groundY,(p-.70f)/.30f);
+            point.y=Mathf.Max(groundY,point.y);return point;
         }
 
         void Initialize()
@@ -160,7 +174,7 @@ namespace AeroStadium.Presentation
         {
             if (!initialized || released) return;
             elapsed = Mathf.Min(TotalDuration, elapsed + Time.deltaTime);
-            if (elapsed >= TotalDuration) { ImpactOpacity = ContactOpacity = 0f; ReleaseResources(); return; }
+            if (elapsed >= TotalDuration) { ImpactOpacity = ContactOpacity = 0f; RunoffDrops=0; ReleaseResources(); return; }
             UpdateEffect();
         }
 
@@ -169,18 +183,13 @@ namespace AeroStadium.Presentation
             float strength = Smooth(.14f, .25f, elapsed) * (1f - Smooth(ReleaseTime, 1.48f, elapsed));
             float charge = Smooth(0f, .07f, elapsed) * (1f - Smooth(.13f, .25f, elapsed));
             float contact = Smooth(HitTime, HitTime + .075f, elapsed) * (1f - Smooth(1.33f, TotalDuration, elapsed));
-            ImpactOpacity = ImpactEnabled && !deflected ? contact : 0f;
-            ContactOpacity = deflected ? contact : 0f;
-            Vector3 firstTarget = deflected ? shieldContact : target;
+            ImpactOpacity = ImpactEnabled && !shielded ? contact : 0f;
+            ContactOpacity = shielded ? contact : 0f;
+            Vector3 firstTarget = shielded ? shieldContact : target;
             Vector3 delta = firstTarget - source; float firstLength = Mathf.Max(.01f, delta.magnitude);
             Vector3 forward = delta.sqrMagnitude > .00001f ? delta.normalized : Vector3.forward;
-            float length = firstLength + (deflected ? deflectedLength : 0f);
+            float length = firstLength;
             float head = Smooth(.14f, HitTime, elapsed);
-            if (deflected)
-            {
-                float join = firstLength / length;
-                head = elapsed < HitTime ? head * join : Mathf.Lerp(join, 1f, Smooth(HitTime, .75f, elapsed));
-            }
             Basis(forward, out Vector3 right, out Vector3 up);
             Matrix4x4 toLocal = transform.worldToLocalMatrix;
             Matrix4x4 normalToLocal = transform.localToWorldMatrix.transpose;
@@ -210,7 +219,7 @@ namespace AeroStadium.Presentation
             }
             jetMesh.vertices = jetVertices; jetMesh.normals = jetNormals; jetMesh.colors = jetColors;
 
-            int active = 0;
+            int active = 0;RunoffDrops=0;
             for (int i = 0; i < StreamDrops; i++)
             {
                 float p = Mathf.Repeat((elapsed - .14f) * 2.7f + i * .618034f, 1f);
@@ -232,13 +241,20 @@ namespace AeroStadium.Presentation
                 float angle = i * 2.399963f;
                 Vector3 radial = right * Mathf.Cos(angle) + up * Mathf.Sin(angle);
                 Vector3 center;
-                if (deflected)
-                    center = contactPoint + deflectedDirection * age * radius * 5.5f + radial * age * radius * 2.5f + Vector3.down * age * age * radius * 2f;
+                if (shielded && i>=24)
+                    center=RunoffPoint(age,(i%9-4)/4f);
+                else if (shielded)
+                {
+                    Basis(shieldNormal,out Vector3 sr,out Vector3 su);
+                    Vector3 surfaceRadial=sr*Mathf.Cos(angle)+su*Mathf.Sin(angle);
+                    center=contactPoint+shieldNormal*age*radius*1.4f+surfaceRadial*age*radius*3f+Vector3.down*age*age*victimHeight*.45f;
+                    center.y=Mathf.Max(groundY,center.y);
+                }
                 else
                     center = contactPoint + radial * age * splashRadius * 1.5f - forward * age * radius * 2f + Vector3.down * age * age * Mathf.Min(victimHeight * .28f, radius * 3.5f);
                 float opacity = (ImpactOpacity + ContactOpacity) * Mathf.Sin(age * Mathf.PI) * .94f;
                 SetDrop(StreamDrops + i, toLocal.MultiplyPoint3x4(center), radius * (.045f + (i % 4) * .013f), i * .87f, opacity, 1.25f + age * 1.8f);
-                if (opacity > .02f) active++;
+                if (opacity > .02f) {active++;if(shielded&&i>=24)RunoffDrops++;}
             }
             for (int i = 0; i < MouthDrops; i++)
             {
@@ -253,7 +269,7 @@ namespace AeroStadium.Presentation
             UpdateSplash(contactPoint, forward, right, up, splashRadius, toLocal, normalToLocal);
             var bounds = new Bounds(toLocal.MultiplyPoint3x4(source), Vector3.zero);
             bounds.Encapsulate(toLocal.MultiplyPoint3x4(target));
-            if (deflected) { bounds.Encapsulate(toLocal.MultiplyPoint3x4(shieldContact)); bounds.Encapsulate(toLocal.MultiplyPoint3x4(shieldContact + deflectedDirection * deflectedLength)); }
+            if (shielded) { bounds.Encapsulate(toLocal.MultiplyPoint3x4(shieldContact));bounds.Encapsulate(toLocal.MultiplyPoint3x4(new Vector3(shieldContact.x,groundY,shieldContact.z))); }
             float padding = Mathf.Max(splashRadius * 2f, radius * 7f);
             Vector3 localPad = Abs(toLocal.MultiplyVector(Vector3.right * padding)) + Abs(toLocal.MultiplyVector(Vector3.up * padding)) + Abs(toLocal.MultiplyVector(Vector3.forward * padding));
             bounds.Expand(localPad * 2f); jetMesh.bounds = dropMesh.bounds = splashMesh.bounds = bounds;
@@ -262,7 +278,7 @@ namespace AeroStadium.Presentation
         void UpdateSplash(Vector3 point, Vector3 forward, Vector3 right, Vector3 up, float spread, Matrix4x4 toLocal, Matrix4x4 normalToLocal)
         {
             float energy = ImpactOpacity + ContactOpacity;
-            if (deflected) spread = radius * 2.1f;
+            if (shielded) {spread=radius*2.1f;forward=-shieldNormal;Basis(forward,out right,out up);}
             float time = Mathf.Max(0f, elapsed - HitTime); int start = 0;
             for (int ring = 0; ring < Rings; ring++)
             {
@@ -299,7 +315,7 @@ namespace AeroStadium.Presentation
                     Vector3 center = point + radial * (spread * p * pulse)
                         - forward * (Mathf.Sin(p * Mathf.PI * .88f) * radius * 1.65f)
                         + Vector3.down * p * p * radius * .45f;
-                    if (deflected) center = point + deflectedDirection * p * radius * 2.6f + radial * p * spread * .48f;
+                    if (shielded) {center=RunoffPoint(p,(fan-(Fans-1)*.5f)/Fans*2f);across=right;}
                     float width = radius * (.07f + p * .20f) * (1f - p * .68f);
                     float opacity = energy * (1f - Smooth(.67f, 1f, p)) * .58f;
                     for (int col = 0; col < 2; col++)
@@ -317,19 +333,9 @@ namespace AeroStadium.Presentation
 
         Vector3 JetCenter(float p, Vector3 forward, float length, float firstLength, out Vector3 tangent)
         {
-            float distance = p * length, bend;
-            Vector3 point;
-            if (deflected && distance > firstLength)
-            {
-                tangent = deflectedDirection;
-                float segment = (distance - firstLength) / deflectedLength;
-                point = shieldContact + tangent * (distance - firstLength); bend = Mathf.Sin(segment * Mathf.PI);
-            }
-            else
-            {
-                tangent = forward; point = source + forward * distance;
-                bend = Mathf.Sin(distance / firstLength * Mathf.PI);
-            }
+            float distance = p * length;
+            tangent=forward;Vector3 point=source+forward*distance;
+            float bend=Mathf.Sin(p*Mathf.PI);
             Basis(tangent, out Vector3 right, out Vector3 up);
             return point + right * Mathf.Sin(distance * 5.8f - elapsed * 18f) * radius * bend * .10f
                 + up * Mathf.Sin(distance * 8.3f - elapsed * 21f) * radius * bend * .08f;

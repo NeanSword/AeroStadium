@@ -15,10 +15,10 @@ namespace AeroStadium.Presentation
         {
             public int cycle, directDamage, hpBefore, hpAfterHit, hpAfterBlock, directReactions, blockedReactions;
             public bool directEvent, protectEvent, blockedEvent, directCompleted, directSplash, shieldFormed;
-            public bool blockedCompleted, wasDeflected, blockedSplash, outwardDeflection, cleanup;
-            public bool activationSound,blockSound;
+            public bool blockedCompleted, stoppedAtShield, blockedSplash, surfaceContact, cleanup, shieldRunoff, pairedEmitters, pairedContacts;
+            public bool activationSound,blockSound,directSound,blockedSound;
             public bool guardAnimated;public int guardJoints;public float guardPeakAngle;
-            public int activations, contacts, blocks, fireCasts;
+            public int activations, contacts, blocks, waterCasts;
             public float activationSeconds, directImpactSeconds;
             public Vector3 contact, direction;
         }
@@ -45,7 +45,7 @@ namespace AeroStadium.Presentation
             arena=view; output=directory; requestedSeconds=Mathf.Clamp(seconds,45,180);
             Directory.CreateDirectory(output); Directory.CreateDirectory(Path.Combine(output,"cycle-motion"));
             var source=Resources.Load<TextAsset>("Data/catalog");
-            if(source==null)throw new InvalidOperationException("Catalog missing for the Abri review.");
+            if(source==null)throw new InvalidOperationException("Catalog missing for the Water Gun review.");
             catalog=JsonUtility.FromJson<Catalog>(source.text);catalog.Validate();
             arena.SetDecisionCameraActive(false); ModernArenaLighting.Apply(arena.ArenaCamera);
             CreateOverlay(); Application.logMessageReceived+=OnLog; started=Time.realtimeSinceStartup;
@@ -59,7 +59,7 @@ namespace AeroStadium.Presentation
         {
             arena.EndProtection(true); arena.ShowPokemon(0,9);arena.ShowPokemon(1,6);
             yield return null;
-            Overview(); SetPhase("DÉMONSTRATION · ABRI","Tortank attaque · Dracaufeu reçoit, puis se protège");
+            Overview(); SetPhase("DÉMONSTRATION · PISTOLET À O","Tortank attaque · Dracaufeu reçoit, puis se protège");
             yield return new WaitForSecondsRealtime(3);
             for(int iteration=0;iteration<3;iteration++)
             {
@@ -83,7 +83,7 @@ namespace AeroStadium.Presentation
                 cycles.Add(result);
                 if(!result.directEvent||!result.protectEvent||!result.blockedEvent)
                 {
-                    Debug.LogError("Abri review cannot demonstrate the requested resolved events.");
+                    Debug.LogError("Water Gun review cannot demonstrate the requested resolved events.");
                     SetPhase("DÉMONSTRATION INTERROMPUE","Le scénario de combat n’a pas produit les événements attendus.");
                     yield return new WaitForSecondsRealtime(2);Finish();yield break;
                 }
@@ -93,7 +93,7 @@ namespace AeroStadium.Presentation
                 if(iteration==0){capturing=true;captureStarted=Time.realtimeSinceStartup;StartCoroutine(CaptureMotion());}
                 yield return Pause(iteration==0?3:4);
                 yield return Observe(arena.Attack(0,"Water","Special",55,true,-1,(float)directEffectiveness),"01-direct-impact.png",.95f,iteration==0);
-                result.directCompleted=arena.LastWaterCompleted;
+                result.directCompleted=arena.LastWaterCompleted;result.directSound=arena.LastWaterSound;result.pairedEmitters=arena.LastWaterEmitterCount==2;
                 result.directReactions=arena.LastWaterTargetReactions;result.directSplash=arena.LastWaterSplash;
                 result.directImpactSeconds=arena.LastWaterImpactTime;
                 yield return arena.Hit(1,result.directDamage,true,(float)directEffectiveness); Health(result.hpAfterHit,battle.Active(1).MaxHp);
@@ -113,26 +113,26 @@ namespace AeroStadium.Presentation
                 result.guardPeakAngle=arena.LastProtectPeakAngle;
                 yield return Pause(4);
 
-                Overview();SetPhase("3 / 3 · PISTOLET À O EST DÉVIÉ","Le jet rencontre Abri et repart à l’extérieur du bouclier.");
+                Overview();SetPhase("3 / 3 · PISTOLET À O RENCONTRE ABRI","Les deux jets s’écrasent sur Abri ; l’eau éclabousse et ruisselle.");
                 yield return Pause(2);
                 int blockBefore=arena.ProtectBlockCount,damageBefore=arena.DamagePoseCount;
-                yield return Observe(arena.Attack(0,"Water","Special",55,false,1),"03-deflected-impact.png",1.20f,iteration==0);
-                result.blockedCompleted=arena.LastWaterCompleted;
-                result.wasDeflected=arena.LastWaterWasDeflected;result.contacts=arena.LastWaterShieldContacts;
+                yield return Observe(arena.Attack(0,"Water","Special",55,false,1),"03-shield-runoff.png",1.20f,iteration==0);
+                result.blockedCompleted=arena.LastWaterCompleted;result.pairedEmitters &= arena.LastWaterEmitterCount==2;result.pairedContacts=arena.LastWaterEmitterContacts==2;result.blockedSound=arena.LastWaterSound;
+                result.stoppedAtShield=arena.LastWaterWasBlocked;result.shieldRunoff=arena.LastWaterShieldRunoff;result.contacts=arena.LastWaterShieldContacts;
                 result.blockedReactions=arena.DamagePoseCount-damageBefore;result.blockedSplash=arena.LastWaterSplash;
                 result.blocks=arena.ProtectBlockCount-blockBefore;result.blockSound=arena.LastProtectBlockSound;
-                result.contact=arena.LastWaterDeflectionPoint;result.direction=arena.LastWaterDeflectionDirection;
+                result.contact=arena.LastWaterContactPoint;result.direction=arena.LastWaterContactNormal;
                 shield=arena.GetActiveProtection(1);
-                result.outwardDeflection=shield!=null&&Vector3.Dot(result.direction,result.contact-shield.ShieldBounds.center)>0;
+                result.surfaceContact=shield!=null&&Vector3.Dot(result.direction,result.contact-shield.ShieldBounds.center)>0;
                 Health(result.hpAfterBlock,battle.Active(1).MaxHp);
                 yield return Pause(5);
                 arena.EndProtection();yield return Pause(.65f);
                 result.cleanup=arena.GetComponentsInChildren<ProtectShieldEffect>(true).Length==0
-                    &&arena.GetComponentsInChildren<FlamethrowerEffect>(true).Length==0;
-                result.fireCasts=arena.WaterCasts;
+                    &&arena.GetComponentsInChildren<WaterGunEffect>(true).Length==0;
+                result.waterCasts=arena.WaterCasts;
                 if(iteration==0)capturing=false;
-                Debug.Log("[protect-review-cycle] "+JsonUtility.ToJson(result));
-                SetPhase("CYCLE "+(iteration+1)+" / 3 TERMINÉ","Impact direct → formation d’Abri → déviation du jet");
+                Debug.Log("[water-review-cycle] "+JsonUtility.ToJson(result));
+                SetPhase("CYCLE "+(iteration+1)+" / 3 TERMINÉ","Impact direct → formation d’Abri → impact liquide sur le bouclier");
                 float cycleTarget=Mathf.Max(30,(requestedSeconds-8)/3);
                 while(Time.realtimeSinceStartup-cycleStart<cycleTarget)yield return null;
             }
@@ -168,7 +168,7 @@ namespace AeroStadium.Presentation
         }
         void CreateOverlay()
         {
-            var root=new GameObject("Abri demonstration captions",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler));
+            var root=new GameObject("Water Gun demonstration captions",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler));
             root.transform.SetParent(transform,false);canvas=root.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceCamera;
             canvas.worldCamera=arena.ArenaCamera;canvas.planeDistance=.5f;canvas.sortingOrder=100;
             var scaler=root.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -226,13 +226,13 @@ namespace AeroStadium.Presentation
             bool passed=cycles.Count==3&&errors==0;
             foreach(var c in cycles)passed &= c.directEvent&&c.protectEvent&&c.blockedEvent&&c.directDamage>0
                 &&c.hpAfterHit<c.hpBefore&&c.hpAfterBlock==c.hpAfterHit&&c.directCompleted&&c.directReactions==1&&c.directSplash
-                &&c.activationSound&&c.blockSound&&c.guardAnimated&&c.guardJoints>0&&c.guardPeakAngle>1&&c.shieldFormed&&c.activations==1&&c.blockedCompleted&&c.wasDeflected&&c.contacts==1&&c.blocks==1
-                &&c.blockedReactions==0&&!c.blockedSplash&&c.outwardDeflection&&c.cleanup;
+                &&c.directSound&&c.blockedSound&&c.activationSound&&c.blockSound&&c.guardAnimated&&c.guardJoints>0&&c.guardPeakAngle>1&&c.shieldFormed&&c.activations==1&&c.blockedCompleted&&c.stoppedAtShield&&c.contacts==1&&c.blocks==1
+                &&c.blockedReactions==0&&!c.blockedSplash&&c.surfaceContact&&c.shieldRunoff&&c.pairedEmitters&&c.pairedContacts&&c.cleanup;
             var report=new Report{passed=passed,errors=errors,frames=frames,seconds=Time.realtimeSinceStartup-started,
                 directory=output,cycles=cycles.ToArray(),captureTimes=captureTimes??frameTimes.ToArray(),stages=frameStages.ToArray(),
                 captureSeconds=frameTimes.Count>0?frameTimes[frameTimes.Count-1]:0};
-            File.WriteAllText(Path.Combine(output,"protect-review.json"),JsonUtility.ToJson(report,true));
-            Debug.Log("[protect-review-result] "+JsonUtility.ToJson(report));Application.Quit(passed?0:1);
+            File.WriteAllText(Path.Combine(output,"water-review.json"),JsonUtility.ToJson(report,true));
+            Debug.Log("[water-review-result] "+JsonUtility.ToJson(report));Application.Quit(passed?0:1);
         }
         void Update(){frames++;}
         void OnLog(string message,string stack,LogType type){if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert)errors++;}

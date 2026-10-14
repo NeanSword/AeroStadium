@@ -431,6 +431,7 @@ namespace AeroStadium.Presentation
         public IEnumerator Attack(int side, string type, string category = "Physical", int moveId = 0, bool targetHit = true, int protectedTarget = -1,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) yield break;
+            if(moveId==56){yield return HydroJet(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==55){yield return WaterJet(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==53) { yield return FireBreath(side,targetHit,protectedTarget,hitEffectiveness);yield break; }
             float duration = Mathf.Max(.45f, PlayAttackAnimation(side, category == "Special"));
@@ -601,63 +602,144 @@ namespace AeroStadium.Presentation
             } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
         }
 
+        readonly Transform[,] waterCannon=new Transform[2,2];
+        void WaterEndpoints(int side,out Vector3 source,out Vector3 secondary,out bool paired,out Vector3 target,out float width)
+        {
+            FireEndpoints(side,out source,out target,out width);secondary=source;paired=false;
+            if(shownSpecies[side]==9)
+            {
+                for(int i=0;i<2;i++)if(waterCannon[side,i]==null||!waterCannon[side,i].IsChildOf(pokemon[side].transform))
+                {
+                    waterCannon[side,i]=null;string marker=i==0?"EffWideUse01":"EffWideUse02";
+                    foreach(var bone in pokemon[side].GetComponentsInChildren<Transform>(true))if(bone.name==marker){waterCannon[side,i]=bone;break;}
+                }
+                paired=waterCannon[side,0]!=null&&waterCannon[side,1]!=null;
+                if(paired){source=waterCannon[side,0].position;secondary=waterCannon[side,1].position;}
+            }
+            LastWaterSource=paired?"EffWideUse01 + EffWideUse02 (paired cannons)":LastFireMouth;
+        }
         public bool LastWaterCompleted {get;private set;}
         public bool LastWaterSound {get;private set;}
         public bool LastWaterSplash {get;private set;}
-        public bool LastWaterWasDeflected {get;private set;}
+        public bool LastWaterWasBlocked {get;private set;}
+        public bool LastWaterShieldRunoff {get;private set;}
+        public int LastWaterEmitterCount {get;private set;} public int LastWaterEmitterContacts {get;private set;}
         public int LastWaterTargetReactions {get;private set;}
         public int LastWaterShieldContacts {get;private set;}
         public int LastWaterPeakDroplets {get;private set;}
         public int WaterCasts {get;private set;}
         public float LastWaterImpactTime {get;private set;}
         public float LastWaterAudioPeak {get;private set;}
-        public string LastWaterMouth {get;private set;}
-        public Vector3 LastWaterDeflectionPoint {get;private set;}
-        public Vector3 LastWaterDeflectionDirection {get;private set;}
+        public string LastWaterSource {get;private set;}
+        public Vector3 LastWaterContactPoint {get;private set;}
+        public Vector3 LastWaterContactNormal {get;private set;}
         IEnumerator WaterJet(int side,bool targetHit,int protectedTarget,float hitEffectiveness)
         {
-            LastWaterCompleted=false;LastWaterSound=false;LastWaterTargetReactions=0;LastWaterImpactTime=-1;LastWaterSplash=false;
-            LastWaterWasDeflected=false;LastWaterShieldContacts=0;LastWaterDeflectionPoint=LastWaterDeflectionDirection=Vector3.zero;
+            LastWaterCompleted=LastWaterSound=LastWaterSplash=LastWaterWasBlocked=LastWaterShieldRunoff=false;
+            LastWaterTargetReactions=LastWaterShieldContacts=LastWaterEmitterContacts=0;LastWaterImpactTime=-1;
+            LastWaterContactPoint=LastWaterContactNormal=Vector3.zero;
             if(pokemon[1-side]==null)yield break;
             float nativeDuration=PlayAttackAnimation(side,true);
-            FireEndpoints(side,out Vector3 source,out Vector3 target,out float width);
-            LastWaterMouth=LastFireMouth;
-            Transform effectParent=Stadium!=null&&Stadium.ModernStage!=null?Stadium.ModernStage.transform:transform;
-            if(effectParent==transform&&GetComponent<ArenaFireAudio>()==null)gameObject.AddComponent<ArenaFireAudio>();
-            Bounds victim=PokemonWorldBounds(1-side);
+            WaterEndpoints(side,out Vector3 source,out Vector3 secondary,out bool paired,out Vector3 target,out float width);
+            LastWaterEmitterCount=paired?2:1;
+            Transform effectParent=EffectParent();Bounds victim=PokemonWorldBounds(1-side);
             Vector3 missOffset=targetHit||protectedTarget>=0?Vector3.zero:Vector3.Cross(Vector3.up,(target-source).normalized).normalized*(victim.extents.magnitude+width*3);
             var effect=WaterGunEffect.Create(effectParent,source,target+missOffset,width*.45f);
+            var second=paired?WaterGunEffect.Create(effectParent,secondary,target+missOffset,width*.45f):null;
             effect.ImpactEnabled=targetHit;effect.SetVictimBounds(victim);
-            var sound=WaterAttackAudio.Play(effectParent,source,effect.Duration);
+            if(second!=null){second.ImpactEnabled=targetHit;second.SetVictimBounds(victim);}
+            var sound=WaterAttackAudio.Play(effectParent,paired?(source+secondary)*.5f:source,effect.Duration);
             LastWaterAudioPeak=WaterAttackAudio.DefaultPcmStats.peak;
-            LastWaterSound=sound!=null&&sound.clip!=null;
-            var animator=pokemon[side].GetComponentInChildren<Animator>();
-            float speed=animator!=null?animator.speed:1;
+            LastWaterSound=sound!=null&&sound.clip!=null&&sound.isPlaying&&WaterAttackAudio.DefaultPcmStats.finite&&LastWaterAudioPeak>0&&LastWaterAudioPeak<=1;
+            var animator=pokemon[side].GetComponentInChildren<Animator>();float speed=animator!=null?animator.speed:1;
             if(animator!=null&&nativeDuration>.1f)animator.speed=Mathf.Clamp(nativeDuration/effect.Duration,.35f,1.2f);
             bool impactReacted=false,shieldReacted=false;
             try {
                 while(effect.IsPlaying) {
+                    WaterEndpoints(side,out source,out secondary,out paired,out target,out width);
+                    effect.SetEndpoints(source,target+missOffset);effect.SetVictimBounds(PokemonWorldBounds(1-side));
+                    if(second!=null){second.SetEndpoints(secondary,target+missOffset);second.SetVictimBounds(PokemonWorldBounds(1-side));}
                     if(protectedTarget>=0&&TraceProtection(protectedTarget,source,target,out Vector3 contact,out Vector3 normal)) {
-                        Vector3 diverted=ProtectShieldEffect.DeflectionDirection(target-source,normal);
-                        effect.SetDeflection(contact,diverted,Mathf.Clamp(Vector3.Distance(source,contact)*.55f+width,1.0f,4.4f));
-                        LastWaterWasDeflected=true;LastWaterDeflectionPoint=contact;LastWaterDeflectionDirection=diverted;
-                        if(!shieldReacted&&effect.ImpactReached){
-                            int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);
-                            LastWaterShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;
-                        }
+                        var shell=GetActiveProtection(protectedTarget);
+                        effect.SetShieldContact(contact,normal,shell.ShieldBounds,pokemon[protectedTarget].transform.position.y);
+                        if(second!=null&&TraceProtection(protectedTarget,secondary,target,out Vector3 secondContact,out Vector3 secondNormal))
+                            {second.SetShieldContact(secondContact,secondNormal,shell.ShieldBounds,pokemon[protectedTarget].transform.position.y);if(effect.ImpactReached&&second.ImpactReached)LastWaterEmitterContacts=2;}
+                        LastWaterWasBlocked=true;LastWaterContactPoint=contact;LastWaterContactNormal=normal;
+                        if(!shieldReacted&&effect.ImpactReached){int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);LastWaterShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;}
+                        if(effect.ContactOpacity>.005f&&effect.RunoffDrops>0)LastWaterShieldRunoff=true;
                     }
                     if(targetHit&&!impactReacted&&effect.ImpactReached) {
                         int before=DamagePoseCount;PlayDamageAnimation(1-side,hitEffectiveness);impactReacted=true;LastWaterTargetReactions=DamagePoseCount-before;LastWaterImpactTime=effect.EffectProgress*effect.Duration;
-                        Debug.Log("[water-gun-impact] target="+(1-side)+" damage pose triggered at impact");
                     }
-                    FireEndpoints(side,out source,out target,out width);effect.SetEndpoints(source,target+missOffset);effect.SetVictimBounds(PokemonWorldBounds(1-side));
                     if(targetHit&&effect.EffectProgress>.45f&&effect.ImpactOpacity>.005f)LastWaterSplash=true;
-                    if(sound!=null)sound.transform.position=source;
+                    if(sound!=null)sound.transform.position=paired?(source+secondary)*.5f:source;
                     yield return null;
                 }
-                LastWaterCompleted=effect.Completed&&effect.ImpactReached&&effect.Validate(out _)&&LastWaterSound&&(LastWaterTargetReactions==(targetHit?1:0));
-                LastWaterPeakDroplets=effect.PeakDroplets;WaterCasts++;
-                Debug.Log("[water-gun] side="+side+" mouth="+LastWaterMouth+" completed="+LastWaterCompleted+" peak="+LastWaterPeakDroplets+" sound="+LastWaterSound);
+                LastWaterCompleted=effect.Completed&&(second==null||second.Completed)&&effect.ImpactReached&&effect.Validate(out _)&&(second==null||second.Validate(out _))&&LastWaterSound&&(LastWaterTargetReactions==(targetHit?1:0));
+                LastWaterPeakDroplets=effect.PeakDroplets+(second!=null?second.PeakDroplets:0);WaterCasts++;
+                Debug.Log("[water-gun] side="+side+" emitters="+LastWaterSource+" completed="+LastWaterCompleted+" droplets="+LastWaterPeakDroplets+" runoff="+LastWaterShieldRunoff);
+            } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);if(second!=null)Destroy(second.gameObject);}
+        }
+
+        public bool LastHydroCompleted {get;private set;}
+        public bool LastHydroSound {get;private set;}
+        public bool LastHydroSplash {get;private set;}
+        public bool LastHydroWasBlocked {get;private set;}
+        public bool LastHydroShieldRunoff {get;private set;}
+        public int LastHydroEmitterCount {get;private set;} public int LastHydroEmitterContacts {get;private set;}
+        public int LastHydroTargetReactions {get;private set;}
+        public int LastHydroShieldContacts {get;private set;}
+        public int LastHydroPeakDroplets {get;private set;}
+        public int HydroCasts {get;private set;}
+        public float LastHydroImpactTime {get;private set;}
+        public float LastHydroAudioPeak {get;private set;}
+        public string LastHydroSource {get;private set;}
+        public Vector3 LastHydroContactPoint {get;private set;}
+        public Vector3 LastHydroContactNormal {get;private set;}
+        IEnumerator HydroJet(int side,bool targetHit,int protectedTarget,float hitEffectiveness)
+        {
+            LastHydroCompleted=LastHydroSound=LastHydroSplash=LastHydroWasBlocked=LastHydroShieldRunoff=false;
+            LastHydroTargetReactions=LastHydroShieldContacts=LastHydroEmitterContacts=0;LastHydroImpactTime=-1;
+            LastHydroContactPoint=LastHydroContactNormal=Vector3.zero;
+            if(pokemon[1-side]==null)yield break;
+            float nativeDuration=PlayAttackAnimation(side,true);
+            WaterEndpoints(side,out Vector3 source,out Vector3 secondary,out bool paired,out Vector3 target,out float width);
+            LastHydroEmitterCount=paired?2:1;LastHydroSource=LastWaterSource;
+            Transform effectParent=EffectParent();Bounds victim=PokemonWorldBounds(1-side);
+            Vector3 missOffset=targetHit||protectedTarget>=0?Vector3.zero:Vector3.Cross(Vector3.up,(target-source).normalized).normalized*(victim.extents.magnitude+width*3);
+            var effect=HydroPumpEffect.Create(effectParent,source,target+missOffset,width*.95f);
+            if(paired)effect.SetSecondaryEmitter(secondary);
+            effect.ImpactEnabled=targetHit;effect.SetVictimBounds(victim);
+            var sound=HydroPumpAudio.Play(effectParent,paired?(source+secondary)*.5f:source,effect.Duration);
+            LastHydroAudioPeak=HydroPumpAudio.DefaultPcmStats.peak;
+            LastHydroSound=sound!=null&&sound.clip!=null&&sound.isPlaying&&HydroPumpAudio.DefaultPcmStats.finite&&LastHydroAudioPeak>0&&LastHydroAudioPeak<=1;
+            var animator=pokemon[side].GetComponentInChildren<Animator>();float speed=animator!=null?animator.speed:1;
+            if(animator!=null&&nativeDuration>.1f)animator.speed=Mathf.Clamp(nativeDuration/effect.Duration,.35f,1.2f);
+            bool impactReacted=false,shieldReacted=false;
+            try {
+                while(effect.IsPlaying) {
+                    WaterEndpoints(side,out source,out secondary,out paired,out target,out width);LastHydroSource=LastWaterSource;
+                    effect.SetEndpoints(source,target+missOffset);effect.SetVictimBounds(PokemonWorldBounds(1-side));
+                    if(paired)effect.SetSecondaryEmitter(secondary);
+                    if(protectedTarget>=0&&TraceProtection(protectedTarget,source,target,out Vector3 contact,out Vector3 normal)) {
+                        var shell=GetActiveProtection(protectedTarget);
+                        effect.SetShieldContact(contact,normal);effect.SetShieldSurface(shell.ShieldBounds,pokemon[protectedTarget].transform.position.y);
+                        if(paired&&TraceProtection(protectedTarget,secondary,target,out Vector3 secondContact,out Vector3 secondNormal))
+                            {effect.SetSecondaryShieldContact(secondContact,secondNormal);if(effect.ImpactReached)LastHydroEmitterContacts=2;}
+                        LastHydroWasBlocked=true;LastHydroContactPoint=contact;LastHydroContactNormal=normal;
+                        if(!shieldReacted&&effect.ImpactReached){int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);LastHydroShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;}
+                        if(effect.ContactOpacity>.005f&&effect.RunoffDrops>0)LastHydroShieldRunoff=true;
+                    }
+                    if(targetHit&&!impactReacted&&effect.ImpactReached) {
+                        int before=DamagePoseCount;PlayDamageAnimation(1-side,hitEffectiveness);impactReacted=true;LastHydroTargetReactions=DamagePoseCount-before;LastHydroImpactTime=effect.EffectProgress*effect.Duration;
+                    }
+                    if(targetHit&&effect.EffectProgress>.45f&&effect.ImpactOpacity>.005f)LastHydroSplash=true;
+                    if(sound!=null)sound.transform.position=paired?(source+secondary)*.5f:source;
+                    yield return null;
+                }
+                LastHydroCompleted=effect.Completed&&effect.ImpactReached&&effect.Validate(out _)&&LastHydroSound&&(LastHydroTargetReactions==(targetHit?1:0));
+                LastHydroPeakDroplets=effect.PeakDroplets;HydroCasts++;
+                Debug.Log("[hydro-pump] side="+side+" emitters="+LastHydroSource+" completed="+LastHydroCompleted+" droplets="+LastHydroPeakDroplets+" runoff="+LastHydroShieldRunoff);
             } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
         }
 
@@ -675,6 +757,7 @@ namespace AeroStadium.Presentation
                 // Recoil is authored on the rig, rather than shaking the complete actor at 60 radians/s.
                 yield return null;
             }
+            if(reactionAlreadyPlayed)while(GetDamageReaction(side)!=null&&GetDamageReaction(side).IsPlaying)yield return null;
             root.rotation = rotation;
         }
 
