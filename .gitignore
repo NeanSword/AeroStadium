@@ -58,3 +58,7 @@ Assets/AeroStadium/NativeModelAuthoring.meta
 Assets/AeroStadium/LegacyModelsBuildHold/
 Assets/AeroStadium/LegacyModelsBuildHold.meta
 output/memory/
+
+# Generated attack and arena review captures remain local.
+output/attacks/
+output/arenas/

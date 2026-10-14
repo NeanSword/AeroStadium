@@ -52,6 +52,26 @@ namespace AeroStadium.Presentation
         }
         public int LoadedModels { get; private set; }
         public Camera ArenaCamera { get; private set; }
+        public BattleDecisionCamera DecisionCamera { get; private set; }
+        public Vector3 BattleCenter => battleCenter;
+        public Vector3 BattleAxis => battleAxis;
+        public bool TryGetCombatCameraFrame(int side, out Bounds bounds)
+        {
+            bounds = default;
+            if (previewMode || side < 0 || side > 1 || pokemon[side] == null) return false;
+            bounds = PokemonWorldBounds(side);
+            return true;
+        }
+        public void SetDecisionCameraActive(bool active)
+        {
+            if (DecisionCamera != null) DecisionCamera.SetActive(active);
+        }
+        public IEnumerator ReturnToBattleFrame()
+        {
+            if (DecisionCamera != null) yield return DecisionCamera.ReturnToWide();
+            else FramePokemon(false);
+        }
+        public void FrameCombatCamera() => FramePokemon(false);
         readonly Light[] cinematicSpotlights = new Light[4];
 
         public StadiumEnvironment Stadium { get; private set; }
@@ -68,6 +88,8 @@ namespace AeroStadium.Presentation
             RenderSettings.fogDensity = .015f;
             var cameraObject = new GameObject("Arena camera");
             ArenaCamera = cameraObject.AddComponent<Camera>();
+            DecisionCamera = cameraObject.AddComponent<BattleDecisionCamera>();
+            DecisionCamera.Initialize(this);
             cameraObject.tag = "MainCamera";
             cameraObject.transform.position = new Vector3(-.3f, 7.4f, -15.5f);
             cameraObject.transform.LookAt(new Vector3(0, 1.25f, 0));
@@ -93,6 +115,7 @@ namespace AeroStadium.Presentation
             Stadium.transform.SetParent(transform,false);
             string[] args=System.Environment.GetCommandLineArgs();int stadiumArg=System.Array.IndexOf(args,"--stadium");
             string stadiumKey=stadiumArg>=0&&stadiumArg+1<args.Length?args[stadiumArg+1]:"free_battle";
+            if(System.Array.IndexOf(args,"--elite4-modern-review")>=0)stadiumKey="stadium1_elite4_modern";
             Stadium.Load(stadiumKey);BuildCinematicSpotlights();
             if(System.Array.IndexOf(args,"--stadium-original")>=0)
                 ArenaCamera.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing=false;
@@ -154,6 +177,7 @@ namespace AeroStadium.Presentation
 
         public void ShowPokemon(int side, int species, bool preview = false)
         {
+            ClearProtection(side,true);
             if (pokemon[side] != null) Destroy(pokemon[side]);
             var prefab = PokemonPrefabCatalog.Load(species);
             if (prefab == null)
@@ -228,12 +252,15 @@ namespace AeroStadium.Presentation
             return driver == null ? 0f : driver.PlayAttack(special);
         }
 
-        float PlayDamageAnimation(int side)
+        float PlayDamageAnimation(int side,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) return 0f;
             var driver = pokemon[side].GetComponent<PokemonAnimationDriver>();
-            return driver == null ? 0f : driver.PlayDamage();
+            float duration=driver==null?0f:driver.PlayDamage(hitEffectiveness);if(duration>0)DamagePoseCount++;return duration;
         }
+
+        public PokemonHitReaction GetDamageReaction(int side)
+            => side>=0&&side<2&&pokemon[side]!=null?pokemon[side].GetComponent<PokemonHitReaction>():null;
 
         float PlayFaintAnimation(int side)
         {
@@ -244,6 +271,7 @@ namespace AeroStadium.Presentation
 
         public void ClearPokemon(int side)
         {
+            ClearProtection(side,true);
             bool removed = pokemon[side] != null;
             if (removed) Destroy(pokemon[side]);
             pokemon[side] = null;
@@ -400,9 +428,11 @@ namespace AeroStadium.Presentation
             ArenaCamera.transform.LookAt(focus);
         }
 
-        public IEnumerator Attack(int side, string type, string category = "Physical")
+        public IEnumerator Attack(int side, string type, string category = "Physical", int moveId = 0, bool targetHit = true, int protectedTarget = -1,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) yield break;
+            if(moveId==55){yield return WaterJet(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
+            if(moveId==53) { yield return FireBreath(side,targetHit,protectedTarget,hitEffectiveness);yield break; }
             float duration = Mathf.Max(.45f, PlayAttackAnimation(side, category == "Special"));
             Vector3 origin = pokemon[side].transform.position;
             Vector3 direction = (homes[1 - side] - homes[side]).normalized;
@@ -411,11 +441,22 @@ namespace AeroStadium.Presentation
             Color color = type == "Fire" ? new Color(1, .45f, .1f) : type == "Grass" ? new Color(.4f, 1, .5f) : new Color(.4f, .75f, 1);
             var particle = Part(PrimitiveType.Sphere, "Attack pulse", origin + Vector3.up * height,
                                 Vector3.one * .22f, Material(color, .5f, 0, true));
+            Vector3 start=origin+Vector3.up*height,end=homes[1-side]+Vector3.up*targetHeight;
+            bool deflected=protectedTarget>=0&&TraceProtection(protectedTarget,start,end,out _,out _),shieldReaction=false;
             for (float time = 0; time < duration; time += Time.deltaTime)
             {
                 float t = time / duration;
                 // The original rig pose supplies anticipation and release without sliding planted feet.
-                particle.transform.position = Vector3.Lerp(origin + Vector3.up * height, homes[1 - side] + Vector3.up * targetHeight, t);
+                if(deflected&&TraceProtection(protectedTarget,start,end,out Vector3 contact,out Vector3 normal)){
+                    float fraction=Mathf.Clamp(Vector3.Distance(start,contact)/Mathf.Max(.01f,Vector3.Distance(start,end)),.15f,.85f);
+                    if(t<fraction)particle.transform.position=Vector3.Lerp(start,contact,t/fraction);
+                    else {
+                        if(!shieldReaction){ReactProtection(protectedTarget,contact,normal);shieldReaction=true;}
+                        float outTime=(t-fraction)/(1-fraction);
+                        Vector3 reflected=ProtectShieldEffect.DeflectionDirection(end-start,normal);
+                        particle.transform.position=contact+reflected*Mathf.Min(4.4f,Vector3.Distance(start,contact)*.55f)*outTime;
+                    }
+                }else particle.transform.position=Vector3.Lerp(start,end,t);
                 particle.transform.localScale = Vector3.one * Mathf.Lerp(.22f, .55f, t);
                 yield return null;
             }
@@ -423,10 +464,207 @@ namespace AeroStadium.Presentation
             Destroy(particle);
         }
 
-        public IEnumerator Hit(int side, int damage)
+        readonly ProtectShieldEffect[] protections=new ProtectShieldEffect[2];
+        public bool LastProtectActivationSound {get;private set;}
+        public bool LastProtectBlockSound {get;private set;}
+        public bool LastProtectAnimated {get;private set;}
+        public int LastProtectMovedJoints {get;private set;}
+        public float LastProtectPeakAngle {get;private set;}
+        public int ProtectActivationCount {get;private set;}
+        public int ProtectBlockCount {get;private set;}
+        public bool LastFireWasDeflected {get;private set;}
+        public int LastFireShieldContacts {get;private set;}
+        public Vector3 LastFireDeflectionPoint {get;private set;}
+        public Vector3 LastFireDeflectionDirection {get;private set;}
+        public ProtectShieldEffect GetActiveProtection(int side)
+            => side>=0&&side<2&&protections[side]!=null&&protections[side].IsActive?protections[side]:null;
+        Transform EffectParent(){
+            var parent=Stadium!=null&&Stadium.ModernStage!=null?Stadium.ModernStage.transform:transform;
+            if(parent==transform&&GetComponent<ArenaFireAudio>()==null)gameObject.AddComponent<ArenaFireAudio>();
+            return parent;
+        }
+        public IEnumerator Protect(int side){
+            if(side<0||side>1||pokemon[side]==null)yield break;
+            ClearProtection(side,true);
+            LastProtectAnimated=false;LastProtectMovedJoints=0;LastProtectPeakAngle=0;
+            LastProtectActivationSound=LastProtectBlockSound=false;
+            var driver=pokemon[side].GetComponent<PokemonAnimationDriver>();
+            if(driver!=null)driver.PlayIdle();
+            var pose=PokemonProtectPose.Create(pokemon[side].GetComponent<NativePokemonModel>());
+            var activationSound=ArenaFireAudio.PlayProtectActivation(EffectParent(),PokemonWorldBounds(side).center);
+            LastProtectActivationSound=activationSound!=null&&activationSound.clip!=null&&activationSound.isPlaying;
+            try {
+                // Anticipation precedes the energy shell; the planted feet remain under native control.
+                if(pose!=null&&pose.IsPlaying)yield return new WaitForSeconds(.20f);
+                protections[side]=ProtectShieldEffect.Create(EffectParent(),PokemonWorldBounds(side));
+                ProtectActivationCount++;
+                yield return new WaitForSeconds(ProtectShieldEffect.ActivationDuration);
+                while(pose!=null&&pose.IsPlaying)yield return null;
+                if(pose!=null){
+                    LastProtectMovedJoints=pose.MovedJointsCount;LastProtectPeakAngle=pose.PeakAngle;
+                    LastProtectAnimated=LastProtectMovedJoints>0&&LastProtectPeakAngle>1;
+                }
+            } finally {if(pose!=null){pose.enabled=false;Destroy(pose);}}
+        }
+        bool TraceProtection(int side,Vector3 from,Vector3 aim,out Vector3 hit,out Vector3 normal){
+            hit=aim;normal=Vector3.up;
+            if(side<0||side>1||pokemon[side]==null)return false;
+            if(protections[side]==null||!protections[side].IsActive)
+                protections[side]=ProtectShieldEffect.Create(EffectParent(),PokemonWorldBounds(side));
+            protections[side].SetBounds(PokemonWorldBounds(side));
+            return protections[side].TryContact(from,aim,out hit,out normal);
+        }
+        void ReactProtection(int side,Vector3 hit,Vector3 normal){
+            if(side<0||side>1||protections[side]==null)return;
+            if(!protections[side].IsActive)return;
+            protections[side].React(hit,normal);ProtectBlockCount++;
+            var blockSound=ArenaFireAudio.PlayProtectBlock(EffectParent(),hit);
+            LastProtectBlockSound=blockSound!=null&&blockSound.clip!=null&&blockSound.isPlaying;
+        }
+        public void ClearProtection(int side,bool immediate=false){
+            if(side<0||side>1||protections[side]==null)return;
+            if(immediate){Destroy(protections[side].gameObject);protections[side]=null;}
+            else protections[side].Release();
+        }
+        public void EndProtection(bool immediate=false){ClearProtection(0,immediate);ClearProtection(1,immediate);}
+        void LateUpdate(){for(int side=0;side<2;side++)if(protections[side]!=null&&protections[side].IsActive&&pokemon[side]!=null)protections[side].SetBounds(PokemonWorldBounds(side));}
+        void OnDisable(){EndProtection(true);}
+
+        readonly Transform[] fireMouth=new Transform[2];
+        public bool LastFlamethrowerCompleted {get;private set;}
+        public int FlamethrowerCasts {get;private set;}
+        public int LastFirePeakFlames {get;private set;}
+        public string LastFireMouth {get;private set;}
+        public float LastFireAudioPeak {get;private set;}
+        public bool LastFireSound {get;private set;}
+        public int DamagePoseCount {get;private set;}
+        public int LastFireTargetReactions {get;private set;}
+        public float LastFireImpactTime {get;private set;}
+        public bool LastFireBurnTail {get;private set;}
+        void FireEndpoints(int side,out Vector3 source,out Vector3 target,out float width)
+        {
+            Bounds victim=PokemonWorldBounds(1-side);
+            target=victim.center;
+            float height=PokemonWorldHeight(side);width=Mathf.Clamp(height*.22f,.28f,.72f);
+            if(fireMouth[side]==null||!fireMouth[side].IsChildOf(pokemon[side].transform)) {
+                fireMouth[side]=null;
+                foreach(var bone in pokemon[side].GetComponentsInChildren<Transform>(true))
+                    if(bone.name=="EffMouth01") {fireMouth[side]=bone;break;}
+            }
+            source=fireMouth[side]!=null?fireMouth[side].position:pokemon[side].transform.position+Vector3.up*height*.72f;
+            source+=(target-source).normalized*.04f;
+            LastFireMouth=fireMouth[side]!=null?fireMouth[side].name:"body-height fallback";
+        }
+        IEnumerator FireBreath(int side,bool targetHit,int protectedTarget,float hitEffectiveness)
+        {
+            LastFlamethrowerCompleted=false;LastFireSound=false;LastFireTargetReactions=0;LastFireImpactTime=-1;LastFireBurnTail=false;
+            LastFireWasDeflected=false;LastFireShieldContacts=0;LastFireDeflectionPoint=LastFireDeflectionDirection=Vector3.zero;
+            if(pokemon[1-side]==null)yield break;
+            float nativeDuration=PlayAttackAnimation(side,true);
+            FireEndpoints(side,out Vector3 source,out Vector3 target,out float width);
+            Transform effectParent=Stadium!=null&&Stadium.ModernStage!=null?Stadium.ModernStage.transform:transform;
+            if(effectParent==transform&&GetComponent<ArenaFireAudio>()==null)gameObject.AddComponent<ArenaFireAudio>();
+            Bounds victim=PokemonWorldBounds(1-side);
+            Vector3 missOffset=targetHit||protectedTarget>=0?Vector3.zero:Vector3.Cross(Vector3.up,(target-source).normalized).normalized*(victim.extents.magnitude+width*3);
+            var effect=FlamethrowerEffect.Create(effectParent,source,target+missOffset,width);
+            effect.ImpactEnabled=targetHit;effect.SetVictimBounds(victim);
+            var sound=ArenaFireAudio.PlayFlamethrower(effect.transform,source,effect.Duration);
+            LastFireAudioPeak=ArenaFireAudio.AttackPeak;
+            LastFireSound=sound!=null&&sound.clip!=null;
+            var animator=pokemon[side].GetComponentInChildren<Animator>();
+            float speed=animator!=null?animator.speed:1;
+            if(animator!=null&&nativeDuration>.1f)animator.speed=Mathf.Clamp(nativeDuration/effect.Duration,.35f,1.2f);
+            bool impactReacted=false,shieldReacted=false;
+            try {
+                while(effect.IsPlaying) {
+                    if(protectedTarget>=0&&TraceProtection(protectedTarget,source,target,out Vector3 contact,out Vector3 normal)) {
+                        Vector3 diverted=ProtectShieldEffect.DeflectionDirection(target-source,normal);
+                        effect.SetDeflection(contact,diverted,Mathf.Clamp(Vector3.Distance(source,contact)*.55f+width,1.0f,4.4f));
+                        LastFireWasDeflected=true;LastFireDeflectionPoint=contact;LastFireDeflectionDirection=diverted;
+                        if(!shieldReacted&&effect.ImpactReached){
+                            int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);
+                            LastFireShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;
+                        }
+                    }
+                    if(targetHit&&!impactReacted&&effect.ImpactReached) {
+                        int before=DamagePoseCount;PlayDamageAnimation(1-side,hitEffectiveness);impactReacted=true;LastFireTargetReactions=DamagePoseCount-before;LastFireImpactTime=effect.EffectProgress*effect.Duration;
+                        Debug.Log("[flamethrower-impact] target="+(1-side)+" damage pose triggered at impact");
+                    }
+                    FireEndpoints(side,out source,out target,out width);effect.SetEndpoints(source,target+missOffset);effect.SetVictimBounds(PokemonWorldBounds(1-side));
+                    if(targetHit&&effect.EffectProgress>.88f&&effect.ImpactOpacity>.005f)LastFireBurnTail=true;
+                    if(sound!=null)sound.transform.position=source;
+                    yield return null;
+                }
+                LastFlamethrowerCompleted=effect.Completed&&effect.ImpactReached&&effect.Validate(out _)&&LastFireSound&&(LastFireTargetReactions==(targetHit?1:0));
+                LastFirePeakFlames=effect.PeakActiveFlames;FlamethrowerCasts++;
+                Debug.Log("[flamethrower] side="+side+" mouth="+LastFireMouth+" completed="+LastFlamethrowerCompleted+" peak="+LastFirePeakFlames+" sound="+LastFireSound);
+            } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
+        }
+
+        public bool LastWaterCompleted {get;private set;}
+        public bool LastWaterSound {get;private set;}
+        public bool LastWaterSplash {get;private set;}
+        public bool LastWaterWasDeflected {get;private set;}
+        public int LastWaterTargetReactions {get;private set;}
+        public int LastWaterShieldContacts {get;private set;}
+        public int LastWaterPeakDroplets {get;private set;}
+        public int WaterCasts {get;private set;}
+        public float LastWaterImpactTime {get;private set;}
+        public float LastWaterAudioPeak {get;private set;}
+        public string LastWaterMouth {get;private set;}
+        public Vector3 LastWaterDeflectionPoint {get;private set;}
+        public Vector3 LastWaterDeflectionDirection {get;private set;}
+        IEnumerator WaterJet(int side,bool targetHit,int protectedTarget,float hitEffectiveness)
+        {
+            LastWaterCompleted=false;LastWaterSound=false;LastWaterTargetReactions=0;LastWaterImpactTime=-1;LastWaterSplash=false;
+            LastWaterWasDeflected=false;LastWaterShieldContacts=0;LastWaterDeflectionPoint=LastWaterDeflectionDirection=Vector3.zero;
+            if(pokemon[1-side]==null)yield break;
+            float nativeDuration=PlayAttackAnimation(side,true);
+            FireEndpoints(side,out Vector3 source,out Vector3 target,out float width);
+            LastWaterMouth=LastFireMouth;
+            Transform effectParent=Stadium!=null&&Stadium.ModernStage!=null?Stadium.ModernStage.transform:transform;
+            if(effectParent==transform&&GetComponent<ArenaFireAudio>()==null)gameObject.AddComponent<ArenaFireAudio>();
+            Bounds victim=PokemonWorldBounds(1-side);
+            Vector3 missOffset=targetHit||protectedTarget>=0?Vector3.zero:Vector3.Cross(Vector3.up,(target-source).normalized).normalized*(victim.extents.magnitude+width*3);
+            var effect=WaterGunEffect.Create(effectParent,source,target+missOffset,width*.45f);
+            effect.ImpactEnabled=targetHit;effect.SetVictimBounds(victim);
+            var sound=WaterAttackAudio.Play(effectParent,source,effect.Duration);
+            LastWaterAudioPeak=WaterAttackAudio.DefaultPcmStats.peak;
+            LastWaterSound=sound!=null&&sound.clip!=null;
+            var animator=pokemon[side].GetComponentInChildren<Animator>();
+            float speed=animator!=null?animator.speed:1;
+            if(animator!=null&&nativeDuration>.1f)animator.speed=Mathf.Clamp(nativeDuration/effect.Duration,.35f,1.2f);
+            bool impactReacted=false,shieldReacted=false;
+            try {
+                while(effect.IsPlaying) {
+                    if(protectedTarget>=0&&TraceProtection(protectedTarget,source,target,out Vector3 contact,out Vector3 normal)) {
+                        Vector3 diverted=ProtectShieldEffect.DeflectionDirection(target-source,normal);
+                        effect.SetDeflection(contact,diverted,Mathf.Clamp(Vector3.Distance(source,contact)*.55f+width,1.0f,4.4f));
+                        LastWaterWasDeflected=true;LastWaterDeflectionPoint=contact;LastWaterDeflectionDirection=diverted;
+                        if(!shieldReacted&&effect.ImpactReached){
+                            int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);
+                            LastWaterShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;
+                        }
+                    }
+                    if(targetHit&&!impactReacted&&effect.ImpactReached) {
+                        int before=DamagePoseCount;PlayDamageAnimation(1-side,hitEffectiveness);impactReacted=true;LastWaterTargetReactions=DamagePoseCount-before;LastWaterImpactTime=effect.EffectProgress*effect.Duration;
+                        Debug.Log("[water-gun-impact] target="+(1-side)+" damage pose triggered at impact");
+                    }
+                    FireEndpoints(side,out source,out target,out width);effect.SetEndpoints(source,target+missOffset);effect.SetVictimBounds(PokemonWorldBounds(1-side));
+                    if(targetHit&&effect.EffectProgress>.45f&&effect.ImpactOpacity>.005f)LastWaterSplash=true;
+                    if(sound!=null)sound.transform.position=source;
+                    yield return null;
+                }
+                LastWaterCompleted=effect.Completed&&effect.ImpactReached&&effect.Validate(out _)&&LastWaterSound&&(LastWaterTargetReactions==(targetHit?1:0));
+                LastWaterPeakDroplets=effect.PeakDroplets;WaterCasts++;
+                Debug.Log("[water-gun] side="+side+" mouth="+LastWaterMouth+" completed="+LastWaterCompleted+" peak="+LastWaterPeakDroplets+" sound="+LastWaterSound);
+            } finally {if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
+        }
+
+        public IEnumerator Hit(int side, int damage, bool reactionAlreadyPlayed = false,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) yield break;
-            float duration = Mathf.Max(.22f, PlayDamageAnimation(side));
+            float duration = reactionAlreadyPlayed ? .22f :Mathf.Max(.22f, PlayDamageAnimation(side,damage>0?hitEffectiveness:0));
             Transform root = pokemon[side].transform;
             Quaternion rotation = root.rotation;
             float labelHeight = PokemonWorldHeight(side)+.35f;
@@ -442,6 +680,7 @@ namespace AeroStadium.Presentation
 
         public IEnumerator Faint(int side)
         {
+            ClearProtection(side);
             if (pokemon[side] == null) yield break;
             float faintDuration = PlayFaintAnimation(side);
             if (faintDuration > 0f)

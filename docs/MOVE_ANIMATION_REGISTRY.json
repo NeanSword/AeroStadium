@@ -1,0 +1,7354 @@
+[
+  {
+    "id": 1,
+    "name": "Écras’Face",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 2,
+    "name": "Poing Karaté",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 3,
+    "name": "Torgnoles",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 4,
+    "name": "Poing Comète",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 5,
+    "name": "Ultimapoing",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 6,
+    "name": "Jackpot",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 7,
+    "name": "Poing Feu",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 8,
+    "name": "Poing Glace",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 9,
+    "name": "Poing Éclair",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 10,
+    "name": "Griffe",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 11,
+    "name": "Force Poigne",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 12,
+    "name": "Guillotine",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 13,
+    "name": "Coupe-Vent",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 14,
+    "name": "Danse Lames",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 15,
+    "name": "Coupe",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 16,
+    "name": "Tornade",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 17,
+    "name": "Cru-Ailes",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 18,
+    "name": "Cyclone",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 19,
+    "name": "Vol",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 20,
+    "name": "Étreinte",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 21,
+    "name": "Souplesse",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 22,
+    "name": "Fouet Lianes",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 23,
+    "name": "Écrasement",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 24,
+    "name": "Double Pied",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 25,
+    "name": "Ultimawashi",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 26,
+    "name": "Pied Sauté",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 27,
+    "name": "Mawashi Geri",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 28,
+    "name": "Jet de Sable",
+    "type": "Ground",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 29,
+    "name": "Coup d’Boule",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 30,
+    "name": "Koud’Korne",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 31,
+    "name": "Furie",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 32,
+    "name": "Empal’Korne",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 33,
+    "name": "Charge",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 34,
+    "name": "Plaquage",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 35,
+    "name": "Ligotage",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 36,
+    "name": "Bélier",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 37,
+    "name": "Mania",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 38,
+    "name": "Damoclès",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 39,
+    "name": "Mimi-Queue",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 40,
+    "name": "Dard-Venin",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 41,
+    "name": "Double Dard",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 42,
+    "name": "Dard-Nuée",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 43,
+    "name": "Groz’Yeux",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 44,
+    "name": "Morsure",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 45,
+    "name": "Rugissement",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 46,
+    "name": "Hurlement",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 47,
+    "name": "Berceuse",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 48,
+    "name": "Ultrason",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 49,
+    "name": "Sonic Boom",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 50,
+    "name": "Entrave",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 51,
+    "name": "Acide",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 52,
+    "name": "Flammèche",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 53,
+    "name": "Lance-Flammes",
+    "type": "Fire",
+    "category": "Special",
+    "status": "preserved",
+    "official_reference": null
+  },
+  {
+    "id": 54,
+    "name": "Brume",
+    "type": "Ice",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 55,
+    "name": "Pistolet à O",
+    "type": "Water",
+    "category": "Special",
+    "status": "compiled_pending_review",
+    "official_reference": "https://unite.pokemon.com/en-gb/news/blastoise-has-blasted-into-pokemon-unite/"
+  },
+  {
+    "id": 56,
+    "name": "Hydrocanon",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 57,
+    "name": "Surf",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 58,
+    "name": "Laser Glace",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 59,
+    "name": "Blizzard",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 60,
+    "name": "Rafale Psy",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 61,
+    "name": "Bulles d’O",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 62,
+    "name": "Onde Boréale",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 63,
+    "name": "Ultralaser",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 64,
+    "name": "Picpic",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 65,
+    "name": "Bec Vrille",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 66,
+    "name": "Sacrifice",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 67,
+    "name": "Balayage",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 68,
+    "name": "Riposte",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 69,
+    "name": "Frappe Atlas",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 70,
+    "name": "Force",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 71,
+    "name": "Vole-Vie",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 72,
+    "name": "Méga-Sangsue",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 73,
+    "name": "Vampigraine",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 74,
+    "name": "Croissance",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 75,
+    "name": "Tranch’Herbe",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 76,
+    "name": "Lance-Soleil",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 77,
+    "name": "Poudre Toxik",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 78,
+    "name": "Para-Spore",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 79,
+    "name": "Poudre Dodo",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 80,
+    "name": "Danse Fleurs",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 81,
+    "name": "Sécrétion",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 82,
+    "name": "Draco-Rage",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 83,
+    "name": "Danse Flammes",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 84,
+    "name": "Éclair",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 85,
+    "name": "Tonnerre",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 86,
+    "name": "Cage Éclair",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 87,
+    "name": "Fatal-Foudre",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 88,
+    "name": "Jet-Pierres",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 89,
+    "name": "Séisme",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 90,
+    "name": "Abîme",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 91,
+    "name": "Tunnel",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 92,
+    "name": "Toxik",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 93,
+    "name": "Choc Mental",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 94,
+    "name": "Psyko",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 95,
+    "name": "Hypnose",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 96,
+    "name": "Yoga",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 97,
+    "name": "Hâte",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 98,
+    "name": "Vive-Attaque",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 99,
+    "name": "Frénésie",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 100,
+    "name": "Téléport",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 101,
+    "name": "Ombre Nocturne",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 102,
+    "name": "Copie",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 103,
+    "name": "Grincement",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 104,
+    "name": "Reflet",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 105,
+    "name": "Soin",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 106,
+    "name": "Armure",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 107,
+    "name": "Lilliput",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 108,
+    "name": "Brouillard",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 109,
+    "name": "Onde Folie",
+    "type": "Ghost",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 110,
+    "name": "Repli",
+    "type": "Water",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 111,
+    "name": "Boul’Armure",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 112,
+    "name": "Bouclier",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 113,
+    "name": "Mur Lumière",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 114,
+    "name": "Buée Noire",
+    "type": "Ice",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 115,
+    "name": "Protection",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 116,
+    "name": "Puissance",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 117,
+    "name": "Patience",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 118,
+    "name": "Métronome",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 119,
+    "name": "Mimique",
+    "type": "Flying",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 120,
+    "name": "Destruction",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 121,
+    "name": "Bombe Œuf",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 122,
+    "name": "Léchouille",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 123,
+    "name": "Purédpois",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 124,
+    "name": "Détritus",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 125,
+    "name": "Massd’Os",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 126,
+    "name": "Déflagration",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 127,
+    "name": "Cascade",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 128,
+    "name": "Claquoir",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 129,
+    "name": "Météores",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 130,
+    "name": "Coud’Krâne",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 131,
+    "name": "Picanon",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 132,
+    "name": "Constriction",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 133,
+    "name": "Amnésie",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 134,
+    "name": "Télékinésie",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 135,
+    "name": "E-Coque",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 136,
+    "name": "Pied Voltige",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 137,
+    "name": "Regard Médusant",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 138,
+    "name": "Dévorêve",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 139,
+    "name": "Gaz Toxik",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 140,
+    "name": "Pilonnage",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 141,
+    "name": "Vampirisme",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 142,
+    "name": "Grobisou",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 143,
+    "name": "Piqué",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 144,
+    "name": "Morphing",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 145,
+    "name": "Écume",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 146,
+    "name": "Uppercut",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 147,
+    "name": "Spore",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 148,
+    "name": "Flash",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 149,
+    "name": "Vague Psy",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 150,
+    "name": "Trempette",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 151,
+    "name": "Acidarmure",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 152,
+    "name": "Pince-Masse",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 153,
+    "name": "Explosion",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 154,
+    "name": "Combo-Griffe",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 155,
+    "name": "Osmerang",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 156,
+    "name": "Repos",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 157,
+    "name": "Éboulement",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 158,
+    "name": "Croc de Mort",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 159,
+    "name": "Affûtage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 160,
+    "name": "Conversion",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 161,
+    "name": "Triplattaque",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 162,
+    "name": "Croc Fatal",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 163,
+    "name": "Tranche",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 164,
+    "name": "Clonage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 165,
+    "name": "Lutte",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 166,
+    "name": "Gribouille",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 167,
+    "name": "Triple Pied",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 168,
+    "name": "Larcin",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 169,
+    "name": "Toile",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 170,
+    "name": "Lire-Esprit",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 171,
+    "name": "Cauchemar",
+    "type": "Ghost",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 172,
+    "name": "Roue de Feu",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 173,
+    "name": "Ronflement",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 174,
+    "name": "Malédiction",
+    "type": "Ghost",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 175,
+    "name": "Gigotage",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 176,
+    "name": "Conversion 2",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 177,
+    "name": "Aéroblast",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 178,
+    "name": "Spore Coton",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 179,
+    "name": "Contre",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 180,
+    "name": "Dépit",
+    "type": "Ghost",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 181,
+    "name": "Poudreuse",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 182,
+    "name": "Abri",
+    "type": "Normal",
+    "category": "Status",
+    "status": "preserved",
+    "official_reference": null
+  },
+  {
+    "id": 183,
+    "name": "Mach Punch",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 184,
+    "name": "Grimace",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 185,
+    "name": "Feinte",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 186,
+    "name": "Doux Baiser",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 187,
+    "name": "Cognobidon",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 188,
+    "name": "Bombe Beurk",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 189,
+    "name": "Coud’Boue",
+    "type": "Ground",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 190,
+    "name": "Octazooka",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 191,
+    "name": "Picots",
+    "type": "Ground",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 192,
+    "name": "Élecanon",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 193,
+    "name": "Clairvoyance",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 194,
+    "name": "Lien du Destin",
+    "type": "Ghost",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 195,
+    "name": "Requiem",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 196,
+    "name": "Vent Glace",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 197,
+    "name": "Détection",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 198,
+    "name": "Charge Os",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 199,
+    "name": "Verrouillage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 200,
+    "name": "Colère",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 201,
+    "name": "Tempête de Sable",
+    "type": "Rock",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 202,
+    "name": "Giga-Sangsue",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 203,
+    "name": "Ténacité",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 204,
+    "name": "Charme",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 205,
+    "name": "Roulade",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 206,
+    "name": "Faux-Chage",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 207,
+    "name": "Vantardise",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 208,
+    "name": "Lait à Boire",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 209,
+    "name": "Étincelle",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 210,
+    "name": "Taillade",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 211,
+    "name": "Ailes d’Acier",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 212,
+    "name": "Regard Noir",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 213,
+    "name": "Attraction",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 214,
+    "name": "Blabla Dodo",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 215,
+    "name": "Glas de Soin",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 216,
+    "name": "Retour",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 217,
+    "name": "Cadeau",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 218,
+    "name": "Frustration",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 219,
+    "name": "Rune Protect",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 220,
+    "name": "Balance",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 221,
+    "name": "Feu Sacré",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 222,
+    "name": "Ampleur",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 223,
+    "name": "Dynamo-Poing",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 224,
+    "name": "Mégacorne",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 225,
+    "name": "Draco-Souffle",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 226,
+    "name": "Relais",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 227,
+    "name": "Encore",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 228,
+    "name": "Poursuite",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 229,
+    "name": "Tour Rapide",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 230,
+    "name": "Doux Parfum",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 231,
+    "name": "Queue de Fer",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 232,
+    "name": "Griffe Acier",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 233,
+    "name": "Corps Perdu",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 234,
+    "name": "Aurore",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 235,
+    "name": "Synthèse",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 236,
+    "name": "Rayon Lune",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 237,
+    "name": "Puissance Cachée",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 238,
+    "name": "Coup Croix",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 239,
+    "name": "Ouragan",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 240,
+    "name": "Danse Pluie",
+    "type": "Water",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 241,
+    "name": "Zénith",
+    "type": "Fire",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 242,
+    "name": "Mâchouille",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 243,
+    "name": "Voile Miroir",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 244,
+    "name": "Boost",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 245,
+    "name": "Vitesse Extrême",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 246,
+    "name": "Pouvoir Antique",
+    "type": "Rock",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 247,
+    "name": "Ball’Ombre",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 248,
+    "name": "Prescience",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 249,
+    "name": "Éclate-Roc",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 250,
+    "name": "Siphon",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 251,
+    "name": "Baston",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 252,
+    "name": "Bluff",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 253,
+    "name": "Brouhaha",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 254,
+    "name": "Stockage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 255,
+    "name": "Relâche",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 256,
+    "name": "Avale",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 257,
+    "name": "Canicule",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 258,
+    "name": "Grêle",
+    "type": "Ice",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 259,
+    "name": "Tourmente",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 260,
+    "name": "Flatterie",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 261,
+    "name": "Feu Follet",
+    "type": "Fire",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 262,
+    "name": "Souvenir",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 263,
+    "name": "Façade",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 264,
+    "name": "Mitra-Poing",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 265,
+    "name": "Stimulant",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 266,
+    "name": "Par Ici",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 267,
+    "name": "Force Nature",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 268,
+    "name": "Chargeur",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 269,
+    "name": "Provoc",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 270,
+    "name": "Coup d’Main",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 271,
+    "name": "Tour de Magie",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 272,
+    "name": "Imitation",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 273,
+    "name": "Vœu",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 274,
+    "name": "Assistance",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 275,
+    "name": "Racines",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 276,
+    "name": "Surpuissance",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 277,
+    "name": "Reflet Magik",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 278,
+    "name": "Recyclage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 279,
+    "name": "Vendetta",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 280,
+    "name": "Casse-Brique",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 281,
+    "name": "Bâillement",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 282,
+    "name": "Sabotage",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 283,
+    "name": "Effort",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 284,
+    "name": "Éruption",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 285,
+    "name": "Échange",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 286,
+    "name": "Possessif",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 287,
+    "name": "Régénération",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 288,
+    "name": "Rancune",
+    "type": "Ghost",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 289,
+    "name": "Saisie",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 290,
+    "name": "Force Cachée",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 291,
+    "name": "Plongée",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 292,
+    "name": "Cogne",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 293,
+    "name": "Camouflage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 294,
+    "name": "Lumi-Queue",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 295,
+    "name": "Lumi-Éclat",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 296,
+    "name": "Ball’Brume",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 297,
+    "name": "Danse Plumes",
+    "type": "Flying",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 298,
+    "name": "Danse Folle",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 299,
+    "name": "Pied Brûleur",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 300,
+    "name": "Lance-Boue",
+    "type": "Ground",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 301,
+    "name": "Ball’Glace",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 302,
+    "name": "Poing Dard",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 303,
+    "name": "Paresse",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 304,
+    "name": "Mégaphone",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 305,
+    "name": "Crochet Venin",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 306,
+    "name": "Éclate Griffe",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 307,
+    "name": "Rafale Feu",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 308,
+    "name": "Hydroblast",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 309,
+    "name": "Poing Météore",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 310,
+    "name": "Étonnement",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 311,
+    "name": "Ball’Météo",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 312,
+    "name": "Aromathérapie",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 313,
+    "name": "Croco Larme",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 314,
+    "name": "Tranch’Air",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 315,
+    "name": "Surchauffe",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 316,
+    "name": "Flair",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 317,
+    "name": "Tomberoche",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 318,
+    "name": "Vent Argenté",
+    "type": "Bug",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 319,
+    "name": "Strido-Son",
+    "type": "Steel",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 320,
+    "name": "Siffl’Herbe",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 321,
+    "name": "Chatouille",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 322,
+    "name": "Force Cosmique",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 323,
+    "name": "Giclédo",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 324,
+    "name": "Rayon Signal",
+    "type": "Bug",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 325,
+    "name": "Poing Ombre",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 326,
+    "name": "Extrasenseur",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 327,
+    "name": "Stratopercut",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 328,
+    "name": "Tourbi-Sable",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 329,
+    "name": "Glaciation",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 330,
+    "name": "Ocroupi",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 331,
+    "name": "Balle Graine",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 332,
+    "name": "Aéropique",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 333,
+    "name": "Stalactite",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 334,
+    "name": "Mur de Fer",
+    "type": "Steel",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 335,
+    "name": "Barrage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 336,
+    "name": "Grondement",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 337,
+    "name": "Draco-Griffe",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 338,
+    "name": "Végé-Attaque",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 339,
+    "name": "Gonflette",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 340,
+    "name": "Rebond",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 341,
+    "name": "Tir de Boue",
+    "type": "Ground",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 342,
+    "name": "Queue-Poison",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 343,
+    "name": "Implore",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 344,
+    "name": "Électacle",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 345,
+    "name": "Feuille Magik",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 346,
+    "name": "Tourniquet",
+    "type": "Water",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 347,
+    "name": "Plénitude",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 348,
+    "name": "Lame Feuille",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 349,
+    "name": "Danse Draco",
+    "type": "Dragon",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 350,
+    "name": "Boule Roc",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 351,
+    "name": "Onde de Choc",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 352,
+    "name": "Vibraqua",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 353,
+    "name": "Vœu Destructeur",
+    "type": "Steel",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 354,
+    "name": "Psycho-Boost",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 355,
+    "name": "Atterrissage",
+    "type": "Flying",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 356,
+    "name": "Gravité",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 357,
+    "name": "Œil Miracle",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 358,
+    "name": "Réveil Forcé",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 359,
+    "name": "Marto-Poing",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 360,
+    "name": "Gyroballe",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 361,
+    "name": "Vœu Soin",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 362,
+    "name": "Saumure",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 363,
+    "name": "Don Naturel",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 364,
+    "name": "Ruse",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 365,
+    "name": "Picore",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 366,
+    "name": "Vent Arrière",
+    "type": "Flying",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 367,
+    "name": "Acupression",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 368,
+    "name": "Fulmifer",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 369,
+    "name": "Demi-Tour",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 370,
+    "name": "Close Combat",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 371,
+    "name": "Représailles",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 372,
+    "name": "Assurance",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 373,
+    "name": "Embargo",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 374,
+    "name": "Dégommage",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 375,
+    "name": "Échange Psy",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 376,
+    "name": "Atout",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 377,
+    "name": "Anti-Soin",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 378,
+    "name": "Essorage",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 379,
+    "name": "Astuce Force",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 380,
+    "name": "Suc Digestif",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 381,
+    "name": "Air Veinard",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 382,
+    "name": "Moi d’Abord",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 383,
+    "name": "Photocopie",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 384,
+    "name": "Permuforce",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 385,
+    "name": "Permugarde",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 386,
+    "name": "Punition",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 387,
+    "name": "Dernier Recours",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 388,
+    "name": "Soucigraine",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 389,
+    "name": "Coup Bas",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 390,
+    "name": "Pics Toxik",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 391,
+    "name": "Permucœur",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 392,
+    "name": "Anneau Hydro",
+    "type": "Water",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 393,
+    "name": "Vol Magnétik",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 394,
+    "name": "Boutefeu",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 395,
+    "name": "Forte-Paume",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 396,
+    "name": "Aurasphère",
+    "type": "Fighting",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 397,
+    "name": "Poliroche",
+    "type": "Rock",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 398,
+    "name": "Direct Toxik",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 399,
+    "name": "Vibrobscur",
+    "type": "Dark",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 400,
+    "name": "Tranche-Nuit",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 401,
+    "name": "Hydro-Queue",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 402,
+    "name": "Canon Graine",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 403,
+    "name": "Lame d’Air",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 404,
+    "name": "Plaie Croix",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 405,
+    "name": "Bourdon",
+    "type": "Bug",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 406,
+    "name": "Draco-Choc",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 407,
+    "name": "Draco-Charge",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 408,
+    "name": "Rayon Gemme",
+    "type": "Rock",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 409,
+    "name": "Vampi-Poing",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 410,
+    "name": "Onde Vide",
+    "type": "Fighting",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 411,
+    "name": "Exploforce",
+    "type": "Fighting",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 412,
+    "name": "Éco-Sphère",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 413,
+    "name": "Rapace",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 414,
+    "name": "Telluriforce",
+    "type": "Ground",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 415,
+    "name": "Passe-Passe",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 416,
+    "name": "Giga Impact",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 417,
+    "name": "Machination",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 418,
+    "name": "Pisto-Poing",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 419,
+    "name": "Avalanche",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 420,
+    "name": "Éclats Glace",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 421,
+    "name": "Griffe Ombre",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 422,
+    "name": "Crocs Éclair",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 423,
+    "name": "Crocs Givre",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 424,
+    "name": "Crocs Feu",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 425,
+    "name": "Ombre Portée",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 426,
+    "name": "Boue-Bombe",
+    "type": "Ground",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 427,
+    "name": "Coupe Psycho",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 428,
+    "name": "Psykoud’Boul",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 429,
+    "name": "Miroi-Tir",
+    "type": "Steel",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 430,
+    "name": "Luminocanon",
+    "type": "Steel",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 431,
+    "name": "Escalade",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 432,
+    "name": "Anti-Brume",
+    "type": "Flying",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 433,
+    "name": "Distorsion",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 434,
+    "name": "Draco-Météore",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 435,
+    "name": "Coup d’Jus",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 436,
+    "name": "Ébullilave",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 437,
+    "name": "Tempête Verte",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 438,
+    "name": "Mégafouet",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 439,
+    "name": "Roc-Boulet",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 440,
+    "name": "Poison Croix",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 441,
+    "name": "Détricanon",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 442,
+    "name": "Tête de Fer",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 443,
+    "name": "Bombe Aimant",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 444,
+    "name": "Lame de Roc",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 445,
+    "name": "Séduction",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 446,
+    "name": "Piège de Roc",
+    "type": "Rock",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 447,
+    "name": "Nœud Herbe",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 448,
+    "name": "Babil",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 449,
+    "name": "Jugement",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 450,
+    "name": "Piqûre",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 451,
+    "name": "Rayon Chargé",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 452,
+    "name": "Martobois",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 453,
+    "name": "Aqua-Jet",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 454,
+    "name": "Appel Attaque",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 455,
+    "name": "Appel Défense",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 456,
+    "name": "Appel Soins",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 457,
+    "name": "Fracass’Tête",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 458,
+    "name": "Coup Double",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 459,
+    "name": "Hurle-Temps",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 460,
+    "name": "Spatio-Rift",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 461,
+    "name": "Danse Lune",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 462,
+    "name": "Presse",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 463,
+    "name": "Vortex Magma",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 464,
+    "name": "Trou Noir",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 465,
+    "name": "Fulmigraine",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 466,
+    "name": "Vent Mauvais",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 467,
+    "name": "Revenant",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 468,
+    "name": "Aiguisage",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 469,
+    "name": "Garde Large",
+    "type": "Rock",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 470,
+    "name": "Partage Garde",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 471,
+    "name": "Partage Force",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 472,
+    "name": "Zone Étrange",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 473,
+    "name": "Choc Psy",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 474,
+    "name": "Choc Venin",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 475,
+    "name": "Allègement",
+    "type": "Steel",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 476,
+    "name": "Poudre Fureur",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 477,
+    "name": "Lévikinésie",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 478,
+    "name": "Zone Magique",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 479,
+    "name": "Anti-Air",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 480,
+    "name": "Yama Arashi",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 481,
+    "name": "Rebondifeu",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 482,
+    "name": "Cradovague",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 483,
+    "name": "Papillodanse",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 484,
+    "name": "Tacle Lourd",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 485,
+    "name": "Synchropeine",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 486,
+    "name": "Boule Élek",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 487,
+    "name": "Détrempage",
+    "type": "Water",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 488,
+    "name": "Nitrocharge",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 489,
+    "name": "Enroulement",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 490,
+    "name": "Balayette",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 491,
+    "name": "Bombe Acide",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 492,
+    "name": "Tricherie",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 493,
+    "name": "Rayon Simple",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 494,
+    "name": "Ten-Danse",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 495,
+    "name": "Après Vous",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 496,
+    "name": "Chant Canon",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 497,
+    "name": "Écho",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 498,
+    "name": "Attrition",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 499,
+    "name": "Bain de Smog",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 500,
+    "name": "Force Ajoutée",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 501,
+    "name": "Prévention",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 502,
+    "name": "Interversion",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 503,
+    "name": "Ébullition",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 504,
+    "name": "Exuviation",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 505,
+    "name": "Vibra Soin",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 506,
+    "name": "Châtiment",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 507,
+    "name": "Chute Libre",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 508,
+    "name": "Chgt Vitesse",
+    "type": "Steel",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 509,
+    "name": "Projection",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 510,
+    "name": "Calcination",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 511,
+    "name": "À la Queue",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 512,
+    "name": "Acrobatie",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 513,
+    "name": "Copie-Type",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 514,
+    "name": "Vengeance",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 515,
+    "name": "Tout ou Rien",
+    "type": "Fighting",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 516,
+    "name": "Passe-Cadeau",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 517,
+    "name": "Feu d’Enfer",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 518,
+    "name": "Aire d’Eau",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 519,
+    "name": "Aire de Feu",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 520,
+    "name": "Aire d’Herbe",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 521,
+    "name": "Change Éclair",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 522,
+    "name": "Survinsecte",
+    "type": "Bug",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 523,
+    "name": "Piétisol",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 524,
+    "name": "Souffle Glacé",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 525,
+    "name": "Draco-Queue",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 526,
+    "name": "Rengorgement",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 527,
+    "name": "Toile Élek",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 528,
+    "name": "Éclair Fou",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 529,
+    "name": "Tunnelier",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 530,
+    "name": "Double Baffe",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 531,
+    "name": "Crève-Cœur",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 532,
+    "name": "Encornebois",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 533,
+    "name": "Lame Sainte",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 534,
+    "name": "Coqui-Lame",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 535,
+    "name": "Tacle Feu",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 536,
+    "name": "Phytomixeur",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 537,
+    "name": "Bulldoboule",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 538,
+    "name": "Cotogarde",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 539,
+    "name": "Explonuit",
+    "type": "Dark",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 540,
+    "name": "Frappe Psy",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 541,
+    "name": "Plumo-Queue",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 542,
+    "name": "Vent Violent",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 543,
+    "name": "Peignée",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 544,
+    "name": "Lancécrou",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 545,
+    "name": "Incendie",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 546,
+    "name": "Techno-Buster",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 547,
+    "name": "Chant Antique",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 548,
+    "name": "Lame Ointe",
+    "type": "Fighting",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 549,
+    "name": "Ère Glaciaire",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 550,
+    "name": "Charge Foudre",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 551,
+    "name": "Flamme Bleue",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 552,
+    "name": "Danse du Feu",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 553,
+    "name": "Éclair Gelé",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 554,
+    "name": "Feu Glacé",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 555,
+    "name": "Aboiement",
+    "type": "Dark",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 556,
+    "name": "Chute Glace",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 557,
+    "name": "Coup Victoire",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 558,
+    "name": "Flamme Croix",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 559,
+    "name": "Éclair Croix",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 560,
+    "name": "Flying Press",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 561,
+    "name": "Tatamigaeshi",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 562,
+    "name": "Éructation",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 563,
+    "name": "Fertilisation",
+    "type": "Ground",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 564,
+    "name": "Toile Gluante",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 565,
+    "name": "Dard Mortel",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 566,
+    "name": "Hantise",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 567,
+    "name": "Halloween",
+    "type": "Ghost",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 568,
+    "name": "Râle Mâle",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 569,
+    "name": "Déluge Plasmique",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 570,
+    "name": "Parabocharge",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 571,
+    "name": "Maléfice Sylvain",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 572,
+    "name": "Tempête Florale",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 573,
+    "name": "Lyophilisation",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 574,
+    "name": "Voix Enjôleuse",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 575,
+    "name": "Dernier Mot",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 576,
+    "name": "Renversement",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 577,
+    "name": "Vampibaiser",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 578,
+    "name": "Vigilance",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 579,
+    "name": "Garde Florale",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 580,
+    "name": "Champ Herbu",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 581,
+    "name": "Champ Brumeux",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 582,
+    "name": "Électrisation",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 583,
+    "name": "Câlinerie",
+    "type": "Fairy",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 584,
+    "name": "Vent Féérique",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 585,
+    "name": "Pouvoir Lunaire",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 586,
+    "name": "Bang Sonique",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 587,
+    "name": "Verrou Enchanté",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 588,
+    "name": "Bouclier Royal",
+    "type": "Steel",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 589,
+    "name": "Camaraderie",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 590,
+    "name": "Confidence",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 591,
+    "name": "Orage Adamantin",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 592,
+    "name": "Jet de Vapeur",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 593,
+    "name": "TrouDimensionnel",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 594,
+    "name": "Sheauriken",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 595,
+    "name": "Feu Ensorcelé",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 596,
+    "name": "Pico-Défense",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 597,
+    "name": "Brume Capiteuse",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 598,
+    "name": "Ondes Étranges",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 599,
+    "name": "Piège de Venin",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 600,
+    "name": "Nuée de Poudre",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 601,
+    "name": "Géo-Contrôle",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 602,
+    "name": "Magné-Contrôle",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 603,
+    "name": "Étrennes",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 604,
+    "name": "Champ Électrifié",
+    "type": "Electric",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 605,
+    "name": "Éclat Magique",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 606,
+    "name": "Célébration",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 607,
+    "name": "Mains Jointes",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 608,
+    "name": "Regard Touchant",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 609,
+    "name": "Frotte-Frimousse",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 610,
+    "name": "Retenue",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 611,
+    "name": "Harcèlement",
+    "type": "Bug",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 612,
+    "name": "Poing Boost",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 613,
+    "name": "Mort’Ailes",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 614,
+    "name": "Myria-Flèches",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 615,
+    "name": "Myria-Vagues",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 616,
+    "name": "Force Chtonienne",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 617,
+    "name": "Lumière du Néant",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 618,
+    "name": "Onde Originelle",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 619,
+    "name": "Lame Pangéenne",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 620,
+    "name": "Draco-Ascension",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 621,
+    "name": "Furie Dimension",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 622,
+    "name": "Turbo-Charge Bulldozer",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 623,
+    "name": "Turbo-Charge Bulldozer",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 624,
+    "name": "Combo Hyper-Furie",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 625,
+    "name": "Combo Hyper-Furie",
+    "type": "Fighting",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 626,
+    "name": "Piqué Supersonique",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 627,
+    "name": "Piqué Supersonique",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 628,
+    "name": "Déluge Causti-Toxique",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 629,
+    "name": "Déluge Causti-Toxique",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 630,
+    "name": "Éruption Géo-Sismique",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 631,
+    "name": "Éruption Géo-Sismique",
+    "type": "Ground",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 632,
+    "name": "Apocalypse Gigalithique",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 633,
+    "name": "Apocalypse Gigalithique",
+    "type": "Rock",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 634,
+    "name": "Cocon Fatal",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 635,
+    "name": "Cocon Fatal",
+    "type": "Bug",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 636,
+    "name": "Appel des Ombres Éternelles",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 637,
+    "name": "Appel des Ombres Éternelles",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 638,
+    "name": "Vrille Maximum",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 639,
+    "name": "Vrille Maximum",
+    "type": "Steel",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 640,
+    "name": "Pyro-Explosion Cataclysmique",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 641,
+    "name": "Pyro-Explosion Cataclysmique",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 642,
+    "name": "Super Tourbillon Abyssal",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 643,
+    "name": "Super Tourbillon Abyssal",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 644,
+    "name": "Pétalexplosion Éblouissante",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 645,
+    "name": "Pétalexplosion Éblouissante",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 646,
+    "name": "Fulguro-Lance Gigavolt",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 647,
+    "name": "Fulguro-Lance Gigavolt",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 648,
+    "name": "Psycho-Pulvérisation EX",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 649,
+    "name": "Psycho-Pulvérisation EX",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 650,
+    "name": "Laser Cryogénique",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 651,
+    "name": "Laser Cryogénique",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 652,
+    "name": "Chaos Draconique",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 653,
+    "name": "Chaos Draconique",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 654,
+    "name": "Trou Noir des Ombres",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 655,
+    "name": "Trou Noir des Ombres",
+    "type": "Dark",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 656,
+    "name": "Impact Choupinova",
+    "type": "Fairy",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 657,
+    "name": "Impact Choupinova",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 658,
+    "name": "Pikachute Foudroyante",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 659,
+    "name": "Amass’Sable",
+    "type": "Ground",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 660,
+    "name": "Escarmouche",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 661,
+    "name": "Blockhaus",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 662,
+    "name": "Tisse Ombre",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 663,
+    "name": "Dark Lariat",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 664,
+    "name": "Aria de l’Écume",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 665,
+    "name": "Marteau de Glace",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 666,
+    "name": "Soin Floral",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 667,
+    "name": "Cavalerie Lourde",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 668,
+    "name": "Vole-Force",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 669,
+    "name": "Lame Solaire",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 670,
+    "name": "Feuillage",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 671,
+    "name": "Projecteur",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 672,
+    "name": "Fil Toxique",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 673,
+    "name": "Affilage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 674,
+    "name": "Engrenage",
+    "type": "Steel",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 675,
+    "name": "Exécu-Son",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 676,
+    "name": "Boule Pollen",
+    "type": "Bug",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 677,
+    "name": "Ancrage",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 678,
+    "name": "Champ Psychique",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 679,
+    "name": "Furie-Bond",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 680,
+    "name": "Fouet de Feu",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 681,
+    "name": "Arrogance",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 682,
+    "name": "Flamme Ultime",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 683,
+    "name": "Permuvitesse",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 684,
+    "name": "Estocorne",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 685,
+    "name": "Purification",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 686,
+    "name": "Danse Éveil",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 687,
+    "name": "Sanction Suprême",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 688,
+    "name": "Botte Sucrette",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 689,
+    "name": "Sommation",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 690,
+    "name": "Bec-Canon",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 691,
+    "name": "Vibrécaille",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 692,
+    "name": "Draco-Marteau",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 693,
+    "name": "Centrifugifle",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 694,
+    "name": "Voile Aurore",
+    "type": "Ice",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 695,
+    "name": "Fureur des Plumes Spectrales",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 696,
+    "name": "Dark Body Press",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 697,
+    "name": "Symphonie des Ondines",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 698,
+    "name": "Colère du Gardien d’Alola",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 699,
+    "name": "Fauche-Âme des Sept Étoiles",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 700,
+    "name": "Électro-Surf Survolté",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 701,
+    "name": "Gare au Ronflex",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 702,
+    "name": "Neuf pour Un",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 703,
+    "name": "Supernova Originelle",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 704,
+    "name": "Carapiège",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 705,
+    "name": "Canon Floral",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 706,
+    "name": "Psycho-Croc",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 707,
+    "name": "Trépignement",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 708,
+    "name": "Os Ombre",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 709,
+    "name": "Vif Roc",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 710,
+    "name": "Aqua-Brèche",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 711,
+    "name": "Laser Prisme",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 712,
+    "name": "Clepto-Mânes",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 713,
+    "name": "Choc Météore",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 714,
+    "name": "Rayon Spectral",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 715,
+    "name": "Larme à l’Œil",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 716,
+    "name": "Électrikipik",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 717,
+    "name": "Ire de la Nature",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 718,
+    "name": "Coup Varia-Type",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 719,
+    "name": "Giga-Tonnerre",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 720,
+    "name": "Caboche-Kaboum",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 721,
+    "name": "Plasma Punch",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 722,
+    "name": "Photo-Geyser",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 723,
+    "name": "Apocalypsis Luminis",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 724,
+    "name": "Hélio-Choc Dévastateur",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 725,
+    "name": "Rayons Séléno-Explosifs",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 726,
+    "name": "Patati-Patattrape",
+    "type": "Fairy",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 727,
+    "name": "Hurlement des Roches-Lames",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 728,
+    "name": "Dracacophonie Flamboyante",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 729,
+    "name": "Pika-Sprint",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 730,
+    "name": "Pika-Splash",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 731,
+    "name": "Pika-Piqué",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 732,
+    "name": "Pika-Fracas",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 733,
+    "name": "Évo-Thalasso",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 734,
+    "name": "Évo-Dynamo",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 735,
+    "name": "Évo-Flambo",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 736,
+    "name": "Évo-Psycho",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 737,
+    "name": "Évo-Ténébro",
+    "type": "Dark",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 738,
+    "name": "Évo-Écolo",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 739,
+    "name": "Évo-Congélo",
+    "type": "Ice",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 740,
+    "name": "Évo-Fabulo",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 741,
+    "name": "Évo-Chardasso",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 742,
+    "name": "Écrous d’Poing",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 743,
+    "name": "Gardomax",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 744,
+    "name": "Canon Dynamax",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 745,
+    "name": "Tir de Précision",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 746,
+    "name": "Croque Fort",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 747,
+    "name": "Garde-à-Joues",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 748,
+    "name": "Ultime Bastion",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 749,
+    "name": "Goudronnage",
+    "type": "Rock",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 750,
+    "name": "Poudre Magique",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 751,
+    "name": "Draco-Flèches",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 752,
+    "name": "Thérémonie",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 753,
+    "name": "Octoprise",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 754,
+    "name": "Prise de Bec",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 755,
+    "name": "Branchicrok",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 756,
+    "name": "Change-Côté",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 757,
+    "name": "Pyromax",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 758,
+    "name": "Insectomax",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 759,
+    "name": "Fulguromax",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 760,
+    "name": "Normalomax",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 761,
+    "name": "Pugilomax",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 762,
+    "name": "Spectromax",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 763,
+    "name": "Cryomax",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 764,
+    "name": "Toxinomax",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 765,
+    "name": "Hydromax",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 766,
+    "name": "Aéromax",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 767,
+    "name": "Enchantomax",
+    "type": "Fairy",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 768,
+    "name": "Dracomax",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 769,
+    "name": "Psychomax",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 770,
+    "name": "Lithomax",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 771,
+    "name": "Sismomax",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 772,
+    "name": "Sinistromax",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 773,
+    "name": "Phytomax",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 774,
+    "name": "Métallomax",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 775,
+    "name": "Dracacophonie",
+    "type": "Dragon",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 776,
+    "name": "Big Splash",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 777,
+    "name": "Nappage",
+    "type": "Fairy",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 778,
+    "name": "Tambour Battant",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 779,
+    "name": "Troquenard",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 780,
+    "name": "Ballon Brûlant",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 781,
+    "name": "Gladius Maximus",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 782,
+    "name": "Aegis Maxima",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 783,
+    "name": "Roue Libre",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 784,
+    "name": "Abattage",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 785,
+    "name": "Tapotige",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 786,
+    "name": "Overdrive",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 787,
+    "name": "Acide Malique",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 788,
+    "name": "Force G",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 789,
+    "name": "Choc Émotionnel",
+    "type": "Fairy",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 790,
+    "name": "Vapeur Féérique",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 791,
+    "name": "Fontaine de Vie",
+    "type": "Water",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 792,
+    "name": "Blocage",
+    "type": "Dark",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 793,
+    "name": "Fourbette",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 794,
+    "name": "Joute Astrale",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 795,
+    "name": "Laser Infinimax",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 796,
+    "name": "Métalaser",
+    "type": "Steel",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 797,
+    "name": "Vaste Pouvoir",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 798,
+    "name": "Métalliroue",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 799,
+    "name": "Rafale Écailles",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 800,
+    "name": "Laser Météore",
+    "type": "Rock",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 801,
+    "name": "Kokiyarme",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 802,
+    "name": "Explo-Brume",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 803,
+    "name": "Gliss’Herbe",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 804,
+    "name": "Monte-Tension",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 805,
+    "name": "Champlification",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 806,
+    "name": "Ravage Rampant",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 807,
+    "name": "Feu Envieux",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 808,
+    "name": "Cent Rancunes",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 809,
+    "name": "Esprit Frappeur",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 810,
+    "name": "Gaz Corrosif",
+    "type": "Poison",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 811,
+    "name": "Coaching",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 812,
+    "name": "Eau Revoir",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 813,
+    "name": "Triple Axel",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 814,
+    "name": "Double Volée",
+    "type": "Flying",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 815,
+    "name": "Sable Ardent",
+    "type": "Ground",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 816,
+    "name": "Selve Salvatrice",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 817,
+    "name": "Poing Obscur",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 818,
+    "name": "Torrent de Coups",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 819,
+    "name": "Voltageôle",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 820,
+    "name": "Draco-Énergie",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 821,
+    "name": "Regard Glaçant",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 822,
+    "name": "Fureur Ardente",
+    "type": "Dark",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 823,
+    "name": "Coup Fulgurant",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 824,
+    "name": "Lance de Glace",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 825,
+    "name": "Éclat Spectral",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 826,
+    "name": "Sort Sinistre",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 827,
+    "name": "Griffes Funestes",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 828,
+    "name": "Sprint Bouclier",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 829,
+    "name": "Échange Force",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 830,
+    "name": "Hache de Pierre",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 831,
+    "name": "Typhon Passionné",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 832,
+    "name": "Force Mystique",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 833,
+    "name": "Grand Courroux",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 834,
+    "name": "Aquatacle",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 835,
+    "name": "Herblast",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 836,
+    "name": "Bise Glaciaire",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 837,
+    "name": "Danse Victoire",
+    "type": "Fighting",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 838,
+    "name": "Assaut Frontal",
+    "type": "Ground",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 839,
+    "name": "Multitoxik",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 840,
+    "name": "Ailes Psycho",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 841,
+    "name": "Cœur de Rancœur",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 842,
+    "name": "Mur Fumigène",
+    "type": "Steel",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 843,
+    "name": "Triple Flèche",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 844,
+    "name": "Cortège Funèbre",
+    "type": "Ghost",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 845,
+    "name": "Vagues à Lames",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 846,
+    "name": "Typhon Hivernal",
+    "type": "Flying",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 847,
+    "name": "Typhon Fulgurant",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 848,
+    "name": "Typhon Pyrosable",
+    "type": "Ground",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 849,
+    "name": "Prière Lunaire",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 850,
+    "name": "Extravaillance",
+    "type": "Psychic",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 851,
+    "name": "Téra Explosion",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 852,
+    "name": "Piège de Fil",
+    "type": "Bug",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 853,
+    "name": "Talon-Marteau",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 854,
+    "name": "Hommage Posthume",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 855,
+    "name": "Lumino-Impact",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 856,
+    "name": "Plat du Jour",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 857,
+    "name": "Poing Sonique",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 858,
+    "name": "Habanerage",
+    "type": "Grass",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 859,
+    "name": "Dérapage",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 860,
+    "name": "Prolifération",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 861,
+    "name": "Cryo-Pirouette",
+    "type": "Ice",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 862,
+    "name": "Charge Glaive",
+    "type": "Dragon",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 863,
+    "name": "Second Souffle",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 864,
+    "name": "Salaison",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 865,
+    "name": "Triple Plongeon",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 866,
+    "name": "Toupie Éclat",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 867,
+    "name": "Décalquage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 868,
+    "name": "Décharnement",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 869,
+    "name": "Génusection",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 870,
+    "name": "Magie Florale",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 871,
+    "name": "Chant Flamboyant",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 872,
+    "name": "Danse Aquatique",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 873,
+    "name": "Taurogne",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 874,
+    "name": "Ruée d'Or",
+    "type": "Steel",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 875,
+    "name": "Lame Psychique",
+    "type": "Psychic",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 876,
+    "name": "Hydrovapeur",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 877,
+    "name": "Cataclysme",
+    "type": "Dark",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 878,
+    "name": "Nitro Crash",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 879,
+    "name": "Turbo Volt",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 880,
+    "name": "Queulonage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 881,
+    "name": "Neigeux de Mots",
+    "type": "Ice",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 882,
+    "name": "Grand Nettoyage",
+    "type": "Normal",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 883,
+    "name": "Chute de Neige",
+    "type": "Ice",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 884,
+    "name": "Bond",
+    "type": "Bug",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 885,
+    "name": "Désherbaffe",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 886,
+    "name": "Douche Froide",
+    "type": "Water",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 887,
+    "name": "Hyperceuse",
+    "type": "Normal",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 888,
+    "name": "Double Laser",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 889,
+    "name": "Poing de Colère",
+    "type": "Ghost",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 890,
+    "name": "Canon Blindé",
+    "type": "Fire",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 891,
+    "name": "Lame en Peine",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 892,
+    "name": "Double Décharge",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 893,
+    "name": "Marteau Mastoc",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 894,
+    "name": "Vindicte",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 895,
+    "name": "Tranch'Aqua",
+    "type": "Water",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 896,
+    "name": "Crash Brûlant",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 897,
+    "name": "Crash Obscur",
+    "type": "Dark",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 898,
+    "name": "Crash Toxique",
+    "type": "Poison",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 899,
+    "name": "Crash Musclé",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 900,
+    "name": "Crash Magique",
+    "type": "Fairy",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 901,
+    "name": "Lune Rouge",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 902,
+    "name": "Mortier Matcha",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 903,
+    "name": "Bombe au Sirop",
+    "type": "Grass",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 904,
+    "name": "Massue Liane",
+    "type": "Grass",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 905,
+    "name": "Fulgurayon",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 906,
+    "name": "Pluie Térastrale",
+    "type": "Normal",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 907,
+    "name": "Laser Hasard",
+    "type": "Dragon",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 908,
+    "name": "Rempart Brûlant",
+    "type": "Fire",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 909,
+    "name": "Vif Éclair",
+    "type": "Electric",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 910,
+    "name": "Lame Puissante",
+    "type": "Rock",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 911,
+    "name": "Lame Tachyonique",
+    "type": "Steel",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 912,
+    "name": "Pression Extrême",
+    "type": "Steel",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 913,
+    "name": "Cri Draconique",
+    "type": "Dragon",
+    "category": "Status",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 914,
+    "name": "Voix Envoûtante",
+    "type": "Fairy",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 915,
+    "name": "Indignition",
+    "type": "Fire",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 916,
+    "name": "Volt Assaut",
+    "type": "Electric",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 917,
+    "name": "Dissonance Psy",
+    "type": "Psychic",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 918,
+    "name": "Prio-Parade",
+    "type": "Fighting",
+    "category": "Physical",
+    "status": "queued",
+    "official_reference": null
+  },
+  {
+    "id": 919,
+    "name": "Chaîne Malsaine",
+    "type": "Poison",
+    "category": "Special",
+    "status": "queued",
+    "official_reference": null
+  }
+]

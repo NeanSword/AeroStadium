@@ -13,17 +13,20 @@ namespace AeroStadium.Presentation
         [Serializable] class BattleLayouts { public BattleLayout[] entries; }
         public BattleLayout CurrentBattleLayout { get; private set; }
         GameObject current;
+        public ModernEliteFourArena ModernStage { get; private set; }
         public string CurrentKey { get; private set; }
         public int RendererCount => current == null ? 0 : current.GetComponentsInChildren<MeshRenderer>().Length;
         public bool Load(string key)
         {
+            if(key=="stadium1_elite4_modern")return LoadModernEliteFour();
+            ModernStage=null;
             bool original=Array.IndexOf(Environment.GetCommandLineArgs(),"--stadium-original")>=0;
             Shader.SetGlobalFloat("_StadiumOriginalRendering",original?1:0);
             Entry entry=Array.Find(Inventory.arenas,e=>e.key==key);
             if(entry==null) throw new InvalidOperationException("Unknown stadium: "+key);
             var prefab=Resources.Load<GameObject>("Stadiums/"+key+"/Arena");
             if(prefab==null) throw new InvalidOperationException("Missing stadium prefab: "+key);
-            if(current!=null){current.SetActive(false);Destroy(current);}
+            if(current!=null){current.SetActive(false);if(Application.isPlaying)Destroy(current);else DestroyImmediate(current);}
             current=Instantiate(prefab,transform);current.transform.localPosition=Vector3.up*-entry.floor;
             CurrentKey=key;
             var layoutFile=Resources.Load<TextAsset>("Stadiums/battle-layouts");
@@ -44,9 +47,20 @@ namespace AeroStadium.Presentation
             Debug.Log("[stadium] "+key+" name="+entry.name+" renderers="+RendererCount+" source="+entry.sourceUrl);
             return true;
         }
+        bool LoadModernEliteFour()
+        {
+            if(current!=null){current.SetActive(false);if(Application.isPlaying)Destroy(current);else DestroyImmediate(current);}
+            Shader.SetGlobalFloat("_StadiumOriginalRendering",0);
+            ModernStage=ModernEliteFourArena.Build(transform);current=ModernStage.gameObject;CurrentKey="stadium1_elite4_modern";
+            CurrentBattleLayout=new BattleLayout{key=CurrentKey,center=new[]{0f,0f,0f},axis=new[]{1f,0f,0f},length=ModernStage.BattleLength,width=ModernStage.BattleWidth,evidence="Rebuilt from the recovered Stadium1 EliteFour architecture"};
+            var view=GetComponentInParent<ArenaView>();
+            if(view!=null){view.ConfigureBattleField(ModernStage.FloorCenter,ModernStage.BattleAxis,ModernStage.BattleLength,ModernStage.BattleWidth);ModernArenaLighting.Apply(view.ArenaCamera);}
+            Debug.Log("[stadium-modern] "+CurrentKey+" renderers="+RendererCount);return true;
+        }
         public bool CameraPathBlocked(Vector3 camera,Vector3 target)
         {
             if(current==null)return false;
+            if(ModernStage!=null){Physics.SyncTransforms();Vector3 cameraDelta=target-camera;foreach(var hit in Physics.RaycastAll(camera,cameraDelta.normalized,cameraDelta.magnitude*.98f,~0,QueryTriggerInteraction.Ignore))if(hit.collider.transform.IsChildOf(current.transform))return true;return false;}
             var filter=current.GetComponent<MeshFilter>();if(filter==null)return false;
             var mesh=filter.sharedMesh;Vector3[] v=mesh.vertices;int[] indices=mesh.triangles;
             Vector3 origin=current.transform.InverseTransformPoint(camera);

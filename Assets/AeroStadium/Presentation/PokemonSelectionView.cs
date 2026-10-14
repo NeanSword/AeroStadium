@@ -21,6 +21,7 @@ namespace AeroStadium.Presentation
         static readonly Color Red = new Color(.98f,.22f,.25f);
         static readonly string[] Types = { "", "Grass", "Fire", "Water", "Electric", "Normal", "Bug", "Poison", "Ground", "Flying", "Psychic", "Fighting", "Rock", "Ghost", "Ice", "Dragon", "Fairy", "Steel", "Dark" };
         readonly List<int> team = new List<int>();
+        readonly Dictionary<int,TeamMember> configurations = new Dictionary<int,TeamMember>();
         readonly List<SpeciesDefinition> filtered = new List<SpeciesDefinition>();
         readonly List<Button> cards = new List<Button>();
         readonly List<int> visibleSpeciesIds = new List<int>();
@@ -53,7 +54,9 @@ namespace AeroStadium.Presentation
         Catalog catalog; Font font; RectTransform root, grid, cursor;
         Text pageLabel, typeLabel, nameLabel, typesLabel, statsLabel, movesLabel, message, hints, count;
         InputField search;
-        Button previous, next, add, start, back, typeButton;
+        Button previous, next, add, edit, start, back, typeButton;
+        PokemonLoadoutEditor editor;
+        CanvasGroup selectionInteraction;
         Action<int> inspect; Action<TeamMember[]> launch; Action returnAction;
         int page, filter, focused = -1, openedFrame; float opened, lastInspect; int pendingInspect = -1;
         bool controller, launchRequested;
@@ -68,6 +71,9 @@ namespace AeroStadium.Presentation
         public IReadOnlyList<int> VisibleSpeciesIds => visibleSpeciesIds;
         public InputField SearchField => search;
         public Button AddButton => add;
+        public Button EditButton => edit;
+        public PokemonLoadoutEditor LoadoutEditor => editor;
+        public bool EditorOpen => editor!=null && editor.IsOpen;
         public Button PreviousButton => previous;
         public Button NextButton => next;
         public int FocusedSpeciesId => focused;
@@ -77,11 +83,12 @@ namespace AeroStadium.Presentation
         public bool OpeningGuardActive => Time.frameCount <= openedFrame + 1 || Time.unscaledTime - opened < .25f;
 
         public void Build(RectTransform parent, Font uiFont, Catalog data, Texture preview,
-            Action<int> onInspect, Action<TeamMember[]> onLaunch, Action onReturn, int[] savedTeam = null)
+            Action<int> onInspect, Action<TeamMember[]> onLaunch, Action onReturn, int[] savedTeam = null, TeamMember[] savedProfiles = null)
         {
             if(parent==null || uiFont==null || data==null) throw new ArgumentNullException("Selection needs a parent, font and catalog.");
             if(root!=null) { root.gameObject.SetActive(false); Release(root.gameObject); }
-            team.Clear(); filtered.Clear(); cards.Clear(); visibleSpeciesIds.Clear(); surfaces.Clear(); badges.Clear(); slots.Clear(); slotLabels.Clear(); motion.Clear(); slotPortraits.Clear(); slotBalls.Clear();
+            if(editor!=null) { editor.Close(false); Release(editor.gameObject); editor=null; }
+            team.Clear(); configurations.Clear(); filtered.Clear(); cards.Clear(); visibleSpeciesIds.Clear(); surfaces.Clear(); badges.Clear(); slots.Clear(); slotLabels.Clear(); motion.Clear(); slotPortraits.Clear(); slotBalls.Clear();
             readiness.Clear(); statBars.Clear(); statNumbers.Clear();
             for(int i=0;i<6;i++) { slotBounce[i]=-100f; statTargets[i]=0; }
             previewAccent=requestedAccent=Royal; previewAt=-100f;
@@ -89,6 +96,7 @@ namespace AeroStadium.Presentation
             page=filter=0; focused=pendingInspect=-1; lastInspect=-1f; launchRequested=false;
             opened = Time.unscaledTime; openedFrame=Time.frameCount; root = Rect(parent,"Équipe",0,0,1600,900);
             entrance=root.gameObject.AddComponent<CanvasGroup>(); entrance.alpha=0;
+            selectionInteraction=entrance;
             var art = Resources.Load<Texture2D>("UI/AeroStadiumMenuBackground");
             Raw(root,"Illustration",0,0,1600,900,art,new Color(.75f,.85f,1f));
             Panel(root,"Lecture",0,0,1600,900,new Color(.02f,.11f,.34f,.71f));
@@ -130,7 +138,8 @@ namespace AeroStadium.Presentation
             nameLabel = Label(root,"",996,164,492,42,28,Ivory); nameLabel.fontStyle=FontStyle.Bold;
             var nameOutline=nameLabel.gameObject.AddComponent<Outline>(); nameOutline.effectColor=Navy; nameOutline.effectDistance=new Vector2(2,-2);
             typesLabel = Label(root,"",996,215,506,26,16,Gold);
-            add = MakeButton(root,"AJOUTER À L’ÉQUIPE",996,443,534,44,()=> RequestAdd(focused),18);
+            add = MakeButton(root,"AJOUTER À L’ÉQUIPE",996,443,315,44,()=> RequestAdd(focused),15);
+            edit = MakeButton(root,"PERSONNALISER",1323,443,207,44,()=> { if(!OpeningGuardActive) OpenEditor(focused); },14);
             var statDesk=Rect(root,"Qualités du partenaire",996,499,254,141);
             statsGroup=statDesk.gameObject.AddComponent<CanvasGroup>();
             statsLabel=Label(statDesk,"STATISTIQUES DE BASE",0,0,254,18,13,Color.white); statsLabel.fontStyle=FontStyle.Bold;
@@ -147,11 +156,11 @@ namespace AeroStadium.Presentation
             Label(root,"TON ÉQUIPE  /  LES SIX DE DÉPART",44,674,565,26,18,Ivory);
             for(int i=0;i<6;i++) { var lamp=Panel(root,"Voyant partenaire "+(i+1),681+i*20,684,14,7,new Color(.26f,.44f,.67f)); lamp.Corner=3; readiness.Add(lamp); }
             count = Label(root,"",808,675,122,25,15,Gold,TextAnchor.MiddleRight);
-            Label(root,"LOCATION · NIVEAU 50 · SANS OBJET",986,674,552,25,15,Pale,TextAnchor.MiddleCenter);
+            Label(root,"NIVEAU 50  ·  CAPACITÉS, OBJET, IV / EV À TON CHOIX",986,674,552,25,13,Pale,TextAnchor.MiddleCenter);
             for(int i=0;i<6;i++)
             {
                 int slot=i;
-                Button button=MakeButton(root,"",44+i*150,705,140,103,()=> { if(!OpeningGuardActive) RemoveAt(slot); },13);
+                Button button=MakeButton(root,"",44+i*150,705,140,103,()=> { if(!OpeningGuardActive && slot<team.Count) OpenEditor(team[slot]); },13);
                 var label=button.GetComponentInChildren<Text>(); var labelRect=label.rectTransform; labelRect.anchoredPosition=new Vector2(5,-75); labelRect.sizeDelta=new Vector2(130,27);
                 slotPortraits.Add(Raw(button.transform,"Partenaire",35,3,70,70,null,Color.white));
                 var emptyBall=Ball(button.transform,"Pokéball libre",43,9,55,.30f); slotBalls.Add(emptyBall.GetComponent<CanvasGroup>());
@@ -170,6 +179,8 @@ namespace AeroStadium.Presentation
             hints=Label(root,"",212,840,1344,40,17,Pale);
             cursor=Rect(root,"Curseur Pokéball",0,0,35,35);
             var ball=cursor.gameObject.AddComponent<MainMenuIcon>(); ball.Kind=MainMenuIcon.Symbol.PokeBall; ball.raycastTarget=false;
+            if(savedProfiles!=null) foreach(var saved in savedProfiles)
+                if(saved!=null && team.Count<6 && !team.Contains(saved.speciesId) && TryConfigureMember(saved)) team.Add(saved.speciesId);
             if(savedTeam!=null) foreach(int id in savedTeam) if(team.Count<6 && !team.Contains(id) && HasSpecies(id)) team.Add(id);
             ApplyFilter(true); RefreshTeam(); SetInputPresentation(false,"Clavier / souris","Entrée","Échap");
         }
@@ -177,15 +188,51 @@ namespace AeroStadium.Presentation
         public void SetInputPresentation(bool useController,string device,string confirm,string cancel)
         {
             controller=useController;
+            if(editor!=null) editor.SetInputPresentation(useController);
             if(cursor!=null && !useController) cursor.gameObject.SetActive(false);
-            if(hints!=null) hints.text=device+"   ·   <color=#FFD635>[ "+confirm+" ]</color> Ajouter / retirer   ·   <color=#FFACAA>[ "+cancel+" ]</color> Retour   ·   "+(useController?"Stick / D-pad":"Flèches")+" Naviguer";
+            if(hints!=null) hints.text=device+"   ·   <color=#FFD635>[ "+confirm+" ]</color> Ajouter / modifier   ·   <color=#FFACAA>[ "+cancel+" ]</color> Retour   ·   "+(useController?"Stick / D-pad":"Flèches")+" Naviguer";
         }
         public TeamMember[] GetTeam()
         {
             var result=new TeamMember[team.Count];
-            for(int i=0;i<team.Count;i++) result[i]=new TeamMember(team[i],"none");
+            for(int i=0;i<team.Count;i++) result[i]=GetMemberConfiguration(team[i]);
             return result;
         }
+        public TeamMember GetMemberConfiguration(int speciesId)
+        {
+            if(!HasSpecies(speciesId)) throw new ArgumentException("Unknown team species.",nameof(speciesId));
+            TeamMember value;
+            if(!configurations.TryGetValue(speciesId,out value)) return new TeamMember(speciesId) { moveIds=(int[])catalog.GetSpecies(speciesId).moves.Clone(),ivs=new StatValues(31),evs=new StatValues() };
+            return value.Copy();
+        }
+        public bool TryConfigureMember(TeamMember value)
+        {
+            if(value==null || !HasSpecies(value.speciesId)) return false;
+            try { catalog.ValidateTeamMember(value); }
+            catch(ArgumentException) { return false; }
+            configurations[value.speciesId]=value.Copy();
+            if(focused==value.speciesId && movesLabel!=null) ShowConfiguredMoves(value.speciesId);
+            return true;
+        }
+        public bool OpenEditor(int speciesId)
+        {
+            if(!HasSpecies(speciesId) || EditorOpen || launchRequested) return false;
+            Inspect(speciesId);pendingInspect=-1;inspect?.Invoke(speciesId);
+            if(editor==null) {editor=new GameObject("Atelier du partenaire").AddComponent<PokemonLoadoutEditor>();editor.transform.SetParent(transform,false);}
+            // The workshop is a sibling so its controls remain interactive while the desk is locked.
+            selectionInteraction.interactable=false;selectionInteraction.blocksRaycasts=false;
+            editor.Open((RectTransform)root.parent,font,catalog,GetMemberConfiguration(speciesId),Portrait(speciesId),team.Contains(speciesId),
+                value=> { if(!TryConfigureMember(value)) return false; RestoreDesk(); Notify(catalog.GetSpecies(speciesId).name+" est prêt : fiche enregistrée.",Ivory); return true; },
+                RestoreDesk,()=> { int index=team.IndexOf(speciesId);if(index>=0)RemoveAt(index);RestoreDesk();Focus(add); },controller);
+            return true;
+        }
+        public bool HandleBack()
+        {
+            if(!EditorOpen) return false;
+            editor.Cancel();return true;
+        }
+        void RestoreDesk() { if(selectionInteraction!=null) { selectionInteraction.interactable=true;selectionInteraction.blocksRaycasts=true; } RefreshTeam(); }
+        void OnDestroy() { if(editor!=null)editor.Close(false); }
         public bool TryAdd(int id)
         {
             if(!HasSpecies(id)) { Notify("Choisis un partenaire !",Gold); return false; }
@@ -201,7 +248,7 @@ namespace AeroStadium.Presentation
         {
             if(index<0 || index>=6) return;
             if(index>=team.Count) return;
-            team.RemoveAt(index); RefreshTeam(); Notify("Une place se libère. À toi de choisir !",Ivory);
+            int speciesId=team[index];team.RemoveAt(index);configurations.Remove(speciesId);RefreshTeam();if(focused==speciesId)ShowConfiguredMoves(speciesId);Notify("Une place se libère. À toi de choisir !",Ivory);
         }
         public void SetSearch(string value) { search.text=value??""; }
         public bool SetTypeFilter(string value)
@@ -267,7 +314,7 @@ namespace AeroStadium.Presentation
         void LinkNavigation()
         {
             if(search==null || back==null) return;
-            var targets=new List<Selectable> { search,typeButton,previous,next,add,start,back };
+            var targets=new List<Selectable> { search,typeButton,previous,next,add,edit,start,back };
             targets.AddRange(cards); targets.AddRange(slots);
             targets.RemoveAll(target=>target==null || !target.IsActive() || !target.IsInteractable());
             foreach(var target in targets) target.navigation=new Navigation { mode=Navigation.Mode.Explicit,
@@ -297,9 +344,14 @@ namespace AeroStadium.Presentation
             typesLabel.text=""; foreach(string type in s.types) typesLabel.text+="<color=#"+ColorUtility.ToHtmlStringRGB(TypeColor(type))+">■ "+TypeName(type).ToUpperInvariant()+"</color>  "; typesLabel.text+=" · "+s.height.ToString("0.0",CultureInfo.GetCultureInfo("fr-FR"))+" m";
             var v=s.stats; int[] values={ v.hp,v.attack,v.defense,v.specialAttack,v.specialDefense,v.speed }; statsGroup.alpha=1;
             for(int i=0;i<6;i++) { statTargets[i]=120*Mathf.Clamp01(values[i]/255f); statNumbers[i].text=values[i].ToString(); }
-            movesLabel.text="<color=#FFFFFF>CAPACITÉS</color>";
-            foreach(int move in s.moves) movesLabel.text+="\n"+catalog.GetMove(move).name;
+            ShowConfiguredMoves(id);
             RefreshTeam();
+        }
+        void ShowConfiguredMoves(int id)
+        {
+            var profile=GetMemberConfiguration(id);movesLabel.text="<color=#FFFFFF>CAPACITÉS CHOISIES</color>";
+            foreach(int move in profile.moveIds??catalog.GetSpecies(id).moves) movesLabel.text+="\n"+catalog.GetMove(move).name;
+            var item=catalog.GetItem(profile.itemId);movesLabel.text+="\n<size=12><color=#FFD635>"+(item==null || item.id=="none"?"Aucun objet tenu":item.name)+"</color></size>";
         }
         void RefreshTeam()
         {
@@ -313,6 +365,7 @@ namespace AeroStadium.Presentation
             start.interactable=CanLaunch; start.GetComponentInChildren<Text>().text=CanLaunch?"TON ÉQUIPE EST PRÊTE\nEN ROUTE POUR LE COMBAT  ›":"CHOISIS SIX PARTENAIRES\nÉQUIPE  ·  "+team.Count+" / 6";
             add.interactable=focused>0 && team.Count<6 && !team.Contains(focused);
             add.GetComponentInChildren<Text>().text=focused>0 && team.Contains(focused)?"DÉJÀ DANS TON ÉQUIPE":team.Count>=6?"ÉQUIPE COMPLÈTE":"AJOUTER À L’ÉQUIPE";
+            edit.interactable=focused>0;
             for(int i=0;i<badges.Count;i++) { int slot=team.IndexOf(visibleSpeciesIds[i]); badges[i].text=slot>=0?(slot+1).ToString():""; badges[i].transform.parent.Find("Badge équipe").gameObject.SetActive(slot>=0); }
             LinkNavigation();
             var current=EventSystem.current!=null?EventSystem.current.currentSelectedGameObject:null;
@@ -329,7 +382,7 @@ namespace AeroStadium.Presentation
                 if(CharUnicodeInfo.GetUnicodeCategory(c)!=UnicodeCategory.NonSpacingMark) text.Append(char.ToLowerInvariant(c));
             return text.ToString().Normalize(NormalizationForm.FormC);
         }
-        void Launch() { if(CanLaunch && !OpeningGuardActive && !launchRequested) { launchRequested=true; launch?.Invoke(GetTeam()); } }
+        void Launch() { if(CanLaunch && !EditorOpen && !OpeningGuardActive && !launchRequested) { launchRequested=true; launch?.Invoke(GetTeam()); } }
         void Update()
         {
             if(root==null) return;
@@ -373,7 +426,7 @@ namespace AeroStadium.Presentation
             for(int i=0;i<readiness.Count;i++) readiness[i].color=Color.Lerp(readiness[i].color,i<team.Count?Gold:new Color(.26f,.44f,.67f),blend);
             battleGlow.SetBorder(CanLaunch?new Color(1f,.83f,.24f,.45f+.2f*Mathf.Sin(now*2.8f)):Color.clear);
             if(watermark!=null) watermark.localRotation=Quaternion.Euler(0,0,-18+Mathf.Sin(now*.45f)*9);
-            bool show=controller && selected!=null && selected.transform.IsChildOf(root);
+            bool show=!EditorOpen && controller && selected!=null && selected.transform.IsChildOf(root);
             cursor.gameObject.SetActive(show);
             if(show) { RectTransform target=selected.transform as RectTransform; if(target!=null) { Vector3 p=root.InverseTransformPoint(target.TransformPoint(new Vector3(target.rect.xMin,target.rect.center.y))); cursor.localPosition=p+new Vector3(-30+Mathf.Sin(now*5)*3,0,0); cursor.localRotation=Quaternion.Euler(0,0,Mathf.Sin(now*4)*12); } }
         }

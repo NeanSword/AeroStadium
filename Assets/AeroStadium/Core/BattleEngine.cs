@@ -10,8 +10,13 @@ namespace AeroStadium.Core
         public string itemId;
         // Null preserves the original rental profile: IV31 and EV0 in every stat.
         public StatValues ivs, evs;
+        public int[] moveIds;
         public TeamMember() { }
         public TeamMember(int speciesId, string itemId = null) { this.speciesId = speciesId; this.itemId = itemId; }
+        public TeamMember Copy()
+        {
+            return new TeamMember(speciesId, itemId) { moveIds = moveIds == null ? null : (int[])moveIds.Clone(), ivs = ivs == null ? null : ivs.Copy(), evs = evs == null ? null : evs.Copy() };
+        }
     }
 
     public enum BattleChoiceKind { Move, Switch, Struggle }
@@ -29,7 +34,7 @@ namespace AeroStadium.Core
     public enum BattleEventKind
     {
         TurnStarted, MoveUsed, Damage, Heal, Miss, Immune, Protected, Failed,
-        StageChanged, Fainted, Switched, Skipped, ItemActivated, BattleEnded
+        StageChanged, Fainted, Switched, Skipped, ItemActivated, BattleEnded, StatusChanged
     }
 
     public sealed class BattleEvent
@@ -41,10 +46,13 @@ namespace AeroStadium.Core
         public int MoveId { get; private set; }
         public int TeamIndex { get; private set; }
         public string Message { get; private set; }
-        internal BattleEvent(BattleEventKind kind, int side, string message, int amount = 0, int targetSide = -1, int moveId = 0, int teamIndex = -1)
+        /// <summary>Resolved type multiplier for this contact, excluding STAB, items and critical hits.
+        /// Fixed damage, recoil and residual damage use a neutral response; immunities use zero.</summary>
+        public double HitEffectiveness { get; private set; }
+        internal BattleEvent(BattleEventKind kind, int side, string message, int amount = 0, int targetSide = -1, int moveId = 0, int teamIndex = -1, double hitEffectiveness = 1d)
         {
             Kind = kind; Side = side; Message = message; Amount = amount;
-            TargetSide = targetSide; MoveId = moveId; TeamIndex = teamIndex;
+            TargetSide = targetSide; MoveId = moveId; TeamIndex = teamIndex; HitEffectiveness = hitEffectiveness;
         }
         public override string ToString() { return Message; }
     }
@@ -53,15 +61,16 @@ namespace AeroStadium.Core
     {
         public MoveDefinition Definition { get; private set; }
         public int Pp { get; internal set; }
-        public int MaxPp { get { return Definition.pp; } }
-        internal MoveSlot(MoveDefinition definition) { Definition = definition; Pp = definition.pp; }
+        private readonly int maxPp;
+        public int MaxPp { get { return maxPp; } }
+        internal MoveSlot(MoveDefinition definition, int maximum = -1) { Definition = definition; maxPp = maximum < 0 ? definition.pp : maximum; Pp = maxPp; }
     }
 
-    public sealed class BattlePokemon
+    public sealed partial class BattlePokemon
     {
         public SpeciesDefinition Species { get; private set; }
         public int SpeciesId { get { return Species.id; } }
-        public string Name { get { return Species.name; } }
+        public string Name { get { return originalSpecies == null ? Species.name : originalSpecies.name; } }
         public string[] Types { get { return (string[])Species.types.Clone(); } }
         public int Level { get; private set; }
         public int MaxHp { get; private set; }
@@ -86,6 +95,7 @@ namespace AeroStadium.Core
         internal BattlePokemon(Catalog catalog, TeamMember member, int level)
         {
             Species = catalog.GetSpecies(member.speciesId);
+            catalog.ValidateTeamMember(member);
             HeldItem = catalog.GetItem(member.itemId);
             Level = level;
             individualValues=(member.ivs??new StatValues(31)).Copy();
@@ -100,23 +110,25 @@ namespace AeroStadium.Core
             SpecialAttack = Stat(b.specialAttack,individualValues.specialAttack,effortValues.specialAttack,level);
             SpecialDefense = Stat(b.specialDefense,individualValues.specialDefense,effortValues.specialDefense,level);
             Speed = Stat(b.speed,individualValues.speed,effortValues.speed,level);
-            var slots = new MoveSlot[Species.moves.Length];
-            for (int i = 0; i < slots.Length; i++) slots[i] = new MoveSlot(catalog.GetMove(Species.moves[i]));
+            int[] selected = member.moveIds ?? Species.moves;
+            var slots = new MoveSlot[selected.Length];
+            for (int i = 0; i < slots.Length; i++) slots[i] = new MoveSlot(catalog.GetMove(selected[i]));
             Moves = Array.AsReadOnly(slots);
+            CaptureOriginal();
         }
         private static int ScaledBase(int basis,int iv,int ev,int level) { return (2*basis+iv+ev/4)*level/100; }
         private static int Stat(int basis,int iv,int ev,int level) { return ScaledBase(basis,iv,ev,level)+5; }
-        internal int EffectiveAttack { get { return ApplyStage(Attack, AttackStage); } }
-        internal int EffectiveSpeed { get { return ApplyStage(Speed, SpeedStage); } }
+        internal int EffectiveAttack { get { return ItemStat(ApplyStage(Attack, AttackStage), "choiceband"); } }
+        internal int EffectiveSpeed { get { return Math.Max(1, ItemStat(ApplyStage(Speed, SpeedStage), "choicescarf") / (Status == "paralysis" ? 2 : 1)); } }
         private static int ApplyStage(int stat, int stage)
         {
             return Math.Max(1, stage >= 0 ? stat * (2 + stage) / 2 : stat * 2 / (2 - stage));
         }
-        internal void LeaveField() { AttackStage = 0; SpeedStage = 0; Protected = false; UsedProtectLastTurn = false; }
+        internal void LeaveField() { RestoreOriginal(); AttackStage = 0; SpeedStage = 0; DefenseStage = SpecialAttackStage = SpecialDefenseStage = AccuracyStage = EvasionStage = 0; Protected = false; UsedProtectLastTurn = false; Flinched = false; ChoiceMoveId = 0; ToxicTurns = 0; }
     }
 
     /// <summary>Deterministic singles battle with small teams; no Unity dependencies.</summary>
-    public sealed class BattleEngine
+    public sealed partial class BattleEngine
     {
         private readonly BattlePokemon[][] teams;
         private readonly IReadOnlyList<BattlePokemon>[] teamViews;
@@ -161,6 +173,7 @@ namespace AeroStadium.Core
             Turn++;
             events.Add(new BattleEvent(BattleEventKind.TurnStarted, -1, "Tour " + Turn));
             actors[0].Protected = false; actors[1].Protected = false;
+            actors[0].Flinched = false; actors[1].Flinched = false;
             Execute(first, actors[first], choices[first], events);
             Execute(1 - first, actors[1 - first], choices[1 - first], events);
             for (int side = 0; side < 2; side++) EndTurn(side, events);
@@ -188,17 +201,24 @@ namespace AeroStadium.Core
                 MoveSlot candidate = pokemon.Moves[slot];
                 if (candidate.Pp == 0) continue;
                 MoveDefinition move = candidate.Definition;
+                if (!move.IsBattleUsable || !CanSelectMove(pokemon, move)) continue;
                 string effect = Effects.Normalize(move.effect);
                 double score = 0;
                 if (move.CategoryKind != MoveCategory.Status)
-                    score = Damage(pokemon, Active(1 - side), move, 100) * move.accuracy / 100.0;
+                    score = Damage(pokemon, Active(1 - side), move, 100) * (move.accuracy == 0 ? 1 : move.accuracy / 100.0);
                 else if (effect == "recover" && pokemon.Hp * 2 < pokemon.MaxHp)
                     score = pokemon.MaxHp / 2.0;
                 else if (effect == "swordsdance" && pokemon.AttackStage < 2 && HasPhysicalMove(pokemon))
                     score = 15;
+                else if (move.mechanics != null)
+                    score = StatusAiScore(pokemon, Active(1 - side), move);
                 if (score > bestScore) { best = slot; bestScore = score; }
             }
-            return best < 0 ? BattleChoice.Struggle() : BattleChoice.Move(best);
+            if (best >= 0) return BattleChoice.Move(best);
+            // A team containing only catalogued specialized moves can still resolve transparently.
+            for (int slot = 0; slot < pokemon.Moves.Count; slot++)
+                if (pokemon.Moves[slot].Pp > 0 && CanSelectMove(pokemon, pokemon.Moves[slot].Definition)) return BattleChoice.Move(slot);
+            return BattleChoice.Struggle();
         }
 
         private static bool HasPhysicalMove(BattlePokemon pokemon)
@@ -216,13 +236,14 @@ namespace AeroStadium.Core
                 case BattleChoiceKind.Move:
                     if (choice.Index < 0 || choice.Index >= actor.Moves.Count || actor.Moves[choice.Index].Pp == 0)
                         throw new ArgumentException("Invalid or exhausted move slot for side " + side);
+                    if (!CanSelectMove(actor, actor.Moves[choice.Index].Definition)) throw new ArgumentException("The held item prevents this move.");
                     break;
                 case BattleChoiceKind.Switch:
                     if (choice.Index < 0 || choice.Index >= teams[side].Length || choice.Index == activeIndices[side] || teams[side][choice.Index].IsFainted)
                         throw new ArgumentException("Invalid switch for side " + side);
                     break;
                 case BattleChoiceKind.Struggle:
-                    foreach (MoveSlot slot in actor.Moves) if (slot.Pp > 0) throw new ArgumentException("Struggle is only available when all PP are exhausted.");
+                    foreach (MoveSlot slot in actor.Moves) if (slot.Pp > 0 && CanSelectMove(actor, slot.Definition)) throw new ArgumentException("Struggle is only available when all usable moves are exhausted.");
                     break;
                 default: throw new ArgumentException("Unknown action.");
             }
@@ -243,6 +264,7 @@ namespace AeroStadium.Core
                 SwitchTo(side, choice.Index, events);
                 return;
             }
+            if (!CanAct(actor, side, events)) return;
             if (choice.Kind == BattleChoiceKind.Struggle)
             {
                 actor.UsedProtectLastTurn = false;
@@ -255,7 +277,23 @@ namespace AeroStadium.Core
             bool priorProtect = actor.UsedProtectLastTurn;
             actor.UsedProtectLastTurn = effect == "protect";
             slot.Pp--;
+            if (IsChoiceItem(actor) && actor.ChoiceMoveId == 0) actor.ChoiceMoveId = move.id;
             events.Add(new BattleEvent(BattleEventKind.MoveUsed, side, actor.Name + " utilise " + move.name + " !", moveId: move.id));
+            if (move.slug == "transform" || move.id == 144)
+            {
+                Transform(side, actor, Active(1 - side), events);
+                return;
+            }
+            if (move.slug == "splash" || move.id == 150)
+            {
+                events.Add(new BattleEvent(BattleEventKind.Failed, side, "Mais rien ne se passe !", moveId: move.id));
+                return;
+            }
+            if (!move.IsBattleUsable)
+            {
+                events.Add(new BattleEvent(BattleEventKind.Failed, side, "L'effet spécialisé de " + move.name + " n'est pas encore pris en charge.", moveId: move.id));
+                return;
+            }
             if (move.CategoryKind == MoveCategory.Status)
             {
                 if (effect == "swordsdance") RaiseAttack(actor, side, events);
@@ -266,6 +304,7 @@ namespace AeroStadium.Core
                     if (priorProtect) events.Add(new BattleEvent(BattleEventKind.Failed, side, "La protection consécutive échoue."));
                     else { actor.Protected = true; events.Add(new BattleEvent(BattleEventKind.Protected, side, actor.Name + " se protège !")); }
                 }
+                else ExecuteMetadataStatus(side, actor, move, events);
                 return;
             }
             BattlePokemon target = Active(1 - side);
@@ -279,19 +318,17 @@ namespace AeroStadium.Core
                 events.Add(new BattleEvent(BattleEventKind.Protected, 1 - side, target.Name + " bloque l'attaque !"));
                 return;
             }
-            if (move.accuracy < 100 && random.Next(100) >= move.accuracy)
+            if (!AccuracyHits(actor, target, move))
             {
                 events.Add(new BattleEvent(BattleEventKind.Miss, side, "L'attaque manque sa cible."));
                 return;
             }
             if (TypeChart.Effectiveness(move.type, target.Species.types) == 0)
             {
-                events.Add(new BattleEvent(BattleEventKind.Immune, 1 - side, "Cela n'affecte pas " + target.Name + "."));
+                events.Add(new BattleEvent(BattleEventKind.Immune, 1 - side, "Cela n'affecte pas " + target.Name + ".", moveId: move.id, hitEffectiveness: 0d));
                 return;
             }
-            int damage = Damage(actor, target, move, 85 + random.Next(16));
-            int actualDamage = Math.Min(target.Hp, damage);
-            ApplyDamage(target, 1 - side, damage, side, move.id, events);
+            int actualDamage = HitDamagingMove(side, actor, target, move, events);
             if (effect == "recoilthird")
                 ApplyDamage(actor, side, Math.Max(1, actualDamage / 3), side, 0, events);
             if (effect == "flamecharge")
@@ -300,6 +337,7 @@ namespace AeroStadium.Core
                 actor.SpeedStage += increase;
                 if (increase > 0) events.Add(new BattleEvent(BattleEventKind.StageChanged, side, "La Vitesse de " + actor.Name + " augmente !", increase));
             }
+            ApplyMetadataSecondary(side, actor, target, move, actualDamage, events);
             if (!actor.IsFainted && ItemEffect(actor) == "lifeorb")
             {
                 events.Add(new BattleEvent(BattleEventKind.ItemActivated, side, actor.Name + " subit le recul de l'Orbe Vie."));
@@ -309,7 +347,14 @@ namespace AeroStadium.Core
         private static int Damage(BattlePokemon actor, BattlePokemon target, MoveDefinition move, int roll)
         {
             int attack = move.CategoryKind == MoveCategory.Physical ? actor.EffectiveAttack : actor.SpecialAttack;
-            int defense = move.CategoryKind == MoveCategory.Physical ? target.Defense : target.SpecialDefense;
+            if (move.CategoryKind == MoveCategory.Special) attack = actor.EffectiveSpecialAttack;
+            int defense = move.CategoryKind == MoveCategory.Physical ? target.EffectiveDefense : target.EffectiveSpecialDefense;
+            if (move.mechanics != null)
+            {
+                if (move.mechanics.fixedDamage > 0) return move.mechanics.fixedDamage;
+                if (move.mechanics.fixedDamageKind == "level") return actor.Level;
+                if (move.mechanics.fixedDamageKind == "half-hp") return Math.Max(1, target.Hp / 2);
+            }
             long baseDamage = ((2L * actor.Level / 5 + 2) * move.power * attack / defense) / 50 + 2;
             double modifier = TypeChart.Effectiveness(move.type, target.Species.types);
             if (modifier == 0) return 0;
@@ -322,6 +367,7 @@ namespace AeroStadium.Core
                 string type = string.IsNullOrEmpty(actor.HeldItem.type) ? "Fire" : actor.HeldItem.type;
                 if (string.Equals(type, move.type, StringComparison.OrdinalIgnoreCase)) modifier *= actor.HeldItem.multiplier > 0 ? actor.HeldItem.multiplier : 1.2;
             }
+            if (move.CategoryKind == MoveCategory.Physical && actor.Status == "burn") modifier *= .5;
             return Math.Max(1, (int)Math.Floor(baseDamage * modifier * roll / 100.0));
         }
         private void ExecuteStruggle(int side, BattlePokemon actor, List<BattleEvent> events)
@@ -345,11 +391,17 @@ namespace AeroStadium.Core
             events.Add(new BattleEvent(increase == 0 ? BattleEventKind.Failed : BattleEventKind.StageChanged, side,
                 increase == 0 ? "L'Attaque ne peut plus augmenter." : "L'Attaque de " + actor.Name + " augmente fortement !", increase));
         }
-        private static void ApplyDamage(BattlePokemon target, int targetSide, int damage, int sourceSide, int moveId, List<BattleEvent> events)
+        private static void ApplyDamage(BattlePokemon target, int targetSide, int damage, int sourceSide, int moveId, List<BattleEvent> events, double hitEffectiveness = 1d)
         {
             int actual = Math.Min(target.Hp, Math.Max(0, damage));
+            if (moveId > 0 && actual >= target.Hp && target.Hp == target.MaxHp && ItemEffect(target) == "focussash")
+            {
+                actual = Math.Max(0, target.Hp - 1);
+                target.ItemConsumed = true;
+                events.Add(new BattleEvent(BattleEventKind.ItemActivated, targetSide, target.Name + " tient bon grâce à sa Ceinture Force !"));
+            }
             target.Hp -= actual;
-            events.Add(new BattleEvent(BattleEventKind.Damage, sourceSide, target.Name + " perd " + actual + " PV.", actual, targetSide, moveId));
+            events.Add(new BattleEvent(BattleEventKind.Damage, sourceSide, target.Name + " perd " + actual + " PV.", actual, targetSide, moveId, hitEffectiveness: hitEffectiveness));
             if (target.IsFainted) events.Add(new BattleEvent(BattleEventKind.Fainted, targetSide, target.Name + " est K.O. !"));
         }
         private static void Heal(BattlePokemon target, int side, int amount, List<BattleEvent> events)
@@ -361,11 +413,13 @@ namespace AeroStadium.Core
         private void EndTurn(int side, List<BattleEvent> events)
         {
             BattlePokemon pokemon = Active(side);
+            ResidualStatus(side, pokemon, events);
             if (!pokemon.IsFainted && pokemon.Hp < pokemon.MaxHp && ItemEffect(pokemon) == "leftovers")
             {
                 events.Add(new BattleEvent(BattleEventKind.ItemActivated, side, "Les Restes de " + pokemon.Name + " restaurent ses PV."));
                 Heal(pokemon, side, Math.Max(1, pokemon.MaxHp / 16), events);
             }
+            HeldEndTurn(side, pokemon, events);
         }
         private void SwitchTo(int side, int index, List<BattleEvent> events)
         {
@@ -384,7 +438,7 @@ namespace AeroStadium.Core
             foreach (BattlePokemon pokemon in teams[side]) if (!pokemon.IsFainted) return true;
             return false;
         }
-        private static string ItemEffect(BattlePokemon pokemon) { return pokemon.HeldItem == null ? "" : Effects.Normalize(pokemon.HeldItem.effect); }
+        private static string ItemEffect(BattlePokemon pokemon) { return pokemon.HeldItem == null || pokemon.ItemConsumed ? "" : Effects.Normalize(pokemon.HeldItem.effect); }
         private static void CheckSide(int side) { if (side != 0 && side != 1) throw new ArgumentOutOfRangeException(nameof(side)); }
         private static TeamMember[] Members(int[] ids)
         {

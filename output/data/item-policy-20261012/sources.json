@@ -1,0 +1,198 @@
+{
+  "pokeapiCommit": "c80757193bd0889054e36f4209762360bdaa4b95",
+  "showdownCommit": "942cda71d14bf0618bd57991708a2e2734b6daba",
+  "files": [
+    {
+      "file": "moves.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/moves.csv",
+      "sha256": "8aafd37bf78f19471495c05b201545180f50f0a08a2a2a844d69f9837dd39ac9",
+      "bytes": 42322
+    },
+    {
+      "file": "move_names.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_names.csv",
+      "sha256": "99e23ee38ea53d1473474d463b87651deac3cd4928750f8186feae66da45c147",
+      "bytes": 202670
+    },
+    {
+      "file": "move_flavor_text.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_flavor_text.csv",
+      "sha256": "43177df8d76dac477fc837aa19b2a50d74ee2c94e47fb827506768c58b360087",
+      "bytes": 5392794
+    },
+    {
+      "file": "move_meta.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_meta.csv",
+      "sha256": "93b92d5bddf4fc1536ca0a647c20453bf92e6389010f33ca6fc4c5e9c54363be",
+      "bytes": 20555
+    },
+    {
+      "file": "move_meta_stat_changes.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_meta_stat_changes.csv",
+      "sha256": "489edd9ee45ea7e60c99c5a860c4c0957b337af21f8ae9bf03dd121fd548d5ab",
+      "bytes": 2091
+    },
+    {
+      "file": "move_effect_prose.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_effect_prose.csv",
+      "sha256": "f6d9bf0d28433a010a8b8b6a0a14d1ef72fbfcb997717f71b0e34483b7ee9697",
+      "bytes": 253898
+    },
+    {
+      "file": "move_targets.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_targets.csv",
+      "sha256": "47600dd1ec76bc6e9f117116686ea5d44219623658b2cfcb140711fc9f021db9",
+      "bytes": 278
+    },
+    {
+      "file": "move_meta_ailments.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_meta_ailments.csv",
+      "sha256": "4c6e3ce3afe276478a45730de3d15f65496f646ce927c3e374b32295fbe24ed4",
+      "bytes": 271
+    },
+    {
+      "file": "move_meta_categories.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_meta_categories.csv",
+      "sha256": "a684ba21cb3e6836bbd002078d1b5cd904fddb2ea19f8d49a829387334860c2d",
+      "bytes": 199
+    },
+    {
+      "file": "move_damage_classes.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/move_damage_classes.csv",
+      "sha256": "b7101ceca4dff152537a2fb5c439ca4030b05f86442c643812c0b7b6ccf16f1b",
+      "bytes": 44
+    },
+    {
+      "file": "types.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/types.csv",
+      "sha256": "37f039c8d722f47d51ba1c5c5ecf9b7007235b1a9a1af2827645c777b70307c8",
+      "bytes": 321
+    },
+    {
+      "file": "items.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/items.csv",
+      "sha256": "f08cd6dc30b447cb91cbe9232c79052e8521f32f6105bb1489b5bfabf4ca3241",
+      "bytes": 59564
+    },
+    {
+      "file": "item_names.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/item_names.csv",
+      "sha256": "c4ad0b446e395c378d8ba75d6900f051cc9ebb99431d4000adeac35f492852f0",
+      "bytes": 498452
+    },
+    {
+      "file": "item_flavor_text.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/item_flavor_text.csv",
+      "sha256": "f85281c97e4a423fb6ae673a3d2cfab116ac2e7bb9fcdecfb43ac8b1e1fb8676",
+      "bytes": 6281294
+    },
+    {
+      "file": "item_categories.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/item_categories.csv",
+      "sha256": "8bfcaaf1dfe45d33a8cc374a602f2424e1c37ad68bab222f090cd95c691660d7",
+      "bytes": 922
+    },
+    {
+      "file": "item_flag_map.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/item_flag_map.csv",
+      "sha256": "95f94c17edbd2f7f429f490ea04b20c50aeba337ea6a4bc65080ed5f1c62b3cd",
+      "bytes": 3347
+    },
+    {
+      "file": "item_flags.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/item_flags.csv",
+      "sha256": "ac9f0fe5376b9a6b3cba23688866221149354dd761d182092aa7fdee5d312985",
+      "bytes": 139
+    },
+    {
+      "file": "item_prose.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/item_prose.csv",
+      "sha256": "510fc4a9e58951dcaacf156d4cc6655dce1b173dcaea45495a29f6f343076373",
+      "bytes": 342317
+    },
+    {
+      "file": "version_groups.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/version_groups.csv",
+      "sha256": "28da8d89d8eb4966941f81a9e62b3990510ed4d76dd774158246551a8e7707a7",
+      "bytes": 726
+    },
+    {
+      "file": "generations.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/generations.csv",
+      "sha256": "d39634465251f1334aa0389b5adc4b4f2754eaec61f305fceb9432a3d4c96748",
+      "bytes": 194
+    },
+    {
+      "file": "pokemon.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/pokemon.csv",
+      "sha256": "16c81c33188b0eac403aa2f759fcbe9e42c611f722d263f5b5a6a5bff9f8ce6b",
+      "bytes": 47082
+    },
+    {
+      "file": "pokemon_species.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/pokemon_species.csv",
+      "sha256": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45",
+      "bytes": 56884
+    },
+    {
+      "file": "pokemon_moves.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/pokemon_moves.csv",
+      "sha256": "22a807cef26891eeac0d0c900bd363e66baf421f7ee795bc7bc3e718f23b939e",
+      "bytes": 10733699
+    },
+    {
+      "file": "item_game_indices.csv",
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/c80757193bd0889054e36f4209762360bdaa4b95/data/v2/csv/item_game_indices.csv",
+      "sha256": "ad7576a23dea4e136ea887f5f04b680abc4f72131812fa011bdddeb54760c653",
+      "bytes": 75060
+    },
+    {
+      "file": "showdown-data-learnsets.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/data/learnsets.ts",
+      "sha256": "26969c5e9ca7310b701612da8c9cea217b7d43efb8cd22a7e46783a6ca9b386e",
+      "bytes": 3725143
+    },
+    {
+      "file": "showdown-data-pokedex.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/data/pokedex.ts",
+      "sha256": "73048386b864be5aff093e9393acf32e8016299e9d7b76078bf5120b769e2fe0",
+      "bytes": 538263
+    },
+    {
+      "file": "showdown-data-moves.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/data/moves.ts",
+      "sha256": "738b8cfc1ca491537c0188546ab697942aaa313c5e6be83a5432edd5dd8997f7",
+      "bytes": 484848
+    },
+    {
+      "file": "showdown-data-items.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/data/items.ts",
+      "sha256": "75da206e2cb09868bb549360f38a144c2f50b24e1d189e03b485d550a4f6357a",
+      "bytes": 163747
+    },
+    {
+      "file": "showdown-data-mods-gen9legends-learnsets.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/data/mods/gen9legends/learnsets.ts",
+      "sha256": "da28ffeb8b2218e8b02d0543a0a063151fe73176cd45d72cf5b4db73115ce888",
+      "bytes": 361220
+    },
+    {
+      "file": "showdown-data-mods-gen8bdsp-learnsets.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/data/mods/gen8bdsp/learnsets.ts",
+      "sha256": "afb10262f89445592ab7a2cf8dd5e6b7cebeafdce30d28092a1f92110faf54bb",
+      "bytes": 543075
+    },
+    {
+      "file": "showdown-data-mods-champions-learnsets.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/data/mods/champions/learnsets.ts",
+      "sha256": "826d302703358260a1c4967e2bf8edd15f1fe7e0f664c8ab14aff734906cc9d0",
+      "bytes": 348078
+    },
+    {
+      "file": "showdown-sim-global-types.ts",
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/942cda71d14bf0618bd57991708a2e2734b6daba/sim/global-types.ts",
+      "sha256": "8fedfb0061ad94b7a06588ac9d9fc4e79474e8b9097a86edb2c1c9476c86fe8e",
+      "bytes": 25150
+    }
+  ]
+}

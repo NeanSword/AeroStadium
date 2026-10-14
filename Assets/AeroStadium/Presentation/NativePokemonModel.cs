@@ -70,12 +70,27 @@ namespace AeroStadium.Presentation
 
         public float Play(PokemonMotionAction action)
         {
+            var reaction = GetComponent<PokemonHitReaction>();
+            if (reaction != null) reaction.Cancel();
             var role = RoleFor(action);
             int index = FindActionClip(role);
             if (index < 0) return 0f;
             string stateName = role == NativePokemonClipRole.Faint && clips[index].role == NativePokemonClipRole.Damage
                 ? "Base Layer.Native_FaintFallback" : $"Base Layer.Native_{index:000}";
             return PlayIndex(index, stateName) ? GetActionDuration(action) : 0f;
+        }
+
+        /// <summary>Resolved native states for a temporary reaction mixer, including all auxiliary layers.</summary>
+        public bool TryGetDamageStates(out Animator target, out int idleState, out int damageState, out float duration)
+        {
+            target = animator; idleState = 0; damageState = 0; duration = 0f;
+            int idle = FindActionClip(NativePokemonClipRole.Idle), damage = FindActionClip(NativePokemonClipRole.Damage);
+            if (idle < 0 || damage < 0 || animator == null || !animator.enabled || animator.runtimeAnimatorController == null) return false;
+            idleState = Animator.StringToHash($"Base Layer.Native_{idle:000}");
+            damageState = Animator.StringToHash($"Base Layer.Native_{damage:000}");
+            if (!animator.HasState(0, idleState) || !animator.HasState(0, damageState)) return false;
+            duration = clips[damage].clip.length + .12f;
+            return true;
         }
 
         public float GetActionDuration(PokemonMotionAction action)
@@ -104,6 +119,8 @@ namespace AeroStadium.Presentation
 
         public bool PlaySource(int index)
         {
+            var reaction = GetComponent<PokemonHitReaction>();
+            if (reaction != null) reaction.Cancel();
             return PlayIndex(index, $"Base Layer.Native_{index:000}");
         }
 

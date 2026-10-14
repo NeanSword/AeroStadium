@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using AeroStadium.Core;
+using AeroStadium.Presentation;
 
 internal static class Program
 {
@@ -14,6 +15,9 @@ internal static class Program
             ("Physical/special categories select independent attack AND defense stats", Categories),
             ("IDs above 255 survive JSON and resolve by ID rather than array position", LargeIds),
             ("18-type chart: immunity, dual weakness and modern Steel interactions", Types),
+            ("Hit feedback records six effectiveness tiers without changing damage", EffectivenessFeedback),
+            ("Hit feedback keeps fixed damage, recoil, residuals and Struggle neutral", EffectivenessExceptions),
+            ("Hit feedback survives transformation and matches the exact event", EffectivenessSnapshot),
             ("KO skips the queued action and reserves replace only after the turn", Knockout),
             ("PP are consumed once and exhausted teams can use Struggle", PpAndStruggle),
             ("Invalid second-side command is atomic, including the random stream", AtomicInvalid),
@@ -30,6 +34,13 @@ internal static class Program
             ("IV/EV limits and total cap reject invalid teams", TrainingLimits),
             ("IV/EV profiles are isolated from caller mutations", TrainingIsolation),
             ("Training changes damage categories and battle initiative", TrainingCombat)
+            ,("Custom moves are legal, distinct, bounded and isolated", CustomLoadouts)
+            ,("Metadata supports always-hit, stat changes and ailment immunities", MetadataStatuses)
+            ,("Metadata supports fixed damage, multi-hit, drain and recoil", MetadataDamage)
+            ,("Choice items restrict moves and clear their lock on switching", ChoiceItems)
+            ,("Held items: Focus Sash, berries, assault vest and contact helmet", ModernHeldItems)
+            ,("Transform copies battle attributes without copying HP or item and resets", TransformCheck)
+            ,("Specialized catalog moves fail explicitly without inventing effects", SpecializedFailure)
         };
         if (args.Length > 0) checks.Add(("Actual Unity seed JSON validates and replays", () => ActualCatalog(args[0])));
         int failed = 0;
@@ -106,7 +117,7 @@ internal static class Program
     }
     private static string Trace(IEnumerable<BattleEvent> events)
     {
-        return string.Join("|", events.Select(e => e.Kind + ":" + e.Side + ":" + e.TargetSide + ":" + e.Amount + ":" + e.MoveId + ":" + e.TeamIndex + ":" + e.Message));
+        return string.Join("|", events.Select(e => e.Kind + ":" + e.Side + ":" + e.TargetSide + ":" + e.Amount + ":" + e.MoveId + ":" + e.TeamIndex + ":" + e.HitEffectiveness + ":" + e.Message));
     }
     private static string Snapshot(BattleEngine engine)
     {
@@ -149,6 +160,89 @@ internal static class Program
         var events = engine.ResolveTurn(BattleChoice.Move(0), BattleChoice.Move(2));
         Require(engine.Active(1).Hp == before && events.Any(e => e.Kind == BattleEventKind.Immune), "Immune defender lost HP.");
         Require(engine.Active(0).Moves[0].Pp == 9, "An immune target still consumes move PP.");
+    }
+    private static void EffectivenessFeedback()
+    {
+        var cases = new[] {
+            ("Normal", new[] { "Ghost" }, 0d),
+            ("Grass", new[] { "Grass", "Poison" }, .25d),
+            ("Water", new[] { "Water" }, .5d),
+            ("Normal", new[] { "Normal" }, 1d),
+            ("Fire", new[] { "Bug" }, 2d),
+            ("Rock", new[] { "Fire", "Flying" }, 4d)
+        };
+        foreach (var test in cases)
+        {
+            Catalog c = Fixture(); c.moves[0].type = test.Item1; c.species[1].types = test.Item2;
+            var e = Engine(c, "lifeorb");
+            var events = e.ResolveTurn(BattleChoice.Move(0), BattleChoice.Move(2));
+            int used = events.ToList().FindIndex(x => x.Kind == BattleEventKind.MoveUsed && x.Side == 0);
+            bool found = BattlePresentationHit.TryGetDirectHitEffectiveness(events, used, out int damage, out double effectiveness);
+            if (test.Item3 == 0d)
+            {
+                Require(!found && effectiveness == 0d && damage == -1, "An immune target supplied damage feedback.");
+                Require(events.Single(x => x.Kind == BattleEventKind.Immune).HitEffectiveness == 0d, "Immunity was not recorded as zero.");
+            }
+            else
+            {
+                Require(found && effectiveness == test.Item3, test.Item1 + " feedback has the wrong effectiveness.");
+                Require(events[damage].HitEffectiveness == test.Item3, "STAB or the Life Orb altered type feedback.");
+            }
+        }
+    }
+    private static void EffectivenessExceptions()
+    {
+        var level = Generic(51, "Special", 0, new MoveMechanics { support = "implemented", fixedDamageKind = "level" }, "Ghost");
+        var half = Generic(52, "Physical", 0, new MoveMechanics { support = "implemented", fixedDamageKind = "half-hp" }, "Ghost");
+        var fixedValue = Generic(54, "Special", 0, new MoveMechanics { support = "implemented", fixedDamage = 20 }, "Ghost");
+        Catalog c = MechanicsFixture(level, half, fixedValue); c.species[1].types = new[] { "Psychic" };
+        foreach (int id in new[] { 51, 52, 54 })
+        {
+            var e = WithMoves(c, new[] { id }, new[] { 3 });
+            var events = e.ResolveTurn(BattleChoice.Move(0), BattleChoice.Move(0));
+            Require(events.First(x => x.Kind == BattleEventKind.Damage).HitEffectiveness == 1d, "Fixed damage inherited the Ghost weakness.");
+        }
+        c.species[1].types = new[] { "Normal" };
+        var immune = WithMoves(c, new[] { 51 }, new[] { 3 }).ResolveTurn(BattleChoice.Move(0), BattleChoice.Move(0));
+        Require(immune.Any(x => x.Kind == BattleEventKind.Immune && x.HitEffectiveness == 0d), "Fixed damage lost its existing immunity rule.");
+
+        var burn = Generic(55, "Physical", 5, new MoveMechanics { support = "implemented", ailment = "burn", ailmentChance = 100, drain = -50, contact = true, minHits = 3, maxHits = 3 }, "Fire");
+        c = MechanicsFixture(burn); c.species[1].types = new[] { "Bug", "Grass" };
+        c.items = c.items.Concat(new[] { Held("helmet", "rockyhelmet") }).ToArray();
+        var effects = WithMoves(c, new[] { 55 }, new[] { 3 }, "lifeorb", "helmet").ResolveTurn(BattleChoice.Move(0), BattleChoice.Move(0));
+        Require(effects.Count(x => x.Kind == BattleEventKind.Damage && x.MoveId == 55 && x.HitEffectiveness == 4d) == 3, "Multi-hit damage lost its effectiveness.");
+        var independent = effects.Where(x => x.Kind == BattleEventKind.Damage && x.MoveId == 0).ToList();
+        Require(independent.Count >= 6 && independent.All(x => x.HitEffectiveness == 1d), "Helmet, recoil, Life Orb or burn inherited the attack weakness.");
+
+        c = Fixture(); c.species[0].moves = new[] { 7 }; c.species[1].moves = new[] { 3 };
+        c.species[1].types = new[] { "Ghost" }; c.moves[6].pp = c.moves[2].pp = 1;
+        var struggle = Engine(c); struggle.ResolveTurn(BattleChoice.Move(0), BattleChoice.Move(0));
+        var struggleEvents = struggle.ResolveTurn(BattleChoice.Struggle(), BattleChoice.Struggle());
+        Require(struggleEvents.Where(x => x.Kind == BattleEventKind.Damage).All(x => x.HitEffectiveness == 1d), "Struggle inherited a Normal/Ghost immunity.");
+        int struggleUsed = struggleEvents.ToList().FindIndex(x => x.Kind == BattleEventKind.MoveUsed && x.Side == 0);
+        Require(BattlePresentationHit.TryGetDirectHitEffectiveness(struggleEvents, struggleUsed, out _, out double struggleFeedback) && struggleFeedback == 1d, "Struggle's direct contact was confused with recoil.");
+    }
+    private static void EffectivenessSnapshot()
+    {
+        var transform = Generic(144, "Status", 0, new MoveMechanics { support = "partial" }); transform.slug = "transform";
+        Catalog c = MechanicsFixture(transform); c.species[1].types = new[] { "Grass", "Steel" };
+        var e = WithMoves(c, new[] { 1 }, new[] { 144 });
+        var events = e.ResolveTurn(BattleChoice.Move(0), BattleChoice.Move(0));
+        Require(e.Active(1).IsTransformed && e.Active(1).Types.SequenceEqual(new[] { "Fire" }), "The target did not transform after the hit.");
+        int used = events.ToList().FindIndex(x => x.Kind == BattleEventKind.MoveUsed && x.Side == 0);
+        Require(BattlePresentationHit.TryGetDirectHitEffectiveness(events, used, out int index, out double effectiveness) && effectiveness == 4d, "Feedback re-read transformed types instead of the resolved contact.");
+        Require(BattlePresentationHit.GetDamageEffectiveness(events[index]) == 4d, "Damage playback lost its captured multiplier.");
+        var mixed = new[] {
+            new BattleEvent(BattleEventKind.MoveUsed, 0, "move", moveId: 53),
+            new BattleEvent(BattleEventKind.Damage, 0, "recoil", 10, 0, 0, hitEffectiveness: 1d),
+            new BattleEvent(BattleEventKind.Damage, 0, "wrong move", 10, 1, 33, hitEffectiveness: 4d),
+            new BattleEvent(BattleEventKind.Damage, 0, "zero", 0, 1, 53, hitEffectiveness: 2d),
+            new BattleEvent(BattleEventKind.Damage, 0, "contact", 10, 1, 53, hitEffectiveness: .25d)
+        };
+        Require(BattlePresentationHit.TryGetDirectHitEffectiveness(mixed, 0, out index, out effectiveness) && index == 4 && effectiveness == .25d, "Feedback selected the wrong damage event.");
+        Require(BattlePresentationHit.GetDamageEffectiveness(mixed[3]) == 0d, "Zero damage supplied a hit response.");
+        var later = new[] { mixed[0], new BattleEvent(BattleEventKind.Switched, 1, "switch"), mixed[4] };
+        Require(!BattlePresentationHit.TryGetDirectHitEffectiveness(later, 0, out index, out effectiveness) && effectiveness == 0d, "A replacement supplied a previous move's response.");
     }
     private static void Knockout()
     {
@@ -331,6 +425,15 @@ internal static class Program
         catalog.Validate();
         Require(catalog.species.Length == 151 && catalog.species.All(s => s.id >= 1 && s.id <= 151), "The actual catalog should contain only the 151 Generation I species.");
         Require(catalog.GetSpecies(1).id == 1 && catalog.GetSpecies(151).id == 151, "The Kanto Pokédex endpoints should resolve by ID.");
+        foreach (SpeciesDefinition species in catalog.species)
+        {
+            int[] selected=catalog.GetLearnableMoves(species.id).Take(4).ToArray();
+            var profile=new TeamMember(species.id) {moveIds=selected,ivs=new StatValues(0),evs=new StatValues {hp=6,attack=252,speed=252}};
+            catalog.ValidateTeamMember(profile);
+            Require(catalog.CreatePokemon(profile).Moves.Select(m=>m.Definition.id).SequenceEqual(selected),"A Kanto loadout lost legal chosen moves: "+species.name);
+            Require(catalog.CreatePokemon(new TeamMember(species.id)).Moves.All(m=>m.Definition.IsBattleUsable),"A Kanto default has only unsupported mechanics: "+species.name);
+        }
+        foreach (ItemDefinition item in catalog.items.Where(i=>i.holdable)) catalog.ValidateTeamMember(new TeamMember(1,item.id));
         int[] ids = catalog.species.Take(3).Select(s => s.id).ToArray();
         var left = new BattleEngine(catalog, ids, ids, 2026);
         var right = new BattleEngine(catalog, ids, ids, 2026);
@@ -339,5 +442,110 @@ internal static class Program
             Require(Trace(left.ResolveTurn(left.ChooseAi(0), left.ChooseAi(1))) == Trace(right.ResolveTurn(right.ChooseAi(0), right.ChooseAi(1))), "Actual-catalog replay diverged.");
             Require(Snapshot(left) == Snapshot(right), "Actual-catalog state diverged.");
         }
+    }
+
+    private static void CustomLoadouts()
+    {
+        Catalog c=Fixture(); c.species[0].learnableMoves=new[]{1,2,3,4,5,6,7,8};
+        var ids=new[]{3,7,8,2};var member=new TeamMember(1025) {moveIds=ids,ivs=new StatValues(0),evs=new StatValues {hp=6,attack=252,speed=252}};
+        c.Validate();c.ValidateTeamMember(member);
+        var copy=member.Copy();copy.moveIds[0]=1;copy.ivs.hp=31;copy.evs.speed=0;
+        Require(member.moveIds[0]==3&&member.ivs.hp==0&&member.evs.speed==252,"Copy shared mutable arrays or stat profiles.");
+        var e=new BattleEngine(c,new[]{member},new[]{new TeamMember(4096)},1);
+        ids[0]=1;member.evs.speed=0;
+        Require(e.Active(0).Moves.Select(m=>m.Definition.id).SequenceEqual(new[]{3,7,8,2})&&e.Active(0).EffortValues.speed==252,"Battle did not snapshot the loadout.");
+        foreach(var bad in new[]{new int[0],new[]{1,1},new[]{1,2,3,4,5},new[]{999}})
+            Throws(()=>c.ValidateTeamMember(new TeamMember(1025) {moveIds=bad}));
+        Throws(()=>c.ValidateTeamMember(new TeamMember(4096) {moveIds=new[]{8}}));
+        int[] legal=c.GetLearnableMoves(1025);legal[0]=999;
+        Require(c.GetLearnableMoves(1025)[0]==1,"Learnset API exposed catalog mutation.");
+        Require(c.CreatePokemon(new TeamMember(1025),50).Moves.Count==4,"Null custom moves lost default rental moves.");
+        c.species[0].learnableMoves=new[]{1};Throws(c.Validate);
+    }
+    private static MoveDefinition Generic(int id,string category,int power,MoveMechanics m,string type="Normal")
+    {
+        var move=Move(id,"Generic "+id,type,category,power,"metadata");move.mechanics=m;move.supported=m.support!="unsupported";return move;
+    }
+    private static Catalog MechanicsFixture(params MoveDefinition[] moves)
+    {
+        Catalog c=Fixture();c.moves=c.moves.Concat(moves).ToArray();
+        c.species[0].learnableMoves=c.moves.Select(m=>m.id).ToArray();c.species[1].learnableMoves=c.species[0].learnableMoves;
+        return c;
+    }
+    private static BattleEngine WithMoves(Catalog c,int[] player,int[] rival,string playerItem=null,string rivalItem=null)
+    {
+        return new BattleEngine(c,new[]{new TeamMember(1025,playerItem) {moveIds=player}},new[]{new TeamMember(4096,rivalItem) {moveIds=rival}},123);
+    }
+    private static void MetadataStatuses()
+    {
+        var always=Generic(20,"Physical",50,new MoveMechanics {support="implemented"});always.accuracy=0;
+        var poison=Generic(21,"Status",0,new MoveMechanics {support="implemented",ailment="poison",ailmentChance=100},"Poison");
+        var growth=Generic(22,"Status",0,new MoveMechanics {support="implemented",selfTarget=true,statChanges=new[]{new StatChange {stat="special-attack",change=2},new StatChange {stat="defense",change=1}}});
+        var c=MechanicsFixture(always,poison,growth);var e=WithMoves(c,new[]{20,21,22},new[]{3});
+        Require(e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0)).Any(x=>x.Kind==BattleEventKind.Damage),"Accuracy0 missed instead of always hitting.");
+        e.ResolveTurn(BattleChoice.Move(1),BattleChoice.Move(0));Require(e.Active(1).Status=="poison"&&e.Active(1).Hp<e.Active(1).MaxHp,"Poison did not persist and deal residual damage.");
+        e.ResolveTurn(BattleChoice.Move(2),BattleChoice.Move(0));Require(e.Active(0).SpecialAttackStage==2&&e.Active(0).DefenseStage==1,"Multiple modern stat stages were not applied.");
+        c=MechanicsFixture(poison);c.species[1].types=new[]{"Steel"};e=WithMoves(c,new[]{21},new[]{3});
+        var immune=e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));Require(e.Active(1).Status=="none"&&immune.Any(x=>x.Kind==BattleEventKind.Failed),"Steel was poisoned.");
+        var burn=Generic(23,"Physical",1,new MoveMechanics {support="implemented",ailment="burn",ailmentChance=100},"Fire");
+        c=MechanicsFixture(burn);e=WithMoves(c,new[]{23},new[]{3});e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));Require(e.Active(1).Status=="burn","Guaranteed damage-secondary burn failed.");
+    }
+    private static void MetadataDamage()
+    {
+        var fixedMove=Generic(30,"Special",0,new MoveMechanics {support="implemented",fixedDamageKind="level"},"Ghost");
+        var multi=Generic(31,"Physical",5,new MoveMechanics {support="implemented",minHits=3,maxHits=3});
+        var drain=Generic(32,"Special",50,new MoveMechanics {support="implemented",drain=50});
+        var recoil=Generic(33,"Physical",30,new MoveMechanics {support="implemented",drain=-50});
+        var c=MechanicsFixture(fixedMove,multi,drain,recoil);c.species[1].types=new[]{"Psychic"};
+        var e=WithMoves(c,new[]{30},new[]{3});Require(e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0)).First(x=>x.Kind==BattleEventKind.Damage).Amount==50,"Fixed level damage used the ordinary damage formula.");
+        e=WithMoves(c,new[]{31},new[]{3});Require(e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0)).Count(x=>x.Kind==BattleEventKind.Damage&&x.TargetSide==1)==3,"Fixed multi-hit count changed.");
+        e=WithMoves(c,new[]{32,3},new[]{7});e.ResolveTurn(BattleChoice.Move(1),BattleChoice.Move(0));
+        var events=e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));int inflicted=events.First(x=>x.Kind==BattleEventKind.Damage&&x.TargetSide==1).Amount;
+        Require(events.Any(x=>x.Kind==BattleEventKind.Heal&&x.Side==0&&x.Amount==Math.Max(1,inflicted/2)),"Drain did not heal from actual damage.");
+        e=WithMoves(c,new[]{33},new[]{3});events=e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));inflicted=events.First(x=>x.Kind==BattleEventKind.Damage&&x.TargetSide==1).Amount;
+        Require(events.Any(x=>x.Kind==BattleEventKind.Damage&&x.TargetSide==0&&x.Amount==Math.Max(1,inflicted/2)),"Metadata recoil was not based on actual damage.");
+    }
+    private static ItemDefinition Held(string id,string effect) { return new ItemDefinition {id=id,name=id,effect=effect,holdable=true,support="implemented"}; }
+    private static void ChoiceItems()
+    {
+        Catalog c=Fixture();c.items=c.items.Concat(new[]{Held("band","choiceband")}).ToArray();
+        var e=new BattleEngine(c,new[]{new TeamMember(1025,"band"),new TeamMember(700)},new[]{new TeamMember(4096)},123);
+        e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(2));Require(e.CanUseMove(0,0)&&!e.CanUseMove(0,1),"Choice lock did not restrict slots.");
+        Throws(()=>e.ResolveTurn(BattleChoice.Move(1),BattleChoice.Move(2)));
+        e.ResolveTurn(BattleChoice.Switch(1),BattleChoice.Move(2));e.ResolveTurn(BattleChoice.Switch(0),BattleChoice.Move(2));Require(e.CanUseMove(0,1),"Choice lock persisted after leaving the field.");
+        Require(Hit(c,0,"band")>Hit(c,0),"Choice Band did not boost physical damage.");
+    }
+    private static void ModernHeldItems()
+    {
+        Catalog c=Fixture();c.items=c.items.Concat(new[]{Held("sash","focussash"),Held("sitrus","sitrusberry"),Held("lum","lumberry"),Held("vest","assaultvest"),Held("helmet","rockyhelmet"),new ItemDefinition {id="key",name="Key",support="unsupported",holdable=false}}).ToArray();
+        c.moves[0].power=1000;c.species[1].stats.hp=1;
+        var e=WithMoves(c,new[]{1},new[]{2},null,"sash");e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));
+        Require(e.Active(1).Hp==1&&e.Active(1).ItemConsumed&&!e.IsFinished,"Focus Sash failed to preserve1HP at full health.");
+        Throws(()=>c.ValidateTeamMember(new TeamMember(1025,"key")));
+        c=Fixture();c.items=c.items.Concat(new[]{Held("vest","assaultvest")}).ToArray();e=WithMoves(c,new[]{1,5},new[]{3},"vest");
+        Require(e.CanUseMove(0,0)&&!e.CanUseMove(0,1),"Assault Vest did not prevent status moves.");
+        var poison=Generic(40,"Status",0,new MoveMechanics {support="implemented",ailment="poison"},"Poison");
+        c=MechanicsFixture(poison);c.items=c.items.Concat(new[]{Held("lum","lumberry")}).ToArray();e=WithMoves(c,new[]{40},new[]{3},null,"lum");
+        e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));Require(e.Active(1).Status=="none"&&e.Active(1).ItemConsumed,"Lum Berry did not cure and consume.");
+        var contact=Generic(41,"Physical",5,new MoveMechanics {support="implemented",contact=true});c=MechanicsFixture(contact);c.items=c.items.Concat(new[]{Held("helmet","rockyhelmet")}).ToArray();
+        e=WithMoves(c,new[]{41},new[]{3},null,"helmet");int hp=e.Active(0).Hp;e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));Require(e.Active(0).Hp==hp-Math.Max(1,hp/6),"Contact did not trigger Rocky Helmet.");
+    }
+    private static void TransformCheck()
+    {
+        var transform=Generic(144,"Status",0,new MoveMechanics {support="partial"});transform.slug="transform";
+        Catalog c=MechanicsFixture(transform);var e=new BattleEngine(c,new[]{new TeamMember(1025,"leftovers") {moveIds=new[]{144}},new TeamMember(700)},new[]{new TeamMember(4096)},123);
+        int hp=e.Active(0).MaxHp;var original=e.Active(0);
+        e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(2));
+        Require(original.IsTransformed&&original.SpeciesId==4096&&original.Name=="Attacker"&&original.MaxHp==hp&&original.ItemId=="leftovers","Transform copied HP/item/name or failed to copy species.");
+        Require(original.Attack==e.Active(1).Attack&&original.Moves.All(m=>m.Pp==5&&m.MaxPp==5),"Transform did not copy stats and 5PP slots.");
+        e.ResolveTurn(BattleChoice.Switch(1),BattleChoice.Move(2));
+        Require(!original.IsTransformed&&original.SpeciesId==1025&&original.Moves.Count==1&&original.Moves[0].Definition.id==144&&original.Moves[0].Pp==9,"Switch did not restore original species, stats and spent Transform PP.");
+    }
+    private static void SpecializedFailure()
+    {
+        var specialized=Generic(50,"Status",0,new MoveMechanics {support="unsupported"});
+        Catalog c=MechanicsFixture(specialized);var e=WithMoves(c,new[]{50},new[]{3});
+        var events=e.ResolveTurn(BattleChoice.Move(0),BattleChoice.Move(0));
+        Require(events.Any(x=>x.Kind==BattleEventKind.Failed&&x.MoveId==50)&&e.Active(0).Moves[0].Pp==9&&e.Active(0).AttackStage==0,"Unsupported move pretended to succeed or mutated stats.");
     }
 }

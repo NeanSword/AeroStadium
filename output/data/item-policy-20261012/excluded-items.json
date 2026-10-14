@@ -1,0 +1,989 @@
+{
+  "policy": {
+    "excludedFamilies": [
+      "mega-stones",
+      "z-crystals"
+    ],
+    "includeBagVariants": true
+  },
+  "items": [
+    {
+      "dexId": 695,
+      "slug": "gengarite",
+      "name": "Ectoplasmite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 696,
+      "slug": "gardevoirite",
+      "name": "Gardevoirite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 697,
+      "slug": "ampharosite",
+      "name": "Pharampite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 698,
+      "slug": "venusaurite",
+      "name": "Florizarrite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 699,
+      "slug": "charizardite-x",
+      "name": "Dracaufite X",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 700,
+      "slug": "blastoisinite",
+      "name": "Tortankite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 701,
+      "slug": "mewtwonite-x",
+      "name": "Mewtwoïte X",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 702,
+      "slug": "mewtwonite-y",
+      "name": "Mewtwoïte Y",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 703,
+      "slug": "blazikenite",
+      "name": "Braségalite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 704,
+      "slug": "medichamite",
+      "name": "Charminite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 705,
+      "slug": "houndoominite",
+      "name": "Démolossite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 706,
+      "slug": "aggronite",
+      "name": "Galekingite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 707,
+      "slug": "banettite",
+      "name": "Branettite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 708,
+      "slug": "tyranitarite",
+      "name": "Tyranocivite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 709,
+      "slug": "scizorite",
+      "name": "Cizayoxite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 710,
+      "slug": "pinsirite",
+      "name": "Scarabruite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 711,
+      "slug": "aerodactylite",
+      "name": "Ptéraïte",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 712,
+      "slug": "lucarionite",
+      "name": "Lucarite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 713,
+      "slug": "abomasite",
+      "name": "Blizzarite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 714,
+      "slug": "kangaskhanite",
+      "name": "Kangourexite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 715,
+      "slug": "gyaradosite",
+      "name": "Léviatorite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 716,
+      "slug": "absolite",
+      "name": "Absolite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 717,
+      "slug": "charizardite-y",
+      "name": "Dracaufite Y",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 718,
+      "slug": "alakazite",
+      "name": "Alakazamite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 719,
+      "slug": "heracronite",
+      "name": "Scarhinoïte",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 720,
+      "slug": "mawilite",
+      "name": "Mysdibulite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 721,
+      "slug": "manectite",
+      "name": "Élecsprintite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 722,
+      "slug": "garchompite",
+      "name": "Carchacrokite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 760,
+      "slug": "latiasite",
+      "name": "Latiasite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 761,
+      "slug": "latiosite",
+      "name": "Latiosite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 793,
+      "slug": "swampertite",
+      "name": "Laggronite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 794,
+      "slug": "sceptilite",
+      "name": "Jungkite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 795,
+      "slug": "sablenite",
+      "name": "Ténéfixite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 796,
+      "slug": "altarianite",
+      "name": "Altarite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 797,
+      "slug": "galladite",
+      "name": "Gallamite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 798,
+      "slug": "audinite",
+      "name": "Nanméouïte",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 799,
+      "slug": "metagrossite",
+      "name": "Métalossite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 800,
+      "slug": "sharpedonite",
+      "name": "Sharpedite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 801,
+      "slug": "slowbronite",
+      "name": "Flagadossite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 802,
+      "slug": "steelixite",
+      "name": "Steelixite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 803,
+      "slug": "pidgeotite",
+      "name": "Roucarnagite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 804,
+      "slug": "glalitite",
+      "name": "Oniglalite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 805,
+      "slug": "diancite",
+      "name": "Diancite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 808,
+      "slug": "cameruptite",
+      "name": "Caméruptite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 809,
+      "slug": "lopunnite",
+      "name": "Lockpinite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 810,
+      "slug": "salamencite",
+      "name": "Drattakite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 811,
+      "slug": "beedrillite",
+      "name": "Dardargnite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 817,
+      "slug": "normalium-z--held",
+      "name": "Normazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 818,
+      "slug": "firium-z--held",
+      "name": "Pyrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 819,
+      "slug": "waterium-z--held",
+      "name": "Aquazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 820,
+      "slug": "electrium-z--held",
+      "name": "Voltazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 821,
+      "slug": "grassium-z--held",
+      "name": "Florazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 822,
+      "slug": "icium-z--held",
+      "name": "Cryozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 823,
+      "slug": "fightinium-z--held",
+      "name": "Combazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 824,
+      "slug": "poisonium-z--held",
+      "name": "Toxizélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 825,
+      "slug": "groundium-z--held",
+      "name": "Terrazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 826,
+      "slug": "flyinium-z--held",
+      "name": "Aérozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 827,
+      "slug": "psychium-z--held",
+      "name": "Psychézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 828,
+      "slug": "buginium-z--held",
+      "name": "Insectozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 829,
+      "slug": "rockium-z--held",
+      "name": "Rocazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 830,
+      "slug": "ghostium-z--held",
+      "name": "Spectrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 831,
+      "slug": "dragonium-z--held",
+      "name": "Dracozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 832,
+      "slug": "darkinium-z--held",
+      "name": "Ténébrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 833,
+      "slug": "steelium-z--held",
+      "name": "Métallozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 834,
+      "slug": "fairium-z--held",
+      "name": "Nymphézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 835,
+      "slug": "pikanium-z--held",
+      "name": "Pikazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 839,
+      "slug": "decidium-z--held",
+      "name": "Archézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 840,
+      "slug": "incinium-z--held",
+      "name": "Félinozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 841,
+      "slug": "primarium-z--held",
+      "name": "Oratozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 842,
+      "slug": "tapunium-z--held",
+      "name": "Tokozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 843,
+      "slug": "marshadium-z--held",
+      "name": "Marshadozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 844,
+      "slug": "aloraichium-z--held",
+      "name": "Aloraïzélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 845,
+      "slug": "snorlium-z--held",
+      "name": "Ronflézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 846,
+      "slug": "eevium-z--held",
+      "name": "Évolizélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 847,
+      "slug": "mewnium-z--held",
+      "name": "Mewzélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 877,
+      "slug": "pikashunium-z--held",
+      "name": "Pikachazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 938,
+      "slug": "normalium-z--bag",
+      "name": "Normazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 939,
+      "slug": "firium-z--bag",
+      "name": "Pyrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 940,
+      "slug": "waterium-z--bag",
+      "name": "Aquazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 941,
+      "slug": "electrium-z--bag",
+      "name": "Voltazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 942,
+      "slug": "grassium-z--bag",
+      "name": "Florazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 943,
+      "slug": "icium-z--bag",
+      "name": "Cryozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 944,
+      "slug": "fightinium-z--bag",
+      "name": "Combazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 945,
+      "slug": "poisonium-z--bag",
+      "name": "Toxizélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 946,
+      "slug": "groundium-z--bag",
+      "name": "Terrazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 947,
+      "slug": "flyinium-z--bag",
+      "name": "Aérozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 948,
+      "slug": "psychium-z--bag",
+      "name": "Psychézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 949,
+      "slug": "buginium-z--bag",
+      "name": "Insectozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 950,
+      "slug": "rockium-z--bag",
+      "name": "Rocazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 951,
+      "slug": "ghostium-z--bag",
+      "name": "Spectrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 952,
+      "slug": "dragonium-z--bag",
+      "name": "Dracozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 953,
+      "slug": "darkinium-z--bag",
+      "name": "Ténébrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 954,
+      "slug": "steelium-z--bag",
+      "name": "Métallozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 955,
+      "slug": "fairium-z--bag",
+      "name": "Nymphézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 956,
+      "slug": "pikanium-z--bag",
+      "name": "Pikazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 957,
+      "slug": "decidium-z--bag",
+      "name": "Archézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 958,
+      "slug": "incinium-z--bag",
+      "name": "Félinozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 959,
+      "slug": "primarium-z--bag",
+      "name": "Oratozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 960,
+      "slug": "tapunium-z--bag",
+      "name": "Tokozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 961,
+      "slug": "marshadium-z--bag",
+      "name": "Marshadozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 962,
+      "slug": "aloraichium-z--bag",
+      "name": "Aloraïzélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 963,
+      "slug": "snorlium-z--bag",
+      "name": "Ronflézélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 964,
+      "slug": "eevium-z--bag",
+      "name": "Évolizélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 965,
+      "slug": "mewnium-z--bag",
+      "name": "Mewzélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 966,
+      "slug": "pikashunium-z--bag",
+      "name": "Pikachazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 967,
+      "slug": "solganium-z--held",
+      "name": "Solgazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 968,
+      "slug": "lunalium-z--held",
+      "name": "Lunazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 969,
+      "slug": "ultranecrozium-z--held",
+      "name": "Ultranécrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 970,
+      "slug": "mimikium-z--held",
+      "name": "Mimiquizélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 971,
+      "slug": "lycanium-z--held",
+      "name": "Lougarozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 972,
+      "slug": "kommonium-z--held",
+      "name": "Ékaïzélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 973,
+      "slug": "solganium-z--bag",
+      "name": "Solgazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 974,
+      "slug": "lunalium-z--bag",
+      "name": "Lunazélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 975,
+      "slug": "ultranecrozium-z--bag",
+      "name": "Ultranécrozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 976,
+      "slug": "mimikium-z--bag",
+      "name": "Mimiquizélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 977,
+      "slug": "lycanium-z--bag",
+      "name": "Lougarozélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 978,
+      "slug": "kommonium-z--bag",
+      "name": "Ékaïzélite",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 993,
+      "slug": "ilimas-normalium-z",
+      "name": "Cristal Z Althéo",
+      "family": "z-crystals"
+    },
+    {
+      "dexId": 2233,
+      "slug": "clefablite",
+      "name": "Mélodelfite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2234,
+      "slug": "victreebelite",
+      "name": "Empiflorite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2235,
+      "slug": "starminite",
+      "name": "Starossite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2236,
+      "slug": "dragoninite",
+      "name": "Dracolossite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2237,
+      "slug": "meganiumite",
+      "name": "Méganiumite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2238,
+      "slug": "feraligite",
+      "name": "Aligatueurite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2239,
+      "slug": "skarmorite",
+      "name": "Airmurite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2240,
+      "slug": "froslassite",
+      "name": "Momartikite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2241,
+      "slug": "heatranite",
+      "name": "Heatranite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2242,
+      "slug": "darkranite",
+      "name": "Darkraïte",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2243,
+      "slug": "emboarite",
+      "name": "Roitiflamite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2244,
+      "slug": "excadrite",
+      "name": "Minotaupite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2245,
+      "slug": "scolipite",
+      "name": "Brutapodite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2246,
+      "slug": "scraftinite",
+      "name": "Baggaïdite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2247,
+      "slug": "eelektrossite",
+      "name": "Ohmassacrite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2248,
+      "slug": "chandelurite",
+      "name": "Lugulabrite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2249,
+      "slug": "chesnaughtite",
+      "name": "Blindépiquite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2250,
+      "slug": "delphoxite",
+      "name": "Goupelinite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2251,
+      "slug": "greninjite",
+      "name": "Amphinolite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2252,
+      "slug": "pyroarite",
+      "name": "Néméliosite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2253,
+      "slug": "floettite",
+      "name": "Floettite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2254,
+      "slug": "malamarite",
+      "name": "Sepiatrocite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2255,
+      "slug": "barbaracite",
+      "name": "Golgopathite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2256,
+      "slug": "dragalgite",
+      "name": "Kravarekite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2257,
+      "slug": "hawluchanite",
+      "name": "Brutalibrite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2258,
+      "slug": "zygardite",
+      "name": "Zygardite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2259,
+      "slug": "drampanite",
+      "name": "Draïeulite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2260,
+      "slug": "zeraorite",
+      "name": "Zeraorite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2261,
+      "slug": "falinksite",
+      "name": "Hexadronite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2262,
+      "slug": "raichunite-x",
+      "name": "Raichuïte X",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2263,
+      "slug": "raichunite-y",
+      "name": "Raichuïte Y",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2264,
+      "slug": "chimechite",
+      "name": "Éokite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2265,
+      "slug": "absolite-z",
+      "name": "Absolite Z",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2266,
+      "slug": "staraptite",
+      "name": "Étouraptorite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2267,
+      "slug": "garchompite-z",
+      "name": "Carchacrokite Z",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2268,
+      "slug": "lucarionite-z",
+      "name": "Lucarite Z",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2269,
+      "slug": "golurkite",
+      "name": "Golemastokite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2270,
+      "slug": "meowsticite",
+      "name": "Mistigrixite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2271,
+      "slug": "crabominite",
+      "name": "Crabominablite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2272,
+      "slug": "golisopite",
+      "name": "Sarmuraïte",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2273,
+      "slug": "magearnite",
+      "name": "Magearnite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2274,
+      "slug": "scovillainite",
+      "name": "Scovilainite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2275,
+      "slug": "baxcalibrite",
+      "name": "Glaivodite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2276,
+      "slug": "tatsugirinite",
+      "name": "Nigirigonite",
+      "family": "mega-stones"
+    },
+    {
+      "dexId": 2277,
+      "slug": "glimmoranite",
+      "name": "Floréclatite",
+      "family": "mega-stones"
+    }
+  ]
+}

@@ -23,8 +23,13 @@ namespace AeroStadium.Presentation
             ? native.Play(special ? PokemonMotionAction.Special : PokemonMotionAction.Physical) : original != null
             ? original.Play(special ? PokemonMotionAction.Special : PokemonMotionAction.Physical)
             : PlaySourceState("Base Layer.Attack") ? attackDuration : 0f;
-        public float PlayDamage() => native != null ? native.Play(PokemonMotionAction.Damage) : original != null ? original.Play(PokemonMotionAction.Damage)
-            : PlaySourceState("Base Layer.Damage") ? damageDuration : 0f;
+        public float PlayDamage(float effectiveness = 1f)
+        {
+            if (native != null) return PokemonHitReaction.Play(native, effectiveness);
+            if (effectiveness <= 0f) return 0f;
+            return original != null ? original.Play(PokemonMotionAction.Damage)
+                : PlaySourceState("Base Layer.Damage") ? damageDuration : 0f;
+        }
         public float PlayFaint() => native != null ? native.Play(PokemonMotionAction.Faint) : original != null ? original.Play(PokemonMotionAction.Faint)
             : PlaySourceState("Base Layer.Faint") ? faintDuration : 0f;
         public bool PlaySourceAnimation(int clipIndex)

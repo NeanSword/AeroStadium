@@ -57,7 +57,11 @@ namespace AeroStadium.Presentation
         TeamMember[] selectedTeam;
         readonly int[] visibleMaximumHp = new int[2];
         readonly Text[] pokemonNames = new Text[2];
-        bool selectionTest, selectionTestCompleted;
+        bool selectionTest, selectionTestCompleted, loadoutTest, loadoutTestCompleted;
+        bool cameraTest, cameraTestCompleted, cameraTestSafety = true, cameraTurnInactive = true;
+        int cameraTestTurns, cameraTestShots;
+        float cameraReviewNextLog;
+        TeamMember reviewedProfile;
         int selectionSwitches;
         Button titleStartButton;
         Gamepad mainMenuVirtualPad;
@@ -95,10 +99,12 @@ namespace AeroStadium.Presentation
             titleAudioTest = Array.IndexOf(args, "--title-audio-test") >= 0;
             mainMenuTest = Array.IndexOf(args, "--main-menu-test") >= 0;
             menuAudioTest = Array.IndexOf(args, "--menu-audio-test") >= 0;
-            selectionTest = Array.IndexOf(args, "--selection-test") >= 0;
-            if ((mainMenuTest || menuAudioTest || selectionTest) && !smoke) IsolateMainMenuTestInputs();
+            loadoutTest = Array.IndexOf(args, "--loadout-test") >= 0;
+            cameraTest = Array.IndexOf(args, "--battle-camera-review") >= 0;
+            selectionTest = loadoutTest || Array.IndexOf(args, "--selection-test") >= 0;
+            if ((mainMenuTest || menuAudioTest || selectionTest || cameraTest) && !smoke) IsolateMainMenuTestInputs();
             titleTest = titleAudioTest || Array.IndexOf(args, "--title-test") >= 0;
-            bool skipIntro = titleTest || mainMenuTest || menuAudioTest || selectionTest || Array.IndexOf(args, "--skip-intro") >= 0;
+            bool skipIntro = cameraTest || titleTest || mainMenuTest || menuAudioTest || selectionTest || Array.IndexOf(args, "--skip-intro") >= 0;
             int speciesIndex = Array.IndexOf(args, "--species");
             if (speciesIndex >= 0 && speciesIndex + 1 < args.Length && int.TryParse(args[speciesIndex + 1], out int species)
                 && species >= 1 && species <= 151) selectedSpecies = species;
@@ -110,6 +116,8 @@ namespace AeroStadium.Presentation
             catalog = JsonUtility.FromJson<Catalog>(source.text); catalog.Validate();
             selectedRosterPage = Mathf.Clamp((selectedSpecies - 1) / 10, 0, (catalog.species.Length - 1) / 10);
             arena = new GameObject("Original Aero arena").AddComponent<ArenaView>(); arena.Build();
+            if (Array.IndexOf(args,"--elite4-modern-review")>=0)
+            {enabled=false;gameObject.AddComponent<ModernArenaReview>().Begin(arena);return;}
             if (Array.IndexOf(args,"--stadium-review")>=0)
             {
                 enabled=false;gameObject.AddComponent<StadiumReview>().Begin(arena,arena.Stadium);return;
@@ -134,7 +142,9 @@ namespace AeroStadium.Presentation
             if (mainMenuTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 55f;
             if (menuAudioTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 90f;
             if (selectionTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 180f;
-            if (smoke) StartCoroutine(SmokePlay());
+            if (cameraTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 100f;
+            if (cameraTest) StartCoroutine(TestBattleCamera());
+            else if (smoke) StartCoroutine(SmokePlay());
             else if (skipIntro) ShowTitle();
             else introRoutine = StartCoroutine(PlayIntro());
             if (mainMenuTest && !smoke) StartCoroutine(TestMainMenu());
@@ -154,6 +164,22 @@ namespace AeroStadium.Presentation
 
         void Update()
         {
+            if (arena != null) arena.SetDecisionCameraActive(screen == ScreenMode.Battle
+                && !busy && !paused && battle != null && !battle.IsFinished);
+            if (cameraTest && arena.DecisionCamera != null && screen == ScreenMode.Battle)
+            {
+                var decision = arena.DecisionCamera;
+                cameraTestSafety &= decision.CameraSafety;
+                cameraTestShots = Mathf.Max(cameraTestShots, decision.ShotsVisited);
+                if (busy) cameraTurnInactive &= !decision.Active;
+                if (Time.realtimeSinceStartup >= cameraReviewNextLog)
+                {
+                    cameraReviewNextLog = Time.realtimeSinceStartup + 5f;
+                    Debug.Log("[battle-camera] active=" + decision.Active + " shot=" + decision.CurrentShot
+                        + " visits=" + decision.ShotVisits + " unique=" + decision.ShotsVisited
+                        + " safe=" + decision.CameraSafety + " busy=" + busy);
+                }
+            }
             bool titleAssetsReady = titleArtwork != null && titleArtwork.texture != null
                 && titleLogo != null && titleLogo.texture != null && titleStart != null && titleStart.texture != null;
             if (screen == ScreenMode.Title) titleAssetsVerified |= titleAssetsReady;
@@ -166,7 +192,9 @@ namespace AeroStadium.Presentation
             {
                 int expectedModels = screen == ScreenMode.Title || screen == ScreenMode.MainMenu ? 0
                     : screen == ScreenMode.Intro || screen == ScreenMode.Selection ? 1 : 2;
-                bool passed = errors == 0 && (!selectionTest || (selectionTestCompleted && selectionSwitches > 0)) && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2))
+                bool passed = errors == 0 && (!loadoutTest || loadoutTestCompleted) && (!selectionTest || (selectionTestCompleted && selectionSwitches > 0)) && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2))
+                    && (!cameraTest || (cameraTestCompleted && cameraTestSafety && cameraTestShots >= 5
+                        && cameraTestTurns >= 1 && cameraTurnInactive && arena.DecisionCamera.CameraSafety))
                     && (!titleTest || (titleAssetsVerified && titleBlinkCycles >= 2
                         && titlePromptWasVisible && titlePromptWasHidden))
                     && (!titleAudioTest || (titleAudio != null && titleAudio.MusicReady && titleAudio.ListenerReady
@@ -196,7 +224,11 @@ namespace AeroStadium.Presentation
                     + (menuAudio != null ? menuAudio.Diagnostics : " menuAudio=uninitialized")
                     + " menuSelectionChanges=" + mainMenuMaxSelectionChanges + " menuRoutes=" + mainMenuRoutes
                     + " menuRouteMask=" + mainMenuRouteMask + " selectionTest=" + selectionTest
-                    + " selectionCompleted=" + selectionTestCompleted + " selectionSwitches=" + selectionSwitches + " passed=" + passed);
+                    + " loadoutTest=" + loadoutTest + " loadoutCompleted=" + loadoutTestCompleted
+                    + " selectionCompleted=" + selectionTestCompleted + " selectionSwitches=" + selectionSwitches
+                    + " cameraCompleted=" + cameraTestCompleted + " cameraSafe=" + cameraTestSafety
+                    + " cameraUnique=" + cameraTestShots + " cameraTurns=" + cameraTestTurns
+                    + " cameraTurnInactive=" + cameraTurnInactive + " passed=" + passed);
                 Application.Quit(passed ? 0 : 1); exitAt = 0;
             }
             if (screen == ScreenMode.Title && titleStart != null)
@@ -233,7 +265,10 @@ namespace AeroStadium.Presentation
             }
             else if (!busy && screen == ScreenMode.Title && controls.StartPressed) ShowMainMenu();
             else if (!busy && screen == ScreenMode.MainMenu && controls.CancelPressed) ShowTitle();
-            else if (!busy && screen == ScreenMode.Selection && controls.CancelPressed) ShowMainMenu();
+            else if (!busy && screen == ScreenMode.Selection && controls.CancelPressed)
+            {
+                if (selectionView == null || !selectionView.HandleBack()) ShowMainMenu();
+            }
             else if (!busy && (screen == ScreenMode.Battle || screen == ScreenMode.Result)
                      && (controls.CancelPressed || controls.PausePressed)) TogglePause();
         }
@@ -639,7 +674,7 @@ namespace AeroStadium.Presentation
 
         void IsolateMainMenuTestInputs()
         {
-            if ((!mainMenuTest && !menuAudioTest && !selectionTest) || mainMenuInputsIsolated) return;
+            if ((!mainMenuTest && !menuAudioTest && !selectionTest && !cameraTest) || mainMenuInputsIsolated) return;
             mainMenuInputsIsolated = true;
             mainMenuOriginalBackgroundBehavior = InputSystem.settings.backgroundBehavior;
             // A review uses virtual devices even while its window is being observed.
@@ -777,6 +812,7 @@ namespace AeroStadium.Presentation
             selectionView.RemoveAt(5);
             MenuCheck(!selectionView.CanLaunch, "removing a rental disables battle confirmation");
             selectionView.TryAdd(149);
+            if (loadoutTest) yield return TestLoadout();
             foreach (int inspectionId in new[] { 6, 130, 94, 150 })
             {
                 selectionView.SetSearch(inspectionId.ToString("000"));
@@ -794,6 +830,15 @@ namespace AeroStadium.Presentation
                 && battle.Team(0)[0].SpeciesId == 6 && battle.Team(0)[5].SpeciesId == 149
                 && selectionPreview == null && arena.ArenaCamera.targetTexture == null
                 && !menuAudio.MusicPlaying, "chosen six reach the arena and inspection target is released");
+            if (loadoutTest && reviewedProfile != null)
+            {
+                var actual = battle.Team(0)[0];
+                bool matching = actual.Moves.Count == reviewedProfile.moveIds.Length;
+                for (int i = 0; i < actual.Moves.Count && matching; i++) matching &= actual.Moves[i].Definition.id == reviewedProfile.moveIds[i];
+                MenuCheck(matching && actual.IndividualValues.hp == 0 && actual.EffortValues.attack == 252
+                    && actual.EffortValues.speed == 252 && actual.EffortValues.hp == 6 && actual.ItemId == "leftovers",
+                    "custom moves, individual IV, EV510 and held item reach battle");
+            }
             int turns = 0;
             while (!battle.IsFinished && selectionSwitches == 0 && turns < 35 && Time.realtimeSinceStartup < exitAt - 15f)
             {
@@ -811,10 +856,57 @@ namespace AeroStadium.Presentation
                 && arena.LoadedModels == 1 && selectionPreview != null && arena.ArenaCamera.orthographic
                 && arena.ArenaCamera.targetTexture == selectionPreview && menuAudio.MusicPlaying,
                 "return from combat restores the full draft and isolated animated inspection");
+            if (loadoutTest)
+            {
+                var restored = selectionView.GetMemberConfiguration(6);
+                MenuCheck(restored.ivs.hp == 0 && restored.evs.attack == 252 && restored.evs.speed == 252
+                    && restored.evs.hp == 6 && restored.itemId == "leftovers"
+                    && string.Join(",", restored.moveIds) == string.Join(",", reviewedProfile.moveIds),
+                    "return from combat restores each configured profile");
+                loadoutTestCompleted = mainMenuChecksPassed;
+            }
             selectionTestCompleted = mainMenuChecksPassed;
             Debug.Log("[selection-review] turns=" + turns + " switches=" + selectionSwitches + " passed=" + selectionTestCompleted);
             // Devices are restored by OnDestroy when the automatic review ends.
             // Keep the completed team desk visible until the requested review deadline.
+        }
+
+        IEnumerator TestLoadout()
+        {
+            selectionView.OpenEditor(6);
+            var editor = selectionView.LoadoutEditor;
+            MenuCheck(selectionView.EditorOpen && editor != null, "trainer workshop opens for team member");
+            if (editor == null) yield break;
+            editor.SetTab(0);
+            yield return new WaitForSecondsRealtime(7f);
+            int[] legal = catalog.GetLearnableMoves(6);
+            var chosen = new List<int>();
+            foreach (int id in new[] { 53, 403, 337, 163 }) if (Array.IndexOf(legal, id) >= 0) chosen.Add(id);
+            foreach (int id in legal)
+                if (chosen.Count < 4 && !chosen.Contains(id) && catalog.GetMove(id).power > 0
+                    && catalog.GetMove(id).Support == "implemented") chosen.Add(id);
+            for (int i = 3; i >= 0; i--) editor.SetMove(i, 0);
+            for (int i = 0; i < chosen.Count; i++) MenuCheck(editor.SetMove(i, chosen[i]), "legal custom move slot " + i);
+            int illegal = 0;
+            foreach (var move in catalog.moves) if (Array.IndexOf(legal, move.id) < 0) { illegal = move.id; break; }
+            MenuCheck(illegal > 0 && !editor.SetMove(0, illegal), "unlearnable move rejected");
+            editor.SetTab(1);
+            MenuCheck(editor.SetIndividualValue(0, 0) && !editor.SetIndividualValue(0, 32), "individual IV range 0 through31");
+            for (int i = 0; i < 6; i++) editor.SetEffortValue(i, 0);
+            MenuCheck(editor.SetEffortValue(1, 252) && editor.SetEffortValue(5, 252) && editor.SetEffortValue(0, 6)
+                && !editor.SetEffortValue(2, 1) && editor.RemainingEvBudget == 0, "EV510 and per-stat252 limits");
+            yield return new WaitForSecondsRealtime(12f);
+            editor.SetTab(2);
+            MenuCheck(editor.SetHeldItem("leftovers"), "held item equipped");
+            yield return new WaitForSecondsRealtime(7f);
+            reviewedProfile = editor.Draft;
+            MenuCheck(editor.Save() && !selectionView.EditorOpen, "profile saves atomically");
+            var detached = selectionView.GetMemberConfiguration(6); detached.ivs.hp = 31;
+            MenuCheck(selectionView.GetMemberConfiguration(6).ivs.hp == 0, "returned configuration is a deep copy");
+            selectionView.OpenEditor(6); selectionView.LoadoutEditor.SetIndividualValue(0, 20);
+            MenuCheck(selectionView.HandleBack() && selectionView.GetMemberConfiguration(6).ivs.hp == 0,
+                "Back cancels workshop changes without leaving team selection");
+            yield return new WaitForSecondsRealtime(2f);
         }
 
         void ReleaseSelectionPreview()
@@ -834,6 +926,7 @@ namespace AeroStadium.Presentation
 
         void ShowSelection()
         {
+            arena.EndProtection(true);
             screen = ScreenMode.Selection; busy = false; ResetPage();
             chromeHeader.gameObject.SetActive(false); controlFooter.gameObject.SetActive(false);
             arena.gameObject.SetActive(true); arena.ClearPokemon(1);
@@ -853,9 +946,26 @@ namespace AeroStadium.Presentation
             int[] saved = selectedTeam == null ? null : Array.ConvertAll(selectedTeam, member => member.speciesId);
             selectionView.Build(page, font, catalog, selectionPreview,
                 id => { if (screen == ScreenMode.Selection) { selectedSpecies = id; arena.ShowInspectionPokemon(id, true); } },
-                team => { selectedTeam = team; StartBattle(); }, ShowMainMenu, saved);
+                team => { selectedTeam = team; StartBattle(); }, ShowMainMenu, saved, selectedTeam);
             arena.ShowInspectionPokemon(selectedSpecies, true); RefreshHints();
             Debug.Log("[selection-ready] species=" + catalog.species.Length + " team=" + selectionView.TeamCount);
+        }
+
+        IEnumerator TestBattleCamera()
+        {
+            yield return new WaitForSecondsRealtime(2f);
+            selectedTeam = new[] { new TeamMember(6, "none"), new TeamMember(9, "none"), new TeamMember(3, "none") };
+            requestedSeed = requestedSeed ?? 20261012;
+            StartBattle();
+            yield return new WaitForSecondsRealtime(42f);
+            cameraTestShots = Mathf.Max(cameraTestShots, arena.DecisionCamera.ShotsVisited);
+            int previousTurn = battle.Turn;
+            yield return PlayTurn(battle.ChooseAi(0));
+            cameraTestTurns += battle.Turn > previousTurn ? 1 : 0;
+            yield return new WaitForSecondsRealtime(35f);
+            cameraTestCompleted = cameraTestTurns >= 1 && cameraTestShots >= 5 && cameraTurnInactive && cameraTestSafety;
+            Debug.Log("[battle-camera-review] completed=" + cameraTestCompleted + " turns=" + cameraTestTurns
+                + " unique=" + cameraTestShots + " safe=" + cameraTestSafety + " turnInactive=" + cameraTurnInactive);
         }
 
         void StartBattle()
@@ -881,7 +991,8 @@ namespace AeroStadium.Presentation
             visibleMaximumHp[0] = battle.Active(0).MaxHp; visibleMaximumHp[1] = battle.Active(1).MaxHp;
             Debug.Log("[selection-battle-team] player=" + string.Join(",", Array.ConvertAll(player, member => member.speciesId.ToString()))
                 + " opponent=" + string.Join(",", Array.ConvertAll(opponent, member => member.speciesId.ToString())));
-            screen = ScreenMode.Battle; visibleHp[0] = battle.Active(0).Hp; visibleHp[1] = battle.Active(1).Hp;
+            screen = ScreenMode.Battle; arena.EndProtection();
+            visibleHp[0] = battle.Active(0).Hp; visibleHp[1] = battle.Active(1).Hp;
             ShowBattle("À toi de jouer. Choisis une attaque.");
         }
 
@@ -903,14 +1014,14 @@ namespace AeroStadium.Presentation
                     + "  ·  PP " + move.Pp + "/" + move.MaxPp;
                 var button = Button(page, move.Definition.name + "\n<size=15>" + stats + "</size>",
                                     650 + (i % 2) * 461, 660 + (i / 2) * 80, 445, 73, () => ChooseMove(slot), new Color(.075f, .16f, .28f, .98f));
-                button.interactable = !busy && !smoke && move.Pp > 0;
+                button.interactable = !busy && !smoke && battle.CanUseMove(0, i);
             }
             bool exhausted = AllMovesExhausted();
             if (exhausted)
             {
                 foreach (var button in buttons) Destroy(button.gameObject);
                 buttons.Clear();
-                Button(page, "LUTTE\n<size=15>Aucun PP restant · Attaque de secours</size>", 650, 660, 906, 73,
+                Button(page, "LUTTE\n<size=15>Aucune capacité disponible · Attaque de secours</size>", 650, 660, 906, 73,
                     () => { if (!busy && !paused) StartCoroutine(PlayTurn(BattleChoice.Struggle())); }, blue).interactable = !busy && !smoke;
             }
             SelectFirstAvailable();
@@ -949,7 +1060,10 @@ namespace AeroStadium.Presentation
 
         IEnumerator PlayTurn(BattleChoice choice)
         {
+            arena.EndProtection(true);
             busy = true; foreach (var button in buttons) button.interactable = false;
+            arena.SetDecisionCameraActive(false);
+            yield return arena.ReturnToBattleFrame();
             var hpBeforeTurn = new int[2][];
             for (int side = 0; side < 2; side++)
             {
@@ -959,21 +1073,32 @@ namespace AeroStadium.Presentation
             IReadOnlyList<BattleEvent> events;
             try { events = battle.ResolveTurn(choice, battle.ChooseAi(1)); }
             catch (Exception exception) { Debug.LogException(exception); busy = false; ShowBattle("Choix impossible : " + exception.Message); yield break; }
-            foreach (var e in events)
+            var reactionsPlayed=new System.Collections.Generic.HashSet<int>();
+            for(int eventIndex=0;eventIndex<events.Count;eventIndex++)
             {
+                var e=events[eventIndex];
                 if (logText != null) logText.text = e.Message;
                 Debug.Log("[battle-event] " + e.Kind + " " + e.Message);
                 if (e.Kind == BattleEventKind.MoveUsed)
                 {
                     var move = e.MoveId == 0 ? null : catalog.GetMove(e.MoveId);
-                    if (move == null || move.category != "Status") yield return arena.Attack(e.Side, move == null ? "Normal" : move.type, move == null ? "Physical" : move.category);
+                    if(e.MoveId==182){
+                        if(BattlePresentationHit.TryGetProtectActivation(events,eventIndex,out _))yield return arena.Protect(e.Side);
+                        else yield return new WaitForSeconds(.23f);
+                    }
+                    else if (move == null || move.category != "Status") {
+                        bool targetHit=BattlePresentationHit.TryGetDirectHitEffectiveness(events,eventIndex,out int damageIndex,out double hitEffectiveness);
+                        bool blocked=BattlePresentationHit.TryGetBlockedAttack(events,eventIndex,out _,out int protectedSide);
+                        yield return arena.Attack(e.Side,move==null?"Normal":move.type,move==null?"Physical":move.category,e.MoveId,targetHit,blocked?protectedSide:-1,(float)hitEffectiveness);
+                        if(targetHit&&((e.MoveId==53&&arena.LastFireTargetReactions==1)||(e.MoveId==55&&arena.LastWaterTargetReactions==1)))reactionsPlayed.Add(damageIndex);
+                    }
                     else yield return new WaitForSeconds(Mathf.Clamp(arena.PlayAttackAnimation(e.Side), .35f, 1f));
                 }
                 else if (e.Kind == BattleEventKind.Damage)
                 {
                     int target = e.TargetSide >= 0 ? e.TargetSide : e.Side;
                     visibleHp[target] = Mathf.Max(0, visibleHp[target] - e.Amount); RefreshHealth();
-                    yield return arena.Hit(target, e.Amount);
+                    yield return arena.Hit(target,e.Amount,reactionsPlayed.Contains(eventIndex),(float)BattlePresentationHit.GetDamageEffectiveness(e));
                 }
                 else if (e.Kind == BattleEventKind.Heal)
                 {
@@ -989,6 +1114,17 @@ namespace AeroStadium.Presentation
                     visibleHp[e.Side] = hpBeforeTurn[e.Side][e.TeamIndex];
                     if (pokemonNames[e.Side] != null) pokemonNames[e.Side].text = entrant.Name;
                     arena.ShowPokemon(e.Side, entrant.SpeciesId); RefreshHealth();
+                    if (e.Side == 0)
+                    {
+                        for (int i = 0; i < buttons.Count; i++)
+                        {
+                            var label = buttons[i].GetComponentInChildren<Text>();
+                            if (label != null) label.text = i < entrant.Moves.Count
+                                ? entrant.Moves[i].Definition.name + "\n<size=15>PP " + entrant.Moves[i].Pp + "/" + entrant.Moves[i].MaxPp + "</size>"
+                                : "";
+                            buttons[i].interactable = false;
+                        }
+                    }
                     selectionSwitches++;
                     Debug.Log("[selection-replacement] side=" + e.Side + " species=" + entrant.SpeciesId
                         + " hp=" + visibleHp[e.Side] + " maxHp=" + visibleMaximumHp[e.Side]);
@@ -996,6 +1132,7 @@ namespace AeroStadium.Presentation
                 }
                 else yield return new WaitForSeconds(.23f);
             }
+            arena.EndProtection();
             visibleHp[0] = battle.Active(0).Hp; visibleHp[1] = battle.Active(1).Hp;
             visibleMaximumHp[0] = battle.Active(0).MaxHp; visibleMaximumHp[1] = battle.Active(1).MaxHp;
             busy = false;
@@ -1022,7 +1159,7 @@ namespace AeroStadium.Presentation
             {
                 Destroy(pausePanel.gameObject); pausePanel = null; paused = false;
                 for (int i = 0; i < buttons.Count; i++)
-                    buttons[i].interactable = screen != ScreenMode.Battle || AllMovesExhausted() || battle.Active(0).Moves[i].Pp > 0;
+                    buttons[i].interactable = screen != ScreenMode.Battle || AllMovesExhausted() || battle.CanUseMove(0, i);
                 SelectFirstAvailable(); return;
             }
             paused = true; foreach (var button in buttons) button.interactable = false;
@@ -1091,7 +1228,7 @@ namespace AeroStadium.Presentation
         }
         bool AllMovesExhausted()
         {
-            foreach (var move in battle.Active(0).Moves) if (move.Pp > 0) return false;
+            for (int i = 0; i < battle.Active(0).Moves.Count; i++) if (battle.CanUseMove(0, i)) return false;
             return true;
         }
         static string CategoryName(string category) => category == "Physical" ? "PHYSIQUE" : category == "Special" ? "SPÉCIALE" : "STATUT";

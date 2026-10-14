@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "date": "2026-10-11",
+  "pokeapiCommit": "c80757193bd0889054e36f4209762360bdaa4b95",
+  "showdownCommit": "942cda71d14bf0618bd57991708a2e2734b6daba",
+  "species": 151,
+  "moves": 919,
+  "items": 2223,
+  "heldItems": 593,
+  "legalLearnsetEntries": 8357,
+  "learnsetCoverage": {
+    "legends-za-mega-dimension": 65,
+    "scarlet-violet-dlc": 99,
+    "brilliant-diamond-shining-pearl": 22,
+    "legends-arceus": 6
+  },
+  "moveSupport": {
+    "implemented": 421,
+    "unsupported": 304,
+    "partial": 194
+  },
+  "itemSupport": {
+    "implemented": 36,
+    "unsupported": 2171,
+    "partial": 17
+  },
+  "heldItemSupport": {
+    "unsupported": 541,
+    "implemented": 35,
+    "partial": 17
+  },
+  "missingFrenchItemNames": [
+    {
+      "id": 663,
+      "slug": "god-stone"
+    }
+  ],
+  "excludedShadowMoves": 18,
+  "unchangedSpeciesAttributes": [
+    "id",
+    "name",
+    "types",
+    "stats",
+    "color",
+    "height"
+  ],
+  "defaultMovesUpdated": 151
+}

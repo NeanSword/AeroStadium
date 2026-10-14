@@ -200,13 +200,129 @@ namespace AeroStadium.Tests
             Assert.That((bool)active.GetValue(visible[23].GetComponentInChildren(energyType)),Is.True);
             Assert.That((bool)active.GetValue(visible[0].GetComponentInChildren(energyType)),Is.False);
         }
-        void Build(int[] saved = null)
+        [Test]
+        public void WorkshopCancellationKeepsMovesItemAndTrainingUnchanged()
+        {
+            Add(6);Array before=GetTeam();Assert.That(Invoke("OpenEditor",6),Is.True);
+            object editor=viewType.GetProperty("LoadoutEditor").GetValue(view);
+            Assert.That(EditorInvoke(editor,"SetIndividualValue",1,0),Is.True);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",5,252),Is.True);
+            int[] learnable=Learnable(6);int replacement=learnable.First(id=>!Moves(before.GetValue(0)).Contains(id));
+            Assert.That(EditorInvoke(editor,"SetMove",0,replacement),Is.True);
+            EditorInvoke(editor,"Cancel");
+            Assert.That(Read<bool>("EditorOpen"),Is.False);
+            object actual=GetTeam().GetValue(0);CollectionAssert.AreEqual(Moves(before.GetValue(0)),Moves(actual));
+            AssertDefaultStats(actual,"ivs",31);AssertDefaultStats(actual,"evs",0);
+        }
+        [Test]
+        public void WorkshopSavesLegalMovesAndExactValuesAndCopiesTheResult()
+        {
+            Assert.That(Invoke("OpenEditor",25),Is.True);object editor=viewType.GetProperty("LoadoutEditor").GetValue(view);
+            int[] before=Moves(editor.GetType().GetProperty("Draft").GetValue(editor));
+            int legal=Learnable(25).First(id=>!before.Contains(id));
+            Assert.That(EditorInvoke(editor,"SetMove",0,legal),Is.True);
+            Assert.That(EditorInvoke(editor,"SetIndividualValue",1,0),Is.True);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",1,252),Is.True);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",5,252),Is.True);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",0,6),Is.True);
+            Assert.That(EditorInvoke(editor,"Save"),Is.True);
+            Assert.That(Read<bool>("EditorOpen"),Is.False);Assert.That(Add(25),Is.True);
+            object actual=GetTeam().GetValue(0);Assert.That(Moves(actual)[0],Is.EqualTo(legal));
+            Assert.That(Stat(actual,"ivs","attack"),Is.Zero);Assert.That(Stat(actual,"evs","hp"),Is.EqualTo(6));
+            Assert.That(Stat(actual,"evs","attack"),Is.EqualTo(252));Assert.That(Stat(actual,"evs","speed"),Is.EqualTo(252));
+            Moves(actual)[0]=999;object fresh=GetTeam().GetValue(0);Assert.That(Moves(fresh)[0],Is.EqualTo(legal));
+        }
+        [Test]
+        public void WorkshopRejectsIllegalDuplicateMovesAndExcessTrainingWithoutMutation()
+        {
+            Add(1);Assert.That(Invoke("OpenEditor",1),Is.True);object editor=viewType.GetProperty("LoadoutEditor").GetValue(view);
+            int[] original=Moves(editor.GetType().GetProperty("Draft").GetValue(editor));
+            int[] allMoves=((System.Collections.IEnumerable)catalog.GetType().GetField("moves").GetValue(catalog)).Cast<object>().Select(m=>(int)m.GetType().GetField("id").GetValue(m)).ToArray();
+            int illegal=allMoves.First(id=>!Learnable(1).Contains(id));
+            Assert.That(EditorInvoke(editor,"SetMove",0,illegal),Is.False);
+            Assert.That(EditorInvoke(editor,"SetMove",0,original[1]),Is.False);
+            Assert.That(EditorInvoke(editor,"SetIndividualValue",1,32),Is.False);
+            Assert.That(EditorInvoke(editor,"SetIndividualValue",2,-1),Is.False);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",1,253),Is.False);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",1,252),Is.True);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",5,252),Is.True);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",0,6),Is.True);
+            Assert.That(EditorInvoke(editor,"SetEffortValue",0,7),Is.False);
+            object draft=editor.GetType().GetProperty("Draft").GetValue(editor);
+            CollectionAssert.AreEqual(original,Moves(draft));Assert.That(Stat(draft,"ivs","attack"),Is.EqualTo(31));Assert.That(Stat(draft,"evs","hp"),Is.EqualTo(6));
+            Assert.That((int)editor.GetType().GetProperty("RemainingEvBudget").GetValue(editor),Is.Zero);
+            Assert.That(Invoke("HandleBack"),Is.True);Assert.That(Invoke("HandleBack"),Is.False);
+        }
+        [Test]
+        public void RemovingAConfiguredPartnerClearsItsProfileForTheNextRental()
+        {
+            Add(6);object profile=Invoke("GetMemberConfiguration",6);profile.GetType().GetField("evs").SetValue(profile,Stats(0,252));
+            Assert.That(Invoke("TryConfigureMember",profile),Is.True);Assert.That(Stat(GetTeam().GetValue(0),"evs","attack"),Is.EqualTo(252));
+            Invoke("RemoveAt",0);Assert.That(Add(6),Is.True);AssertDefaultStats(GetTeam().GetValue(0),"evs",0);
+        }
+        [Test]
+        public void SavedProfilesSurviveRebuildingTheDeskWithoutSharingArrays()
+        {
+            Add(6);Add(25);object profile=Invoke("GetMemberConfiguration",6);profile.GetType().GetField("evs").SetValue(profile,Stats(0,252));
+            Assert.That(Invoke("TryConfigureMember",profile),Is.True);Array saved=GetTeam();Build(null,saved);
+            CollectionAssert.AreEqual(new[]{6,25},TeamIds(GetTeam()));Assert.That(Stat(GetTeam().GetValue(0),"evs","attack"),Is.EqualTo(252));
+            Moves(saved.GetValue(0))[0]=999;Assert.That(Moves(GetTeam().GetValue(0))[0],Is.Not.EqualTo(999));
+        }
+        [Test]
+        public void WorkshopOnlyOffersLearnableMovesAndRejectsKeyItems()
+        {
+            Invoke("OpenEditor",1);object editor=viewType.GetProperty("LoadoutEditor").GetValue(view);
+            var choices=(IReadOnlyList<Button>)editor.GetType().GetProperty("VisibleChoices").GetValue(editor);
+            foreach(var choice in choices){int id=int.Parse(choice.name.Substring("Capacité ".Length));Assert.That(Learnable(1).Contains(id),Is.True);}
+            var items=((System.Collections.IEnumerable)catalog.GetType().GetField("items").GetValue(catalog)).Cast<object>();
+            object key=items.First(i=>!(bool)i.GetType().GetField("holdable").GetValue(i) && (string)i.GetType().GetField("id").GetValue(i)!="none");
+            string keyId=(string)key.GetType().GetField("id").GetValue(key);Assert.That(EditorInvoke(editor,"SetHeldItem",keyId),Is.False);
+            EditorInvoke(editor,"SetTab",2);choices=(IReadOnlyList<Button>)editor.GetType().GetProperty("VisibleChoices").GetValue(editor);
+            Assert.That(choices.Any(c=>c.name=="Objet "+keyId),Is.False);
+            EditorInvoke(editor,"Cancel");
+        }
+        [Test]
+        public void EveryKantoSpeciesAcceptsItsOwnLearnsetAndIndividualTraining()
+        {
+            for(int id=1;id<=151;id++)
+            {
+                object profile=Invoke("GetMemberConfiguration",id);profile.GetType().GetField("moveIds").SetValue(profile,Learnable(id).Take(4).ToArray());
+                profile.GetType().GetField("ivs").SetValue(profile,Stats(0,31));profile.GetType().GetField("evs").SetValue(profile,Stats(6,252));
+                Assert.That(Invoke("TryConfigureMember",profile),Is.True,"Configurable species "+id);
+                Assert.That(Stat(Invoke("GetMemberConfiguration",id),"evs","attack"),Is.EqualTo(252));
+            }
+        }
+        [Test]
+        public void EquippingIncompleteEffectsKeepsTheirWarningVisibleBeforeSaving()
+        {
+            Invoke("OpenEditor",150);object editor=viewType.GetProperty("LoadoutEditor").GetValue(view);
+            int[] current=Moves(editor.GetType().GetProperty("Draft").GetValue(editor));
+            object move=Learnable(150).Select(id=>catalog.GetType().GetMethod("GetMove").Invoke(catalog,new object[]{id}))
+                .First(m=>(string)m.GetType().GetProperty("Support").GetValue(m)!="implemented" && !current.Contains((int)m.GetType().GetField("id").GetValue(m)));
+            string support=(string)move.GetType().GetProperty("Support").GetValue(move);
+            Assert.That(EditorInvoke(editor,"SetMove",0,(int)move.GetType().GetField("id").GetValue(move)),Is.True);
+            var labels=(IReadOnlyList<Text>)editor.GetType().GetField("moveLabels",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(editor);
+            Assert.That(labels[0].text,Does.Contain(support=="partial"?"PARTIEL":"À COMPLÉTER"));
+            var items=((System.Collections.IEnumerable)catalog.GetType().GetField("items").GetValue(catalog)).Cast<object>();
+            object item=items.First(i=>(bool)i.GetType().GetField("holdable").GetValue(i) && (string)i.GetType().GetField("support").GetValue(i)=="unsupported");
+            Assert.That(EditorInvoke(editor,"SetHeldItem",(string)item.GetType().GetField("id").GetValue(item)),Is.True);
+            var itemText=(Text)editor.GetType().GetField("itemLabel",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(editor);
+            Assert.That(itemText.text,Does.Contain("EFFET À COMPLÉTER"));
+            Assert.That(Read<bool>("EditorOpen"),Is.True,"Warnings are visible before the user commits the draft.");
+            EditorInvoke(editor,"Cancel");
+        }
+        object EditorInvoke(object editor,string method,params object[] args)=>editor.GetType().GetMethod(method).Invoke(editor,args);
+        int[] Learnable(int species)=>(int[])catalog.GetType().GetMethod("GetLearnableMoves").Invoke(catalog,new object[]{species});
+        int[] Moves(object member)=>(int[])memberType.GetField("moveIds").GetValue(member);
+        int Stat(object member,string group,string name){object value=memberType.GetField(group).GetValue(member);return (int)value.GetType().GetField(name).GetValue(value);}
+        object Stats(int hp,int attack){object value=Activator.CreateInstance(FindType("AeroStadium.Core.StatValues"));value.GetType().GetField("hp").SetValue(value,hp);value.GetType().GetField("attack").SetValue(value,attack);return value;}
+        void Build(int[] saved = null,Array savedProfiles = null)
         {
             launchCount = 0;
             var callback = GetType().GetMethod(nameof(CreateLaunchCallback), BindingFlags.Instance | BindingFlags.NonPublic)
                 .MakeGenericMethod(memberType).Invoke(this, null);
             Invoke("Build", canvasObject.GetComponent<RectTransform>(), Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"),
-                catalog, null, (Action<int>)(_ => { }), callback, (Action)(() => { }), saved);
+                catalog, null, (Action<int>)(_ => { }), callback, (Action)(() => { }), saved, savedProfiles);
         }
 
         Action<T[]> CreateLaunchCallback<T>() => team => { launchCount++; };

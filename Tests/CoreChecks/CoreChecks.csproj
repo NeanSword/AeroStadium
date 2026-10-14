@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="../../Assets/AeroStadium/Presentation/BattlePresentationHit.cs" Link="Presentation/BattlePresentationHit.cs" />
     <Compile Include="../../Assets/AeroStadium/Core/*.cs" Link="Core/%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

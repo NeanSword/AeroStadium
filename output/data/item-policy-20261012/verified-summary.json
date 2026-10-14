@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-12",
+  "passed": true,
+  "dataValidation": {
+    "date": "2026-10-12",
+    "passed": true,
+    "checks": {
+      "all_151_species_and_loadouts_unchanged": true,
+      "all_919_moves_unchanged": true,
+      "only_requested_items_removed": true,
+      "163_source_records_removed": true,
+      "92_mega_stones_removed": true,
+      "71_z_crystal_records_removed": true,
+      "2060_items_plus_none_remain": true,
+      "preserved_all_ordinary_support_effects": true,
+      "learnset_evidence_identical": true
+    },
+    "remainingItems": 2060,
+    "remainingHeldItems": 501,
+    "removedMegaStones": 92,
+    "removedZCrystalRecords": 71
+  },
+  "catalogSha256": "8E4F3E148C234C690EF76A30B5012C6F465E43BA1239EB3F31B7E8A56E830EE0",
+  "repeatImportIdentical": true,
+  "coreChecks": "27/27",
+  "build": {
+    "utc": "2026-10-12T06:10:43.4466044Z",
+    "editorVersion": "6000.3.25f1",
+    "scene": "Assets/AeroStadium/Scenes/Arena.unity",
+    "backend": "Mono",
+    "outputPath": "C:\\Users\\dofus\\Documents\\GitHub\\AeroStadium\\Builds\\WindowsReference\\AeroStadium.exe",
+    "result": "Succeeded",
+    "error": "",
+    "totalErrors": 0,
+    "totalWarnings": 0,
+    "totalBytes": 3631087792,
+    "totalSeconds": 164.694742
+  },
+  "buildProcess": {
+    "mode": "build",
+    "startedUtc": "2026-10-12T06:10:19.6373895Z",
+    "endedUtc": "2026-10-12T06:13:30.812688Z",
+    "exitCode": 0,
+    "peakUnityPrivateBytes": 8033443840,
+    "peakUnityWorkingSetBytes": 7454330880,
+    "minimumFreePhysicalKiB": 72924,
+    "initialFreePhysicalKiB": 5388548,
+    "samples": [
+      {
+        "utc": "2026-10-12T06:10:19.9317869Z",
+        "privateBytes": 356352,
+        "workingSetBytes": 2535424,
+        "freePhysicalKiB": 5390964,
+        "freeVirtualKiB": 17741952
+      },
+      {
+        "utc": "2026-10-12T06:10:30.1687534Z",
+        "privateBytes": 444702720,
+        "workingSetBytes": 407019520,
+        "freePhysicalKiB": 4891724,
+        "freeVirtualKiB": 17258288
+      },
+      {
+        "utc": "2026-10-12T06:10:40.3692414Z",
+        "privateBytes": 784506880,
+        "workingSetBytes": 719069184,
+        "freePhysicalKiB": 4515632,
+        "freeVirtualKiB": 16823628
+      },
+      {
+        "utc": "2026-10-12T06:10:50.5977361Z",
+        "privateBytes": 1814913024,
+        "workingSetBytes": 1629159424,
+        "freePhysicalKiB": 3528432,
+        "freeVirtualKiB": 15758116
+      },
+      {
+        "utc": "2026-10-12T06:11:00.8089438Z",
+        "privateBytes": 2373844992,
+        "workingSetBytes": 2103009280,
+        "freePhysicalKiB": 3077208,
+        "freeVirtualKiB": 15175432
+      },
+      {
+        "utc": "2026-10-12T06:11:11.0564274Z",
+        "privateBytes": 2863067136,
+        "workingSetBytes": 2581581824,
+        "freePhysicalKiB": 2686036,
+        "freeVirtualKiB": 14740092
+      },
+      {
+        "utc": "2026-10-12T06:11:21.2406169Z",
+        "privateBytes": 3376386048,
+        "workingSetBytes": 3060420608,
+        "freePhysicalKiB": 2403992,
+        "freeVirtualKiB": 14351348
+      },
+      {
+        "utc": "2026-10-12T06:11:31.4501399Z",
+        "privateBytes": 3934044160,
+        "workingSetBytes": 3583557632,
+        "freePhysicalKiB": 1932324,
+        "freeVirtualKiB": 13880556
+      },
+      {
+        "utc": "2026-10-12T06:11:41.6364181Z",
+        "privateBytes": 4551786496,
+        "workingSetBytes": 4122165248,
+        "freePhysicalKiB": 1436752,
+        "freeVirtualKiB": 13190092
+      },
+      {
+        "utc": "2026-10-12T06:11:51.8636728Z",
+        "privateBytes": 4939382784,
+        "workingSetBytes": 4493492224,
+        "freePhysicalKiB": 1096168,
+        "freeVirtualKiB": 13004636
+      },
+      {
+        "utc": "2026-10-12T06:12:02.0982777Z",
+        "privateBytes": 5458448384,
+        "workingSetBytes": 4991246336,
+        "freePhysicalKiB": 659104,
+        "freeVirtualKiB": 12506788
+      },
+      {
+        "utc": "2026-10-12T06:12:12.3048998Z",
+        "privateBytes": 5815672832,
+        "workingSetBytes": 5327802368,
+        "freePhysicalKiB": 349088,
+        "freeVirtualKiB": 12026840
+      },
+      {
+        "utc": "2026-10-12T06:12:22.4995818Z",
+        "privateBytes": 6085685248,
+        "workingSetBytes": 5538750464,
+        "freePhysicalKiB": 72924,
+        "freeVirtualKiB": 11829776
+      },
+      {
+        "utc": "2026-10-12T06:12:32.71615Z",
+        "privateBytes": 2961440768,
+        "workingSetBytes": 2713763840,
+        "freePhysicalKiB": 4784352,
+        "freeVirtualKiB": 15077552
+      },
+      {
+        "utc": "2026-10-12T06:12:42.929211Z",
+        "privateBytes": 3056349184,
+        "workingSetBytes": 2873704448,
+        "freePhysicalKiB": 4356140,
+        "freeVirtualKiB": 14704976
+      },
+      {
+        "utc": "2026-10-12T06:12:53.1423532Z",
+        "privateBytes": 3752435712,
+        "workingSetBytes": 3531767808,
+        "freePhysicalKiB": 3963200,
+        "freeVirtualKiB": 14298708
+      },
+      {
+        "utc": "2026-10-12T06:13:03.3577096Z",
+        "privateBytes": 4446777344,
+        "workingSetBytes": 4193050624,
+        "freePhysicalKiB": 3287544,
+        "freeVirtualKiB": 13582668
+      },
+      {
+        "utc": "2026-10-12T06:13:13.54305Z",
+        "privateBytes": 5141458944,
+        "workingSetBytes": 4851548160,
+        "freePhysicalKiB": 2644276,
+        "freeVirtualKiB": 12937804
+      },
+      {
+        "utc": "2026-10-12T06:13:23.7203026Z",
+        "privateBytes": 3234770944,
+        "workingSetBytes": 2992455680,
+        "freePhysicalKiB": 4450540,
+        "freeVirtualKiB": 14746172
+      }
+    ],
+    "log": "C:\\Users\\dofus\\Documents\\GitHub\\AeroStadium\\Logs\\item-policy-build-20261012.log",
+    "settingsRestored": true
+  },
+  "runtimeLaunched": false,
+  "quota": {
+    "primary": 19,
+    "secondary": 18,
+    "creditsBalance": "272.2102050000",
+    "extraCreditsUsed": 0
+  }
+}

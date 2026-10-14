@@ -244,10 +244,14 @@ def main() -> None:
         "moves": [damaging[move_id] for move_id in sorted(assigned_moves)],
         "items": old_catalog.get("items", []),
     }
-    catalog_path.write_text(
-        json.dumps(catalog, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    # Model preparation must never overwrite the modern legal battle catalogue.
+    if any("learnableMoves" in row for row in old_catalog.get("species", [])):
+        print("Modern battle catalogue retained; use Tools/import_battle_catalog.py to update battle data.")
+    else:
+        catalog_path.write_text(
+            json.dumps(catalog, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
     attribution_lines = [
         "# Attributions des modèles Pokémon de génération I",

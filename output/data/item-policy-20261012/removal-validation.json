@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-12",
+  "passed": true,
+  "checks": {
+    "all_151_species_and_loadouts_unchanged": true,
+    "all_919_moves_unchanged": true,
+    "only_requested_items_removed": true,
+    "163_source_records_removed": true,
+    "92_mega_stones_removed": true,
+    "71_z_crystal_records_removed": true,
+    "2060_items_plus_none_remain": true,
+    "preserved_all_ordinary_support_effects": true,
+    "learnset_evidence_identical": true
+  },
+  "remainingItems": 2060,
+  "remainingHeldItems": 501,
+  "removedMegaStones": 92,
+  "removedZCrystalRecords": 71
+}

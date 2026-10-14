@@ -1,0 +1,8273 @@
+[
+  {
+    "id": 1,
+    "slug": "pound",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 2,
+    "slug": "karate-chop",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 3,
+    "slug": "double-slap",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 4,
+    "slug": "comet-punch",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 5,
+    "slug": "mega-punch",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 6,
+    "slug": "pay-day",
+    "csvEffectId": 35,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 7,
+    "slug": "fire-punch",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 8,
+    "slug": "ice-punch",
+    "csvEffectId": 6,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 9,
+    "slug": "thunder-punch",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 10,
+    "slug": "scratch",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 11,
+    "slug": "vice-grip",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 12,
+    "slug": "guillotine",
+    "csvEffectId": 39,
+    "csvMetaCategory": 9,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 13,
+    "slug": "razor-wind",
+    "csvEffectId": 40,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 14,
+    "slug": "swords-dance",
+    "csvEffectId": 51,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 15,
+    "slug": "cut",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 16,
+    "slug": "gust",
+    "csvEffectId": 150,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 17,
+    "slug": "wing-attack",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 18,
+    "slug": "whirlwind",
+    "csvEffectId": 29,
+    "csvMetaCategory": 12,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 19,
+    "slug": "fly",
+    "csvEffectId": 156,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 20,
+    "slug": "bind",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 21,
+    "slug": "slam",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 22,
+    "slug": "vine-whip",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 23,
+    "slug": "stomp",
+    "csvEffectId": 151,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 24,
+    "slug": "double-kick",
+    "csvEffectId": 45,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 25,
+    "slug": "mega-kick",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 26,
+    "slug": "jump-kick",
+    "csvEffectId": 46,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 27,
+    "slug": "rolling-kick",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 28,
+    "slug": "sand-attack",
+    "csvEffectId": 24,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 29,
+    "slug": "headbutt",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 30,
+    "slug": "horn-attack",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 31,
+    "slug": "fury-attack",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 32,
+    "slug": "horn-drill",
+    "csvEffectId": 39,
+    "csvMetaCategory": 9,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 33,
+    "slug": "tackle",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 34,
+    "slug": "body-slam",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 35,
+    "slug": "wrap",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 36,
+    "slug": "take-down",
+    "csvEffectId": 49,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 37,
+    "slug": "thrash",
+    "csvEffectId": 28,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 38,
+    "slug": "double-edge",
+    "csvEffectId": 199,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 39,
+    "slug": "tail-whip",
+    "csvEffectId": 20,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 40,
+    "slug": "poison-sting",
+    "csvEffectId": 3,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 41,
+    "slug": "twineedle",
+    "csvEffectId": 78,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 42,
+    "slug": "pin-missile",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 43,
+    "slug": "leer",
+    "csvEffectId": 20,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 44,
+    "slug": "bite",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 45,
+    "slug": "growl",
+    "csvEffectId": 19,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 46,
+    "slug": "roar",
+    "csvEffectId": 29,
+    "csvMetaCategory": 12,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 47,
+    "slug": "sing",
+    "csvEffectId": 2,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 48,
+    "slug": "supersonic",
+    "csvEffectId": 50,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 49,
+    "slug": "sonic-boom",
+    "csvEffectId": 131,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 50,
+    "slug": "disable",
+    "csvEffectId": 87,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 51,
+    "slug": "acid",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 52,
+    "slug": "ember",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 53,
+    "slug": "flamethrower",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 54,
+    "slug": "mist",
+    "csvEffectId": 47,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 55,
+    "slug": "water-gun",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 56,
+    "slug": "hydro-pump",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 57,
+    "slug": "surf",
+    "csvEffectId": 258,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 58,
+    "slug": "ice-beam",
+    "csvEffectId": 6,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 59,
+    "slug": "blizzard",
+    "csvEffectId": 261,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 60,
+    "slug": "psybeam",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 61,
+    "slug": "bubble-beam",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 62,
+    "slug": "aurora-beam",
+    "csvEffectId": 69,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 63,
+    "slug": "hyper-beam",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 64,
+    "slug": "peck",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 65,
+    "slug": "drill-peck",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 66,
+    "slug": "submission",
+    "csvEffectId": 49,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 67,
+    "slug": "low-kick",
+    "csvEffectId": 197,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 68,
+    "slug": "counter",
+    "csvEffectId": 90,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 69,
+    "slug": "seismic-toss",
+    "csvEffectId": 88,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 70,
+    "slug": "strength",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 71,
+    "slug": "absorb",
+    "csvEffectId": 4,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 72,
+    "slug": "mega-drain",
+    "csvEffectId": 4,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 73,
+    "slug": "leech-seed",
+    "csvEffectId": 85,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 74,
+    "slug": "growth",
+    "csvEffectId": 317,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 75,
+    "slug": "razor-leaf",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 76,
+    "slug": "solar-beam",
+    "csvEffectId": 152,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 77,
+    "slug": "poison-powder",
+    "csvEffectId": 67,
+    "csvMetaCategory": 1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 78,
+    "slug": "stun-spore",
+    "csvEffectId": 68,
+    "csvMetaCategory": 1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 79,
+    "slug": "sleep-powder",
+    "csvEffectId": 2,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 80,
+    "slug": "petal-dance",
+    "csvEffectId": 28,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 81,
+    "slug": "string-shot",
+    "csvEffectId": 61,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 82,
+    "slug": "dragon-rage",
+    "csvEffectId": 42,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 83,
+    "slug": "fire-spin",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 84,
+    "slug": "thunder-shock",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 85,
+    "slug": "thunderbolt",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 86,
+    "slug": "thunder-wave",
+    "csvEffectId": 68,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 87,
+    "slug": "thunder",
+    "csvEffectId": 153,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 88,
+    "slug": "rock-throw",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 89,
+    "slug": "earthquake",
+    "csvEffectId": 148,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 90,
+    "slug": "fissure",
+    "csvEffectId": 39,
+    "csvMetaCategory": 9,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 91,
+    "slug": "dig",
+    "csvEffectId": 257,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 92,
+    "slug": "toxic",
+    "csvEffectId": 34,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 93,
+    "slug": "confusion",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 94,
+    "slug": "psychic",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 95,
+    "slug": "hypnosis",
+    "csvEffectId": 2,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 96,
+    "slug": "meditate",
+    "csvEffectId": 11,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 97,
+    "slug": "agility",
+    "csvEffectId": 53,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 98,
+    "slug": "quick-attack",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 99,
+    "slug": "rage",
+    "csvEffectId": 82,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 100,
+    "slug": "teleport",
+    "csvEffectId": 154,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 101,
+    "slug": "night-shade",
+    "csvEffectId": 88,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 102,
+    "slug": "mimic",
+    "csvEffectId": 83,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 103,
+    "slug": "screech",
+    "csvEffectId": 60,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 104,
+    "slug": "double-team",
+    "csvEffectId": 17,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 105,
+    "slug": "recover",
+    "csvEffectId": 33,
+    "csvMetaCategory": 3,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 106,
+    "slug": "harden",
+    "csvEffectId": 12,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 107,
+    "slug": "minimize",
+    "csvEffectId": 109,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 108,
+    "slug": "smokescreen",
+    "csvEffectId": 24,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 109,
+    "slug": "confuse-ray",
+    "csvEffectId": 50,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 110,
+    "slug": "withdraw",
+    "csvEffectId": 12,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 111,
+    "slug": "defense-curl",
+    "csvEffectId": 157,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 112,
+    "slug": "barrier",
+    "csvEffectId": 52,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 113,
+    "slug": "light-screen",
+    "csvEffectId": 36,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 114,
+    "slug": "haze",
+    "csvEffectId": 26,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 115,
+    "slug": "reflect",
+    "csvEffectId": 66,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 116,
+    "slug": "focus-energy",
+    "csvEffectId": 48,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 117,
+    "slug": "bide",
+    "csvEffectId": 27,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 118,
+    "slug": "metronome",
+    "csvEffectId": 84,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 119,
+    "slug": "mirror-move",
+    "csvEffectId": 10,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 120,
+    "slug": "self-destruct",
+    "csvEffectId": 8,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 121,
+    "slug": "egg-bomb",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 122,
+    "slug": "lick",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 123,
+    "slug": "smog",
+    "csvEffectId": 3,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 124,
+    "slug": "sludge",
+    "csvEffectId": 3,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 125,
+    "slug": "bone-club",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 126,
+    "slug": "fire-blast",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 127,
+    "slug": "waterfall",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 128,
+    "slug": "clamp",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 129,
+    "slug": "swift",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 130,
+    "slug": "skull-bash",
+    "csvEffectId": 146,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 131,
+    "slug": "spike-cannon",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 132,
+    "slug": "constrict",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 133,
+    "slug": "amnesia",
+    "csvEffectId": 55,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 134,
+    "slug": "kinesis",
+    "csvEffectId": 24,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 135,
+    "slug": "soft-boiled",
+    "csvEffectId": 33,
+    "csvMetaCategory": 3,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 136,
+    "slug": "high-jump-kick",
+    "csvEffectId": 46,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 137,
+    "slug": "glare",
+    "csvEffectId": 68,
+    "csvMetaCategory": 1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 138,
+    "slug": "dream-eater",
+    "csvEffectId": 9,
+    "csvMetaCategory": 8,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 139,
+    "slug": "poison-gas",
+    "csvEffectId": 67,
+    "csvMetaCategory": 1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 140,
+    "slug": "barrage",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 141,
+    "slug": "leech-life",
+    "csvEffectId": 4,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 142,
+    "slug": "lovely-kiss",
+    "csvEffectId": 2,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 143,
+    "slug": "sky-attack",
+    "csvEffectId": 76,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 144,
+    "slug": "transform",
+    "csvEffectId": 58,
+    "csvMetaCategory": 13,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 145,
+    "slug": "bubble",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 146,
+    "slug": "dizzy-punch",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 147,
+    "slug": "spore",
+    "csvEffectId": 2,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 148,
+    "slug": "flash",
+    "csvEffectId": 24,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 149,
+    "slug": "psywave",
+    "csvEffectId": 89,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 150,
+    "slug": "splash",
+    "csvEffectId": 86,
+    "csvMetaCategory": 13,
+    "support": "implemented",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 151,
+    "slug": "acid-armor",
+    "csvEffectId": 52,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 152,
+    "slug": "crabhammer",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 153,
+    "slug": "explosion",
+    "csvEffectId": 8,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 154,
+    "slug": "fury-swipes",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 155,
+    "slug": "bonemerang",
+    "csvEffectId": 45,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 156,
+    "slug": "rest",
+    "csvEffectId": 38,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 157,
+    "slug": "rock-slide",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 158,
+    "slug": "hyper-fang",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 159,
+    "slug": "sharpen",
+    "csvEffectId": 11,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 160,
+    "slug": "conversion",
+    "csvEffectId": 31,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 161,
+    "slug": "tri-attack",
+    "csvEffectId": 37,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 162,
+    "slug": "super-fang",
+    "csvEffectId": 41,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 163,
+    "slug": "slash",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 164,
+    "slug": "substitute",
+    "csvEffectId": 80,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 165,
+    "slug": "struggle",
+    "csvEffectId": 255,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 166,
+    "slug": "sketch",
+    "csvEffectId": 96,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 167,
+    "slug": "triple-kick",
+    "csvEffectId": 105,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 168,
+    "slug": "thief",
+    "csvEffectId": 106,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 169,
+    "slug": "spider-web",
+    "csvEffectId": 107,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 170,
+    "slug": "mind-reader",
+    "csvEffectId": 95,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 171,
+    "slug": "nightmare",
+    "csvEffectId": 108,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 172,
+    "slug": "flame-wheel",
+    "csvEffectId": 126,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 173,
+    "slug": "snore",
+    "csvEffectId": 93,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 174,
+    "slug": "curse",
+    "csvEffectId": 110,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 175,
+    "slug": "flail",
+    "csvEffectId": 100,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 176,
+    "slug": "conversion-2",
+    "csvEffectId": 94,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 177,
+    "slug": "aeroblast",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 178,
+    "slug": "cotton-spore",
+    "csvEffectId": 61,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 179,
+    "slug": "reversal",
+    "csvEffectId": 100,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 180,
+    "slug": "spite",
+    "csvEffectId": 101,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 181,
+    "slug": "powder-snow",
+    "csvEffectId": 6,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 182,
+    "slug": "protect",
+    "csvEffectId": 112,
+    "csvMetaCategory": 13,
+    "support": "implemented",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 183,
+    "slug": "mach-punch",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 184,
+    "slug": "scary-face",
+    "csvEffectId": 61,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 185,
+    "slug": "feint-attack",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 186,
+    "slug": "sweet-kiss",
+    "csvEffectId": 50,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 187,
+    "slug": "belly-drum",
+    "csvEffectId": 143,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 188,
+    "slug": "sludge-bomb",
+    "csvEffectId": 3,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 189,
+    "slug": "mud-slap",
+    "csvEffectId": 74,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 190,
+    "slug": "octazooka",
+    "csvEffectId": 74,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 191,
+    "slug": "spikes",
+    "csvEffectId": 113,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 192,
+    "slug": "zap-cannon",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 193,
+    "slug": "foresight",
+    "csvEffectId": 114,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 194,
+    "slug": "destiny-bond",
+    "csvEffectId": 99,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 195,
+    "slug": "perish-song",
+    "csvEffectId": 115,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 196,
+    "slug": "icy-wind",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 197,
+    "slug": "detect",
+    "csvEffectId": 112,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 198,
+    "slug": "bone-rush",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 199,
+    "slug": "lock-on",
+    "csvEffectId": 95,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 200,
+    "slug": "outrage",
+    "csvEffectId": 28,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 201,
+    "slug": "sandstorm",
+    "csvEffectId": 116,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 202,
+    "slug": "giga-drain",
+    "csvEffectId": 4,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 203,
+    "slug": "endure",
+    "csvEffectId": 117,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 204,
+    "slug": "charm",
+    "csvEffectId": 59,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 205,
+    "slug": "rollout",
+    "csvEffectId": 118,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 206,
+    "slug": "false-swipe",
+    "csvEffectId": 102,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 207,
+    "slug": "swagger",
+    "csvEffectId": 119,
+    "csvMetaCategory": 5,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 208,
+    "slug": "milk-drink",
+    "csvEffectId": 33,
+    "csvMetaCategory": 3,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 209,
+    "slug": "spark",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 210,
+    "slug": "fury-cutter",
+    "csvEffectId": 120,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 211,
+    "slug": "steel-wing",
+    "csvEffectId": 139,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 212,
+    "slug": "mean-look",
+    "csvEffectId": 107,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 213,
+    "slug": "attract",
+    "csvEffectId": 121,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 214,
+    "slug": "sleep-talk",
+    "csvEffectId": 98,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 215,
+    "slug": "heal-bell",
+    "csvEffectId": 103,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 216,
+    "slug": "return",
+    "csvEffectId": 122,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 217,
+    "slug": "present",
+    "csvEffectId": 123,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 218,
+    "slug": "frustration",
+    "csvEffectId": 124,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 219,
+    "slug": "safeguard",
+    "csvEffectId": 125,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 220,
+    "slug": "pain-split",
+    "csvEffectId": 92,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 221,
+    "slug": "sacred-fire",
+    "csvEffectId": 126,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 222,
+    "slug": "magnitude",
+    "csvEffectId": 127,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 223,
+    "slug": "dynamic-punch",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 224,
+    "slug": "megahorn",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 225,
+    "slug": "dragon-breath",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 226,
+    "slug": "baton-pass",
+    "csvEffectId": 128,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 227,
+    "slug": "encore",
+    "csvEffectId": 91,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 228,
+    "slug": "pursuit",
+    "csvEffectId": 129,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 229,
+    "slug": "rapid-spin",
+    "csvEffectId": 130,
+    "csvMetaCategory": 7,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 230,
+    "slug": "sweet-scent",
+    "csvEffectId": 25,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 231,
+    "slug": "iron-tail",
+    "csvEffectId": 70,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 232,
+    "slug": "metal-claw",
+    "csvEffectId": 140,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 233,
+    "slug": "vital-throw",
+    "csvEffectId": 79,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 234,
+    "slug": "morning-sun",
+    "csvEffectId": 133,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 235,
+    "slug": "synthesis",
+    "csvEffectId": 133,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 236,
+    "slug": "moonlight",
+    "csvEffectId": 133,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 237,
+    "slug": "hidden-power",
+    "csvEffectId": 136,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 238,
+    "slug": "cross-chop",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 239,
+    "slug": "twister",
+    "csvEffectId": 147,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 240,
+    "slug": "rain-dance",
+    "csvEffectId": 137,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 241,
+    "slug": "sunny-day",
+    "csvEffectId": 138,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 242,
+    "slug": "crunch",
+    "csvEffectId": 70,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 243,
+    "slug": "mirror-coat",
+    "csvEffectId": 145,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 244,
+    "slug": "psych-up",
+    "csvEffectId": 144,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 245,
+    "slug": "extreme-speed",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 246,
+    "slug": "ancient-power",
+    "csvEffectId": 141,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 247,
+    "slug": "shadow-ball",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 248,
+    "slug": "future-sight",
+    "csvEffectId": 149,
+    "csvMetaCategory": 13,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 249,
+    "slug": "rock-smash",
+    "csvEffectId": 70,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 250,
+    "slug": "whirlpool",
+    "csvEffectId": 262,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 251,
+    "slug": "beat-up",
+    "csvEffectId": 155,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 252,
+    "slug": "fake-out",
+    "csvEffectId": 159,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 253,
+    "slug": "uproar",
+    "csvEffectId": 160,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 254,
+    "slug": "stockpile",
+    "csvEffectId": 161,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 255,
+    "slug": "spit-up",
+    "csvEffectId": 162,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 256,
+    "slug": "swallow",
+    "csvEffectId": 163,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 257,
+    "slug": "heat-wave",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 258,
+    "slug": "hail",
+    "csvEffectId": 165,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 259,
+    "slug": "torment",
+    "csvEffectId": 166,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 260,
+    "slug": "flatter",
+    "csvEffectId": 167,
+    "csvMetaCategory": 5,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 261,
+    "slug": "will-o-wisp",
+    "csvEffectId": 168,
+    "csvMetaCategory": 1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 262,
+    "slug": "memento",
+    "csvEffectId": 169,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 263,
+    "slug": "facade",
+    "csvEffectId": 170,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 264,
+    "slug": "focus-punch",
+    "csvEffectId": 171,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 265,
+    "slug": "smelling-salts",
+    "csvEffectId": 172,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 266,
+    "slug": "follow-me",
+    "csvEffectId": 173,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 267,
+    "slug": "nature-power",
+    "csvEffectId": 174,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 268,
+    "slug": "charge",
+    "csvEffectId": 175,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 269,
+    "slug": "taunt",
+    "csvEffectId": 176,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 270,
+    "slug": "helping-hand",
+    "csvEffectId": 177,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 271,
+    "slug": "trick",
+    "csvEffectId": 178,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 272,
+    "slug": "role-play",
+    "csvEffectId": 179,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 273,
+    "slug": "wish",
+    "csvEffectId": 180,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 274,
+    "slug": "assist",
+    "csvEffectId": 181,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 275,
+    "slug": "ingrain",
+    "csvEffectId": 182,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 276,
+    "slug": "superpower",
+    "csvEffectId": 183,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 277,
+    "slug": "magic-coat",
+    "csvEffectId": 184,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 278,
+    "slug": "recycle",
+    "csvEffectId": 185,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 279,
+    "slug": "revenge",
+    "csvEffectId": 186,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 280,
+    "slug": "brick-break",
+    "csvEffectId": 187,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 281,
+    "slug": "yawn",
+    "csvEffectId": 188,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 282,
+    "slug": "knock-off",
+    "csvEffectId": 189,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 283,
+    "slug": "endeavor",
+    "csvEffectId": 190,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 284,
+    "slug": "eruption",
+    "csvEffectId": 191,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 285,
+    "slug": "skill-swap",
+    "csvEffectId": 192,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 286,
+    "slug": "imprison",
+    "csvEffectId": 193,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 287,
+    "slug": "refresh",
+    "csvEffectId": 194,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 288,
+    "slug": "grudge",
+    "csvEffectId": 195,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 289,
+    "slug": "snatch",
+    "csvEffectId": 196,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 290,
+    "slug": "secret-power",
+    "csvEffectId": 198,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 291,
+    "slug": "dive",
+    "csvEffectId": 256,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 292,
+    "slug": "arm-thrust",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 293,
+    "slug": "camouflage",
+    "csvEffectId": 214,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 294,
+    "slug": "tail-glow",
+    "csvEffectId": 322,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 295,
+    "slug": "luster-purge",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 296,
+    "slug": "mist-ball",
+    "csvEffectId": 72,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 297,
+    "slug": "feather-dance",
+    "csvEffectId": 59,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 298,
+    "slug": "teeter-dance",
+    "csvEffectId": 200,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 299,
+    "slug": "blaze-kick",
+    "csvEffectId": 201,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 300,
+    "slug": "mud-sport",
+    "csvEffectId": 202,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 301,
+    "slug": "ice-ball",
+    "csvEffectId": 118,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 302,
+    "slug": "needle-arm",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 303,
+    "slug": "slack-off",
+    "csvEffectId": 33,
+    "csvMetaCategory": 3,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 304,
+    "slug": "hyper-voice",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 305,
+    "slug": "poison-fang",
+    "csvEffectId": 203,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 306,
+    "slug": "crush-claw",
+    "csvEffectId": 70,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 307,
+    "slug": "blast-burn",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 308,
+    "slug": "hydro-cannon",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 309,
+    "slug": "meteor-mash",
+    "csvEffectId": 140,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 310,
+    "slug": "astonish",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 311,
+    "slug": "weather-ball",
+    "csvEffectId": 204,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 312,
+    "slug": "aromatherapy",
+    "csvEffectId": 103,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 313,
+    "slug": "fake-tears",
+    "csvEffectId": 63,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 314,
+    "slug": "air-cutter",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 315,
+    "slug": "overheat",
+    "csvEffectId": 205,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 316,
+    "slug": "odor-sleuth",
+    "csvEffectId": 114,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 317,
+    "slug": "rock-tomb",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 318,
+    "slug": "silver-wind",
+    "csvEffectId": 141,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 319,
+    "slug": "metal-sound",
+    "csvEffectId": 63,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 320,
+    "slug": "grass-whistle",
+    "csvEffectId": 2,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 321,
+    "slug": "tickle",
+    "csvEffectId": 206,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 322,
+    "slug": "cosmic-power",
+    "csvEffectId": 207,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 323,
+    "slug": "water-spout",
+    "csvEffectId": 191,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 324,
+    "slug": "signal-beam",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 325,
+    "slug": "shadow-punch",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 326,
+    "slug": "extrasensory",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 327,
+    "slug": "sky-uppercut",
+    "csvEffectId": 208,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 328,
+    "slug": "sand-tomb",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 329,
+    "slug": "sheer-cold",
+    "csvEffectId": 39,
+    "csvMetaCategory": 9,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 330,
+    "slug": "muddy-water",
+    "csvEffectId": 74,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 331,
+    "slug": "bullet-seed",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 332,
+    "slug": "aerial-ace",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 333,
+    "slug": "icicle-spear",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 334,
+    "slug": "iron-defense",
+    "csvEffectId": 52,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 335,
+    "slug": "block",
+    "csvEffectId": 107,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 336,
+    "slug": "howl",
+    "csvEffectId": 11,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 337,
+    "slug": "dragon-claw",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 338,
+    "slug": "frenzy-plant",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 339,
+    "slug": "bulk-up",
+    "csvEffectId": 209,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 340,
+    "slug": "bounce",
+    "csvEffectId": 264,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 341,
+    "slug": "mud-shot",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 342,
+    "slug": "poison-tail",
+    "csvEffectId": 210,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 343,
+    "slug": "covet",
+    "csvEffectId": 106,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 344,
+    "slug": "volt-tackle",
+    "csvEffectId": 263,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 345,
+    "slug": "magical-leaf",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 346,
+    "slug": "water-sport",
+    "csvEffectId": 211,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 347,
+    "slug": "calm-mind",
+    "csvEffectId": 212,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 348,
+    "slug": "leaf-blade",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 349,
+    "slug": "dragon-dance",
+    "csvEffectId": 213,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 350,
+    "slug": "rock-blast",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 351,
+    "slug": "shock-wave",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 352,
+    "slug": "water-pulse",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 353,
+    "slug": "doom-desire",
+    "csvEffectId": 149,
+    "csvMetaCategory": 13,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 354,
+    "slug": "psycho-boost",
+    "csvEffectId": 205,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 355,
+    "slug": "roost",
+    "csvEffectId": 215,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 356,
+    "slug": "gravity",
+    "csvEffectId": 216,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 357,
+    "slug": "miracle-eye",
+    "csvEffectId": 217,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 358,
+    "slug": "wake-up-slap",
+    "csvEffectId": 218,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 359,
+    "slug": "hammer-arm",
+    "csvEffectId": 219,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 360,
+    "slug": "gyro-ball",
+    "csvEffectId": 220,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 361,
+    "slug": "healing-wish",
+    "csvEffectId": 221,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 362,
+    "slug": "brine",
+    "csvEffectId": 222,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 363,
+    "slug": "natural-gift",
+    "csvEffectId": 223,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 364,
+    "slug": "feint",
+    "csvEffectId": 224,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 365,
+    "slug": "pluck",
+    "csvEffectId": 225,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 366,
+    "slug": "tailwind",
+    "csvEffectId": 226,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 367,
+    "slug": "acupressure",
+    "csvEffectId": 227,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 368,
+    "slug": "metal-burst",
+    "csvEffectId": 228,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 369,
+    "slug": "u-turn",
+    "csvEffectId": 229,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 370,
+    "slug": "close-combat",
+    "csvEffectId": 230,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 371,
+    "slug": "payback",
+    "csvEffectId": 231,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 372,
+    "slug": "assurance",
+    "csvEffectId": 232,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 373,
+    "slug": "embargo",
+    "csvEffectId": 233,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 374,
+    "slug": "fling",
+    "csvEffectId": 234,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 375,
+    "slug": "psycho-shift",
+    "csvEffectId": 235,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 376,
+    "slug": "trump-card",
+    "csvEffectId": 236,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 377,
+    "slug": "heal-block",
+    "csvEffectId": 237,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 378,
+    "slug": "wring-out",
+    "csvEffectId": 238,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 379,
+    "slug": "power-trick",
+    "csvEffectId": 239,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 380,
+    "slug": "gastro-acid",
+    "csvEffectId": 240,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 381,
+    "slug": "lucky-chant",
+    "csvEffectId": 241,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 382,
+    "slug": "me-first",
+    "csvEffectId": 242,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 383,
+    "slug": "copycat",
+    "csvEffectId": 243,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 384,
+    "slug": "power-swap",
+    "csvEffectId": 244,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 385,
+    "slug": "guard-swap",
+    "csvEffectId": 245,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 386,
+    "slug": "punishment",
+    "csvEffectId": 246,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 387,
+    "slug": "last-resort",
+    "csvEffectId": 247,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 388,
+    "slug": "worry-seed",
+    "csvEffectId": 248,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 389,
+    "slug": "sucker-punch",
+    "csvEffectId": 249,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 390,
+    "slug": "toxic-spikes",
+    "csvEffectId": 250,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 391,
+    "slug": "heart-swap",
+    "csvEffectId": 251,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 392,
+    "slug": "aqua-ring",
+    "csvEffectId": 252,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 393,
+    "slug": "magnet-rise",
+    "csvEffectId": 253,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 394,
+    "slug": "flare-blitz",
+    "csvEffectId": 254,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 395,
+    "slug": "force-palm",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 396,
+    "slug": "aura-sphere",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 397,
+    "slug": "rock-polish",
+    "csvEffectId": 53,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 398,
+    "slug": "poison-jab",
+    "csvEffectId": 3,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 399,
+    "slug": "dark-pulse",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 400,
+    "slug": "night-slash",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 401,
+    "slug": "aqua-tail",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 402,
+    "slug": "seed-bomb",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 403,
+    "slug": "air-slash",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 404,
+    "slug": "x-scissor",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 405,
+    "slug": "bug-buzz",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 406,
+    "slug": "dragon-pulse",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 407,
+    "slug": "dragon-rush",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 408,
+    "slug": "power-gem",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 409,
+    "slug": "drain-punch",
+    "csvEffectId": 4,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 410,
+    "slug": "vacuum-wave",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 411,
+    "slug": "focus-blast",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 412,
+    "slug": "energy-ball",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 413,
+    "slug": "brave-bird",
+    "csvEffectId": 199,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 414,
+    "slug": "earth-power",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 415,
+    "slug": "switcheroo",
+    "csvEffectId": 178,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 416,
+    "slug": "giga-impact",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 417,
+    "slug": "nasty-plot",
+    "csvEffectId": 54,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 418,
+    "slug": "bullet-punch",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 419,
+    "slug": "avalanche",
+    "csvEffectId": 186,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 420,
+    "slug": "ice-shard",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 421,
+    "slug": "shadow-claw",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 422,
+    "slug": "thunder-fang",
+    "csvEffectId": 276,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 423,
+    "slug": "ice-fang",
+    "csvEffectId": 275,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 424,
+    "slug": "fire-fang",
+    "csvEffectId": 274,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 425,
+    "slug": "shadow-sneak",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 426,
+    "slug": "mud-bomb",
+    "csvEffectId": 74,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 427,
+    "slug": "psycho-cut",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 428,
+    "slug": "zen-headbutt",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 429,
+    "slug": "mirror-shot",
+    "csvEffectId": 74,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 430,
+    "slug": "flash-cannon",
+    "csvEffectId": 73,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 431,
+    "slug": "rock-climb",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 432,
+    "slug": "defog",
+    "csvEffectId": 259,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 433,
+    "slug": "trick-room",
+    "csvEffectId": 260,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 434,
+    "slug": "draco-meteor",
+    "csvEffectId": 205,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 435,
+    "slug": "discharge",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 436,
+    "slug": "lava-plume",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 437,
+    "slug": "leaf-storm",
+    "csvEffectId": 205,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 438,
+    "slug": "power-whip",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 439,
+    "slug": "rock-wrecker",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 440,
+    "slug": "cross-poison",
+    "csvEffectId": 210,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 441,
+    "slug": "gunk-shot",
+    "csvEffectId": 3,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 442,
+    "slug": "iron-head",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 443,
+    "slug": "magnet-bomb",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 444,
+    "slug": "stone-edge",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 445,
+    "slug": "captivate",
+    "csvEffectId": 266,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 446,
+    "slug": "stealth-rock",
+    "csvEffectId": 267,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 447,
+    "slug": "grass-knot",
+    "csvEffectId": 197,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 448,
+    "slug": "chatter",
+    "csvEffectId": 268,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 449,
+    "slug": "judgment",
+    "csvEffectId": 269,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 450,
+    "slug": "bug-bite",
+    "csvEffectId": 225,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 451,
+    "slug": "charge-beam",
+    "csvEffectId": 277,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 452,
+    "slug": "wood-hammer",
+    "csvEffectId": 199,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 453,
+    "slug": "aqua-jet",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 454,
+    "slug": "attack-order",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 455,
+    "slug": "defend-order",
+    "csvEffectId": 207,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 456,
+    "slug": "heal-order",
+    "csvEffectId": 33,
+    "csvMetaCategory": 3,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 457,
+    "slug": "head-smash",
+    "csvEffectId": 270,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 458,
+    "slug": "double-hit",
+    "csvEffectId": 45,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 459,
+    "slug": "roar-of-time",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 460,
+    "slug": "spacial-rend",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 461,
+    "slug": "lunar-dance",
+    "csvEffectId": 271,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 462,
+    "slug": "crush-grip",
+    "csvEffectId": 238,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 463,
+    "slug": "magma-storm",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 464,
+    "slug": "dark-void",
+    "csvEffectId": 2,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 465,
+    "slug": "seed-flare",
+    "csvEffectId": 272,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 466,
+    "slug": "ominous-wind",
+    "csvEffectId": 141,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 467,
+    "slug": "shadow-force",
+    "csvEffectId": 273,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 468,
+    "slug": "hone-claws",
+    "csvEffectId": 278,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 469,
+    "slug": "wide-guard",
+    "csvEffectId": 279,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 470,
+    "slug": "guard-split",
+    "csvEffectId": 280,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 471,
+    "slug": "power-split",
+    "csvEffectId": 281,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 472,
+    "slug": "wonder-room",
+    "csvEffectId": 282,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 473,
+    "slug": "psyshock",
+    "csvEffectId": 283,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 474,
+    "slug": "venoshock",
+    "csvEffectId": 284,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 475,
+    "slug": "autotomize",
+    "csvEffectId": 285,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 476,
+    "slug": "rage-powder",
+    "csvEffectId": 173,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 477,
+    "slug": "telekinesis",
+    "csvEffectId": 286,
+    "csvMetaCategory": 1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 478,
+    "slug": "magic-room",
+    "csvEffectId": 287,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 479,
+    "slug": "smack-down",
+    "csvEffectId": 288,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 480,
+    "slug": "storm-throw",
+    "csvEffectId": 289,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 481,
+    "slug": "flame-burst",
+    "csvEffectId": 290,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 482,
+    "slug": "sludge-wave",
+    "csvEffectId": 3,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 483,
+    "slug": "quiver-dance",
+    "csvEffectId": 291,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 484,
+    "slug": "heavy-slam",
+    "csvEffectId": 292,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 485,
+    "slug": "synchronoise",
+    "csvEffectId": 293,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 486,
+    "slug": "electro-ball",
+    "csvEffectId": 294,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 487,
+    "slug": "soak",
+    "csvEffectId": 295,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 488,
+    "slug": "flame-charge",
+    "csvEffectId": 296,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 489,
+    "slug": "coil",
+    "csvEffectId": 323,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 490,
+    "slug": "low-sweep",
+    "csvEffectId": 21,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 491,
+    "slug": "acid-spray",
+    "csvEffectId": 297,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 492,
+    "slug": "foul-play",
+    "csvEffectId": 298,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 493,
+    "slug": "simple-beam",
+    "csvEffectId": 299,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 494,
+    "slug": "entrainment",
+    "csvEffectId": 300,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 495,
+    "slug": "after-you",
+    "csvEffectId": 301,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 496,
+    "slug": "round",
+    "csvEffectId": 302,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 497,
+    "slug": "echoed-voice",
+    "csvEffectId": 303,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 498,
+    "slug": "chip-away",
+    "csvEffectId": 304,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 499,
+    "slug": "clear-smog",
+    "csvEffectId": 305,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 500,
+    "slug": "stored-power",
+    "csvEffectId": 306,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 501,
+    "slug": "quick-guard",
+    "csvEffectId": 307,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 502,
+    "slug": "ally-switch",
+    "csvEffectId": 308,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 503,
+    "slug": "scald",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 504,
+    "slug": "shell-smash",
+    "csvEffectId": 309,
+    "csvMetaCategory": 13,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 505,
+    "slug": "heal-pulse",
+    "csvEffectId": 310,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 506,
+    "slug": "hex",
+    "csvEffectId": 311,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 507,
+    "slug": "sky-drop",
+    "csvEffectId": 312,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 508,
+    "slug": "shift-gear",
+    "csvEffectId": 313,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 509,
+    "slug": "circle-throw",
+    "csvEffectId": 314,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 510,
+    "slug": "incinerate",
+    "csvEffectId": 315,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 511,
+    "slug": "quash",
+    "csvEffectId": 316,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 512,
+    "slug": "acrobatics",
+    "csvEffectId": 318,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 513,
+    "slug": "reflect-type",
+    "csvEffectId": 319,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 514,
+    "slug": "retaliate",
+    "csvEffectId": 320,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 515,
+    "slug": "final-gambit",
+    "csvEffectId": 321,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 516,
+    "slug": "bestow",
+    "csvEffectId": 324,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 517,
+    "slug": "inferno",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 518,
+    "slug": "water-pledge",
+    "csvEffectId": 325,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 519,
+    "slug": "fire-pledge",
+    "csvEffectId": 326,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 520,
+    "slug": "grass-pledge",
+    "csvEffectId": 327,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 521,
+    "slug": "volt-switch",
+    "csvEffectId": 229,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 522,
+    "slug": "struggle-bug",
+    "csvEffectId": 72,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 523,
+    "slug": "bulldoze",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 524,
+    "slug": "frost-breath",
+    "csvEffectId": 289,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 525,
+    "slug": "dragon-tail",
+    "csvEffectId": 314,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 526,
+    "slug": "work-up",
+    "csvEffectId": 328,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 527,
+    "slug": "electroweb",
+    "csvEffectId": 21,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 528,
+    "slug": "wild-charge",
+    "csvEffectId": 49,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 529,
+    "slug": "drill-run",
+    "csvEffectId": 44,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 530,
+    "slug": "dual-chop",
+    "csvEffectId": 45,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 531,
+    "slug": "heart-stamp",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 532,
+    "slug": "horn-leech",
+    "csvEffectId": 4,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 533,
+    "slug": "sacred-sword",
+    "csvEffectId": 304,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 534,
+    "slug": "razor-shell",
+    "csvEffectId": 70,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 535,
+    "slug": "heat-crash",
+    "csvEffectId": 292,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 536,
+    "slug": "leaf-tornado",
+    "csvEffectId": 74,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 537,
+    "slug": "steamroller",
+    "csvEffectId": 151,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 538,
+    "slug": "cotton-guard",
+    "csvEffectId": 329,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 539,
+    "slug": "night-daze",
+    "csvEffectId": 74,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 540,
+    "slug": "psystrike",
+    "csvEffectId": 283,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 541,
+    "slug": "tail-slap",
+    "csvEffectId": 30,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 542,
+    "slug": "hurricane",
+    "csvEffectId": 334,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 543,
+    "slug": "head-charge",
+    "csvEffectId": 49,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 544,
+    "slug": "gear-grind",
+    "csvEffectId": 45,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 545,
+    "slug": "searing-shot",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 546,
+    "slug": "techno-blast",
+    "csvEffectId": 269,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 547,
+    "slug": "relic-song",
+    "csvEffectId": 330,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 548,
+    "slug": "secret-sword",
+    "csvEffectId": 283,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 549,
+    "slug": "glaciate",
+    "csvEffectId": 331,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 550,
+    "slug": "bolt-strike",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 551,
+    "slug": "blue-flare",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 552,
+    "slug": "fiery-dance",
+    "csvEffectId": 277,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 553,
+    "slug": "freeze-shock",
+    "csvEffectId": 332,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 554,
+    "slug": "ice-burn",
+    "csvEffectId": 333,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 555,
+    "slug": "snarl",
+    "csvEffectId": 72,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 556,
+    "slug": "icicle-crash",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 557,
+    "slug": "v-create",
+    "csvEffectId": 335,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 558,
+    "slug": "fusion-flare",
+    "csvEffectId": 336,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 559,
+    "slug": "fusion-bolt",
+    "csvEffectId": 337,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 560,
+    "slug": "flying-press",
+    "csvEffectId": 338,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 561,
+    "slug": "mat-block",
+    "csvEffectId": 377,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 562,
+    "slug": "belch",
+    "csvEffectId": 339,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 563,
+    "slug": "rototiller",
+    "csvEffectId": 340,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 564,
+    "slug": "sticky-web",
+    "csvEffectId": 341,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 565,
+    "slug": "fell-stinger",
+    "csvEffectId": 342,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 566,
+    "slug": "phantom-force",
+    "csvEffectId": 273,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 567,
+    "slug": "trick-or-treat",
+    "csvEffectId": 343,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 568,
+    "slug": "noble-roar",
+    "csvEffectId": 344,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 569,
+    "slug": "ion-deluge",
+    "csvEffectId": 345,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 570,
+    "slug": "parabolic-charge",
+    "csvEffectId": 346,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 571,
+    "slug": "forests-curse",
+    "csvEffectId": 376,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 572,
+    "slug": "petal-blizzard",
+    "csvEffectId": 379,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 573,
+    "slug": "freeze-dry",
+    "csvEffectId": 380,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 574,
+    "slug": "disarming-voice",
+    "csvEffectId": 381,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 575,
+    "slug": "parting-shot",
+    "csvEffectId": 347,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 576,
+    "slug": "topsy-turvy",
+    "csvEffectId": 348,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 577,
+    "slug": "draining-kiss",
+    "csvEffectId": 349,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 578,
+    "slug": "crafty-shield",
+    "csvEffectId": 350,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 579,
+    "slug": "flower-shield",
+    "csvEffectId": 351,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 580,
+    "slug": "grassy-terrain",
+    "csvEffectId": 352,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 581,
+    "slug": "misty-terrain",
+    "csvEffectId": 353,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 582,
+    "slug": "electrify",
+    "csvEffectId": 354,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 583,
+    "slug": "play-rough",
+    "csvEffectId": 69,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 584,
+    "slug": "fairy-wind",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 585,
+    "slug": "moonblast",
+    "csvEffectId": 72,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 586,
+    "slug": "boomburst",
+    "csvEffectId": 379,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 587,
+    "slug": "fairy-lock",
+    "csvEffectId": 355,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 588,
+    "slug": "kings-shield",
+    "csvEffectId": 356,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 589,
+    "slug": "play-nice",
+    "csvEffectId": 357,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 590,
+    "slug": "confide",
+    "csvEffectId": 358,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 591,
+    "slug": "diamond-storm",
+    "csvEffectId": 359,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 592,
+    "slug": "steam-eruption",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 593,
+    "slug": "hyperspace-hole",
+    "csvEffectId": 360,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 594,
+    "slug": "water-shuriken",
+    "csvEffectId": 361,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 595,
+    "slug": "mystical-fire",
+    "csvEffectId": 72,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 596,
+    "slug": "spiky-shield",
+    "csvEffectId": 362,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 597,
+    "slug": "aromatic-mist",
+    "csvEffectId": 363,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 598,
+    "slug": "eerie-impulse",
+    "csvEffectId": 62,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 599,
+    "slug": "venom-drench",
+    "csvEffectId": 364,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 600,
+    "slug": "powder",
+    "csvEffectId": 378,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 601,
+    "slug": "geomancy",
+    "csvEffectId": 366,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 602,
+    "slug": "magnetic-flux",
+    "csvEffectId": 367,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 603,
+    "slug": "happy-hour",
+    "csvEffectId": 368,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 604,
+    "slug": "electric-terrain",
+    "csvEffectId": 369,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 605,
+    "slug": "dazzling-gleam",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 606,
+    "slug": "celebrate",
+    "csvEffectId": 370,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 607,
+    "slug": "hold-hands",
+    "csvEffectId": 371,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 608,
+    "slug": "baby-doll-eyes",
+    "csvEffectId": 365,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 609,
+    "slug": "nuzzle",
+    "csvEffectId": 372,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 610,
+    "slug": "hold-back",
+    "csvEffectId": 102,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 611,
+    "slug": "infestation",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 612,
+    "slug": "power-up-punch",
+    "csvEffectId": 375,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 613,
+    "slug": "oblivion-wing",
+    "csvEffectId": 349,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 614,
+    "slug": "thousand-arrows",
+    "csvEffectId": 373,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 615,
+    "slug": "thousand-waves",
+    "csvEffectId": 374,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 616,
+    "slug": "lands-wrath",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 617,
+    "slug": "light-of-ruin",
+    "csvEffectId": 270,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 618,
+    "slug": "origin-pulse",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 619,
+    "slug": "precipice-blades",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 620,
+    "slug": "dragon-ascent",
+    "csvEffectId": 230,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 621,
+    "slug": "hyperspace-fury",
+    "csvEffectId": 360,
+    "csvMetaCategory": 7,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 622,
+    "slug": "breakneck-blitz--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 623,
+    "slug": "breakneck-blitz--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 624,
+    "slug": "all-out-pummeling--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 625,
+    "slug": "all-out-pummeling--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 626,
+    "slug": "supersonic-skystrike--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 627,
+    "slug": "supersonic-skystrike--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 628,
+    "slug": "acid-downpour--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 629,
+    "slug": "acid-downpour--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 630,
+    "slug": "tectonic-rage--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 631,
+    "slug": "tectonic-rage--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 632,
+    "slug": "continental-crush--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 633,
+    "slug": "continental-crush--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 634,
+    "slug": "savage-spin-out--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 635,
+    "slug": "savage-spin-out--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 636,
+    "slug": "never-ending-nightmare--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 637,
+    "slug": "never-ending-nightmare--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 638,
+    "slug": "corkscrew-crash--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 639,
+    "slug": "corkscrew-crash--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 640,
+    "slug": "inferno-overdrive--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 641,
+    "slug": "inferno-overdrive--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 642,
+    "slug": "hydro-vortex--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 643,
+    "slug": "hydro-vortex--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 644,
+    "slug": "bloom-doom--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 645,
+    "slug": "bloom-doom--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 646,
+    "slug": "gigavolt-havoc--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 647,
+    "slug": "gigavolt-havoc--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 648,
+    "slug": "shattered-psyche--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 649,
+    "slug": "shattered-psyche--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 650,
+    "slug": "subzero-slammer--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 651,
+    "slug": "subzero-slammer--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 652,
+    "slug": "devastating-drake--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 653,
+    "slug": "devastating-drake--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 654,
+    "slug": "black-hole-eclipse--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 655,
+    "slug": "black-hole-eclipse--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 656,
+    "slug": "twinkle-tackle--physical",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 657,
+    "slug": "twinkle-tackle--special",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 658,
+    "slug": "catastropika",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 659,
+    "slug": "shore-up",
+    "csvEffectId": 382,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 660,
+    "slug": "first-impression",
+    "csvEffectId": 383,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 661,
+    "slug": "baneful-bunker",
+    "csvEffectId": 384,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 662,
+    "slug": "spirit-shackle",
+    "csvEffectId": 385,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 663,
+    "slug": "darkest-lariat",
+    "csvEffectId": 304,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 664,
+    "slug": "sparkling-aria",
+    "csvEffectId": 386,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 665,
+    "slug": "ice-hammer",
+    "csvEffectId": 219,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 666,
+    "slug": "floral-healing",
+    "csvEffectId": 387,
+    "csvMetaCategory": 3,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 667,
+    "slug": "high-horsepower",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 668,
+    "slug": "strength-sap",
+    "csvEffectId": 388,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 669,
+    "slug": "solar-blade",
+    "csvEffectId": 152,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 670,
+    "slug": "leafage",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 671,
+    "slug": "spotlight",
+    "csvEffectId": 389,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 672,
+    "slug": "toxic-thread",
+    "csvEffectId": 390,
+    "csvMetaCategory": 5,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 673,
+    "slug": "laser-focus",
+    "csvEffectId": 391,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 674,
+    "slug": "gear-up",
+    "csvEffectId": 392,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 675,
+    "slug": "throat-chop",
+    "csvEffectId": 393,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 676,
+    "slug": "pollen-puff",
+    "csvEffectId": 394,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 677,
+    "slug": "anchor-shot",
+    "csvEffectId": 385,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 678,
+    "slug": "psychic-terrain",
+    "csvEffectId": 395,
+    "csvMetaCategory": 10,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 679,
+    "slug": "lunge",
+    "csvEffectId": 396,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 680,
+    "slug": "fire-lash",
+    "csvEffectId": 397,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 681,
+    "slug": "power-trip",
+    "csvEffectId": 306,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 682,
+    "slug": "burn-up",
+    "csvEffectId": 398,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 683,
+    "slug": "speed-swap",
+    "csvEffectId": 399,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 684,
+    "slug": "smart-strike",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 685,
+    "slug": "purify",
+    "csvEffectId": 400,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 686,
+    "slug": "revelation-dance",
+    "csvEffectId": 401,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 687,
+    "slug": "core-enforcer",
+    "csvEffectId": 402,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 688,
+    "slug": "trop-kick",
+    "csvEffectId": 396,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 689,
+    "slug": "instruct",
+    "csvEffectId": 403,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 690,
+    "slug": "beak-blast",
+    "csvEffectId": 404,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 691,
+    "slug": "clanging-scales",
+    "csvEffectId": 405,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 692,
+    "slug": "dragon-hammer",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 693,
+    "slug": "brutal-swing",
+    "csvEffectId": 406,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 694,
+    "slug": "aurora-veil",
+    "csvEffectId": 407,
+    "csvMetaCategory": 11,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 695,
+    "slug": "sinister-arrow-raid",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 696,
+    "slug": "malicious-moonsault",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 697,
+    "slug": "oceanic-operetta",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 698,
+    "slug": "guardian-of-alola",
+    "csvEffectId": 413,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 699,
+    "slug": "soul-stealing-7-star-strike",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 700,
+    "slug": "stoked-sparksurfer",
+    "csvEffectId": 7,
+    "csvMetaCategory": 4,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 701,
+    "slug": "pulverizing-pancake",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 702,
+    "slug": "extreme-evoboost",
+    "csvEffectId": 414,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 703,
+    "slug": "genesis-supernova",
+    "csvEffectId": 415,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 704,
+    "slug": "shell-trap",
+    "csvEffectId": 408,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 705,
+    "slug": "fleur-cannon",
+    "csvEffectId": 205,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 706,
+    "slug": "psychic-fangs",
+    "csvEffectId": 187,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 707,
+    "slug": "stomping-tantrum",
+    "csvEffectId": 409,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 708,
+    "slug": "shadow-bone",
+    "csvEffectId": 70,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 709,
+    "slug": "accelerock",
+    "csvEffectId": 104,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 710,
+    "slug": "liquidation",
+    "csvEffectId": 70,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 711,
+    "slug": "prismatic-laser",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 712,
+    "slug": "spectral-thief",
+    "csvEffectId": 410,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 713,
+    "slug": "sunsteel-strike",
+    "csvEffectId": 411,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 714,
+    "slug": "moongeist-beam",
+    "csvEffectId": 411,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 715,
+    "slug": "tearful-look",
+    "csvEffectId": 412,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 716,
+    "slug": "zing-zap",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 717,
+    "slug": "natures-madness",
+    "csvEffectId": 41,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 718,
+    "slug": "multi-attack",
+    "csvEffectId": 269,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 719,
+    "slug": "10-000-000-volt-thunderbolt",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 720,
+    "slug": "mind-blown",
+    "csvEffectId": 420,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 721,
+    "slug": "plasma-fists",
+    "csvEffectId": 417,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 722,
+    "slug": "photon-geyser",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 723,
+    "slug": "light-that-burns-the-sky",
+    "csvEffectId": 416,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 724,
+    "slug": "searing-sunraze-smash",
+    "csvEffectId": 411,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 725,
+    "slug": "menacing-moonraze-maelstrom",
+    "csvEffectId": 411,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 726,
+    "slug": "lets-snuggle-forever",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 727,
+    "slug": "splintered-stormshards",
+    "csvEffectId": 418,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 728,
+    "slug": "clangorous-soulblaze",
+    "csvEffectId": 419,
+    "csvMetaCategory": 7,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 729,
+    "slug": "zippy-zap",
+    "csvEffectId": 1,
+    "csvMetaCategory": 7,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 730,
+    "slug": "splishy-splash",
+    "csvEffectId": 1,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 731,
+    "slug": "floaty-fall",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 732,
+    "slug": "pika-papow",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 733,
+    "slug": "bouncy-bubble",
+    "csvEffectId": 1,
+    "csvMetaCategory": 8,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 734,
+    "slug": "buzzy-buzz",
+    "csvEffectId": 1,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 735,
+    "slug": "sizzly-slide",
+    "csvEffectId": 1,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 736,
+    "slug": "glitzy-glow",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 737,
+    "slug": "baddy-bad",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 738,
+    "slug": "sappy-seed",
+    "csvEffectId": 1,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 739,
+    "slug": "freezy-frost",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 740,
+    "slug": "sparkly-swirl",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 741,
+    "slug": "veevee-volley",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 742,
+    "slug": "double-iron-bash",
+    "csvEffectId": 45,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 743,
+    "slug": "max-guard",
+    "csvEffectId": 112,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 744,
+    "slug": "dynamax-cannon",
+    "csvEffectId": 421,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 745,
+    "slug": "snipe-shot",
+    "csvEffectId": 422,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 746,
+    "slug": "jaw-lock",
+    "csvEffectId": 445,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 747,
+    "slug": "stuff-cheeks",
+    "csvEffectId": 446,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 748,
+    "slug": "no-retreat",
+    "csvEffectId": 447,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 749,
+    "slug": "tar-shot",
+    "csvEffectId": 448,
+    "csvMetaCategory": 5,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 750,
+    "slug": "magic-powder",
+    "csvEffectId": 449,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 751,
+    "slug": "dragon-darts",
+    "csvEffectId": 450,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 752,
+    "slug": "teatime",
+    "csvEffectId": 451,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 753,
+    "slug": "octolock",
+    "csvEffectId": 452,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 754,
+    "slug": "bolt-beak",
+    "csvEffectId": 453,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 755,
+    "slug": "fishious-rend",
+    "csvEffectId": 453,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 756,
+    "slug": "court-change",
+    "csvEffectId": 454,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 757,
+    "slug": "max-flare",
+    "csvEffectId": 138,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 758,
+    "slug": "max-flutterby",
+    "csvEffectId": 455,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 759,
+    "slug": "max-lightning",
+    "csvEffectId": 369,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 760,
+    "slug": "max-strike",
+    "csvEffectId": 456,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 761,
+    "slug": "max-knuckle",
+    "csvEffectId": 457,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 762,
+    "slug": "max-phantasm",
+    "csvEffectId": 458,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 763,
+    "slug": "max-hailstorm",
+    "csvEffectId": 165,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 764,
+    "slug": "max-ooze",
+    "csvEffectId": 459,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 765,
+    "slug": "max-geyser",
+    "csvEffectId": 137,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 766,
+    "slug": "max-airstream",
+    "csvEffectId": 460,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 767,
+    "slug": "max-starfall",
+    "csvEffectId": 353,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 768,
+    "slug": "max-wyrmwind",
+    "csvEffectId": 461,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 769,
+    "slug": "max-mindstorm",
+    "csvEffectId": 395,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 770,
+    "slug": "max-rockfall",
+    "csvEffectId": 116,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 771,
+    "slug": "max-quake",
+    "csvEffectId": 462,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 772,
+    "slug": "max-darkness",
+    "csvEffectId": 463,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 773,
+    "slug": "max-overgrowth",
+    "csvEffectId": 352,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 774,
+    "slug": "max-steelspike",
+    "csvEffectId": 464,
+    "csvMetaCategory": 0,
+    "support": "unsupported",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 775,
+    "slug": "clangorous-soul",
+    "csvEffectId": 465,
+    "csvMetaCategory": 2,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 776,
+    "slug": "body-press",
+    "csvEffectId": 466,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 777,
+    "slug": "decorate",
+    "csvEffectId": 467,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 778,
+    "slug": "drum-beating",
+    "csvEffectId": 71,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 779,
+    "slug": "snap-trap",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 780,
+    "slug": "pyro-ball",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 781,
+    "slug": "behemoth-blade",
+    "csvEffectId": 421,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 782,
+    "slug": "behemoth-bash",
+    "csvEffectId": 421,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 783,
+    "slug": "aura-wheel",
+    "csvEffectId": 468,
+    "csvMetaCategory": 7,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 784,
+    "slug": "breaking-swipe",
+    "csvEffectId": 396,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 785,
+    "slug": "branch-poke",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 786,
+    "slug": "overdrive",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 787,
+    "slug": "apple-acid",
+    "csvEffectId": 469,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 788,
+    "slug": "grav-apple",
+    "csvEffectId": 470,
+    "csvMetaCategory": 6,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 789,
+    "slug": "spirit-break",
+    "csvEffectId": 72,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 790,
+    "slug": "strange-steam",
+    "csvEffectId": 77,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 791,
+    "slug": "life-dew",
+    "csvEffectId": 471,
+    "csvMetaCategory": 3,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 792,
+    "slug": "obstruct",
+    "csvEffectId": 472,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 793,
+    "slug": "false-surrender",
+    "csvEffectId": 18,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 794,
+    "slug": "meteor-assault",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 795,
+    "slug": "eternabeam",
+    "csvEffectId": 81,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 796,
+    "slug": "steel-beam",
+    "csvEffectId": 420,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 797,
+    "slug": "expanding-force",
+    "csvEffectId": 473,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 798,
+    "slug": "steel-roller",
+    "csvEffectId": 474,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 799,
+    "slug": "scale-shot",
+    "csvEffectId": 443,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 800,
+    "slug": "meteor-beam",
+    "csvEffectId": 475,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 801,
+    "slug": "shell-side-arm",
+    "csvEffectId": 476,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 802,
+    "slug": "misty-explosion",
+    "csvEffectId": 477,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 803,
+    "slug": "grassy-glide",
+    "csvEffectId": 478,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 804,
+    "slug": "rising-voltage",
+    "csvEffectId": 479,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 805,
+    "slug": "terrain-pulse",
+    "csvEffectId": 480,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 806,
+    "slug": "skitter-smack",
+    "csvEffectId": 358,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 807,
+    "slug": "burning-jealousy",
+    "csvEffectId": 481,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 808,
+    "slug": "lash-out",
+    "csvEffectId": 482,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 809,
+    "slug": "poltergeist",
+    "csvEffectId": 483,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 810,
+    "slug": "corrosive-gas",
+    "csvEffectId": 189,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 811,
+    "slug": "coaching",
+    "csvEffectId": 484,
+    "csvMetaCategory": 2,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 812,
+    "slug": "flip-turn",
+    "csvEffectId": 229,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 813,
+    "slug": "triple-axel",
+    "csvEffectId": 105,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 814,
+    "slug": "dual-wingbeat",
+    "csvEffectId": 45,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 815,
+    "slug": "scorching-sands",
+    "csvEffectId": 5,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 816,
+    "slug": "jungle-healing",
+    "csvEffectId": 485,
+    "csvMetaCategory": 13,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 817,
+    "slug": "wicked-blow",
+    "csvEffectId": 289,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 818,
+    "slug": "surging-strikes",
+    "csvEffectId": 486,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 819,
+    "slug": "thunder-cage",
+    "csvEffectId": 43,
+    "csvMetaCategory": 4,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 820,
+    "slug": "dragon-energy",
+    "csvEffectId": 191,
+    "csvMetaCategory": 0,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 821,
+    "slug": "freezing-glare",
+    "csvEffectId": 261,
+    "csvMetaCategory": 4,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 822,
+    "slug": "fiery-wrath",
+    "csvEffectId": 32,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 823,
+    "slug": "thunderous-kick",
+    "csvEffectId": 397,
+    "csvMetaCategory": 6,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 824,
+    "slug": "glacial-lance",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 825,
+    "slug": "astral-barrage",
+    "csvEffectId": 1,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 826,
+    "slug": "eerie-spell",
+    "csvEffectId": 487,
+    "csvMetaCategory": 0,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 827,
+    "slug": "dire-claw",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 828,
+    "slug": "psyshield-bash",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 829,
+    "slug": "power-shift",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 830,
+    "slug": "stone-axe",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 831,
+    "slug": "springtide-storm",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 832,
+    "slug": "mystical-power",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 833,
+    "slug": "raging-fury",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 834,
+    "slug": "wave-crash",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 835,
+    "slug": "chloroblast",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 836,
+    "slug": "mountain-gale",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 837,
+    "slug": "victory-dance",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 838,
+    "slug": "headlong-rush",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 839,
+    "slug": "barb-barrage",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 840,
+    "slug": "esper-wing",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 841,
+    "slug": "bitter-malice",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 842,
+    "slug": "shelter",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 843,
+    "slug": "triple-arrows",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 844,
+    "slug": "infernal-parade",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 845,
+    "slug": "ceaseless-edge",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 846,
+    "slug": "bleakwind-storm",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 847,
+    "slug": "wildbolt-storm",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 848,
+    "slug": "sandsear-storm",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 849,
+    "slug": "lunar-blessing",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 850,
+    "slug": "take-heart",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 851,
+    "slug": "tera-blast",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 852,
+    "slug": "silk-trap",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 853,
+    "slug": "axe-kick",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 854,
+    "slug": "last-respects",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 855,
+    "slug": "lumina-crash",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 856,
+    "slug": "order-up",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 857,
+    "slug": "jet-punch",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 858,
+    "slug": "spicy-extract",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 859,
+    "slug": "spin-out",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 860,
+    "slug": "population-bomb",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 861,
+    "slug": "ice-spinner",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 862,
+    "slug": "glaive-rush",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 863,
+    "slug": "revival-blessing",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 864,
+    "slug": "salt-cure",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 865,
+    "slug": "triple-dive",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 866,
+    "slug": "mortal-spin",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 867,
+    "slug": "doodle",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 868,
+    "slug": "fillet-away",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 869,
+    "slug": "kowtow-cleave",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 870,
+    "slug": "flower-trick",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 871,
+    "slug": "torch-song",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 872,
+    "slug": "aqua-step",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 873,
+    "slug": "raging-bull",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 874,
+    "slug": "make-it-rain",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 875,
+    "slug": "psyblade",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 876,
+    "slug": "hydro-steam",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 877,
+    "slug": "ruination",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 878,
+    "slug": "collision-course",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 879,
+    "slug": "electro-drift",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 880,
+    "slug": "shed-tail",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 881,
+    "slug": "chilly-reception",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 882,
+    "slug": "tidy-up",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 883,
+    "slug": "snowscape",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": false,
+    "special": true
+  },
+  {
+    "id": 884,
+    "slug": "pounce",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 885,
+    "slug": "trailblaze",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 886,
+    "slug": "chilling-water",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 887,
+    "slug": "hyper-drill",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 888,
+    "slug": "twin-beam",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 889,
+    "slug": "rage-fist",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 890,
+    "slug": "armor-cannon",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 891,
+    "slug": "bitter-blade",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 892,
+    "slug": "double-shock",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 893,
+    "slug": "gigaton-hammer",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 894,
+    "slug": "comeuppance",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 895,
+    "slug": "aqua-cutter",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 896,
+    "slug": "blazing-torque",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 897,
+    "slug": "wicked-torque",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 898,
+    "slug": "noxious-torque",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 899,
+    "slug": "combat-torque",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 900,
+    "slug": "magical-torque",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 901,
+    "slug": "blood-moon",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 902,
+    "slug": "matcha-gotcha",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 903,
+    "slug": "syrup-bomb",
+    "csvEffectId": 0,
+    "csvMetaCategory": 13,
+    "support": "partial",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 904,
+    "slug": "ivy-cudgel",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 905,
+    "slug": "electro-shot",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 906,
+    "slug": "tera-starstorm",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 907,
+    "slug": "fickle-beam",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 908,
+    "slug": "burning-bulwark",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 909,
+    "slug": "thunderclap",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 910,
+    "slug": "mighty-cleave",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 911,
+    "slug": "tachyon-cutter",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 912,
+    "slug": "hard-press",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 913,
+    "slug": "dragon-cheer",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "unsupported",
+    "callback": true,
+    "special": true
+  },
+  {
+    "id": 914,
+    "slug": "alluring-voice",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 915,
+    "slug": "temper-flare",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 916,
+    "slug": "supercell-slam",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 917,
+    "slug": "psychic-noise",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  },
+  {
+    "id": 918,
+    "slug": "upper-hand",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "partial",
+    "callback": true,
+    "special": false
+  },
+  {
+    "id": 919,
+    "slug": "malignant-chain",
+    "csvEffectId": 0,
+    "csvMetaCategory": -1,
+    "support": "implemented",
+    "callback": false,
+    "special": false
+  }
+]

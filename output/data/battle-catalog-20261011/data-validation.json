@@ -1,0 +1,166 @@
+{
+  "passed": true,
+  "checks": {
+    "canonicalIds": true,
+    "speciesExactPreserved": true,
+    "sortedLegalUnique": true,
+    "noPoweredVariants": true,
+    "noOldGenTransfers": true,
+    "FrenchMoveNames": true,
+    "allDefaultMovesLegal": true,
+    "DittoTransformOnly": true,
+    "BulbasaurCannotFlamethrower": true,
+    "NitrochargePhysicalLanceFlammeSpecial": true,
+    "modernInheritanceUsed": true,
+    "AllHeldFlagsKeysDistinct": true,
+    "noUntranslatedUsableHeld": true
+  },
+  "moveCount": 919,
+  "itemCount": 2223,
+  "heldItemCount": 593,
+  "learnsetEntries": 8357,
+  "preEvolutionEvidenceEntries": 5908,
+  "catalogSha256": "9fcc0782a2750ce50d605d8fc8676b2a5696a95033d8629d0307f08c1a2909a2",
+  "fallbacks": [
+    {
+      "id": 10,
+      "name": "Chenipan",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 11,
+      "name": "Chrysacier",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 12,
+      "name": "Papilusion",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 19,
+      "name": "Rattata",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 20,
+      "name": "Rattatac",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 21,
+      "name": "Piafabec",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 22,
+      "name": "Rapasdepic",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 29,
+      "name": "Nidoran♀",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 30,
+      "name": "Nidorina",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 31,
+      "name": "Nidoqueen",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 32,
+      "name": "Nidoran♂",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 33,
+      "name": "Nidorino",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 34,
+      "name": "Nidoking",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 46,
+      "name": "Paras",
+      "game": "legends-arceus"
+    },
+    {
+      "id": 47,
+      "name": "Parasect",
+      "game": "legends-arceus"
+    },
+    {
+      "id": 77,
+      "name": "Ponyta",
+      "game": "legends-arceus"
+    },
+    {
+      "id": 78,
+      "name": "Galopa",
+      "game": "legends-arceus"
+    },
+    {
+      "id": 98,
+      "name": "Krabby",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 99,
+      "name": "Krabboss",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 108,
+      "name": "Excelangue",
+      "game": "legends-arceus"
+    },
+    {
+      "id": 114,
+      "name": "Saquedeneu",
+      "game": "legends-arceus"
+    },
+    {
+      "id": 118,
+      "name": "Poissirène",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 119,
+      "name": "Poissoroy",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 124,
+      "name": "Lippoutou",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 138,
+      "name": "Amonita",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 139,
+      "name": "Amonistar",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 140,
+      "name": "Kabuto",
+      "game": "brilliant-diamond-shining-pearl"
+    },
+    {
+      "id": 141,
+      "name": "Kabutops",
+      "game": "brilliant-diamond-shining-pearl"
+    }
+  ]
+}
