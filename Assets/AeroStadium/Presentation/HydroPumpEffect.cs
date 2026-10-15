@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 
 namespace AeroStadium.Presentation
 {
-    /// <summary>Original cylindrical pressure columns, traveling collars and a broad impact bowl.</summary>
+    /// <summary>Original pressure columns, traveling collars, shield bowls and body-conforming surface flow.</summary>
     public sealed class HydroPumpEffect : MonoBehaviour
     {
         const int Emitters = 2, Rows = 36, Sides = 12, Collars = 5, RingSides = 24, BowlRows = 6;
@@ -16,8 +16,11 @@ namespace AeroStadium.Presentation
         Vector3 source, secondary, target, contact, secondaryContact, shieldNormal, secondaryNormal, victimCenter;
         float radius, elapsed, victimRadius, victimHeight, floorY;
         bool initialized, released, hasSecondary, blocked, hasSecondaryContact, hasVictimBounds;
-        Shader shader; Bounds shieldSurface; bool hasShieldSurface;
+        Shader shader; Bounds shieldSurface, victimSurface; bool hasShieldSurface, hasFloor;
         public int RunoffDrops {get;private set;}
+        public bool BodySurfaceFlow { get; private set; }
+        public int BodyRunoffDrops { get; private set; }
+        public Vector3 BodyContactPoint { get; private set; }
 
         public bool ImpactEnabled { get; set; } = true;
         public float Duration => Total;
@@ -49,10 +52,11 @@ namespace AeroStadium.Presentation
         public void SetVictimBounds(Bounds bounds)
         {
             if (!Finite(bounds.center) || !Finite(bounds.size)) return;
-            victimCenter = bounds.center; floorY = bounds.min.y + .02f; hasVictimBounds = true;
+            victimSurface = bounds; victimCenter = bounds.center; if (!hasFloor) floorY = bounds.min.y + .02f; hasVictimBounds = true;
             victimRadius = Mathf.Clamp(Mathf.Max(bounds.extents.x, bounds.extents.z), radius, 2.5f);
             victimHeight = Mathf.Clamp(bounds.size.y, .2f, 6f);
         }
+        public void SetFloor(float ground) { if (Safe(ground)) { floorY = ground + .025f; hasFloor = true; } }
         public void SetShieldContact(Vector3 point, Vector3 outwardNormal)
         {
             if (!Finite(point) || !Finite(outwardNormal) || outwardNormal.sqrMagnitude < .0001f) return;
@@ -120,12 +124,14 @@ namespace AeroStadium.Presentation
             float energy = Smooth(Hit, Hit + .035f, elapsed) * (1 - Smooth(1.80f, Total, elapsed));
             ImpactOpacity = ImpactEnabled && !blocked ? energy : 0; ContactOpacity = blocked ? energy : 0;
             Matrix4x4 local = transform.worldToLocalMatrix, normal = transform.localToWorldMatrix.transpose;
-            float tubeRadius = radius * (hasSecondary ? .76f : 1f); int active = 0;RunoffDrops=0;
+            float tubeRadius = radius * (hasSecondary ? .76f : 1f); int active = 0; RunoffDrops = BodyRunoffDrops = 0;
+            BodySurfaceFlow = !blocked && hasVictimBounds && (BodyContact(source, out _, out _) || hasSecondary && BodyContact(secondary, out _, out _)) && ImpactOpacity > .02f;
+            BodyContact(source, out Vector3 bodyPoint, out _); BodyContactPoint = bodyPoint;
             for (int e = 0; e < Emitters; e++)
             {
                 Vector3 origin = e == 0 ? source : secondary;
                 if (e == 1 && !hasSecondary) origin = source;
-                Vector3 end = blocked ? ShieldPoint(e) : target, delta = end - origin;
+                bool body = ImpactContact(e, out Vector3 end, out _); Vector3 delta = end - origin;
                 float length = Mathf.Max(.01f, delta.magnitude);
                 Vector3 forward = delta.sqrMagnitude > .00001f ? delta.normalized : Vector3.forward;
                 float head = Smooth(Launch, Hit, elapsed);
@@ -138,7 +144,7 @@ namespace AeroStadium.Presentation
                     float corrugation = 1 + .085f * Mathf.Sin(p * 82 - elapsed * 62 + e * 2.1f);
                     float width = tubeRadius * (.82f + p * .25f) * corrugation;
                     float breakage = Mathf.Lerp(1, Smooth(.1f, .48f, Mathf.Sin(p * 107 - elapsed * 55) * .5f + .5f), Smooth(1.73f, 1.98f, elapsed));
-                    float opacity = power * visible * breakage * (1 - Smooth(.94f, 1, u));
+                    float opacity = power * visible * breakage * (1 - Smooth(body ? .98f : .94f, 1, u));
                     for (int side = 0; side <= Sides; side++)
                     {
                         float angle = side / (float)Sides * Mathf.PI * 2; Vector3 radial = right * Mathf.Cos(angle) + up * Mathf.Sin(angle);
@@ -180,10 +186,10 @@ namespace AeroStadium.Presentation
             float age = Mathf.Max(0, elapsed - Hit), splash = ImpactOpacity + ContactOpacity;
             for (int e = 0; e < Emitters; e++)
             {
-                Vector3 hit = blocked ? ShieldPoint(e) : target, outward = blocked ? ShieldNormal(e) : (source - target).normalized;
+                bool body = ImpactContact(e, out Vector3 hit, out Vector3 outward);
                 if (outward.sqrMagnitude < .001f) outward = Vector3.back;
                 Basis(outward, out Vector3 impactRight, out Vector3 impactUp);
-                float visible = e == 0 || blocked && hasSecondary && hasSecondaryContact && (secondaryContact - contact).sqrMagnitude > .0025f ? 1 : 0;
+                float visible = e == 0 || hasSecondary && (!blocked || hasSecondaryContact && (secondaryContact - contact).sqrMagnitude > .0025f) ? 1 : 0;
                 int bowl = Emitters * Collars * (RingSides + 1) * 2 + e * (BowlRows + 1) * (RingSides + 1);
                 for (int row = 0; row <= BowlRows; row++) for (int side = 0; side <= RingSides; side++)
                 {
@@ -193,14 +199,20 @@ namespace AeroStadium.Presentation
                     Vector3 point = hit + radial * spread * p * scallop * beat + outward * radius * (p * p * (blocked ? .65f : 2.9f) + .15f);
                     if (blocked) point += Vector3.down * p * p * radius * .6f;
                     float opacity = visible * splash * (.83f - p * .34f) * (1 - Smooth(.87f, 1, p));
-                    Put(data[1], bowl + row * (RingSides + 1) + side, point, (outward - radial * p).normalized,
+                    Vector3 surfaceNormal = (outward - radial * p).normalized;
+                    if (body)
+                    {
+                        point = BodyFlow(hit, p, a, out surfaceNormal);
+                        opacity *= .55f + .35f * Mathf.Abs(Mathf.Sin(a * 3 + elapsed * 5));
+                    }
+                    Put(data[1], bowl + row * (RingSides + 1) + side, point, surfaceNormal,
                         new Color(p * 2.1f, 1, opacity, 1), local, normal);
                 }
             }
             for (int i = 0; i < ImpactDrops; i++)
             {
-                int e = blocked && hasSecondary && hasSecondaryContact ? i % Emitters : 0;
-                Vector3 hit = blocked ? ShieldPoint(e) : target, outward = blocked ? ShieldNormal(e) : (source - target).normalized;
+                int e = hasSecondary && (!blocked || hasSecondaryContact) ? i % Emitters : 0;
+                bool body = ImpactContact(e, out Vector3 hit, out Vector3 outward);
                 if (outward.sqrMagnitude < .001f) outward = Vector3.back;
                 Basis(outward, out Vector3 impactRight, out Vector3 impactUp);
                 float p = Mathf.Repeat(age * 1.65f + i * .618034f, 1), a = i * 2.399963f;
@@ -213,6 +225,13 @@ namespace AeroStadium.Presentation
                     p = Mathf.Repeat(age * .95f + (i - 56) / 24f, 1); point = Runoff(hit, outward, p, a);
                     opacity = ContactOpacity * Mathf.Sin(p * Mathf.PI) * Smooth(p * .8f, p * .8f + .1f, age);
                     elongation = Mathf.Lerp(4.5f, 1.1f, Smooth(.84f, 1, p));
+                }
+                else if (body && i >= 32)
+                {
+                    p = Mathf.Repeat(age * .85f + (i - 32) / 48f, 1); point = BodyFlow(hit, p, a, out _);
+                    opacity = ImpactOpacity * Mathf.Sin(p * Mathf.PI) * Smooth(p * .8f, p * .8f + .1f, age);
+                    elongation = Mathf.Lerp(2.5f, 5.5f, Smooth(.66f, .86f, p));
+                    if (opacity > .02f && p > .72f) BodyRunoffDrops++;
                 }
                 Drop(Emitters * StreamDrops + i, point, radius * (.075f + i % 6 * .019f), i * .81f, opacity, elongation, local);
                 if (opacity > .02f) {active++;if(blocked&&i>=56)RunoffDrops++;}
@@ -228,6 +247,44 @@ namespace AeroStadium.Presentation
         }
         Vector3 ShieldPoint(int e) => e == 1 && hasSecondaryContact ? secondaryContact : contact;
         Vector3 ShieldNormal(int e) => e == 1 && hasSecondaryContact ? secondaryNormal : shieldNormal;
+        bool ImpactContact(int e, out Vector3 hit, out Vector3 outward)
+        {
+            if (blocked) { hit = ShieldPoint(e); outward = ShieldNormal(e); return false; }
+            return BodyContact(e == 1 && hasSecondary ? secondary : source, out hit, out outward);
+        }
+        bool BodyContact(Vector3 origin, out Vector3 hit, out Vector3 outward)
+        {
+            hit = target; outward = (origin - target).normalized;
+            if (!hasVictimBounds) return false;
+            Vector3 c = victimSurface.center, r = BodyRadii(), d = target - origin;
+            Vector3 q = new Vector3((origin.x - c.x) / r.x, (origin.y - c.y) / r.y, (origin.z - c.z) / r.z);
+            Vector3 v = new Vector3(d.x / r.x, d.y / r.y, d.z / r.z);
+            float a = Vector3.Dot(v, v), b = Vector3.Dot(q, v), discriminant = b * b - a * (Vector3.Dot(q, q) - 1);
+            if (a < .00001f || discriminant < 0) return false;
+            float t = (-b - Mathf.Sqrt(discriminant)) / a;
+            if (t < 0 || t > 1) return false;
+            hit = origin + d * t;
+            outward = new Vector3((hit.x - c.x) / (r.x * r.x), (hit.y - c.y) / (r.y * r.y), (hit.z - c.z) / (r.z * r.z)).normalized;
+            return true;
+        }
+        Vector3 BodyRadii() => Vector3.Max(victimSurface.extents, Vector3.one * .05f);
+        Vector3 BodyFlow(Vector3 hit, float p, float seed, out Vector3 outward)
+        {
+            Vector3 c = victimSurface.center, r = BodyRadii();
+            Vector3 n = new Vector3((hit.x - c.x) / r.x, (hit.y - c.y) / r.y, (hit.z - c.z) / r.z).normalized;
+            float surface = Mathf.Clamp01(p / .72f), fan = Mathf.Sin(surface * Mathf.PI * .5f);
+            float yaw = Mathf.Atan2(n.z, n.x) + Mathf.Sin(seed) * 1.70f * fan;
+            float elevation = Mathf.Lerp(Mathf.Asin(Mathf.Clamp(n.y, -1, 1)), -1.28f, surface) + Mathf.Cos(seed) * .22f * Mathf.Sin(surface * Mathf.PI);
+            Vector3 radial = new Vector3(Mathf.Cos(elevation) * Mathf.Cos(yaw), Mathf.Sin(elevation), Mathf.Cos(elevation) * Mathf.Sin(yaw));
+            outward = new Vector3(radial.x / r.x, radial.y / r.y, radial.z / r.z).normalized;
+            Vector3 point = c + Vector3.Scale(radial, r) + outward * .025f;
+            if (p > .72f) point.y = Mathf.Lerp(point.y, floorY, (p - .72f) / .28f);
+            point.y = Mathf.Max(floorY, point.y);
+            Vector3 q = new Vector3((point.x - c.x) / r.x, (point.y - c.y) / r.y, (point.z - c.z) / r.z);
+            float flat = q.x * q.x + q.z * q.z, skirt = Mathf.Max(0, 1 - q.y * q.y);
+            if (flat > .00001f && flat < skirt) { float scale = Mathf.Sqrt(skirt / flat) + .015f; point.x = c.x + (point.x - c.x) * scale; point.z = c.z + (point.z - c.z) * scale; }
+            return point;
+        }
         static Vector3 Center(Vector3 origin, Vector3 forward, float distance, out Vector3 tangent)
         { tangent = forward; return origin + forward * distance; }
         Vector3 Runoff(Vector3 hit, Vector3 outward, float p, float seed)
@@ -281,7 +338,7 @@ namespace AeroStadium.Presentation
         }
         void ReleaseResources()
         {
-            if (released) return; released = true;
+            if (released) return; released = true; BodySurfaceFlow = false; BodyRunoffDrops = 0;
             for (int i = 0; i < 3; i++) { if (renderers[i] != null) renderers[i].enabled = false; if (data[i] != null) Dispose(data[i].mesh); Dispose(materials[i]); }
         }
         static void Dispose(UnityEngine.Object obj) { if (obj == null) return; if (Application.isPlaying) Destroy(obj); else DestroyImmediate(obj); }

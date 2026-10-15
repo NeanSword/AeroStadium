@@ -13,6 +13,7 @@ namespace AeroStadium.Presentation
     {
         [Serializable] public sealed class CycleReport
         {
+            public bool bodyFlow;public int bodyDrops;
             public int cycle, directDamage, hpBefore, hpAfterHit, hpAfterBlock, directReactions, blockedReactions;
             public bool directEvent, protectEvent, blockedEvent, directCompleted, directSplash, shieldFormed;
             public bool blockedCompleted, stoppedAtShield, blockedSplash, surfaceContact, cleanup, shieldRunoff, pairedEmitters, pairedContacts;
@@ -99,7 +100,7 @@ namespace AeroStadium.Presentation
                 if(iteration==0){capturing=true;captureStarted=Time.realtimeSinceStartup;StartCoroutine(CaptureMotion());}
                 yield return Pause(iteration==0?3:4);
                 yield return Observe(arena.Attack(0,"Water","Special",56,true,-1,(float)directEffectiveness),"01-direct-impact.png",.95f,iteration==0);
-                result.directCompleted=arena.LastHydroCompleted;result.directSound=arena.LastHydroSound;result.pairedEmitters=arena.LastHydroEmitterCount==2;
+                result.bodyFlow=arena.LastHydroBodyFlow;result.bodyDrops=arena.LastHydroBodyDrops;result.directCompleted=arena.LastHydroCompleted;result.directSound=arena.LastHydroSound;result.pairedEmitters=arena.LastHydroEmitterCount==2;
                 result.directReactions=arena.LastHydroTargetReactions;result.directSplash=arena.LastHydroSplash;
                 result.directImpactSeconds=arena.LastHydroImpactTime;
                 yield return arena.Hit(1,result.directDamage,true,(float)directEffectiveness); Health(result.hpAfterHit,battle.Active(1).MaxHp);
@@ -233,7 +234,7 @@ namespace AeroStadium.Presentation
             foreach(var c in cycles)passed &= c.directEvent&&c.protectEvent&&c.blockedEvent&&c.directDamage>0
                 &&c.hpAfterHit<c.hpBefore&&c.hpAfterBlock==c.hpAfterHit&&c.directCompleted&&c.directReactions==1&&c.directSplash
                 &&c.directSound&&c.blockedSound&&c.activationSound&&c.blockSound&&c.guardAnimated&&c.guardJoints>0&&c.guardPeakAngle>1&&c.shieldFormed&&c.activations==1&&c.blockedCompleted&&c.stoppedAtShield&&c.contacts==1&&c.blocks==1
-                &&c.blockedReactions==0&&!c.blockedSplash&&c.surfaceContact&&c.shieldRunoff&&c.pairedEmitters&&c.pairedContacts&&c.cleanup;
+                &&c.blockedReactions==0&&!c.blockedSplash&&c.surfaceContact&&c.shieldRunoff&&c.pairedEmitters&&c.pairedContacts&&c.bodyFlow&&c.bodyDrops>0&&c.cleanup;
             var report=new Report{passed=passed,errors=errors,frames=frames,seconds=Time.realtimeSinceStartup-started,
                 directory=output,cycles=cycles.ToArray(),captureTimes=captureTimes??frameTimes.ToArray(),stages=frameStages.ToArray(),
                 captureSeconds=frameTimes.Count>0?frameTimes[frameTimes.Count-1]:0};

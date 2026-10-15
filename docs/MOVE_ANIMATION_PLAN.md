@@ -32,3 +32,6 @@ Après ce lot, poursuivre par Vibraqua352, Ébullition503 puis Surf57. Garder un
 
 
 Dernier lot352/503/57 : consulter le registre et le journal du15octobre2026 pour les résultats exacts. Références/limites dans WATER_SPECIAL_REFERENCES.md. Reprendre les éventuels needs_work avant75/22/412. Zéro crédit supplémentaire.
+
+
+Consigne globale du15octobre2026 : appliquer docs/PHYSICAL_PRESENTATION_RULES.md à toutes les physiques et futures attaques. Priorité de reprise : revues22/75/424 et56, caméra offensive/esquive Miss ; corriger les échecs avant412. Les sources implémentées ne suffisent pas à un statut validé. Zéro crédit.

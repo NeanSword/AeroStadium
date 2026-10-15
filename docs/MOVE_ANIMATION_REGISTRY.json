@@ -172,8 +172,9 @@
     "name": "Fouet Lianes",
     "type": "Grass",
     "category": "Physical",
-    "status": "queued",
-    "official_reference": null
+    "status": "implemented_pending_validation",
+    "official_reference": null,
+    "validation_scope": "Sources compiled20261015.22/75 Bulbizarre1;424Arcanin59. Runtime review --review-grass --review-move22/75/424 pending. No full catalogue claim."
   },
   {
     "id": 23,
@@ -450,7 +451,7 @@
     "category": "Special",
     "status": "validated",
     "official_reference": "https://unite.pokemon.com/fr-ca/news/blastoise-has-blasted-into-pokemon-unite/",
-    "validation_scope": "Tortank9 direct hit + Abri activation + liquid shield collision on Dracaufeu6; not all species or full UI playback",
+    "validation_scope": "New current-bounds body-flow implementation20261015; 3cycles120s Tortank9→Dracaufeu6 passed; not all151species",
     "emission": "Tortank9: two animated cannon muzzle markers EffWideUse01/02; other species mappings remain to audit",
     "shield_response": "Liquid stops, splashes, flows down shield to floor; no reflected beam"
   },
@@ -606,8 +607,9 @@
     "name": "Tranch’Herbe",
     "type": "Grass",
     "category": "Physical",
-    "status": "queued",
-    "official_reference": null
+    "status": "implemented_pending_validation",
+    "official_reference": null,
+    "validation_scope": "Sources compiled20261015.22/75 Bulbizarre1;424Arcanin59. Runtime review --review-grass --review-move22/75/424 pending. No full catalogue claim."
   },
   {
     "id": 76,
@@ -3401,8 +3403,9 @@
     "name": "Crocs Feu",
     "type": "Fire",
     "category": "Physical",
-    "status": "queued",
-    "official_reference": null
+    "status": "implemented_pending_validation",
+    "official_reference": null,
+    "validation_scope": "Sources compiled20261015.22/75 Bulbizarre1;424Arcanin59. Runtime review --review-grass --review-move22/75/424 pending. No full catalogue claim."
   },
   {
     "id": 425,

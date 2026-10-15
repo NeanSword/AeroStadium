@@ -35,6 +35,17 @@ namespace AeroStadium.Presentation
             effectiveness = GetDamageEffectiveness(events[damageIndex]);
             return true;
         }
+        public static bool IsResolvedMiss(IReadOnlyList<BattleEvent> events,int index)
+        {
+            if(events==null||index<0||index>=events.Count||events[index].Kind!=BattleEventKind.MoveUsed)return false;
+            int side=events[index].Side;
+            for(int i=index+1;i<events.Count;i++){
+                var e=events[i];if(e==null)continue;
+                if(e.Kind==BattleEventKind.MoveUsed||e.Kind==BattleEventKind.Switched)break;
+                if(e.Kind==BattleEventKind.Miss&&e.Side==side)return true;
+                if(e.Kind==BattleEventKind.Immune||e.Kind==BattleEventKind.Protected||e.Kind==BattleEventKind.Failed)return false;
+            }return false;
+        }
         public static double GetDamageEffectiveness(BattleEvent damage)
         {
             return damage != null && damage.Kind == BattleEventKind.Damage && damage.Amount > 0

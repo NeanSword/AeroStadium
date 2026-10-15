@@ -255,6 +255,7 @@ namespace AeroStadium.Presentation
         float PlayDamageAnimation(int side,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) return 0f;
+            FollowActionImpact(PokemonWorldBounds(side).center);
             var driver = pokemon[side].GetComponent<PokemonAnimationDriver>();
             float duration=driver==null?0f:driver.PlayDamage(hitEffectiveness);if(duration>0)DamagePoseCount++;return duration;
         }
@@ -428,9 +429,11 @@ namespace AeroStadium.Presentation
             ArenaCamera.transform.LookAt(focus);
         }
 
-        public IEnumerator Attack(int side, string type, string category = "Physical", int moveId = 0, bool targetHit = true, int protectedTarget = -1,float hitEffectiveness=1f)
+        IEnumerator AttackVisual(int side, string type, string category = "Physical", int moveId = 0, bool targetHit = true, int protectedTarget = -1,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) yield break;
+            if(moveId==22||moveId==75){yield return GrassMove(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
+            if(moveId==424&&shownSpecies[side]==59){yield return ContactFireFang(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==352||moveId==503){yield return SpecialWater(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==57){yield return SurfWave(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==61||moveId==145){yield return BubbleVolley(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
@@ -521,7 +524,7 @@ namespace AeroStadium.Presentation
         void ReactProtection(int side,Vector3 hit,Vector3 normal){
             if(side<0||side>1||protections[side]==null)return;
             if(!protections[side].IsActive)return;
-            protections[side].React(hit,normal);ProtectBlockCount++;
+            FollowActionImpact(hit);protections[side].React(hit,normal);ProtectBlockCount++;
             var blockSound=ArenaFireAudio.PlayProtectBlock(EffectParent(),hit);
             LastProtectBlockSound=blockSound!=null&&blockSound.clip!=null&&blockSound.isPlaying;
         }
@@ -703,12 +706,13 @@ namespace AeroStadium.Presentation
         public int HydroCasts {get;private set;}
         public float LastHydroImpactTime {get;private set;}
         public float LastHydroAudioPeak {get;private set;}
+        public bool LastHydroBodyFlow {get;private set;} public int LastHydroBodyDrops {get;private set;}
         public string LastHydroSource {get;private set;}
         public Vector3 LastHydroContactPoint {get;private set;}
         public Vector3 LastHydroContactNormal {get;private set;}
         IEnumerator HydroJet(int side,bool targetHit,int protectedTarget,float hitEffectiveness)
         {
-            LastHydroCompleted=LastHydroSound=LastHydroSplash=LastHydroWasBlocked=LastHydroShieldRunoff=false;
+            LastHydroCompleted=LastHydroSound=LastHydroSplash=LastHydroWasBlocked=LastHydroShieldRunoff=false;LastHydroBodyFlow=false;LastHydroBodyDrops=0;
             LastHydroTargetReactions=LastHydroShieldContacts=LastHydroEmitterContacts=0;LastHydroImpactTime=-1;
             LastHydroContactPoint=LastHydroContactNormal=Vector3.zero;
             if(pokemon[1-side]==null)yield break;
@@ -719,7 +723,7 @@ namespace AeroStadium.Presentation
             Vector3 missOffset=targetHit||protectedTarget>=0?Vector3.zero:Vector3.Cross(Vector3.up,(target-source).normalized).normalized*(victim.extents.magnitude+width*3);
             var effect=HydroPumpEffect.Create(effectParent,source,target+missOffset,width*.95f);
             if(paired)effect.SetSecondaryEmitter(secondary);
-            effect.ImpactEnabled=targetHit;effect.SetVictimBounds(victim);
+            effect.ImpactEnabled=targetHit;effect.SetVictimBounds(victim);effect.SetFloor(pokemon[1-side].transform.position.y);
             var sound=HydroPumpAudio.Play(effectParent,paired?(source+secondary)*.5f:source,effect.Duration);
             LastHydroAudioPeak=HydroPumpAudio.DefaultPcmStats.peak;
             LastHydroSound=sound!=null&&sound.clip!=null&&sound.isPlaying&&HydroPumpAudio.DefaultPcmStats.finite&&LastHydroAudioPeak>0&&LastHydroAudioPeak<=1;
@@ -740,6 +744,7 @@ namespace AeroStadium.Presentation
                         if(!shieldReacted&&effect.ImpactReached){int contacts=ProtectBlockCount;ReactProtection(protectedTarget,contact,normal);LastHydroShieldContacts+=ProtectBlockCount-contacts;shieldReacted=true;}
                         if(effect.ContactOpacity>.005f&&effect.RunoffDrops>0)LastHydroShieldRunoff=true;
                     }
+                    LastHydroBodyFlow|=effect.BodySurfaceFlow;LastHydroBodyDrops=Mathf.Max(LastHydroBodyDrops,effect.BodyRunoffDrops);
                     if(targetHit&&!impactReacted&&effect.ImpactReached) {
                         int before=DamagePoseCount;PlayDamageAnimation(1-side,hitEffectiveness);impactReacted=true;LastHydroTargetReactions=DamagePoseCount-before;LastHydroImpactTime=effect.EffectProgress*effect.Duration;
                     }

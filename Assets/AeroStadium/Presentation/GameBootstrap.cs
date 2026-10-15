@@ -1089,8 +1089,8 @@ namespace AeroStadium.Presentation
                     else if (move == null || move.category != "Status") {
                         bool targetHit=BattlePresentationHit.TryGetDirectHitEffectiveness(events,eventIndex,out int damageIndex,out double hitEffectiveness);
                         bool blocked=BattlePresentationHit.TryGetBlockedAttack(events,eventIndex,out _,out int protectedSide);
-                        yield return arena.Attack(e.Side,move==null?"Normal":move.type,move==null?"Physical":move.category,e.MoveId,targetHit,blocked?protectedSide:-1,(float)hitEffectiveness);
-                        if(targetHit&&((e.MoveId==53&&arena.LastFireTargetReactions==1)||(e.MoveId==55&&arena.LastWaterTargetReactions==1)||(e.MoveId==56&&arena.LastHydroTargetReactions==1)||((e.MoveId==61||e.MoveId==145)&&arena.LastBubbleTargetReactions==1)||((e.MoveId==352||e.MoveId==503||e.MoveId==57)&&arena.LastAquatic.moveId==e.MoveId&&arena.LastAquatic.targetReactions==1)))reactionsPlayed.Add(damageIndex);
+                        yield return arena.Attack(e.Side,move==null?"Normal":move.type,move==null?"Physical":move.category,e.MoveId,targetHit,blocked?protectedSide:-1,(float)hitEffectiveness,BattlePresentationHit.IsResolvedMiss(events,eventIndex));
+                        if(targetHit&&((e.MoveId==53&&arena.LastFireTargetReactions==1)||(e.MoveId==55&&arena.LastWaterTargetReactions==1)||(e.MoveId==56&&arena.LastHydroTargetReactions==1)||((e.MoveId==61||e.MoveId==145)&&arena.LastBubbleTargetReactions==1)||((e.MoveId==352||e.MoveId==503||e.MoveId==57)&&arena.LastAquatic.moveId==e.MoveId&&arena.LastAquatic.targetReactions==1)||((e.MoveId==22||e.MoveId==75)&&arena.LastGrass.moveId==e.MoveId&&arena.LastGrass.reactions==1)||(e.MoveId==424&&arena.LastAttackUsedBite&&arena.LastBite.damageReactions==1)))reactionsPlayed.Add(damageIndex);
                     }
                     else yield return new WaitForSeconds(Mathf.Clamp(arena.PlayAttackAnimation(e.Side), .35f, 1f));
                 }
