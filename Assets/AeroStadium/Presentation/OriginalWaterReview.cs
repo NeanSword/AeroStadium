@@ -13,6 +13,7 @@ namespace AeroStadium.Presentation
     {
         [Serializable] public sealed class CycleReport
         {
+            public float riderDistance; public bool returnedHome;
             public int emissions, actualContacts, peakParticles, blockedEmissions, blockedContacts; public bool detached, blockedDetached;
             public int cycle, directDamage, hpBefore, hpAfterHit, hpAfterBlock, directReactions, blockedReactions;
             public bool directEvent, protectEvent, blockedEvent, directCompleted, directSplash, shieldFormed;
@@ -105,7 +106,7 @@ namespace AeroStadium.Presentation
                 if(iteration==0){capturing=true;captureStarted=Time.realtimeSinceStartup;StartCoroutine(CaptureMotion());}
                 yield return Pause(iteration==0?3:4);
                 yield return Observe(arena.Attack(0,"Water","Special",moveId,true,-1,(float)directEffectiveness),"01-direct-impact.png",moveId==57?1.17f:.85f,iteration==0);
-                result.emissions=arena.LastAquatic.emissions;result.actualContacts=arena.LastAquatic.actualContacts;result.peakParticles=arena.LastAquatic.peakParticles;result.detached=arena.LastAquatic.detached;
+                result.riderDistance=arena.LastAquatic.riderDistance;result.returnedHome=arena.LastAquatic.returnedHome;result.emissions=arena.LastAquatic.emissions;result.actualContacts=arena.LastAquatic.actualContacts;result.peakParticles=arena.LastAquatic.peakParticles;result.detached=arena.LastAquatic.detached;
                 result.directCompleted=arena.LastAquatic.completed;result.directSound=arena.LastAquatic.sound;result.pairedEmitters=arena.LastAquatic.emitters==(moveId==57?1:2);
                 result.directReactions=arena.LastAquatic.targetReactions;result.directSplash=arena.LastAquatic.splash;
                 result.directImpactSeconds=arena.LastAquatic.impactSeconds;
@@ -243,7 +244,7 @@ namespace AeroStadium.Presentation
             foreach(var c in cycles)passed &= c.directEvent&&c.protectEvent&&c.blockedEvent&&c.directDamage>0
                 &&c.hpAfterHit<c.hpBefore&&c.hpAfterBlock==c.hpAfterHit&&c.directCompleted&&c.directReactions==1&&c.directSplash
                 &&c.directSound&&c.blockedSound&&c.activationSound&&c.blockSound&&c.guardAnimated&&c.guardJoints>0&&c.guardPeakAngle>1&&c.shieldFormed&&c.activations==1&&c.blockedCompleted&&c.stoppedAtShield&&c.contacts==1&&c.blocks==1
-                &&c.blockedReactions==0&&!c.blockedSplash&&c.surfaceContact&&c.shieldRunoff&&c.pairedEmitters&&c.pairedContacts&&c.emissions==(moveId==352?6:moveId==503?24:1)&&c.blockedEmissions==c.emissions&&c.actualContacts>0&&c.blockedContacts>0&&c.detached&&c.blockedDetached&&c.cleanup;
+                &&c.blockedReactions==0&&!c.blockedSplash&&c.surfaceContact&&c.shieldRunoff&&c.pairedEmitters&&c.pairedContacts&&c.emissions==(moveId==352?6:moveId==503?24:1)&&c.blockedEmissions==c.emissions&&c.actualContacts>0&&c.blockedContacts>0&&c.detached&&c.blockedDetached&&(moveId!=57||(c.riderDistance>3.5f&&c.returnedHome))&&c.cleanup;
             var report=new Report{moveId=moveId,passed=passed,errors=errors,frames=frames,seconds=Time.realtimeSinceStartup-started,
                 directory=output,cycles=cycles.ToArray(),captureTimes=captureTimes??frameTimes.ToArray(),stages=frameStages.ToArray(),
                 captureSeconds=frameTimes.Count>0?frameTimes[frameTimes.Count-1]:0};

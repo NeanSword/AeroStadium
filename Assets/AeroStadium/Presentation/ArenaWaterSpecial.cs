@@ -9,7 +9,7 @@ namespace AeroStadium.Presentation
         {
             public int moveId, emitters, emitterContacts, emissions, actualContacts, peakParticles, targetReactions, shieldReactions;
             public bool completed, sound, splash, blocked, runoff, detached;
-            public bool geometryValid=true;
+            public bool geometryValid=true; public bool returnedHome=true; public float riderDistance;
             public float impactSeconds=-1, audioPeak;
             public string source;
             public Vector3 contact, normal;
@@ -88,18 +88,26 @@ namespace AeroStadium.Presentation
             Vector3 target=victim.center,source=new Vector3(attacker.center.x,floor,attacker.center.z);
             Vector3 toward=target-source;toward.y=0;toward.Normalize();source+=toward*Mathf.Min(.7f,attacker.extents.magnitude*.6f);
             Vector3 miss=targetHit||protectedTarget>=0?Vector3.zero:Vector3.Cross(Vector3.up,toward)*(victim.extents.magnitude+3.2f);
-            var effect=SurfEffect.Create(EffectParent(),source,target+miss,Mathf.Clamp(victim.size.z*1.4f,2.3f,3f));
+            var effect=SurfEffect.Create(EffectParent(),source,target+miss,Mathf.Clamp(victim.size.z*2f,4.2f,4.8f));
             effect.SetFloor(floor);effect.SetVictimBounds(victim);effect.ImpactEnabled=targetHit;
             var sound=WaterSpecialAudio.Play(EffectParent(),source,57,effect.Duration);
             var stats=WaterSpecialAudio.AnalyzePcm(WaterSpecialAudio.CreateOriginalPcm(57,effect.Duration));
             report.audioPeak=stats.peak;report.sound=sound!=null&&sound.clip!=null&&sound.isPlaying&&stats.finite&&stats.peak>0&&stats.peak<=1;
             var animator=pokemon[side].GetComponentInChildren<Animator>();float speed=animator!=null?animator.speed:1;
             if(animator!=null&&nativeDuration>.1f)animator.speed=Mathf.Clamp(nativeDuration/effect.Duration,.35f,1.2f);
+            Transform rider=pokemon[side].transform;Vector3 home=rider.position;
+            Vector3 centre=(homes[0]+homes[1])*.5f;centre.y=home.y;
             bool reacted=false,shieldReacted=false;
             try
             {
                 while(effect.IsPlaying)
                 {
+                    float t=effect.EffectProgress*effect.Duration;
+                    float outbound=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.76f,t));
+                    float back=Mathf.SmoothStep(0,1,Mathf.InverseLerp(1.20f,2.55f,t));
+                    float ride=outbound*(1-back);
+                    rider.position=Vector3.Lerp(home,centre,ride)+Vector3.up*(Mathf.Sin(Mathf.PI*ride)*.24f);
+                    report.riderDistance=Mathf.Max(report.riderDistance,Vector3.Distance(home,rider.position));
                     effect.SetVictimBounds(PokemonWorldBounds(1-side));
                     var shield=protectedTarget>=0?GetActiveProtection(protectedTarget):null;
                     if(shield!=null&&shield.IsActive)effect.SetShieldSurface(shield.ShieldBounds,pokemon[protectedTarget].transform.position.y);
@@ -125,7 +133,7 @@ namespace AeroStadium.Presentation
                     &&(!contactExpected||effect.ImpactReached)&&report.targetReactions==(targetHit?1:0);
                 AquaticCasts++;Debug.Log("[surf] "+JsonUtility.ToJson(report));
             }
-            finally{if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
+            finally{if(rider!=null){rider.position=home;report.returnedHome=Vector3.Distance(rider.position,home)<.001f;}if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
         }
     }
 }

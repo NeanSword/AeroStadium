@@ -1,3 +1,9 @@
+## 2026-10-15 — Correction demandée : anneaux Vibraqua et Surf plus imposant
+
+- Demande : remplacer les boules de Vibraqua par des anneaux verticaux ; agrandir Surf et faire accompagner la vague par le Pokémon jusqu’au centre du terrain, puis revenir à sa place.
+-352 : volumes sphériques masqués, ondes ouvertes verticales en expansion.57 : largeur4,2–4,8m / hauteur2,3–3,05m ; déplacement de l’acteur jusqu’au centre et retour lissé avec restauration garantie même en interruption. Aucune statistique ni formule modifiée.
+- Première version352/503/57 avait passé3revues120s. Ces preuves v1 ne valident PAS la correction352/57 ; nouvelle compilation/revue v2 requise. Les canons, contacts Abri et réactions uniques restent conservés. Quota85%, solde219.9668450000 inchangé ; aucun crédit autorisé.
+
 ## 2026-10-15 — Lot Vibraqua / Ébullition / Surf : état de reprise
 
 - Présentations originales installées :352 six globes résonants / ondes (2,30s) ;503 vingt-quatre lobes d’eau chaude / vapeur (2,45s) ;57 vague roulante au sol, crête/mousse/embruns/retrait (2,90s).352/503 : deux canons animés de Tortank ;57 : devant ses appuis. Eau arrêtée sur la surface d’Abri, éclaboussures et ruissellement, aucune réflexion rigide. Budget : 3 336 triangles pour352, 7 728 pour503, 4 192 pour57. Géométrie vérifiée pendant chaque effet, pas uniquement après sa disparition.

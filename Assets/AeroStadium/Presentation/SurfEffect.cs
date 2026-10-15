@@ -53,8 +53,8 @@ namespace AeroStadium.Presentation
             go.transform.SetParent(parent, false);
             var effect = go.AddComponent<SurfEffect>();
             effect.source = source; effect.target = target;
-            effect.width = Safe(width) ? Mathf.Clamp(width, 2.1f, 3.1f) : 2.6f;
-            effect.height = Mathf.Clamp(effect.width * .60f, 1.3f, 1.85f);
+            effect.width = Safe(width) ? Mathf.Clamp(width, 3.6f, 4.8f) : 4.2f;
+            effect.height = Mathf.Clamp(effect.width * .64f, 2.3f, 3.05f);
             effect.depth = effect.width * .72f;
             // The presentation supplies the creature root floor explicitly; zero is the arena's default floor.
             effect.floorY = .018f;
@@ -476,7 +476,7 @@ namespace AeroStadium.Presentation
             error = null;
             if (!initialized) { error = "Surf is not initialized."; return false; }
             if (released) return Completed;
-            if (TriangleCount >= 8000 || width > 3.1f || PeakHeight > 2.1f) { error = "Surf exceeded its geometry or arena scale budget."; return false; }
+            if (TriangleCount >= 8000 || width > 4.8f || PeakHeight > 3.4f) { error = "Surf exceeded its geometry or arena scale budget."; return false; }
             foreach (Surface s in surfaces)
             {
                 if (s == null || s.mesh == null) { error = "A Surf mesh is missing."; return false; }

@@ -125,7 +125,7 @@ namespace AeroStadium.Presentation
         void Initialize()
         {
             count = moveId == 352 ? 6 : 24;
-            flightRings = moveId == 352 ? 2 : 0;
+            flightRings = moveId == 352 ? 1 : 0;
             contactRings = moveId == 352 ? 3 : 1;
             Material reference = Resources.Load<Material>("Materials/WaterSpecialReference");
             Shader shader = reference != null ? reference.shader : Shader.Find("AeroStadium/Original Resonant and Hot Water");
@@ -310,6 +310,7 @@ namespace AeroStadium.Presentation
         }
         void RenderLiquid(int index, Packet p, float alpha)
         {
+            if(moveId==352)alpha=0; // The pulse consists of open vertical waves, never filled globes.
             int stride = (SphereLat + 1) * (SphereLon + 1), start = index * stride;
             Vector3 center = p.emitted ? p.position : source;
             float age = p.emitted ? Mathf.Max(0, elapsed - p.born) : 0;
@@ -353,11 +354,11 @@ namespace AeroStadium.Presentation
                     else if (ImpactEnabled) ImpactOpacity = Mathf.Max(ImpactOpacity, alpha);
                 }
                 Vector3 center = flying ? p.position : contact + contactNormal * SurfaceOffset;
-                Vector3 normal = flying ? (p.axis + p.side * Mathf.Sin(age * 8 + ring * 2.4f) * .38f + p.up * Mathf.Cos(age * 7 + ring) * .30f).normalized : contactNormal;
+                Vector3 normal = flying ? new Vector3(p.axis.x,0,p.axis.z).normalized : contactNormal;
                 Basis(normal.sqrMagnitude > .0001f ? normal : Vector3.forward, out Vector3 side, out Vector3 up);
-                float radius = flying ? p.radius * (1.15f + .13f * Mathf.Sin(age * 24 + p.phase + ring * Mathf.PI)) :
+                float radius = flying ? width*(1.7f+age*2.2f) :
                     p.radius * (moveId == 352 ? .8f : .55f) + Mathf.Max(0, waveAge) * width * (moveId == 352 ? 7.5f : 5.8f);
-                float band = flying ? p.radius * .065f : width * (moveId == 352 ? .10f : .22f) * Mathf.Max(.2f, alpha);
+                float band = flying ? width * .17f : width * (moveId == 352 ? .10f : .22f) * Mathf.Max(.2f, alpha);
                 int start = (index * ringsPerPacket + ring) * stride;
                 for (int j = 0; j <= RingSegments; j++)
                 {
