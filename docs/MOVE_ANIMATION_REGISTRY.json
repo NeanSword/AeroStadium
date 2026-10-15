@@ -459,10 +459,10 @@
     "name": "Surf",
     "type": "Water",
     "category": "Special",
-    "status": "implemented_pending_validation",
+    "status": "validated",
     "official_reference": "docs/WATER_SPECIAL_REFERENCES.md",
-    "validation_scope": "User correction20261015: open vertical rings352 and larger Surf57 plus rider to arena centre/return; v1 evidence historical only",
-    "evidence": "output/attacks/water-57-20261015-v1/verified-summary.json"
+    "validation_scope": "Correction v2: vertical open rings352; larger Surf57 plus rider to arena centre and guaranteed return. Tortank9→Dracaufeu6,3cycles120s.",
+    "evidence": "output/attacks/water-57-20261015-v2/verified-summary.json"
   },
   {
     "id": 58,
@@ -2823,10 +2823,10 @@
     "name": "Vibraqua",
     "type": "Water",
     "category": "Special",
-    "status": "implemented_pending_validation",
+    "status": "validated",
     "official_reference": "docs/WATER_SPECIAL_REFERENCES.md",
-    "validation_scope": "User correction20261015: open vertical rings352 and larger Surf57 plus rider to arena centre/return; v1 evidence historical only",
-    "evidence": "output/attacks/water-352-20261015-v1/verified-summary.json"
+    "validation_scope": "Correction v2: vertical open rings352; larger Surf57 plus rider to arena centre and guaranteed return. Tortank9→Dracaufeu6,3cycles120s.",
+    "evidence": "output/attacks/water-352-20261015-v2/verified-summary.json"
   },
   {
     "id": 353,

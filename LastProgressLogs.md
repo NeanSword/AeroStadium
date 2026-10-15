@@ -1,3 +1,10 @@
+## 2026-10-15 — Corrections Vibraqua / Surf testées
+
+-352 : anneaux verticaux ouverts en expansion, aucun volume de boule affiché.57 : vague4,2–4,8m de large /2,3–3,05m de haut ; Tortank accompagne le mouvement jusqu’au centre puis retourne exactement à son point de départ. Géométrie et restauration vérifiées pendant les effets.503 inchangé de sa revue v1 réussie.
+- Nouvelles revues v2 :352 passé=True,57 passé=True. Trois cycles par attaque,120s demandées, impact réel→Abri→blocage, erreurs0 lorsque passé=True. Rapport et captures sous output/attacks/water-352-20261015-v2 et water-57-20261015-v2. Les preuves v1 restent historiques pour352/57. Pas tous les Pokémon ni tous les menus validés.
+- Build correction réussi, réglages restaurés ; stable Builds/Windows conservé. Manifeste output/ui/water-correction-20261015/compiled-sources.json. Les vidéos sont muettes, WAV originaux séparés ; archives décodées avant suppression des seuls PNG numérotés redondants. Observation avant/après chaque runtime, jeux fermés.
+- Quota dernière lecture94%, solde219.9668450000 inchangé. Zéro crédit/API payant/reset. Publication à vérifier via serveur ; code/docs uniquement, médias locaux ignorés. Arrêt avec marge, prochaine reprise selon registre avant le lot Plante.
+
 ## 2026-10-15 — Correction demandée : anneaux Vibraqua et Surf plus imposant
 
 - Demande : remplacer les boules de Vibraqua par des anneaux verticaux ; agrandir Surf et faire accompagner la vague par le Pokémon jusqu’au centre du terrain, puis revenir à sa place.

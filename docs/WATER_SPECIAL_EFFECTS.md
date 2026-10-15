@@ -1,3 +1,7 @@
+## Correction utilisateur du15octobre2026
+
+Le descriptif initial ci-dessous documente la version v1. La version actuelle352 affiche des anneaux ouverts verticaux en expansion, sans globes remplis. Surf57 mesure4,2–4,8m de large /2,3–3,05m de haut et l’acteur accompagne la vague jusqu’au centre avant un retour lissé/restauré. Voir le registre et LastProgressLogs.md pour les preuves v2 et leur portée limitée à Tortank.
+
 # Original Water Pulse / Scald effect
 
 `AeroStadium.Presentation.WaterSpecialEffect` implements move 352 (Vibraqua / Water Pulse) and 503 (Ébullition / Scald). These are new liquid geometry and shader treatments. They do not instantiate or recolour WaterGunEffect, FlamethrowerEffect or BubbleAttackEffect.
