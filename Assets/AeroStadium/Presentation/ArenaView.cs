@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 namespace AeroStadium.Presentation
 {
     /// <summary>Combat presentation with recovered Stadium 2 environments.</summary>
-    public sealed class ArenaView : MonoBehaviour
+    public sealed partial class ArenaView : MonoBehaviour
     {
         static Material arenaLitTemplate;
         readonly GameObject[] pokemon = new GameObject[2];
@@ -431,6 +431,8 @@ namespace AeroStadium.Presentation
         public IEnumerator Attack(int side, string type, string category = "Physical", int moveId = 0, bool targetHit = true, int protectedTarget = -1,float hitEffectiveness=1f)
         {
             if (pokemon[side] == null) yield break;
+            if(moveId==352||moveId==503){yield return SpecialWater(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
+            if(moveId==57){yield return SurfWave(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==61||moveId==145){yield return BubbleVolley(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==56){yield return HydroJet(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==55){yield return WaterJet(side,targetHit,protectedTarget,hitEffectiveness);yield break;}

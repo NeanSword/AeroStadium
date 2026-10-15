@@ -459,8 +459,10 @@
     "name": "Surf",
     "type": "Water",
     "category": "Special",
-    "status": "queued",
-    "official_reference": null
+    "status": "validated",
+    "official_reference": "docs/WATER_SPECIAL_REFERENCES.md",
+    "validation_scope": "Tortank9→Dracaufeu6, three real BattleEngine hit/Protect/block cycles per120s; native pose, one reaction, sound, contacts/runoff/cleanup; not all species or full menu playback",
+    "evidence": "output/attacks/water-57-20261015-v1/verified-summary.json"
   },
   {
     "id": 58,
@@ -2821,8 +2823,10 @@
     "name": "Vibraqua",
     "type": "Water",
     "category": "Special",
-    "status": "queued",
-    "official_reference": null
+    "status": "validated",
+    "official_reference": "docs/WATER_SPECIAL_REFERENCES.md",
+    "validation_scope": "Tortank9→Dracaufeu6, three real BattleEngine hit/Protect/block cycles per120s; native pose, one reaction, sound, contacts/runoff/cleanup; not all species or full menu playback",
+    "evidence": "output/attacks/water-352-20261015-v1/verified-summary.json"
   },
   {
     "id": 353,
@@ -4029,8 +4033,10 @@
     "name": "Ébullition",
     "type": "Water",
     "category": "Special",
-    "status": "queued",
-    "official_reference": null
+    "status": "validated",
+    "official_reference": "docs/WATER_SPECIAL_REFERENCES.md",
+    "validation_scope": "Tortank9→Dracaufeu6, three real BattleEngine hit/Protect/block cycles per120s; native pose, one reaction, sound, contacts/runoff/cleanup; not all species or full menu playback",
+    "evidence": "output/attacks/water-503-20261015-v1/verified-summary.json"
   },
   {
     "id": 504,

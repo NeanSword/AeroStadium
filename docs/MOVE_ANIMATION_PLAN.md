@@ -29,3 +29,6 @@ Les séquences PNG de revue sont temporaires : exporter une vidéo avec les horo
 61 utilise24bulles translucides indépendantes, ciblées, qui éclatent au contact ;145 diffuse16bulles plus larges/lentes avec un son plus léger. Le catalogue actuel n’a aucun apprenant Kanto pour145 : effet disponible comme aperçu de présentation, aucune attribution aux équipes ni apprentissage modifié.61 légal sur Tortank. Référence61 officielle UNITE : https://www.pokemon.com/es/noticias-pokemon/lapras-ya-esta-disponible-en-pokemon-unite ; les deux dessins de mouvement sont originaux, sans copie de médias.
 
 Après ce lot, poursuivre par Vibraqua352, Ébullition503 puis Surf57. Garder une source anatomique vérifiée, une réponse d’Abri adaptée à la matière, et des preuves spécifiques avant validation. Aucun crédit supplémentaire.
+
+
+Dernier lot352/503/57 : consulter le registre et le journal du15octobre2026 pour les résultats exacts. Références/limites dans WATER_SPECIAL_REFERENCES.md. Reprendre les éventuels needs_work avant75/22/412. Zéro crédit supplémentaire.
