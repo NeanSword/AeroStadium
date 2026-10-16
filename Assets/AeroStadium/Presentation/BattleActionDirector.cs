@@ -7,6 +7,8 @@ namespace AeroStadium.Presentation
     [DisallowMultipleComponent]
     public sealed class BattleActionDirector : MonoBehaviour
     {
+        SurfCameraTrack surfTrack;Vector3 attackerHome;Quaternion attackerRotation;bool restoreAttacker;
+        public SurfCameraTelemetry LastSurfCamera {get;private set;}
         ArenaView arena;
         Camera actionCamera;
         BattleDecisionCamera decision;
@@ -35,6 +37,7 @@ namespace AeroStadium.Presentation
                 || !arena.TryGetCombatCameraFrame(side, out attackerFrame)
                 || !arena.TryGetCombatCameraFrame(1 - side, out targetFrame)) return;
             actionCamera = arena.ArenaCamera; attacker = source; target = victim; attackerSide = side;
+            attackerHome=source.position;attackerRotation=source.rotation;restoreAttacker=moveId==57||moveId==424;
             cameraHome = actionCamera.transform.position; cameraRotation = actionCamera.transform.rotation;
             cameraFov = actionCamera.fieldOfView; targetHome = target.position;
             decision = arena.DecisionCamera;
@@ -49,6 +52,7 @@ namespace AeroStadium.Presentation
                 * Vector3.Distance(cameraHome, (attackerFrame.center + targetFrame.center) * .5f);
             dodge = allowDodge && !targetHit && !protectedTarget;
             CameraTravel=DodgeTravel=0;Restored=false;Active = true;
+            if(moveId==57){surfTrack=new SurfCameraTrack(arena,side,source);LastSurfCamera=surfTrack.Stats;}
             if (dodge) PrepareDodge();
         }
 
@@ -63,7 +67,7 @@ namespace AeroStadium.Presentation
         {
             if (!Active || !Finite(point.x) || !Finite(point.y) || !Finite(point.z)) return;
             impactKnown = true; impactPoint = point;
-            progress = Mathf.Max(progress, .60f);
+            if(surfTrack==null)progress = Mathf.Max(progress, .60f);
         }
 
         void PrepareDodge()
@@ -97,6 +101,7 @@ namespace AeroStadium.Presentation
         {
             if (!Active) return;
             if (actionCamera == null || attacker == null || target == null) { EndAction(); return; }
+            if(surfTrack!=null&&surfTrack.Transitioning)return;
             float dt = Mathf.Min(Time.deltaTime, .1f);
             elapsed += dt;
             if (!progressDriven) progress = Mathf.Max(progress, Mathf.Clamp01(elapsed / duration));
@@ -105,7 +110,7 @@ namespace AeroStadium.Presentation
                 float home = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.70f, .96f, progress));
                 target.position = targetHome + dodgeDirection * (dodgeDistance * away * (1 - home));DodgeTravel=Mathf.Max(DodgeTravel,Vector3.Distance(targetHome,target.position));
             }
-            UpdateCamera(dt);
+            if(surfTrack!=null){if(surfTrack.Stats.entered)surfTrack.Follow(dt);CameraTravel=Mathf.Max(CameraTravel,surfTrack.Stats.travel);}else UpdateCamera(dt);
         }
 
         void UpdateCamera(float dt)
@@ -185,6 +190,10 @@ namespace AeroStadium.Presentation
             return true;
         }
 
+        public System.Collections.IEnumerator EnterAction()
+        {if(surfTrack!=null){yield return surfTrack.Enter();elapsed=0;}}
+        public System.Collections.IEnumerator RecoverAction()
+        {if(surfTrack!=null)yield return surfTrack.Recover();}
         public void EndAction()
         {
             if (!Active) return;
@@ -195,6 +204,8 @@ namespace AeroStadium.Presentation
                     actionCamera.fieldOfView = cameraFov;Restored=Vector3.Distance(actionCamera.transform.position,cameraHome)<.001f&&Quaternion.Angle(actionCamera.transform.rotation,cameraRotation)<.01f;
                 }
             } finally {
+                if(surfTrack!=null){surfTrack.Cancel();surfTrack=null;}
+                if(restoreAttacker&&attacker!=null)attacker.SetPositionAndRotation(attackerHome,attackerRotation);
                 if (dodge && target != null) target.position = targetHome;
                 if (decision != null) decision.enabled = decisionEnabled;
                 actionCamera = null; attacker = target = null; decision = null; dodge = false;

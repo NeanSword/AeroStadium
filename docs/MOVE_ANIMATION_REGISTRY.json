@@ -463,7 +463,9 @@
     "status": "validated",
     "official_reference": "docs/WATER_SPECIAL_REFERENCES.md",
     "validation_scope": "Correction v2: vertical open rings352; larger Surf57 plus rider to arena centre and guaranteed return. Tortank9→Dracaufeu6,3cycles120s.",
-    "evidence": "output/attacks/water-57-20261015-v2/verified-summary.json"
+    "evidence": "output/attacks/water-57-20261015-v2/verified-summary.json",
+    "camera_evidence": "output/attacks/surf-camera-20261016-v3/verified-summary.json",
+    "camera_scope": "Tortank9→Dracaufeu6 both sides, direct/Protect, rear tracking/return; obstacle fallback, orthographic visual fallback and five cancellations. Not every species or arena."
   },
   {
     "id": 58,

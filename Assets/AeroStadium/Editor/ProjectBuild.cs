@@ -101,6 +101,7 @@ namespace AeroStadium.EditorTools
             {
                 // Developer retry after an unchanged, fully prepared asset catalogue.
                 if (Array.IndexOf(Environment.GetCommandLineArgs(), "--reuse-prepared-assets") < 0) Prepare();
+                BattleMusicImport.Configure();
                 if (Array.IndexOf(Environment.GetCommandLineArgs(),"--prepare-stadiums")>=0) StadiumArenaImport.Prepare();
                 Validation();
                 if (Directory.Exists("Assets/AeroStadium/Resources/NativeModels") && Array.IndexOf(Environment.GetCommandLineArgs(),"--stadium-only-validation")<0) NativeModelValidation.VerifyAll();

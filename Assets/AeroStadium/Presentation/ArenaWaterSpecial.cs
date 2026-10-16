@@ -80,6 +80,7 @@ namespace AeroStadium.Presentation
 
         IEnumerator SurfWave(int side,bool targetHit,int protectedTarget,float hitEffectiveness)
         {
+            int generation=actionGeneration;
             var report=new AquaticCast{moveId=57,emitters=1,source="Ground swell in front of attacker (no cannon emission)"};LastAquatic=report;
             if(pokemon[1-side]==null)yield break;
             float nativeDuration=PlayAttackAnimation(side,true);
@@ -100,8 +101,9 @@ namespace AeroStadium.Presentation
             bool reacted=false,shieldReacted=false;
             try
             {
-                while(effect.IsPlaying)
+                while(effect.IsPlaying&&IsActionPlaybackCurrent(generation))
                 {
+                    if(actionDirector!=null)actionDirector.SetProgress(effect.EffectProgress);
                     float t=effect.EffectProgress*effect.Duration;
                     float outbound=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.76f,t));
                     float back=Mathf.SmoothStep(0,1,Mathf.InverseLerp(1.20f,2.55f,t));

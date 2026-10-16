@@ -62,3 +62,8 @@ L'inspection du second ROMFS Unity fourni utilise [UnityPy 1.25.2](https://githu
 
 
 Contrôles de matériaux natifs : comportement des propriétés et os documenté par le code source public [TeamLumi/opendpr](https://github.com/TeamLumi/opendpr), classes PokemonCustomNodeAnim / CustomNodeMaterial / CustomNodeVisibility. Le projet utilise une adaptation URP locale distincte. Les sources Pokémon et dérivés natifs du second dump restent locaux ; les outils UnityPy et glTFast ne sont pas les auteurs de ces ressources. Le pilote #001 est maintenant importé techniquement ; les contrôles visuels et l'import complet restent en cours.
+
+
+## Musique des combats
+
+Piste choisie par l’utilisateur : [Kanto Wild Pokémon Battle remix (From "Pokémon Red/Blue/Yellow")](https://www.youtube.com/watch?v=XEKBrjtCdL8), publiée le 16 février 2021 par [DeadmanPR](https://www.youtube.com/channel/UC646Cb7aUjii2ijAb70T2ww). La description l’identifie comme un extrait de son medley des thèmes de combats contre les Pokémon sauvages. AeroStadium conserve le début puis prépare une boucle ultérieure, sans changement de tempo. Les crédits décrivent la provenance déclarée par la source. Voir [BATTLE_AUDIO.md](BATTLE_AUDIO.md) ; source et rapport local sous `output/audio/battle-XEKBrjtCdL8-20261016`.

@@ -535,7 +535,7 @@ namespace AeroStadium.Presentation
         }
         public void EndProtection(bool immediate=false){ClearProtection(0,immediate);ClearProtection(1,immediate);}
         void LateUpdate(){for(int side=0;side<2;side++)if(protections[side]!=null&&protections[side].IsActive&&pokemon[side]!=null)protections[side].SetBounds(PokemonWorldBounds(side));}
-        void OnDisable(){EndProtection(true);}
+        void OnDisable(){CancelCurrentAction();EndProtection(true);}
 
         readonly Transform[] fireMouth=new Transform[2];
         public bool LastFlamethrowerCompleted {get;private set;}

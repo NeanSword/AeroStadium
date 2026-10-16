@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace AeroStadium.Presentation
 {
-    public sealed class GameBootstrap : MonoBehaviour
+    public sealed partial class GameBootstrap : MonoBehaviour
     {
         enum ScreenMode { Intro, Title, MainMenu, Selection, Battle, Result }
         readonly struct IntroEntry
@@ -95,6 +95,7 @@ namespace AeroStadium.Presentation
         {
             Application.logMessageReceived += OnLog;
             string[] args = Environment.GetCommandLineArgs();
+            battleMusicTest = Array.IndexOf(args, "--battle-music-review") >= 0;
             smoke = Array.IndexOf(args, "--smoke-test") >= 0;
             titleAudioTest = Array.IndexOf(args, "--title-audio-test") >= 0;
             mainMenuTest = Array.IndexOf(args, "--main-menu-test") >= 0;
@@ -102,9 +103,9 @@ namespace AeroStadium.Presentation
             loadoutTest = Array.IndexOf(args, "--loadout-test") >= 0;
             cameraTest = Array.IndexOf(args, "--battle-camera-review") >= 0;
             selectionTest = loadoutTest || Array.IndexOf(args, "--selection-test") >= 0;
-            if ((mainMenuTest || menuAudioTest || selectionTest || cameraTest) && !smoke) IsolateMainMenuTestInputs();
+            if ((mainMenuTest || menuAudioTest || selectionTest || cameraTest || battleMusicTest) && !smoke) IsolateMainMenuTestInputs();
             titleTest = titleAudioTest || Array.IndexOf(args, "--title-test") >= 0;
-            bool skipIntro = cameraTest || titleTest || mainMenuTest || menuAudioTest || selectionTest || Array.IndexOf(args, "--skip-intro") >= 0;
+            bool skipIntro = battleMusicTest || cameraTest || titleTest || mainMenuTest || menuAudioTest || selectionTest || Array.IndexOf(args, "--skip-intro") >= 0;
             int speciesIndex = Array.IndexOf(args, "--species");
             if (speciesIndex >= 0 && speciesIndex + 1 < args.Length && int.TryParse(args[speciesIndex + 1], out int species)
                 && species >= 1 && species <= 151) selectedSpecies = species;
@@ -135,6 +136,7 @@ namespace AeroStadium.Presentation
                 return;
             }
             CreateCanvas(); CreateInputs();
+            battleAudio = gameObject.AddComponent<BattleMusicAudio>(); battleAudio.Prepare();
             int secondsIndex = Array.IndexOf(args, "--seconds");
             if (secondsIndex >= 0 && secondsIndex + 1 < args.Length && int.TryParse(args[secondsIndex + 1], out int seconds))
                 exitAt = Time.realtimeSinceStartup + Mathf.Clamp(seconds, 10, 300);
@@ -143,7 +145,10 @@ namespace AeroStadium.Presentation
             if (menuAudioTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 90f;
             if (selectionTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 180f;
             if (cameraTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 100f;
-            if (cameraTest) StartCoroutine(TestBattleCamera());
+            if (battleMusicTest && exitAt <= 0) exitAt = Time.realtimeSinceStartup + 170f;
+            if (battleMusicTest) ShowTitle();
+            if (battleMusicTest) StartCoroutine(TestBattleMusic());
+            else if (cameraTest) StartCoroutine(TestBattleCamera());
             else if (smoke) StartCoroutine(SmokePlay());
             else if (skipIntro) ShowTitle();
             else introRoutine = StartCoroutine(PlayIntro());
@@ -192,7 +197,7 @@ namespace AeroStadium.Presentation
             {
                 int expectedModels = screen == ScreenMode.Title || screen == ScreenMode.MainMenu ? 0
                     : screen == ScreenMode.Intro || screen == ScreenMode.Selection ? 1 : 2;
-                bool passed = errors == 0 && (!loadoutTest || loadoutTestCompleted) && (!selectionTest || (selectionTestCompleted && selectionSwitches > 0)) && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2))
+                bool passed = errors == 0 && (!battleMusicTest || (battleMusicTestCompleted && battleMusicChecksPassed)) && (!loadoutTest || loadoutTestCompleted) && (!selectionTest || (selectionTestCompleted && selectionSwitches > 0)) && arena.LoadedModels == expectedModels && (!smoke || (smokeEnded && expectedModels == 2))
                     && (!cameraTest || (cameraTestCompleted && cameraTestSafety && cameraTestShots >= 5
                         && cameraTestTurns >= 1 && cameraTurnInactive && arena.DecisionCamera.CameraSafety))
                     && (!titleTest || (titleAssetsVerified && titleBlinkCycles >= 2
@@ -228,7 +233,9 @@ namespace AeroStadium.Presentation
                     + " selectionCompleted=" + selectionTestCompleted + " selectionSwitches=" + selectionSwitches
                     + " cameraCompleted=" + cameraTestCompleted + " cameraSafe=" + cameraTestSafety
                     + " cameraUnique=" + cameraTestShots + " cameraTurns=" + cameraTestTurns
-                    + " cameraTurnInactive=" + cameraTurnInactive + " passed=" + passed);
+                    + " cameraTurnInactive=" + cameraTurnInactive
+                    + " battleMusicReview=" + battleMusicTest + " battleMusicReviewCompleted=" + battleMusicTestCompleted
+                    + (battleAudio != null ? battleAudio.Diagnostics : " battleMusic=uninitialized") + " passed=" + passed);
                 Application.Quit(passed ? 0 : 1); exitAt = 0;
             }
             if (screen == ScreenMode.Title && titleStart != null)
@@ -336,6 +343,7 @@ namespace AeroStadium.Presentation
 
         void ResetPage()
         {
+            if (screen != ScreenMode.Battle && battleAudio != null) battleAudio.LeaveBattle();
             if (screen != ScreenMode.Title && titleAudio != null) titleAudio.LeaveTitle();
             if (screen != ScreenMode.MainMenu && screen != ScreenMode.Selection && menuAudio != null) menuAudio.LeaveMenu();
             ReleaseSelectionPreview();
@@ -674,7 +682,7 @@ namespace AeroStadium.Presentation
 
         void IsolateMainMenuTestInputs()
         {
-            if ((!mainMenuTest && !menuAudioTest && !selectionTest && !cameraTest) || mainMenuInputsIsolated) return;
+            if ((!mainMenuTest && !menuAudioTest && !selectionTest && !cameraTest && !battleMusicTest) || mainMenuInputsIsolated) return;
             mainMenuInputsIsolated = true;
             mainMenuOriginalBackgroundBehavior = InputSystem.settings.backgroundBehavior;
             // A review uses virtual devices even while its window is being observed.
@@ -994,6 +1002,8 @@ namespace AeroStadium.Presentation
             screen = ScreenMode.Battle; arena.EndProtection();
             visibleHp[0] = battle.Active(0).Hp; visibleHp[1] = battle.Active(1).Hp;
             ShowBattle("À toi de jouer. Choisis une attaque.");
+            if (battleAudio == null) battleAudio = gameObject.AddComponent<BattleMusicAudio>();
+            battleAudio.EnterBattle();
         }
 
         void ShowBattle(string message)
