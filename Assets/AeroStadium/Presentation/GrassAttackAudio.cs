@@ -26,7 +26,7 @@ namespace AeroStadium.Presentation
 
         public static float DefaultDuration(int moveId)
         {
-            Check(moveId); return moveId == 22 ? 1.68f : 2.15f;
+            Check(moveId); return moveId == 22 ? 2.50f : 2.15f;
         }
 
         public static AudioSource Play(Transform parent, Vector3 source, int moveId, float duration)
@@ -90,33 +90,26 @@ namespace AeroStadium.Presentation
             return pcm;
         }
 
-        static float Vine(float p, float low, float fiber, float edge)
+        static float Vine(float p,float low,float fiber,float edge)
         {
-            // Gather, extend, paired flexible contacts, recoil, then a diminishing retraction.
-            float gather = Window(p, .015f, .20f, .035f);
-            float flex = Mathf.Sin(2f * Mathf.PI * (109f * p + 15f * p * p));
-            float tremor = .65f + .35f * Mathf.Sin(2f * Mathf.PI * 27f * p);
-            float value = gather * (.34f * low + .085f * flex) * tremor;
-            float stretch = Window(p, .22f, .63f, .075f);
-            float tension = Smooth((p - .22f) / .39f);
-            value += stretch * ((.34f + .27f * tension) * fiber + .24f * low
-                + .07f * Mathf.Sin(2f * Mathf.PI * (167f * p + 59f * p * p)));
-            for (int vine = 0; vine < 2; vine++)
+            float gather=Window(p,.03f,.45f,.10f);
+            float value=gather*(.28f*fiber+.16f*low);
+            float backswing=Window(p,.35f,.92f,.12f);
+            value+=backswing*(.25f*fiber+.10f*Mathf.Sin(2*Mathf.PI*(102*p+28*p*p)));
+            for(int vine=0;vine<2;vine++)
             {
-                float hit = .598f + vine * .063f, age = p - hit;
-                float whip = Window(p, hit - .125f, hit + .012f, .025f);
-                value += whip * (.42f * edge + .18f * fiber) * (vine == 0 ? .9f : .7f);
-                if (age < 0f || age > .24f) continue;
-                float snap = Smooth(age / .0015f) * Mathf.Exp(-age * 47f);
-                float woody = Mathf.Sin(2f * Mathf.PI * (207f * age - 78f * age * age));
-                float wet = Mathf.Sin(2f * Mathf.PI * 733f * age) * Mathf.Exp(-age * 32f);
-                value += snap * (.98f * edge + .55f * fiber + .19f * woody + .055f * wet);
+                float crack=1.14f+vine*.045f,age=p-crack;
+                float rush=Window(p,.82f+vine*.045f,crack+.015f,.045f);
+                float acceleration=Smooth((p-.82f-vine*.045f)/.30f);
+                value+=rush*(.22f+.6f*acceleration)*(fiber*.55f+edge*.6f);
+                if(age>=0&&age<.18f)
+                {
+                    float snap=Smooth(age/.001f)*Mathf.Exp(-age*75);
+                    value+=snap*(1.75f*edge+.70f*fiber+.18f*Mathf.Sin(2*Mathf.PI*1320*age));
+                }
             }
-            float recoilAge = Mathf.Max(0f, p - .71f);
-            float recoil = Window(p, .71f, .88f, .022f) * Mathf.Exp(-recoilAge * 8f);
-            value += recoil * (.38f * fiber + .13f * Mathf.Sin(2f * Mathf.PI * (183f * recoilAge - 84f * recoilAge * recoilAge)));
-            float retract = Window(p, .86f, 1.43f, .09f) * (1f - Smooth((p - .95f) / .48f));
-            value += retract * (.32f * fiber + .18f * low) * (.65f + .35f * Mathf.Sin(2f * Mathf.PI * 19f * p));
+            value+=Window(p,1.24f,1.60f,.07f)*(.22f*fiber+.07f*low);
+            value+=Window(p,1.65f,2.38f,.12f)*(.18f*fiber+.09f*low)*(1-Smooth((p-1.70f)/.68f));
             return value;
         }
 

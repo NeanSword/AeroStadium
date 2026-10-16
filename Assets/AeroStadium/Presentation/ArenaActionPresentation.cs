@@ -48,7 +48,7 @@ namespace AeroStadium.Presentation
             CancelCurrentAction();
             if(actionDirector==null){actionDirector=gameObject.AddComponent<BattleActionDirector>();actionDirector.Initialize(this);}
             var playback=new ActionPlayback{generation=++actionGeneration};actionPlayback=playback;
-            float duration=moveId==53?3.15f:moveId==55?1.65f:moveId==56?2.2f:moveId==57?2.9f:moveId==61?1.95f:moveId==145?2.4f:moveId==352?2.3f:moveId==503?2.45f:moveId==22?1.68f:moveId==75?2.15f:moveId==424?4.2f:1.6f;
+            float duration=moveId==53?3.15f:moveId==55?1.65f:moveId==56?2.2f:moveId==57?2.9f:moveId==61?1.95f:moveId==145?2.4f:moveId==352?2.3f:moveId==503?2.45f:moveId==22?2.5f:moveId==75?2.15f:moveId==424?4.2f:1.6f;
             LastAttackUsedBite=moveId==424&&shownSpecies[side]==59;currentResolvedMiss=allowDodge&&!targetHit&&protectedTarget<0;
             try
             {

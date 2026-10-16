@@ -172,9 +172,12 @@
     "name": "Fouet Lianes",
     "type": "Grass",
     "category": "Physical",
-    "status": "implemented_pending_validation",
+    "status": "validated",
     "official_reference": null,
-    "validation_scope": "Sources compiled20261015.22/75 Bulbizarre1;424Arcanin59. Runtime review --review-grass --review-move22/75/424 pending. No full catalogue claim."
+    "validation_scope": "Sources compiled20261015.22/75 Bulbizarre1;424Arcanin59. Runtime review --review-grass --review-move22/75/424 pending. No full catalogue claim.",
+    "revision": "User rejected linear vine projection/camera; full planar whip loop, distal snap, recoil and phase camera in review.",
+    "evidence": "output/attacks/whip-20261016-v3/verified-summary.json",
+    "scope": "Bulbizarre1 against Tortank9, both sides, direct/Protect, real animated triangle body contact, native roots, new phase camera, five cancellations and orthographic fallback. Not all species/arenas or full menus."
   },
   {
     "id": 23,

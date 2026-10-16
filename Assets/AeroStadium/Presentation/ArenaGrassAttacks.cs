@@ -9,8 +9,11 @@ namespace AeroStadium.Presentation
         {
             public int moveId,emissions,contacts,emitterContacts,reactions,blocks,peak;
             public bool completed,sound,impact,blocked,geometry=true,motion;
+            public float backswing,tipSpeed,middleSpeed,recoil,minLength,maxLength;
+            public int meshContacts,meshBakedFrames;public long triangleTests;public float meshError,renderedTipGap;public string contactMesh;
             public string source; public Vector3 contact,normal; public float impactSeconds=-1;
         }
+        public WhipCameraTelemetry LastWhipCamera=>actionDirector!=null?actionDirector.LastWhipCamera:null;
         public GrassCast LastGrass {get;private set;}=new GrassCast();
         readonly Transform[,] grassRoots=new Transform[2,2];readonly Transform[] grassOwner=new Transform[2];
         void GrassSources(int side,int moveId,out Vector3 first,out Vector3 second,out Vector3 aim,out float width)
@@ -40,7 +43,7 @@ namespace AeroStadium.Presentation
             float native=PlayAttackAnimation(side,moveId==75);
             var animator=pokemon[side].GetComponentInChildren<Animator>();float speed=animator!=null?animator.speed:1;
             var effect=GrassAttackEffect.Create(EffectParent(),source,aim+offset,width,moveId);
-            effect.SetSecondaryEmitter(second);effect.SetFloor(pokemon[side].transform.position.y);effect.ImpactEnabled=targetHit;
+            effect.SetSecondaryEmitter(second);if(moveId==22)effect.BindWhipRoots(grassRoots[side,0],grassRoots[side,1],actionDirector);if(moveId==22)effect.BindWhipVictim(pokemon[1-side]);effect.SetFloor(pokemon[side].transform.position.y);effect.ImpactEnabled=targetHit;
             var sound=GrassAttackAudio.Play(EffectParent(),(source+second)*.5f,moveId,effect.Duration);
             var pcm=GrassAttackAudio.AnalyzePcm(GrassAttackAudio.CreateOriginalPcm(moveId,effect.Duration));
             report.sound=sound!=null&&sound.clip!=null&&sound.isPlaying&&pcm.finite&&pcm.peak>0&&pcm.peak<=1;
@@ -50,6 +53,7 @@ namespace AeroStadium.Presentation
             {
                 while(effect.IsPlaying)
                 {
+                    if(moveId==22&&actionDirector!=null)actionDirector.SetProgress(effect.EffectProgress);
                     GrassSources(side,moveId,out source,out second,out aim,out width);
                     effect.SetEndpoints(source,(currentResolvedMiss?lockedAim:aim)+offset);effect.SetSecondaryEmitter(second);
                     effect.SetVictimBounds(PokemonWorldBounds(1-side));
@@ -62,6 +66,7 @@ namespace AeroStadium.Presentation
                     }
                     if(targetHit&&!reacted&&effect.ImpactReached)
                     {
+                        report.contact=effect.ContactPoint;report.normal=effect.ContactNormal;
                         int before=DamagePoseCount;PlayDamageAnimation(1-side,effectiveness);report.reactions=DamagePoseCount-before;
                         report.impactSeconds=effect.EffectProgress*effect.Duration;reacted=true;
                     }
@@ -71,13 +76,15 @@ namespace AeroStadium.Presentation
                     report.peak=Mathf.Max(report.peak,effect.PeakParticles);
                     yield return null;
                 }
+                report.meshContacts=effect.BodySurfaceContacts;report.meshBakedFrames=effect.SurfaceBakedFrames;report.triangleTests=effect.SurfaceTriangleTests;report.contactMesh=effect.SurfaceMesh;report.meshError=effect.SurfaceError;report.renderedTipGap=effect.RenderedContactGap;
+                report.backswing=effect.BackswingDistance;report.tipSpeed=effect.WhipTipPeakSpeed;report.middleSpeed=effect.WhipMiddlePeakSpeed;report.recoil=effect.WhipRecoilDistance;report.minLength=effect.WhipMinimumLength;report.maxLength=effect.WhipMaximumLength;
                 report.motion=moveId==22?effect.Anchored&&effect.RetractionComplete:effect.DetachedBeforeImpact;
                 report.completed=effect.Completed&&effect.Validate(out _)&&report.geometry&&report.motion&&report.sound
                     &&report.emissions==effect.ExpectedEmissionCount&&report.reactions==(targetHit?1:0)
                     &&(!(targetHit||protectedTarget>=0)||effect.ImpactReached);
                 Debug.Log("[grass] "+JsonUtility.ToJson(report));
             }
-            finally{if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);}
+            finally{if(animator!=null)animator.speed=speed;if(effect!=null)Destroy(effect.gameObject);if(sound!=null)Destroy(sound.gameObject);}
         }
     }
 }

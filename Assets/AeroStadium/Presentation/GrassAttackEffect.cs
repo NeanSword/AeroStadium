@@ -6,9 +6,10 @@ namespace AeroStadium.Presentation
 {
     /// <summary>Original living vine whips (22) and captured, spinning leaf blades (75).
     /// Caller owns body poses, sound, damage and the single victim reaction.</summary>
+    [DefaultExecutionOrder(100)]
     public sealed class GrassAttackEffect : MonoBehaviour
     {
-        const int Leaves = 12, TubeSteps = 36, TubeSides = 9, LeafSteps = 10, Slashes = 3, SlashSteps = 8;
+        const int Leaves = 12, TubeSteps = 48, TubeSides = 9, LeafSteps = 10, Slashes = 3, SlashSteps = 8;
         const int LeafStride = (LeafSteps + 1) * 3, TubeStride = (TubeSteps + 1) * (TubeSides + 1);
         struct Actor
         {
@@ -29,10 +30,19 @@ namespace AeroStadium.Presentation
         float elapsed, width, floorY;
         int moveId;
         bool initialized, released, secondary, hasShield, hasVictim;
+        Transform liveRoot,liveSecond;BattleActionDirector whipDirector;AnimatedSurfaceContact bodySurface;
+        public int BodySurfaceContacts {get;private set;}
+        public float RenderedContactGap {get;private set;}
+        public int SurfaceBakedFrames=>bodySurface!=null?bodySurface.BakedFrames:0;
+        public long SurfaceTriangleTests=>bodySurface!=null?bodySurface.TriangleTests:0;
+        public string SurfaceMesh=>bodySurface!=null?bodySurface.LastMeshName:"";
+        public float SurfaceError=>bodySurface!=null?bodySurface.LastSurfaceError:0;
+        public void BindWhipVictim(GameObject victim){bodySurface?.Dispose();bodySurface=new AnimatedSurfaceContact(victim);}
+        public void BindWhipRoots(Transform first,Transform second,BattleActionDirector director){liveRoot=first;liveSecond=second;whipDirector=director;}
         string geometryFailure;
 
         public bool ImpactEnabled { get; set; } = true;
-        public float Duration => moveId == 22 ? 1.68f : 2.15f;
+        public float Duration => moveId == 22 ? 2.50f : 2.15f;
         public float EffectProgress => Mathf.Clamp01(elapsed / Duration);
         public bool ImpactReached { get; private set; }
         public bool Completed => initialized && elapsed >= Duration;
@@ -53,6 +63,15 @@ namespace AeroStadium.Presentation
         public float MaximumAnchorError { get; private set; }
         public bool Anchored => initialized && moveId == 22 && MaximumAnchorError < .002f;
         public bool RetractionComplete { get; private set; }
+        public float BackswingDistance { get; private set; }
+        public float WhipTipPeakSpeed { get; private set; }
+        public float WhipMiddlePeakSpeed { get; private set; }
+        public float WhipRecoilDistance { get; private set; }
+        public float WhipMinimumLength { get; private set; } = float.MaxValue;
+        public float WhipMaximumLength { get; private set; }
+        readonly Vector3[] previousTips=new Vector3[2],previousMiddles=new Vector3[2];
+        readonly float[] previousWhipTimes=new float[2];
+        readonly bool[] whipMeasured=new bool[2];
         public bool DetachedBeforeImpact { get; private set; }
         public bool ProjectileDetached => moveId == 75 && DetachedBeforeImpact;
         public Vector3 ContactPoint { get; private set; }
@@ -135,7 +154,14 @@ namespace AeroStadium.Presentation
             mesh.MarkDynamic(); mesh.vertices = v; mesh.normals = n; mesh.colors = c; mesh.uv = uv; mesh.triangles = triangles;
             return mesh;
         }
-        void Update()
+        void Update(){if(moveId!=22)Advance();}
+        void LateUpdate()
+        {
+            if(moveId!=22)return;
+            if(liveRoot!=null)source=liveRoot.position;if(liveSecond!=null)secondarySource=liveSecond.position;
+            Advance();if(whipDirector!=null)whipDirector.SetProgress(EffectProgress);
+        }
+        void Advance()
         {
             if (!IsPlaying) return;
             elapsed = Mathf.Min(Duration, elapsed + Time.deltaTime); RenderEffect();
@@ -148,7 +174,7 @@ namespace AeroStadium.Presentation
             p.secondary = secondary && (i & 1) != 0; p.origin = p.secondary ? secondarySource : source;
             p.position = p.origin; p.axis = (target - p.origin).normalized;
             Basis(p.axis, out p.side, out p.up); p.phase = i * 2.399963f;
-            p.radius = width * (moveId == 22 ? .24f : .66f);
+            p.radius = width * (moveId == 22 ? .32f : .66f);
             p.flight = .48f + Hash(i + 4) * .09f;
             Vector3 aim = target + p.side * width * ((i % 3) - 1) * .32f + p.up * width * (Hash(i + 7) - .5f) * .45f;
             p.acceleration = -p.up * width * 2.2f;
@@ -174,7 +200,7 @@ namespace AeroStadium.Presentation
                 if (!p.emitted) continue;
                 if (moveId == 22) RenderVine(i, ref p); else RenderBlade(i, ref p);
                 if (p.hit) RenderContact(i, p);
-                if (moveId == 22 ? elapsed < 1.43f : elapsed < p.born + p.flight + .65f) live++;
+                if (moveId == 22 ? elapsed < 2.45f : elapsed < p.born + p.flight + .65f) live++;
                 actors[i] = p;
             }
             PeakParticles = Mathf.Max(PeakParticles, live);
@@ -185,75 +211,99 @@ namespace AeroStadium.Presentation
             }
             CheckGeometry();
         }
-        Vector3 VineTip(int i, Actor p, Vector3 root, float time)
+        // A full-length planar loop is raised before the lash. The bend travels from
+        // shoulder to tip; it straightens existing slack rather than emitting a beam.
+        float WhipTime(int i,float time)=>time-i*.045f;
+        Vector3 WindCurve(Vector3 root,Actor p,int i,float s)
         {
-            float sign = i == 0 ? -1 : 1;
-            Vector3 gathered = root + p.up * width * 1.5f + p.side * sign * width * .7f;
-            Vector3 aim = target + p.side * sign * width * .35f;
-            float reach = Smooth(.22f, .68f, time);
-            Vector3 tip = Vector3.Lerp(gathered, aim, reach);
-            if (p.hit)
-            {
-                float rebound = Smooth(p.hitAt, p.hitAt + .18f, time);
-                Vector3 tangent = Vector3.ProjectOnPlane(p.side * sign + p.up * .35f, p.normal).normalized;
-                tip = p.contact + p.normal * (p.radius + rebound * width * .85f) + tangent * Mathf.Sin(rebound * Mathf.PI) * width * .9f;
-            }
-            float retract = Smooth(.86f, 1.43f, time);
-            return Vector3.Lerp(tip, root, retract) + p.up * Mathf.Sin(retract * Mathf.PI) * width * 1.5f;
+            float range=Vector3.Distance(root,target),sign=i==0?-1:1;
+            Vector3 outward=p.side*sign;
+            Vector3 c1=root-p.axis*range*.15f+p.up*range*.60f+outward*range*.35f;
+            Vector3 c2=root-p.axis*range*.20f+p.up*range*.40f+outward*range*.65f;
+            Vector3 end=root-p.axis*range*.22f+p.up*range*.16f+outward*range*.28f;
+            return Bezier(root,c1,c2,end,s);
         }
-        void RenderVine(int i, ref Actor p)
+        Vector3 LashCurve(Vector3 root,Vector3 tip,Actor p,int i,float s,float time)
         {
-            Vector3 root = p.secondary ? secondarySource : source;
-            p.anchor = root;
-            Vector3 tip = VineTip(i, p, root, elapsed);
-            if (!p.hit && elapsed <= .86f && TryContact(p.position, tip, p.radius, out Vector3 contact, out Vector3 normal, out float fraction))
+            float range=Vector3.Distance(root,tip),sign=i==0?-1:1;
+            float wave=Mathf.Clamp01((time-.60f)/.62f),spread=Mathf.Lerp(.24f,.10f,wave);
+            float crest=Mathf.Exp(-Mathf.Pow((s-wave)/spread,2))*Mathf.Sin(Mathf.PI*s);
+            Vector3 c1=root+p.axis*range*.28f+p.up*range*.28f+p.side*sign*range*.17f;
+            Vector3 c2=Vector3.Lerp(root,tip,.72f)+p.up*range*.10f+p.side*sign*range*.10f;
+            return Bezier(root,c1,c2,tip,s)+(p.up+p.side*sign*.45f)*crest*range*.16f*(1-wave*.7f);
+        }
+        Vector3 WhipPoint(Vector3 root,Actor p,int i,float s,float time)
+        {
+            float local=WhipTime(i,time),range=Vector3.Distance(root,target);
+            Vector3 wind=WindCurve(root,p,i,s);
+            float reveal=Smooth(.03f,.32f,local),swing=Smooth(.55f+s*.40f,.91f+s*.28f,local);
+            Vector3 tip=target+p.side*(i==0?-1:1)*width*.35f;
+            Vector3 point=Vector3.Lerp(wind,LashCurve(root,tip,p,i,s,local),swing);
+            if(p.hit)
             {
-                Hit(ref p, contact, normal, Mathf.Lerp(p.sampledAt, elapsed, fraction));
-                tip = VineTip(i, p, root, elapsed);
+                float recoil=Smooth(p.hitAt+.025f,p.hitAt+.225f,time);
+                Vector3 tangent=Vector3.ProjectOnPlane(p.side*(i==0?-1:1)+p.up*.3f,p.normal).normalized;
+                Vector3 desired=p.contact+p.normal*(p.radius*.035f+recoil*range*.065f)+tangent*Mathf.Sin(recoil*Mathf.PI)*range*.08f;
+                float tipPhase=Smooth(.95f,1.19f,local);
+                Vector3 rawEnd=Vector3.Lerp(WindCurve(root,p,i,1),tip,tipPhase);
+                point+=(desired-rawEnd)*(s*s*(3-2*s));
             }
-            p.position = tip; p.sampledAt = elapsed;
-            float alpha = Smooth(.025f, .09f, elapsed) * (1 - Smooth(1.35f, 1.43f, elapsed));
-            float coil = (1 - Smooth(.20f, .60f, elapsed)) + Smooth(.98f, 1.34f, elapsed) * .45f;
-            for (int j = 0; j <= TubeSteps; j++)
+            float gather=Smooth(1.48f+(1-s)*.10f,1.96f+(1-s)*.10f,local);
+            point=Vector3.Lerp(point,wind,gather);
+            float retract=1-Smooth(1.98f,2.40f,local);
+            return root+(point-root)*(reveal*retract);
+        }
+        static Vector3 Bezier(Vector3 a,Vector3 b,Vector3 c,Vector3 d,float t)
+        {float u=1-t;return u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;}
+        void RenderVine(int i,ref Actor p)
+        {
+            Vector3 root=p.secondary?secondarySource:source;p.anchor=root;
+            // Sub-frame sweeps catch the short crack even when a render frame is slow.
+            float at=p.sampledAt,end=Mathf.Min(elapsed,1.32f+i*.045f);
+            while(!p.hit&&at<end-.000001f)
             {
-                float t = j / (float)TubeSteps;
-                Vector3 center = VinePoint(root, tip, p, i, t, coil);
-                Vector3 tangent = (VinePoint(root, tip, p, i, Mathf.Min(1, t + .01f), coil) -
-                    VinePoint(root, tip, p, i, Mathf.Max(0, t - .01f), coil)).normalized;
-                if (tangent.sqrMagnitude < .01f) tangent = p.axis;
-                Basis(tangent, out Vector3 side, out Vector3 up);
-                float radius = p.radius * Mathf.Lerp(1, .035f, Mathf.Pow(t, 2.3f)) * (1 - Smooth(1.2f, 1.43f, elapsed));
-                for (int k = 0; k <= TubeSides; k++)
+                float next=Mathf.Min(end,at+1f/180f);
+                Vector3 before=WhipPoint(root,p,i,1,at),after=WhipPoint(root,p,i,1,next);
+                if(at>=.95f&&TryContact(before,after,p.radius*.10f,out Vector3 contact,out Vector3 normal,out float fraction))
+                    Hit(ref p,contact,normal,Mathf.Lerp(at,next,fraction));
+                at=next;
+            }
+            p.sampledAt=Mathf.Max(p.sampledAt,end);p.position=WhipPoint(root,p,i,1,elapsed);
+            if(p.hit&&!p.shield&&elapsed-p.hitAt<.025f)RenderedContactGap=Mathf.Max(RenderedContactGap,Vector3.Distance(p.position,p.contact));
+            float dt=elapsed-previousWhipTimes[i];Vector3 middle=WhipPoint(root,p,i,.55f,elapsed);
+            if(whipMeasured[i]&&dt>.00001f)
+            {
+                if(!p.hit&&elapsed>.32f){WhipTipPeakSpeed=Mathf.Max(WhipTipPeakSpeed,Vector3.Distance(p.position,previousTips[i])/dt);WhipMiddlePeakSpeed=Mathf.Max(WhipMiddlePeakSpeed,Vector3.Distance(middle,previousMiddles[i])/dt);}
+            }
+            previousTips[i]=p.position;previousMiddles[i]=middle;previousWhipTimes[i]=elapsed;whipMeasured[i]=true;
+            if(elapsed>.3f&&elapsed<.9f)BackswingDistance=Mathf.Max(BackswingDistance,-Vector3.Dot(p.position-root,p.axis));
+            if(p.hit&&elapsed-p.hitAt<.28f)WhipRecoilDistance=Mathf.Max(WhipRecoilDistance,Vector3.Dot(p.position-p.contact,p.normal));
+            float alpha=Smooth(.03f,.12f,WhipTime(i,elapsed))*(1-Smooth(2.34f,2.40f,WhipTime(i,elapsed)));
+            Vector3 previous=root;float length=0;
+            for(int j=0;j<=TubeSteps;j++)
+            {
+                float t=j/(float)TubeSteps;Vector3 center=WhipPoint(root,p,i,t,elapsed);
+                Vector3 tangent=(WhipPoint(root,p,i,Mathf.Min(1,t+.008f),elapsed)-WhipPoint(root,p,i,Mathf.Max(0,t-.008f),elapsed)).normalized;
+                if(tangent.sqrMagnitude<.01f)tangent=p.axis;
+                Basis(tangent,out Vector3 side,out Vector3 up);
+                length+=Vector3.Distance(center,previous);previous=center;
+                float radius=p.radius*Mathf.Lerp(1,.035f,Mathf.Pow(t,1.55f))*(1-Smooth(2.30f,2.40f,WhipTime(i,elapsed)));
+                for(int k=0;k<=TubeSides;k++)
                 {
-                    float angle = k * Mathf.PI * 2 / TubeSides + t * 1.4f;
-                    Vector3 radial = side * Mathf.Cos(angle) + up * Mathf.Sin(angle);
-                    Vector3 point = center + radial * radius;
-                    if (hasShield) point = OutsideShield(point, .006f);
-                    Put(0, i * TubeStride + j * (TubeSides + 1) + k, point, radial, new Color(.16f + t * .12f, .38f + t * .20f, .055f, alpha));
+                    float angle=k*Mathf.PI*2/TubeSides;Vector3 radial=side*Mathf.Cos(angle)+up*Mathf.Sin(angle);
+                    Vector3 point=center+radial*radius;if(hasShield)point=OutsideShield(point,.006f);
+                    Put(0,i*TubeStride+j*(TubeSides+1)+k,point,radial,new Color(.16f+t*.12f,.38f+t*.20f,.055f,alpha));
                 }
             }
-            Vector3 anchorCenter = Vector3.zero;
-            for (int k = 0; k < TubeSides; k++) anchorCenter += transform.TransformPoint(vertices[0][i * TubeStride + k]);
-            MaximumAnchorError = Mathf.Max(MaximumAnchorError, Vector3.Distance(root, anchorCenter / TubeSides));
-            if (elapsed >= 1.43f)
+            if(elapsed>.34f&&elapsed<1.24f){WhipMinimumLength=Mathf.Min(WhipMinimumLength,length);WhipMaximumLength=Mathf.Max(WhipMaximumLength,length);}
+            Vector3 anchorCenter=Vector3.zero;
+            for(int k=0;k<TubeSides;k++)anchorCenter+=transform.TransformPoint(vertices[0][i*TubeStride+k]);
+            MaximumAnchorError=Mathf.Max(MaximumAnchorError,Vector3.Distance(root,anchorCenter/TubeSides));
+            if(elapsed>=2.45f)
             {
-                bool retracted = true;
-                for (int v = 0; v < TubeStride; v++)
-                    if (Vector3.Distance(transform.TransformPoint(vertices[0][i * TubeStride + v]), root) > .002f) retracted = false;
-                RetractionComplete = i == 0 ? retracted : RetractionComplete && retracted;
+                bool retracted=true;for(int v=0;v<TubeStride;v++)if(Vector3.Distance(transform.TransformPoint(vertices[0][i*TubeStride+v]),root)>.002f)retracted=false;
+                RetractionComplete=i==0?retracted:RetractionComplete&&retracted;
             }
-        }
-        Vector3 VinePoint(Vector3 root, Vector3 tip, Actor p, int i, float t, float coil)
-        {
-            float sign = i == 0 ? -1 : 1, inverse = 1 - t;
-            float presence = 1 - Smooth(.86f, 1.43f, elapsed), arc = Mathf.Sin(t * Mathf.PI);
-            Vector3 c1 = root + p.axis * Vector3.Distance(root, tip) * .34f + (p.up * width * 1.35f + p.side * sign * width) * presence;
-            Vector3 c2 = Vector3.Lerp(root, tip, .70f) + p.side * sign * width * .8f * presence;
-            Vector3 point = inverse * inverse * inverse * root + 3 * inverse * inverse * t * c1 + 3 * inverse * t * t * c2 + t * t * t * tip;
-            point += (p.side * Mathf.Sin(t * Mathf.PI * 3.5f + elapsed * 7 + i * 2) +
-                p.up * Mathf.Cos(t * Mathf.PI * 3.5f + elapsed * 7 + i * 2)) * arc * width * coil * 1.35f * presence;
-            if (hasShield && t > 0) point = OutsideShield(point, p.radius + .008f);
-            return point;
         }
         Vector3 BladePosition(Actor p, float age)
         {
@@ -328,6 +378,12 @@ namespace AeroStadium.Presentation
         {
             point = next; normal = Vector3.up; fraction = 0;
             if (!hasShield && (!ImpactEnabled || !hasVictim)) return false;
+            if(moveId==22&&!hasShield)
+            {
+                if(bodySurface==null||!bodySurface.TrySegment(previous,next,out point,out normal))return false;
+                float length=Vector3.Distance(previous,next);fraction=length>.000001f?Mathf.Clamp01(Vector3.Distance(previous,point)/length):0;
+                return true;
+            }
             Bounds bounds = hasShield ? shieldBounds : victimBounds;
             Vector3 radii = SafeRadii(bounds.extents), expanded = radii + Vector3.one * support;
             Vector3 q = Divide(previous - bounds.center, expanded), d = Divide(next - previous, expanded);
@@ -350,13 +406,13 @@ namespace AeroStadium.Presentation
         }
         void Hit(ref Actor p, Vector3 point, Vector3 normal, float time)
         {
-            p.hit = true; p.shield = hasShield; p.contact = point; p.normal = normal; p.hitAt = time;
+            p.hit = true; p.shield = hasShield; p.contact = point; p.normal = normal; p.hitAt = moveId == 22 ? elapsed : time;
             if (moveId == 75 && Vector3.Distance(p.origin, point) > p.radius * 2) DetachedBeforeImpact = true;
             p.position = point + normal * (p.radius + .014f);
             Vector3 incoming = p.velocity + p.acceleration * Mathf.Max(0, time - p.born);
             Vector3 reflected = Vector3.Reflect(incoming, normal);
             p.ricochet = Vector3.ProjectOnPlane(reflected, normal) * .31f + normal * Mathf.Max(width * 2, Vector3.Dot(reflected, normal) * .20f);
-            ActualContacts++; if (p.secondary) SecondaryEmitterContacts++; else PrimaryEmitterContacts++;
+            ActualContacts++;if(moveId==22&&!hasShield)BodySurfaceContacts++; if (p.secondary) SecondaryEmitterContacts++; else PrimaryEmitterContacts++;
             if (p.shield) { if (p.secondary) SecondaryShieldContacts++; else PrimaryShieldContacts++; }
             ImpactReached = true; ContactPoint = point; ContactNormal = normal;
         }
@@ -439,7 +495,7 @@ namespace AeroStadium.Presentation
         }
         void OnDestroy()
         {
-            if (released) return; released = true;
+            if (released) return; released = true;bodySurface?.Dispose();bodySurface=null;
             for (int i = 0; i < 3; i++)
             {
                 if (meshes[i] != null) { if (Application.isPlaying) Destroy(meshes[i]); else DestroyImmediate(meshes[i]); }
