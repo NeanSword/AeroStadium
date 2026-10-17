@@ -6,7 +6,7 @@ Le développement se fait dans [NeanSword/AeroStadium](https://github.com/NeanSw
 
 ## Dernière étape — 18 octobre 2026
 
-Les esquives disposent maintenant d’un geste articulé et anticipé, vérifié sur Tortank, Bulbizarre et Arcanin. Les nombres de dégâts au-dessus des Pokémon sont retirés. Les résultats et le périmètre des essais figurent dans [les esquives](docs/DODGE_POSE.md) et [le journal](LastProgressLogs.md). La refonte des barres de vie viendra plus tard.
+Un premier essai d’esquive articulée a passé les contrôles de timing sur Tortank, Bulbizarre et Arcanin. Son rendu reste trop rigide : une refonte du geste et des expressions faciales est prioritaire. Les nombres de dégâts au-dessus des Pokémon sont retirés. Les résultats et le périmètre des essais figurent dans [les esquives](docs/DODGE_POSE.md) et [le journal](LastProgressLogs.md). La refonte des barres de vie viendra plus tard.
 
 ## Première base jouable — 1er octobre 2026
 

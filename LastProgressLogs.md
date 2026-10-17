@@ -1,3 +1,11 @@
+## 2026-10-18 — Retour visuel : esquives trop rigides, refonte nécessaire
+
+- Le premier essai est rejeté visuellement : mouvement trop rigide, petit saut sans dynamisme ni personnalité. Les contrôles techniques réussis ci-dessous ne valent pas validation de la qualité de l’animation. Je ne considère pas ces esquives comme abouties.
+- Prochaine priorité : vraies prises d’appui, transfert de poids, impulsion et freinage asymétriques, décalage des pattes, contre-mouvements de la tête, du corps et de la queue. Prévoir un geste distinct par morphologie, sans imposer le même bond à tous. Ajouter regard et expression faciale, notamment réaction d’attention avant l’action et relâchement après l’évitement.
+- Points disponibles dans les modèles : Tortank possède Jaw et des contrôles CusAnimMat_LEye/REye_UV_ColorUVTranslate et Layer1UVTranslate. NativeMaterialBridge applique les contrôles natifs des expressions après l’animation. Les atlases et courbes doivent être inspectés avant d’affirmer qu’un clignement ou une expression fonctionne ; aucune expression faciale nouvelle n’a été intégrée pendant cette reprise.
+- Conserver impérativement le dégagement AVANT l’arrivée et la vérification des vrais triangles animés, ainsi que le retrait des dégâts flottants. Les barres de vie ne changent pas encore ; leur refonte est différée. Croc Feu reste derrière cette correction prioritaire.
+- La prochaine présentation doit montrer le geste et le visage de près, en mouvement, puis la trajectoire en combat ; les seuls compteurs de tests ne suffisent pas. L’essai technique reste dans WindowsReference, version stable conservée. Jeu fermé, observation arrêtée. Arrêt avec marge de quota ; aucun crédit supplémentaire autorisé ni consommé. Compte rendu et demande conservés pour la suite.
+
 ## 2026-10-18 — Esquives articulées avant l’arrivée des attaques
 
 - J’ai remplacé le glissement latéral par un geste du squelette natif : flexion, prise d’appui, impulsion, petit bond, réception et retour. Tortank utilise deux appuis ; Bulbizarre et Arcanin quatre. Les pieds sont articulés selon leurs chaînes réelles ; longueurs conservées et objectifs hors de portée bornés. Ce n’est pas un solveur physique complet.

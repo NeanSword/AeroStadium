@@ -1,4 +1,6 @@
-# Esquives articulées
+# Esquives articulées — essai à reprendre
+
+**Retour visuel du 18 octobre : essai trop rigide, rejeté.** Les réussites techniques ci-dessous concernent le timing, les collisions et la restauration ; la qualité du geste reste à refaire. Priorité aux appuis, transferts de poids, contre-mouvements et expressions faciales distincts selon le Pokémon. Aucune nouvelle expression faciale n’est encore intégrée.
 
 Le raté de précision déclenche un geste anticipé : flexion, prise d’appui, impulsion latérale, réception puis retour en garde. La couche de pose articule le squelette natif et conserve l’animation courante. Tortank garde deux appuis et relève les bras ; Bulbizarre et Arcanin répartissent la poussée et la réception sur quatre pattes.
 
