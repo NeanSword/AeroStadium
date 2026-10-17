@@ -612,9 +612,11 @@
     "name": "Tranch’Herbe",
     "type": "Grass",
     "category": "Physical",
-    "status": "implemented_pending_validation",
+    "status": "validated",
     "official_reference": null,
-    "validation_scope": "Sources compiled20261015.22/75 Bulbizarre1;424Arcanin59. Runtime review --review-grass --review-move22/75/424 pending. No full catalogue claim."
+    "validation_scope": "Native Bulbizarre 1 -> Tortank 9, both sides, actual BattleEngine direct/Protect/Miss, five cancellations and orthographic fallback. Leading-tip vs animated triangle sweeps, not full-blade continuous collision or all species/arenas.",
+    "validation": "output/attacks/leaf-20261017-v2/verified-summary.json",
+    "notes": "2.15s, twelve detached curved leaves; post-Animator roots and animated mesh contact; one damage reaction; whole-leaf ricochets on Protect. Low continuous camera entry/orbit/recovery; WAV original local. Whip22 regression passed in same build."
   },
   {
     "id": 76,

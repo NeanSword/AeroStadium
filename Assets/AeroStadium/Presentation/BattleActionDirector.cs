@@ -7,9 +7,10 @@ namespace AeroStadium.Presentation
     [DisallowMultipleComponent]
     public sealed class BattleActionDirector : MonoBehaviour
     {
-        SurfCameraTrack surfTrack;WhipCameraTrack whipTrack;Vector3 attackerHome;Quaternion attackerRotation;bool restoreAttacker;
+        SurfCameraTrack surfTrack;WhipCameraTrack whipTrack;LeafCameraTrack leafTrack;Vector3 attackerHome;Quaternion attackerRotation;bool restoreAttacker;
         public SurfCameraTelemetry LastSurfCamera {get;private set;}
         public WhipCameraTelemetry LastWhipCamera {get;private set;}
+        public LeafCameraTelemetry LastLeafCamera {get;private set;}
         ArenaView arena;
         Camera actionCamera;
         BattleDecisionCamera decision;
@@ -55,7 +56,8 @@ namespace AeroStadium.Presentation
             CameraTravel=DodgeTravel=0;Restored=false;Active = true;
             if(moveId==57){surfTrack=new SurfCameraTrack(arena,side,source);LastSurfCamera=surfTrack.Stats;}
             if(moveId==22){whipTrack=new WhipCameraTrack(arena,side,source);LastWhipCamera=whipTrack.Stats;}
-            if (dodge) PrepareDodge();
+            if (dodge) PrepareDodge(moveId);
+            if(moveId==75){leafTrack=new LeafCameraTrack(arena,side,source,dodge?dodgeDirection*dodgeDistance:Vector3.zero);LastLeafCamera=leafTrack.Stats;}
         }
 
         public void SetProgress(float normalizedProgress)
@@ -69,14 +71,15 @@ namespace AeroStadium.Presentation
         {
             if (!Active || !Finite(point.x) || !Finite(point.y) || !Finite(point.z)) return;
             impactKnown = true; impactPoint = point;
-            if(surfTrack==null&&whipTrack==null)progress = Mathf.Max(progress, .60f);
+            if(surfTrack==null&&whipTrack==null&&leafTrack==null)progress = Mathf.Max(progress, .60f);
         }
 
-        void PrepareDodge()
+        void PrepareDodge(int moveId)
         {
             // Move the complete actor across its line of fire; do not bend its native rig or play damage.
             dodgeDirection = -backward;
             dodgeDistance = Mathf.Clamp(Mathf.Max(targetFrame.extents.x, targetFrame.extents.z) * .75f, .6f, 1.5f);
+            if(moveId==75) dodgeDistance=Mathf.Clamp(Mathf.Abs(dodgeDirection.x)*targetFrame.extents.x+Mathf.Abs(dodgeDirection.z)*targetFrame.extents.z+.45f,.85f,1.8f);
             bool fieldWasValid = arena.BattlePositionsValid;
             if (!fieldWasValid) { dodgeDistance = 0; return; }
             try {
@@ -103,7 +106,7 @@ namespace AeroStadium.Presentation
         {
             if (!Active) return;
             if (actionCamera == null || attacker == null || target == null) { EndAction(); return; }
-            if((surfTrack!=null&&surfTrack.Transitioning)||(whipTrack!=null&&whipTrack.Transitioning))return;
+            if((surfTrack!=null&&surfTrack.Transitioning)||(whipTrack!=null&&whipTrack.Transitioning)||(leafTrack!=null&&leafTrack.Transitioning))return;
             float dt = Mathf.Min(Time.deltaTime, .1f);
             elapsed += dt;
             if (!progressDriven) progress = Mathf.Max(progress, Mathf.Clamp01(elapsed / duration));
@@ -114,6 +117,7 @@ namespace AeroStadium.Presentation
             }
             if(surfTrack!=null){if(surfTrack.Stats.entered)surfTrack.Follow(dt);CameraTravel=Mathf.Max(CameraTravel,surfTrack.Stats.travel);}
             else if(whipTrack!=null){whipTrack.Follow(progress,dt);CameraTravel=Mathf.Max(CameraTravel,whipTrack.Stats.travel);}
+            else if(leafTrack!=null){leafTrack.Follow(progress,dt);CameraTravel=Mathf.Max(CameraTravel,leafTrack.Stats.travel);}
             else UpdateCamera(dt);
         }
 
@@ -196,10 +200,12 @@ namespace AeroStadium.Presentation
 
         public System.Collections.IEnumerator EnterAction()
         {if(surfTrack!=null){yield return surfTrack.Enter();elapsed=0;}
-            else if(whipTrack!=null){yield return whipTrack.Enter();elapsed=0;}}
+            else if(whipTrack!=null){yield return whipTrack.Enter();elapsed=0;}
+            else if(leafTrack!=null){yield return leafTrack.Enter();elapsed=0;}}
         public System.Collections.IEnumerator RecoverAction()
         {if(surfTrack!=null)yield return surfTrack.Recover();
-            else if(whipTrack!=null)yield return whipTrack.Recover();}
+            else if(whipTrack!=null)yield return whipTrack.Recover();
+            else if(leafTrack!=null)yield return leafTrack.Recover();}
         public void EndAction()
         {
             if (!Active) return;
@@ -207,14 +213,17 @@ namespace AeroStadium.Presentation
             try {
                 // A newly blocked normal exit holds the safe pose; an explicit interruption still restores immediately.
                 bool holdWhip = whipTrack!=null&&whipTrack.FinishedRecovery&&!whipTrack.Stats.recovered;
-                if (actionCamera != null&&!holdWhip) {
+                bool holdLeaf = leafTrack!=null&&leafTrack.FinishedRecovery&&!leafTrack.Stats.recovered;
+                if (actionCamera != null&&!holdWhip&&!holdLeaf) {
                     actionCamera.transform.SetPositionAndRotation(cameraHome, cameraRotation);
                     actionCamera.fieldOfView = cameraFov;Restored=Vector3.Distance(actionCamera.transform.position,cameraHome)<.001f&&Quaternion.Angle(actionCamera.transform.rotation,cameraRotation)<.01f;
                 }
             } finally {
                 if(surfTrack!=null){surfTrack.Cancel();surfTrack=null;}
-                bool rebaseDecision=whipTrack!=null&&whipTrack.FinishedRecovery&&!whipTrack.Stats.recovered;
+                bool rebaseDecision=(whipTrack!=null&&whipTrack.FinishedRecovery&&!whipTrack.Stats.recovered)
+                    ||(leafTrack!=null&&leafTrack.FinishedRecovery&&!leafTrack.Stats.recovered);
                 if(whipTrack!=null){whipTrack.Cancel();whipTrack=null;}
+                if(leafTrack!=null){leafTrack.Cancel();leafTrack=null;}
                 if(restoreAttacker&&attacker!=null)attacker.SetPositionAndRotation(attackerHome,attackerRotation);
                 if (dodge && target != null) target.position = targetHome;
                 if (decision != null) {

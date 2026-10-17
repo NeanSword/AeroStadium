@@ -13,8 +13,8 @@ namespace AeroStadium.Presentation
         const int LeafStride = (LeafSteps + 1) * 3, TubeStride = (TubeSteps + 1) * (TubeSides + 1);
         struct Actor
         {
-            public Vector3 origin, anchor, position, velocity, acceleration, axis, side, up, contact, normal, ricochet;
-            public float born, flight, radius, phase, hitAt, sampledAt;
+            public Vector3 origin, anchor, position, velocity, acceleration, axis, side, up, contact, normal, ricochet, contactAxis;
+            public float born, flight, radius, phase, hitAt, sampledAt, contactSpin;
             public bool emitted, hit, shield, secondary;
         }
         readonly Actor[] actors = new Actor[Leaves];
@@ -30,18 +30,28 @@ namespace AeroStadium.Presentation
         float elapsed, width, floorY;
         int moveId;
         bool initialized, released, secondary, hasShield, hasVictim;
-        Transform liveRoot,liveSecond;BattleActionDirector whipDirector;AnimatedSurfaceContact bodySurface;
+        Transform liveRoot,liveSecond;Vector3 liveRootOffset;BattleActionDirector whipDirector;AnimatedSurfaceContact bodySurface;
+        string capturedSurfaceMesh;float capturedSurfaceError=-1;
         public int BodySurfaceContacts {get;private set;}
         public float RenderedContactGap {get;private set;}
         public int SurfaceBakedFrames=>bodySurface!=null?bodySurface.BakedFrames:0;
         public long SurfaceTriangleTests=>bodySurface!=null?bodySurface.TriangleTests:0;
-        public string SurfaceMesh=>bodySurface!=null?bodySurface.LastMeshName:"";
-        public float SurfaceError=>bodySurface!=null?bodySurface.LastSurfaceError:0;
+        public string SurfaceMesh=>capturedSurfaceMesh;
+        public float SurfaceError=>capturedSurfaceError;
+        public Vector3 FirstBodyContactPoint {get;private set;}
+        public Vector3 FirstBodyContactNormal {get;private set;}
+        public float FirstBodyContactSeconds {get;private set;}=-1;
         public void BindWhipVictim(GameObject victim){bodySurface?.Dispose();bodySurface=new AnimatedSurfaceContact(victim);}
+        public void BindLeafVictim(GameObject victim){BindWhipVictim(victim);}
         public void BindWhipRoots(Transform first,Transform second,BattleActionDirector director){liveRoot=first;liveSecond=second;whipDirector=director;}
+        public void BindLeafRoots(Transform first,Transform second,Vector3 offset,BattleActionDirector director)
+        {liveRoot=first;liveSecond=second;liveRootOffset=offset;whipDirector=director;}
         string geometryFailure;
 
         public bool ImpactEnabled { get; set; } = true;
+        public bool VerifyAvoidance {get;set;}
+        public int MissSurfaceCrossings {get;private set;}
+        public int MissSurfaceQueries {get;private set;}
         public float Duration => moveId == 22 ? 2.50f : 2.15f;
         public float EffectProgress => Mathf.Clamp01(elapsed / Duration);
         public bool ImpactReached { get; private set; }
@@ -154,11 +164,10 @@ namespace AeroStadium.Presentation
             mesh.MarkDynamic(); mesh.vertices = v; mesh.normals = n; mesh.colors = c; mesh.uv = uv; mesh.triangles = triangles;
             return mesh;
         }
-        void Update(){if(moveId!=22)Advance();}
         void LateUpdate()
         {
-            if(moveId!=22)return;
-            if(liveRoot!=null)source=liveRoot.position;if(liveSecond!=null)secondarySource=liveSecond.position;
+            // Both attacks sample native bones and the victim's baked pose after Animator evaluation.
+            if(liveRoot!=null)source=liveRoot.position+liveRootOffset;if(liveSecond!=null)secondarySource=liveSecond.position+liveRootOffset;
             Advance();if(whipDirector!=null)whipDirector.SetProgress(EffectProgress);
         }
         void Advance()
@@ -312,6 +321,12 @@ namespace AeroStadium.Presentation
             return p.origin + p.velocity * age + p.acceleration * (.5f * age * age) +
                 (p.side * Mathf.Cos(p.phase) + p.up * Mathf.Sin(p.phase) * .6f) * fan;
         }
+        Vector3 BladeDirection(Actor p,float age)
+        {
+            float fanSpeed=age>=0&&age<p.flight?Mathf.Cos(Mathf.PI*age/p.flight)*Mathf.PI/p.flight*width*(1.1f+.5f*Hash((int)(p.phase*8)+2)):0;
+            return p.velocity+p.acceleration*age+(p.side*Mathf.Cos(p.phase)+p.up*Mathf.Sin(p.phase)*.6f)*fanSpeed;
+        }
+        Vector3 BladeTip(Actor p,float age)=>BladePosition(p,age)+BladeDirection(p,age).normalized*p.radius;
         void RenderBlade(int i, ref Actor p)
         {
             float age = elapsed - p.born;
@@ -323,7 +338,11 @@ namespace AeroStadium.Presentation
                 {
                     float next = Mathf.Min(end, at + 1f / 90f);
                     Vector3 nextPosition = BladePosition(p, next - p.born);
-                    if (TryContact(p.position, nextPosition, p.radius, out Vector3 contact, out Vector3 normal, out float fraction))
+                    // The tip is a vertex of the rendered blade. A body hit requires that vertex's
+                    // captured trajectory to cross an actual animated triangle, with no body proxy.
+                    Vector3 before=hasShield?BladePosition(p,at-p.born):BladeTip(p,at-p.born);
+                    Vector3 after=hasShield?nextPosition:BladeTip(p,next-p.born);
+                    if (TryContact(before, after, p.radius, out Vector3 contact, out Vector3 normal, out float fraction))
                         Hit(ref p, contact, normal, Mathf.Lerp(at, next, fraction));
                     else p.position = nextPosition;
                     at = next;
@@ -332,11 +351,16 @@ namespace AeroStadium.Presentation
             }
             float opacity = Smooth(0, .035f, age) * (1 - Smooth(p.flight + .035f, p.flight + .16f, age));
             if (!p.hit && Vector3.Distance(p.position, p.origin) > p.radius * 2) DetachedBeforeImpact = true;
-            Vector3 direction = p.velocity + p.acceleration * age;
+            Vector3 direction = BladeDirection(p,age);float spin=p.phase+age*19;
             if (p.hit)
             {
                 float hitAge = Mathf.Max(0, elapsed - p.hitAt);
-                opacity = p.shield ? 1 - Smooth(.28f, .68f, hitAge) : 1 - Smooth(0, .055f, hitAge);
+                opacity = p.shield ? 1 - Smooth(.28f, .68f, hitAge) : 1 - Smooth(.025f, .085f, hitAge);
+                if(!p.shield)
+                {
+                    direction=p.contactAxis;spin=p.contactSpin;
+                    if(hitAge<.025f)RenderedContactGap=Mathf.Max(RenderedContactGap,Vector3.Distance(p.position+direction.normalized*p.radius,p.contact));
+                }
                 if (p.shield)
                 {
                     float drift = (1 - Mathf.Exp(-3.2f * hitAge)) / 3.2f;
@@ -348,7 +372,7 @@ namespace AeroStadium.Presentation
                     direction = p.ricochet * Mathf.Exp(-3.2f * hitAge) + Vector3.down * hitAge * 1.7f;
                 }
             }
-            RenderLeaf(i, p.position, direction, p.side, p.radius, p.phase + age * 19, opacity, i);
+            RenderLeaf(i, p.position, direction, p.side, p.radius, spin, opacity, i);
         }
         void RenderLeaf(int slot, Vector3 center, Vector3 direction, Vector3 fallbackSide, float radius, float spin, float opacity, int seed)
         {
@@ -377,14 +401,16 @@ namespace AeroStadium.Presentation
         bool TryContact(Vector3 previous, Vector3 next, float support, out Vector3 point, out Vector3 normal, out float fraction)
         {
             point = next; normal = Vector3.up; fraction = 0;
-            if (!hasShield && (!ImpactEnabled || !hasVictim)) return false;
-            if(moveId==22&&!hasShield)
+            if (!hasShield && ((!ImpactEnabled&&!VerifyAvoidance) || !hasVictim)) return false;
+            if(!hasShield)
             {
+                if(!ImpactEnabled)MissSurfaceQueries++;
                 if(bodySurface==null||!bodySurface.TrySegment(previous,next,out point,out normal))return false;
+                if(!ImpactEnabled){MissSurfaceCrossings++;return false;}
                 float length=Vector3.Distance(previous,next);fraction=length>.000001f?Mathf.Clamp01(Vector3.Distance(previous,point)/length):0;
                 return true;
             }
-            Bounds bounds = hasShield ? shieldBounds : victimBounds;
+            Bounds bounds = shieldBounds;
             Vector3 radii = SafeRadii(bounds.extents), expanded = radii + Vector3.one * support;
             Vector3 q = Divide(previous - bounds.center, expanded), d = Divide(next - previous, expanded);
             float a = Vector3.Dot(d, d), b = Vector3.Dot(q, d), c = Vector3.Dot(q, q) - 1;
@@ -406,19 +432,29 @@ namespace AeroStadium.Presentation
         }
         void Hit(ref Actor p, Vector3 point, Vector3 normal, float time)
         {
-            p.hit = true; p.shield = hasShield; p.contact = point; p.normal = normal; p.hitAt = moveId == 22 ? elapsed : time;
+            // Contact may be discovered while catching up a long frame. Its visible age starts
+            // now, so the contact pose and cutting glint survive that first rendered frame.
+            p.hit = true; p.shield = hasShield; p.contact = point; p.normal = normal; p.hitAt = elapsed;
             if (moveId == 75 && Vector3.Distance(p.origin, point) > p.radius * 2) DetachedBeforeImpact = true;
-            p.position = point + normal * (p.radius + .014f);
-            Vector3 incoming = p.velocity + p.acceleration * Mathf.Max(0, time - p.born);
+            float contactAge=Mathf.Max(0,time-p.born);
+            Vector3 incoming = moveId==75?BladeDirection(p,contactAge):p.velocity+p.acceleration*contactAge;
+            p.contactAxis=incoming.normalized;p.contactSpin=p.phase+contactAge*19;
+            p.position = moveId==75&&!hasShield?point-p.contactAxis*p.radius:point+normal*(p.radius+.014f);
             Vector3 reflected = Vector3.Reflect(incoming, normal);
             p.ricochet = Vector3.ProjectOnPlane(reflected, normal) * .31f + normal * Mathf.Max(width * 2, Vector3.Dot(reflected, normal) * .20f);
-            ActualContacts++;if(moveId==22&&!hasShield)BodySurfaceContacts++; if (p.secondary) SecondaryEmitterContacts++; else PrimaryEmitterContacts++;
+            ActualContacts++;
+            if(!hasShield)
+            {
+                if(BodySurfaceContacts==0){FirstBodyContactPoint=point;FirstBodyContactNormal=normal;FirstBodyContactSeconds=time;}
+                BodySurfaceContacts++;capturedSurfaceMesh=bodySurface.LastMeshName;capturedSurfaceError=Mathf.Max(capturedSurfaceError,bodySurface.LastSurfaceError);
+            }
+            if (p.secondary) SecondaryEmitterContacts++; else PrimaryEmitterContacts++;
             if (p.shield) { if (p.secondary) SecondaryShieldContacts++; else PrimaryShieldContacts++; }
             ImpactReached = true; ContactPoint = point; ContactNormal = normal;
         }
         void RenderContact(int i, Actor p)
         {
-            float age = Mathf.Max(0, elapsed - p.hitAt), flash = (1 - Smooth(.025f, .16f, age)) * Smooth(0, .012f, age);
+            float age = Mathf.Max(0, elapsed - p.hitAt), flash = 1 - Smooth(.025f, .16f, age); // A detected contact must be visible on this rendered frame, including a slow frame.
             ContactOpacity = Mathf.Max(ContactOpacity, flash); if (!p.shield) ImpactOpacity = Mathf.Max(ImpactOpacity, flash);
             Basis(p.normal, out Vector3 side, out Vector3 up);
             for (int s = 0; s < Slashes; s++)

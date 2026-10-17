@@ -119,7 +119,7 @@ namespace AeroStadium.Presentation
             float rustle = Window(p, .015f, .57f, .06f);
             float value = rustle * (.29f * fiber + .08f * low)
                 * (.6f + .4f * Mathf.Sin(2f * Mathf.PI * 32f * p));
-            for (int leaf = 0; leaf < 13; leaf++)
+            for (int leaf = 0; leaf < 12; leaf++)
             {
                 float born = .14f + leaf * .026f, age = p - born;
                 float variant = .5f + .5f * Mathf.Sin(leaf * 2.399963f);
