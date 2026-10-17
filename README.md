@@ -1,12 +1,18 @@
 # AeroStadium
 
-AeroStadium est un jeu Pokémon non officiel développé dans Unity, inspiré des combats en stade de Pokémon Stadium 2. Il possède son propre moteur de combat, un stade original et une interface adaptée à la manette. L'objectif est d'intégrer progressivement des Pokémon, objets et capacités récents, avec une catégorie physique ou spéciale propre à chaque attaque.
+AeroStadium est mon projet de jeu Pokémon non officiel dans Unity, inspiré des combats en stade de Pokémon Stadium 2. Je construis un moteur de combat indépendant, des arènes et une interface pensée pour la manette. Le projet avance progressivement vers un catalogue de Pokémon, d’objets et de capacités récents, en distinguant la catégorie physique ou spéciale de chaque attaque.
 
 Le développement se fait dans [NeanSword/AeroStadium](https://github.com/NeanSword/AeroStadium). Le dépôt [Aero-Stadium-2-FR](https://github.com/NeanSword/Aero-Stadium-2-FR) reste une référence pour comprendre l'expérience recherchée. Ce nouveau projet ne dépend ni de son exécutable recompilé ni d'une ROM.
 
-## Premier prototype
+## Dernière étape — 18 octobre 2026
 
-Le mode actuel est un combat solo **1 contre 1 face à une IA simple**. Le catalogue et les modèles locaux couvrent les 151 Pokémon de Kanto. La sélection d'équipe complète n'est pas encore proposée.
+Les esquives disposent maintenant d’un geste articulé et anticipé, vérifié sur Tortank, Bulbizarre et Arcanin. Les nombres de dégâts au-dessus des Pokémon sont retirés. Les résultats et le périmètre des essais figurent dans [les esquives](docs/DODGE_POSE.md) et [le journal](LastProgressLogs.md). La refonte des barres de vie viendra plus tard.
+
+## Première base jouable — 1er octobre 2026
+
+Cette section décrit le prototype de départ. Les évolutions suivantes, leurs vérifications et les points encore ouverts sont consignés dans [le journal du projet](LastProgressLogs.md).
+
+Cette première version propose un combat solo **1 contre 1 face à une IA simple**. Le catalogue et les modèles locaux couvrent les 151 Pokémon de Kanto. À cette date, la sélection d’équipe complète reste à ajouter.
 
 - Stade créé pour AeroStadium : terrain circulaire, tribunes, éclairage et tableau d'affichage.
 - Interface en français : sélection du Pokémon et de l'objet, PV, quatre capacités, puissance, catégorie, PP, journal du combat, pause et résultat.
@@ -14,15 +20,15 @@ Le mode actuel est un combat solo **1 contre 1 face à une IA simple**. Le catal
 - 151 modèles locaux de génération I, avec leur taille et placement réglés dans les prefabs Unity.
 - Classification moderne des capacités : Nitrocharge utilise l'Attaque et la Défense, tandis que Lance-Flammes utilise l'Attaque Spéciale et la Défense Spéciale.
 
-Le catalogue de combat utilise les données de génération I ; les autres générations, objets et capacités restent à intégrer.
+Le catalogue initial repose sur les données de génération I ; son extension aux autres générations, objets et capacités fait partie de la suite du développement.
 
-Le moteur prend en charge les 18 types ordinaires, le STAB, la précision, les PP, la priorité, la Vitesse, quelques effets de capacités et trois objets tenus : Restes, Orbe Vie et Charbon. Les statistiques sont calculées au niveau 50, avec une nature neutre, 31 IV et aucun EV.
+Dans cette base, le moteur prend en charge les 18 types ordinaires, le STAB, la précision, les PP, la priorité, la Vitesse, quelques effets de capacités et trois objets tenus : Restes, Orbe Vie et Charbon. Les statistiques sont calculées au niveau 50, avec une nature neutre, 31 IV et aucun EV.
 
-**Ce prototype n'est pas un moteur complet des générations récentes.** Les talents, coups critiques, altérations de statut, effets secondaires, météo, terrains, formes particulières et nombreux effets de capacités ou d'objets restent à développer. Les arrondis de dégâts sont simplifiés. L'IA privilégie des attaques efficaces et quelques actions de soin ou de préparation ; elle n'est pas conçue comme un adversaire compétitif.
+**Cette base couvre une partie des mécaniques des générations récentes.** Les talents, coups critiques, altérations de statut, effets secondaires, météo, terrains, formes particulières et nombreux effets de capacités ou d'objets restent à développer. Les arrondis de dégâts sont simplifiés. L'IA privilégie des attaques efficaces et quelques actions de soin ou de préparation ; elle n'est pas conçue comme un adversaire compétitif.
 
 Les 151 prefabs de Kanto sont préparés localement. Dans les GLB disponibles, seuls 19 modèles contiennent des animations, soit 162 clips ; 132 GLB sont statiques. Unity conserve chaque clip reçu et relie les rôles attaque, dégâts ou K.O. quand les noms les identifient sans ambiguïté. Ces clips communautaires ne sont pas vérifiés comme les animations officielles de chaque espèce ; voir [le relevé des animations](docs/GEN1_ANIMATIONS.md).
 
-L'écran titre local affiche une illustration originale réunissant les neuf générations, un logo AeroStadium transparent et un texte Appuyez sur Start clignotant. Start, Entrée et le clic ouvrent le menu principal : Solo, Multijoueur local, Multijoueur en ligne et Options. Les quatre cartes animées mènent actuellement à la simulation de combat. La navigation à la manette possède un curseur Poké Ball et le menu dispose de sa propre musique en boucle. Voir [le menu principal](docs/MAIN_MENU.md) et [sa musique](docs/MENU_AUDIO.md). Les images restent locales ; leur résolution native et les prompts sont documentés dans [l'écran titre](docs/artwork/title-assets-20261002.md).
+L’écran titre ajouté ensuite affiche une illustration originale réunissant les neuf générations, un logo AeroStadium transparent et un texte Appuyez sur Start clignotant. Start, Entrée et le clic ouvrent le menu principal : Solo, Multijoueur local, Multijoueur en ligne et Options. Les quatre cartes animées mènent, dans cette première intégration, à la simulation de combat. La navigation à la manette possède un curseur Poké Ball et le menu dispose de sa propre musique en boucle. Voir [le menu principal](docs/MAIN_MENU.md) et [sa musique](docs/MENU_AUDIO.md). Les images restent locales ; leur résolution native et les prompts sont documentés dans [l'écran titre](docs/artwork/title-assets-20261002.md).
 
 ## Ouvrir et construire le projet
 
@@ -59,14 +65,14 @@ dotnet run --project Tests/CoreChecks/CoreChecks.csproj -- Assets/AeroStadium/Re
 
 Les modèles locaux de génération I viennent de [Pokemon-3D-api/assets](https://github.com/Pokemon-3D-api/assets/tree/main/models/opt/regular), dont le pipeline récupère les GLB sources depuis Sketchfab. Les fichiers préparés, leurs empreintes et leurs informations de provenance sont conservés dans les manifestes locaux. Aucune ROM, aucun dump ni payload de modèle ou d'animation n'est inclus dans ce dépôt.
 
-## État des vérifications
+## Vérifications de la première base
 
 Au **1er octobre 2026**, la préparation et l'import Unity ont réussi. Les **16 vérifications du moteur de combat ont réussi**, notamment la classification physique/spéciale, les effets d'objets, les équipes, la validation des données et la reproductibilité avec une graine fixe.
 
 La compilation Windows a réussi, sans erreur ni avertissement. Une session visible de 120 secondes a permis d'observer les modèles, le HUD et des combats allant jusqu'à leur résultat. Les **16 tests Input System ont réussi** : commandes Xbox/PlayStation/Nintendo, clavier, navigation, pause et débranchement, avec des périphériques simulés. Les essais de chaque modèle de manette sur du matériel réel restent à faire.
 
-Le journal de reprise détaillé est [LastProgressLogs.md](LastProgressLogs.md). Les sources et crédits figurent dans [docs/CREDITS.md](docs/CREDITS.md).
+Le suivi détaillé du développement se trouve dans [LastProgressLogs.md](LastProgressLogs.md). Les sources et crédits figurent dans [docs/CREDITS.md](docs/CREDITS.md).
 
-Les prochaines étapes sont les équipes de trois Pokémon, le changement de Pokémon pendant le combat, l'ajout progressif de modèles et d'animations, puis l'extension des mécaniques et du catalogue. L'architecture est décrite dans [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+La suite prévue à partir de cette base comprend les équipes de trois Pokémon, le changement de Pokémon en combat, les modèles et animations supplémentaires, puis l’extension des mécaniques et du catalogue. Le journal suit les avancées réalisées depuis cette première version. L'architecture est décrite dans [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 AeroStadium est un projet de fans indépendant. Il n'est ni édité, ni approuvé, ni contrôlé par les ayants droit de Pokémon.

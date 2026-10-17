@@ -7,6 +7,9 @@ namespace AeroStadium.Presentation
     [DisallowMultipleComponent]
     public sealed class BattleActionDirector : MonoBehaviour
     {
+        DodgePoseMotion dodgePose;BattleDodgeMotionTick dodgeTick;bool visualStarted;
+        public DodgePoseTelemetry LastDodgePose {get;private set;}
+        public float DodgeClearSeconds {get;private set;}=-1;
         SurfCameraTrack surfTrack;WhipCameraTrack whipTrack;LeafCameraTrack leafTrack;Vector3 attackerHome;Quaternion attackerRotation;bool restoreAttacker;
         public SurfCameraTelemetry LastSurfCamera {get;private set;}
         public WhipCameraTelemetry LastWhipCamera {get;private set;}
@@ -33,7 +36,7 @@ namespace AeroStadium.Presentation
         public void BeginAction(int side, Transform source, Transform victim, int moveId,
             bool targetHit, bool protectedTarget, bool allowDodge = false, float actionDuration = 1.6f)
         {
-            EndAction();
+            EndAction();LastDodgePose=null;DodgeClearSeconds=-1;visualStarted=false;
             if (arena == null || source == null || victim == null || side < 0 || side > 1
                 || arena.ArenaCamera == null || arena.ArenaCamera.orthographic
                 || !arena.TryGetCombatCameraFrame(side, out attackerFrame)
@@ -56,8 +59,14 @@ namespace AeroStadium.Presentation
             CameraTravel=DodgeTravel=0;Restored=false;Active = true;
             if(moveId==57){surfTrack=new SurfCameraTrack(arena,side,source);LastSurfCamera=surfTrack.Stats;}
             if(moveId==22){whipTrack=new WhipCameraTrack(arena,side,source);LastWhipCamera=whipTrack.Stats;}
-            if (dodge) PrepareDodge(moveId);
-            if(moveId==75){leafTrack=new LeafCameraTrack(arena,side,source,dodge?dodgeDirection*dodgeDistance:Vector3.zero);LastLeafCamera=leafTrack.Stats;}
+            if (dodge) {
+                PrepareDodge(moveId);
+                if(dodgeDistance>.05f){
+                    dodgePose=DodgePoseMotion.Begin(target,dodgeDirection,dodgeDistance);LastDodgePose=dodgePose!=null?dodgePose.Stats:null;
+                    if(dodgeTick==null)dodgeTick=gameObject.AddComponent<BattleDodgeMotionTick>();dodgeTick.Owner=this;
+                }
+            }
+            if(moveId==75){leafTrack=new LeafCameraTrack(arena,side,source,dodge?dodgeDirection*dodgeDistance+Vector3.up*DodgePoseMotion.MaxExpectedLift(target):Vector3.zero);LastLeafCamera=leafTrack.Stats;}
         }
 
         public void SetProgress(float normalizedProgress)
@@ -102,6 +111,20 @@ namespace AeroStadium.Presentation
             return true;
         }
 
+        // Pose and world displacement must precede grounding (95) and animated body collision (100).
+        internal void UpdateDodgeMotion()
+        {
+            if(!Active||!visualStarted||!dodge||target==null||dodgeDistance<=.05f)return;
+            float dt=Time.deltaTime;
+            float p=Mathf.Clamp01(progressDriven?progress+dt/duration:Mathf.Max(progress,(elapsed+Mathf.Min(dt,.1f))/duration));
+            float away=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.055f,.23f,p));
+            float home=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.70f,.96f,p));
+            target.position=targetHome+dodgeDirection*(dodgeDistance*away*(1-home));
+            float displacement=Vector3.Distance(targetHome,target.position);DodgeTravel=Mathf.Max(DodgeTravel,displacement);
+            if(dodgePose!=null)dodgePose.Apply(p);
+            if(DodgeClearSeconds<0&&p<.70f&&displacement>=dodgeDistance*.99f)DodgeClearSeconds=p*duration;
+        }
+
         void LateUpdate()
         {
             if (!Active) return;
@@ -110,11 +133,6 @@ namespace AeroStadium.Presentation
             float dt = Mathf.Min(Time.deltaTime, .1f);
             elapsed += dt;
             if (!progressDriven) progress = Mathf.Max(progress, Mathf.Clamp01(elapsed / duration));
-            if (dodge) {
-                float away = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.08f, .27f, progress));
-                float home = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.70f, .96f, progress));
-                target.position = targetHome + dodgeDirection * (dodgeDistance * away * (1 - home));DodgeTravel=Mathf.Max(DodgeTravel,Vector3.Distance(targetHome,target.position));
-            }
             if(surfTrack!=null){if(surfTrack.Stats.entered)surfTrack.Follow(dt);CameraTravel=Mathf.Max(CameraTravel,surfTrack.Stats.travel);}
             else if(whipTrack!=null){whipTrack.Follow(progress,dt);CameraTravel=Mathf.Max(CameraTravel,whipTrack.Stats.travel);}
             else if(leafTrack!=null){leafTrack.Follow(progress,dt);CameraTravel=Mathf.Max(CameraTravel,leafTrack.Stats.travel);}
@@ -201,15 +219,15 @@ namespace AeroStadium.Presentation
         public System.Collections.IEnumerator EnterAction()
         {if(surfTrack!=null){yield return surfTrack.Enter();elapsed=0;}
             else if(whipTrack!=null){yield return whipTrack.Enter();elapsed=0;}
-            else if(leafTrack!=null){yield return leafTrack.Enter();elapsed=0;}}
+            else if(leafTrack!=null){yield return leafTrack.Enter();elapsed=0;}visualStarted=true;}
         public System.Collections.IEnumerator RecoverAction()
-        {if(surfTrack!=null)yield return surfTrack.Recover();
+        {visualStarted=false;if(surfTrack!=null)yield return surfTrack.Recover();
             else if(whipTrack!=null)yield return whipTrack.Recover();
             else if(leafTrack!=null)yield return leafTrack.Recover();}
         public void EndAction()
         {
             if (!Active) return;
-            Active = false;
+            Active = false;visualStarted=false;
             try {
                 // A newly blocked normal exit holds the safe pose; an explicit interruption still restores immediately.
                 bool holdWhip = whipTrack!=null&&whipTrack.FinishedRecovery&&!whipTrack.Stats.recovered;
@@ -225,6 +243,7 @@ namespace AeroStadium.Presentation
                 if(whipTrack!=null){whipTrack.Cancel();whipTrack=null;}
                 if(leafTrack!=null){leafTrack.Cancel();leafTrack=null;}
                 if(restoreAttacker&&attacker!=null)attacker.SetPositionAndRotation(attackerHome,attackerRotation);
+                if(dodgePose!=null){dodgePose.End();dodgePose=null;}
                 if (dodge && target != null) target.position = targetHome;
                 if (decision != null) {
                     if(rebaseDecision&&decisionEnabled&&decision.Active){decision.SetActive(false);decision.SetActive(true);}

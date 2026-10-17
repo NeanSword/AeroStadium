@@ -828,9 +828,6 @@ namespace AeroStadium.Presentation
             float duration = reactionAlreadyPlayed ? .22f :Mathf.Max(.22f, PlayDamageAnimation(side,damage>0?hitEffectiveness:0));
             Transform root = pokemon[side].transform;
             Quaternion rotation = root.rotation;
-            float labelHeight = PokemonWorldHeight(side)+.35f;
-            Label("−" + damage, root.position + Vector3.up * labelHeight, .10f,
-                new Color(1, .72f, .4f), true);
             for (float time = 0; time < duration; time += Time.deltaTime)
             {
                 // Recoil is authored on the rig, rather than shaking the complete actor at 60 radians/s.

@@ -52,6 +52,19 @@ namespace AeroStadium.Presentation
         public bool VerifyAvoidance {get;set;}
         public int MissSurfaceCrossings {get;private set;}
         public int MissSurfaceQueries {get;private set;}
+        Bounds originalAvoidanceBounds;bool hasOriginalAvoidanceBounds;
+        public float FirstOriginalThreatSeconds {get;private set;}=-1;
+        public void SetAvoidanceReference(Bounds original){originalAvoidanceBounds=original;hasOriginalAvoidanceBounds=true;}
+        void MeasureOriginalThreat(Vector3 from,Vector3 to,float began,float ended)
+        {
+            if(!VerifyAvoidance||!hasOriginalAvoidanceBounds)return;
+            Vector3 delta=to-from;float distance=delta.magnitude;if(distance<.000001f)return;
+            float entry=0;
+            if(!originalAvoidanceBounds.Contains(from)&&!originalAvoidanceBounds.IntersectRay(new Ray(from,delta/distance),out entry))return;
+            if(entry<0||entry>distance)return;
+            float time=Mathf.Lerp(began,ended,Mathf.Clamp01(entry/distance));
+            if(FirstOriginalThreatSeconds<0||time<FirstOriginalThreatSeconds)FirstOriginalThreatSeconds=time;
+        }
         public float Duration => moveId == 22 ? 2.50f : 2.15f;
         public float EffectProgress => Mathf.Clamp01(elapsed / Duration);
         public bool ImpactReached { get; private set; }
@@ -342,6 +355,7 @@ namespace AeroStadium.Presentation
                     // captured trajectory to cross an actual animated triangle, with no body proxy.
                     Vector3 before=hasShield?BladePosition(p,at-p.born):BladeTip(p,at-p.born);
                     Vector3 after=hasShield?nextPosition:BladeTip(p,next-p.born);
+                    MeasureOriginalThreat(before,after,at,next);
                     if (TryContact(before, after, p.radius, out Vector3 contact, out Vector3 normal, out float fraction))
                         Hit(ref p, contact, normal, Mathf.Lerp(at, next, fraction));
                     else p.position = nextPosition;

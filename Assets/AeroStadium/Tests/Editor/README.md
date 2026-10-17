@@ -1,34 +1,19 @@
-# Controller checks
+# Vérifications des manettes
 
-These synchronous Unity EditMode tests isolate Input System devices with
-`InputTestFixture`. They create virtual Xbox/default, DualShock 4, DualSense and
-Switch Pro devices and send full state events through their native layouts. The
-checks cover displayed prompts, hotplug/removal, the last active controller,
-Submit/Cancel delivery by `InputSystemUIInputModule`, keyboard fallback, and
-single-press pause/cancel behavior.
+Ces tests Unity EditMode synchrones isolent les périphériques Input System avec `InputTestFixture`. Ils créent des manettes virtuelles Xbox/par défaut, DualShock 4, DualSense et Switch Pro, puis envoient des événements d'état complets dans leurs layouts natifs.
 
-The presentation currently lives in Unity's `Assembly-CSharp`. The test assembly
-uses reflection only at that assembly boundary to locate `ControllerHints` and
-call its small public interface; input actions and UI events use normal typed
-Unity APIs. The private `Update` invocation simulates its normal frame refresh
-after the last active gamepad changes.
+Les vérifications portent sur les indications affichées, le branchement et le retrait, la dernière manette active, les événements Submit/Cancel de `InputSystemUIInputModule`, le repli clavier et le comportement pause/annulation sur une pression unique.
 
-Run the assembly `AeroStadium.ControllerChecks` through the Unity Test Runner in
-EditMode. `InputTestFixture` does not support EditMode coroutine tests, so these
-checks use NUnit `[Test]` methods with explicit input updates instead.
-The fixture explicitly calls the UI module's normal Awake/OnEnable/OnDisable
-lifecycle when EditMode has not initialized its EventSystem cache. It enables
-the actual assigned action asset and processes the module through its public
-API, so no synthetic Submit/Cancel implementation bypasses the real bindings.
-The fixture owns an asset created by the package's `DefaultInputActions`, rather
-than the module's shared default asset, so its EditMode cleanup can use
-`DestroyImmediate`. Submit and Cancel run in separate fixtures: manual dynamic
-input updates advance input state, while synchronous NUnit tests do not advance
-Unity's `Time.frameCount`, which the UI module also checks.
-The package's explicit `InputSystem.Update(InputUpdateType.Dynamic)` overload is
-internal, so the fixture invokes that method through reflection; it does not
-inject or suppress action state. Navigation checks also send D-pad and analog
-stick input through the real module and verify received `IMoveHandler` events.
+La présentation se trouve actuellement dans `Assembly-CSharp`. L'assembly de tests utilise la réflexion à cette frontière pour trouver `ControllerHints` et appeler sa petite interface publique. Les actions et événements UI utilisent les API Unity typées habituelles. L'appel privé à `Update` reproduit le rafraîchissement normal après un changement de manette active.
 
-These tests validate software mapping and event handling. They do not validate
-physical USB/Bluetooth devices, drivers, vibration, or controller glyph artwork.
+## Exécution
+
+Lancer l'assembly `AeroStadium.ControllerChecks` en EditMode dans le Unity Test Runner. `InputTestFixture` ne prend pas en charge les tests EditMode en coroutine : les tests utilisent donc NUnit `[Test]` avec des mises à jour explicites de l'entrée.
+
+Quand EditMode n'a pas initialisé le cache EventSystem, la fixture appelle le cycle habituel Awake/OnEnable/OnDisable du module UI. Elle active l'asset d'actions réellement affecté et traite le module par son API publique ; les vérifications Submit/Cancel passent ainsi par les vrais bindings.
+
+La fixture possède un asset créé par `DefaultInputActions` du paquet, au lieu d'utiliser l'asset partagé par défaut du module. Son nettoyage EditMode peut donc appeler `DestroyImmediate`. Submit et Cancel utilisent des fixtures séparées : les mises à jour dynamiques manuelles avancent l'état des entrées, tandis que les tests NUnit synchrones n'avancent pas `Time.frameCount`, également vérifié par le module UI.
+
+L'overload `InputSystem.Update(InputUpdateType.Dynamic)` du paquet est interne ; la fixture l'appelle par réflexion, sans injecter ni supprimer d'état d'action. Les tests de navigation envoient aussi le D-pad et le stick analogique dans le vrai module et vérifient les événements reçus par `IMoveHandler`.
+
+Ces tests vérifient les correspondances logicielles et la gestion des événements. Les essais matériels USB/Bluetooth, pilotes, vibrations et illustrations des boutons restent distincts.

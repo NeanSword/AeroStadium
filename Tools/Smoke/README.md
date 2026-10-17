@@ -1,46 +1,23 @@
-# Local smoke textures
+# Textures locales de fumée
 
-`generate_smoke_atlas.py` deterministically generates the presentation textures
-used by Smogo (#109) and Smogogo (#110). It uses NumPy and Pillow locally; it
-does not access the network or any image-generation service.
+`generate_smoke_atlas.py` génère de façon déterministe les textures de présentation de Smogo (#109) et Smogogo (#110). Le script utilise NumPy et Pillow localement, sans réseau ni service de génération d'images.
 
-From the project root:
+Depuis la racine du projet :
 
 ```powershell
 python Tools/Smoke/generate_smoke_atlas.py Assets/AeroStadium/Resources/NativeModels/SharedSmoke
 ```
 
-The PNGs stay in the ignored native-model directory. The importer expects
-`NativeSmokeAtlas.png` (1024 px, Clamp) and `NativeSmokeFlow.png` (256 px, Repeat).
-Both are linear, bilinear, uncompressed and mipmapped. Atlas RGBA stores density,
-projected normal XY, and self-shadow; its alpha channel is data rather than
-transparency. The shader derives transparency from density.
+Les PNG restent dans le répertoire des modèles natifs, ignoré par Git. L'importeur attend `NativeSmokeAtlas.png` (1024 px, Clamp) et `NativeSmokeFlow.png` (256 px, Repeat), tous deux linéaires, bilinéaires, non compressés et avec mipmaps. Le RGBA de l'atlas contient la densité, la normale projetée XY et l'auto-ombre. Son alpha est une donnée ; le shader calcule la transparence depuis la densité.
 
-The 16 connected billows share zero-density tile rims. Bounded continuous UV
-advection produces evolving folds without a flipbook frame transition. Native
-seed bones, visibility and encoded sizes remain active. The renderer is an
-AeroStadium adaptation, rather than a reproduction of the source game's shader.
+Les 16 volutes connectées possèdent des bords de tuiles de densité nulle. Une advection UV continue et bornée fait évoluer les plis sans changement d'image de flipbook. Les os, visibilités et tailles encodées des particules natives restent actifs. Le rendu est une adaptation pour AeroStadium ; il ne reproduit pas exactement le shader du jeu source.
 
-NativePersistentSmoke emits from every audited body chimney: 22 on #109,
-21 on #110 (14 on its large head, 7 on its small head). NativeSmokeVentLayout
-stores distal cap coordinates from the native tip triangle fans/inverse bind
-matrices, mirrored once for glTFast. Each point follows its own wart bone;
-facial jaw appendages are excluded. Validation independently compares vent
-positions with skinned body vertices to detect incorrect coordinate conversion.
+## Cheminées et émission
 
-Each chimney emits 0.8 small clouds/second. A bounded pool of 96 holds about
-76-80 live clouds: a 3-second density plateau then a smooth 1.5-second fade.
-Material opacity is 0.72. Clouds first drift outward, then rise and expand;
-their birth radius is 3.6-4.4% of model height. Lifetime alpha uses UV5 and a
-stable cloud identity uses UV4.A; native seed cards without UV5 retain their
-former shader behavior.
+`NativePersistentSmoke` émet depuis chaque cheminée vérifiée du corps : 22 pour #109, 21 pour #110 (14 sur la grande tête, 7 sur la petite). `NativeSmokeVentLayout` conserve les coordonnées des extrémités calculées depuis les éventails de triangles natifs et les matrices inverse-bind, avec un seul miroir pour glTFast. Chaque point suit son propre os de protubérance ; les appendices de mâchoire sont exclus. La validation compare indépendamment les sorties aux sommets skinnés du corps pour détecter une mauvaise conversion des coordonnées.
 
-The authored pool emits while the body is visible, adapting the source's
-intermittent smoke flags. Original SmokeGeom cards use forceRenderingOff while
-the pool runs; prior flags are restored on disable. Body animations and visibility
-are preserved. A single dynamic mesh and material are reused outside ModelRoot,
-so native body size/grounding measurements exclude these presentation clouds.
-Reprepare both prefabs after changing emitter setup.
+Chaque cheminée émet 0,8 petit nuage par seconde. Un pool borné à 96 conserve environ 76 à 80 nuages actifs, avec un plateau de densité de 3 s puis une disparition progressive de 1,5 s. L'opacité du matériau est de 0,72. Les nuages partent vers l'extérieur, puis montent et grossissent ; leur rayon initial vaut 3,6 à 4,4 % de la hauteur du modèle. UV5 porte l'alpha lié à la durée de vie ; UV4.A identifie chaque nuage de façon stable. Les cartes natives dépourvues d'UV5 gardent leur ancien comportement de shader.
 
-Fantominus uses the separate NativeGasSurface shader; its opacity is 0.85 and
-its source purple RGB mixing remains unchanged.
+L'émission continue tant que le corps est visible, en adaptant les drapeaux de fumée intermittente de la source. Les anciennes cartes `SmokeGeom` utilisent `forceRenderingOff` pendant l'émission du pool ; leurs drapeaux sont restaurés à la désactivation. Les animations et la visibilité du corps sont conservées. Un seul mesh dynamique et un seul matériau sont réutilisés hors de `ModelRoot`, ce qui exclut ces nuages des mesures de taille et de contact au sol du corps natif. Après un changement des émetteurs, préparer à nouveau les deux prefabs.
+
+Fantominus utilise le shader distinct `NativeGasSurface`, avec une opacité de 0,85 et le mélange RGB violet de la source conservé.

@@ -13,6 +13,7 @@ namespace AeroStadium.Presentation
             public int meshContacts,meshBakedFrames;public long triangleTests;public float meshError,renderedTipGap;public string contactMesh;
             public Vector3 bodyContact,bodyNormal;public float firstBodyContactSeconds=-1;
             public int missSurfaceCrossings,missSurfaceQueries;
+            public bool avoidedBeforeArrival;public float firstThreatSeconds=-1,dodgeClearSeconds=-1,dodgeLeadSeconds;
             public string source; public Vector3 contact,normal; public float impactSeconds=-1;
         }
         public WhipCameraTelemetry LastWhipCamera=>actionDirector!=null?actionDirector.LastWhipCamera:null;
@@ -49,7 +50,7 @@ namespace AeroStadium.Presentation
             effect.SetSecondaryEmitter(second);
             if(moveId==22){effect.BindWhipRoots(grassRoots[side,0],grassRoots[side,1],actionDirector);effect.BindWhipVictim(pokemon[1-side]);}
             else{effect.BindLeafRoots(grassRoots[side,0],grassRoots[side,1],Vector3.up*PokemonWorldHeight(side)*.12f,actionDirector);effect.BindLeafVictim(pokemon[1-side]);}
-            effect.SetFloor(pokemon[side].transform.position.y);effect.ImpactEnabled=targetHit;effect.VerifyAvoidance=moveId==75&&currentResolvedMiss;
+            effect.SetFloor(pokemon[side].transform.position.y);effect.ImpactEnabled=targetHit;effect.VerifyAvoidance=moveId==75&&currentResolvedMiss;effect.SetAvoidanceReference(PokemonWorldBounds(1-side));
             var sound=GrassAttackAudio.Play(EffectParent(),(source+second)*.5f,moveId,effect.Duration);
             var pcm=GrassAttackAudio.AnalyzePcm(GrassAttackAudio.CreateOriginalPcm(moveId,effect.Duration));
             report.sound=sound!=null&&sound.clip!=null&&sound.isPlaying&&pcm.finite&&pcm.peak>0&&pcm.peak<=1;
@@ -85,11 +86,14 @@ namespace AeroStadium.Presentation
                 report.meshContacts=effect.BodySurfaceContacts;report.meshBakedFrames=effect.SurfaceBakedFrames;report.triangleTests=effect.SurfaceTriangleTests;report.contactMesh=effect.SurfaceMesh;report.meshError=effect.SurfaceError;report.renderedTipGap=effect.RenderedContactGap;
                 report.bodyContact=effect.FirstBodyContactPoint;report.bodyNormal=effect.FirstBodyContactNormal;report.firstBodyContactSeconds=effect.FirstBodyContactSeconds;
                 report.missSurfaceCrossings=effect.MissSurfaceCrossings;report.missSurfaceQueries=effect.MissSurfaceQueries;
+                report.firstThreatSeconds=effect.FirstOriginalThreatSeconds;report.dodgeClearSeconds=actionDirector!=null?actionDirector.DodgeClearSeconds:-1;
+                report.dodgeLeadSeconds=report.firstThreatSeconds-report.dodgeClearSeconds;
+                report.avoidedBeforeArrival=report.firstThreatSeconds>0&&report.dodgeClearSeconds>=0&&report.dodgeLeadSeconds>.02f;
                 report.backswing=effect.BackswingDistance;report.tipSpeed=effect.WhipTipPeakSpeed;report.middleSpeed=effect.WhipMiddlePeakSpeed;report.recoil=effect.WhipRecoilDistance;report.minLength=effect.WhipMinimumLength;report.maxLength=effect.WhipMaximumLength;
                 report.motion=moveId==22?effect.Anchored&&effect.RetractionComplete:effect.DetachedBeforeImpact;
                 report.completed=effect.Completed&&effect.Validate(out _)&&report.geometry&&report.motion&&report.sound
                     &&report.emissions==effect.ExpectedEmissionCount&&report.reactions==(targetHit?1:0)
-                    &&(!effect.VerifyAvoidance||effect.MissSurfaceCrossings==0)
+                    &&(!effect.VerifyAvoidance||(effect.MissSurfaceCrossings==0&&report.avoidedBeforeArrival))
                     &&(!(targetHit||protectedTarget>=0)||effect.ImpactReached);
                 Debug.Log("[grass] "+JsonUtility.ToJson(report));
             }

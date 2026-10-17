@@ -1,13 +1,27 @@
-# Local Stadium reference and modern presentation
+# Références Stadium et présentation moderne
 
-48 native archive environments: 30 Stadium2, 18 Stadium1. These are records, not 48 distinct playable stadiums. Sources and recovered assets remain local and ignored.
+Le catalogue local contient 48 décors issus des archives natives : 30 de Stadium 2 et 18 de Stadium 1. Il s'agit de 48 enregistrements, dont certains ne sont pas des stades de combat distincts. Les sources et ressources récupérées restent locales et ignorées par Git.
 
-Comparison build: Builds/WindowsReference/AeroStadium.exe --stadium-original --stadium-review. The 2026-10-09 review loaded 48 environments and two animated Pokemon, with zero technical errors and exit0. This does not establish pixel-exact or artistic fidelity.
+## Comparaison avec les décors d'origine
 
-NativeN64Sampler.hlsl implements integer clamp/mirror/mask addressing. F5/F2 metadata now covers all 534 textured Stadium2 primary bindings and 81 secondary bindings, including source-proved callback frame-zero descriptors. Nearest filtering remains intentional; N64 three-point filtering and full RDP coverage/depth are pending. Runtime texture scrolling and callback0x81000150 remain incomplete.
+```powershell
+Builds/WindowsReference/AeroStadium.exe --stadium-original --stadium-review
+```
 
-The shader reconstructs I4/I8 alpha from encoded intensity before combining; IA/RGBA retain independent alpha. Original PNGs are unchanged. Stadium1 applies the source selector4 combiner to 36 proven layer5 groups in 12 environments, using two cycles, source primitive colours and default LOD1. Other selectors, explicit FC overrides and inherited root render/lighting states remain to recover. The floor marking in arena19/21 is not yet visually complete.
+La revue du 9 octobre 2026 a chargé les 48 décors et deux Pokémon animés, sans erreur technique et avec une sortie 0. Ce résultat vérifie leur chargement ; la fidélité artistique et pixel par pixel reste à établir.
 
-Battle orientation uses verified rectangular floor geometry for eight records: arena_14, arena_19, arena_21, cianwood_gym, stadium1_brock, stadium1_blaine, stadium1_giovanni and stadium1_surge. Local Resources/Stadiums/battle-layouts.json stores raw centres, long axes and floor limits. Native battle anchors/camera paths remain unverified; other records retain their previous placement.
+`NativeN64Sampler.hlsl` applique l'adressage entier clamp/mirror/mask. Les métadonnées F5/F2 couvrent les 534 liaisons de texture primaires et les 81 secondaires de Stadium 2, y compris les descripteurs de première image des callbacks démontrés par la source. Le filtrage nearest est volontaire ; le filtrage N64 à trois points et l'ensemble des états de couverture/profondeur RDP restent à reproduire. Le défilement des textures en cours d'exécution et le callback `0x81000150` sont incomplets.
 
-Latest backups and evidence: LocalStadiumSources/NativeMaterialFix_20261009. Stable Builds/Windows preserved. Build comparison with ProjectBuild.BuildWindows --reuse-prepared-assets --prepare-stadiums --stadium-only-validation --stadium-reference-build. --stadium KEY selects a stage. See LastProgressLogs.md for provenance, observations and the remaining fidelity work. Modern remake begins after historical-reference validation.
+Le shader reconstruit l'alpha I4/I8 depuis l'intensité encodée avant le combiner ; IA/RGBA conservent leur alpha indépendant. Les PNG d'origine sont inchangés. Stadium 1 applique le combiner natif selector4 à 36 groupes layer5 vérifiés dans 12 décors, avec deux cycles, les couleurs primitives de la source et LOD1 par défaut. Les autres selectors, les overrides FC explicites et les états hérités de rendu/éclairage à la racine restent à retrouver. Le marquage au sol d'arena19/21 est encore visuellement incomplet.
+
+## Orientation et placement
+
+L'orientation du combat suit les sols rectangulaires vérifiés de huit entrées : `arena_14`, `arena_19`, `arena_21`, `cianwood_gym`, `stadium1_brock`, `stadium1_blaine`, `stadium1_giovanni` et `stadium1_surge`. Le fichier local `Resources/Stadiums/battle-layouts.json` conserve leurs centres bruts, grands axes et limites du sol. Les points de combat et trajectoires de caméra natifs restent non vérifiés ; les autres entrées gardent leur placement précédent.
+
+Les sauvegardes et preuves de cette passe se trouvent dans `LocalStadiumSources/NativeMaterialFix_20261009`. La version stable `Builds/Windows` est conservée. Pour construire la version de comparaison :
+
+```text
+ProjectBuild.BuildWindows --reuse-prepared-assets --prepare-stadiums --stadium-only-validation --stadium-reference-build
+```
+
+`--stadium KEY` sélectionne un décor. [LastProgressLogs.md](../../LastProgressLogs.md) contient la provenance, les observations et les travaux de fidélité restants. La validation de chaque référence historique précède sa réinterprétation moderne.

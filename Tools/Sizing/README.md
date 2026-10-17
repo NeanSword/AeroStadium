@@ -1,6 +1,6 @@
-# Tailles du Pokédex et tailles dans l’arène
+# Tailles des Pokémon dans l’arène
 
-Source : [liste Poképédia](https://www.pokepedia.fr/Liste_des_Pokémon_par_données_du_Pokédex), récupérée le 4 octobre 2026.
+Les tailles de référence proviennent de la [liste Poképédia](https://www.pokepedia.fr/Liste_des_Pokémon_par_données_du_Pokédex), récupérée le 4 octobre 2026.
 
 Le fichier `Assets/AeroStadium/Resources/Data/pokemon-heights.json` contient les
 tailles de référence des 1 025 espèces numérotées et 1 407 entrées de formes.
@@ -10,7 +10,7 @@ dans `unassigned` et ne sont pas affectées arbitrairement à une espèce.
 Les premières entrées non exclues de chaque numéro définissent sa forme par
 défaut ; les autres sont accessibles par leur nom complet dans `forms`.
 
-La taille du Pokédex reste une donnée descriptive. Elle peut être une longueur
+La taille du Pokédex sert de référence descriptive. Elle peut être une longueur
 chez les Pokémon serpentiformes ; elle n’est pas présentée comme une mesure
 littérale du modèle dressé dans le stade. Les 151 espèces actuellement intégrées
 ont les mêmes tailles de référence que cette liste.
@@ -28,10 +28,10 @@ ont les mêmes tailles de référence que cette liste.
 | Plus de 3,00 à 5,00 m | 2,85 m |
 | Plus de 5,00 m | 3,30 m |
 
-Les seuils et dimensions sont éditables dans
+Les seuils et les dimensions se règlent dans
 `Assets/AeroStadium/Resources/Data/pokemon-display-size-policy.json`.
 Nidoqueen (1,30 m) et Nidoking (1,40 m) partagent une hauteur de 1,55 m dans
-l’arène. Taupiqueur gagne une taille lisible, Onix et Léviator sont contenus.
+l’arène. Taupiqueur reste ainsi lisible ; Onix et Léviator gardent des dimensions adaptées au terrain.
 Une limite de 5,50 m sur l’envergure/profondeur de référence réduit uniformément
 les modèles très étalés si nécessaire : leurs proportions restent intactes.
 La taille visuelle peut alors être inférieure à celle du groupe.
@@ -45,7 +45,7 @@ au corps sans annuler l’échelle du personnage.
 
 ## Extraction reproductible
 
-Enregistrer la page HTML UTF-8 puis exécuter depuis le dépôt :
+Pour reproduire l’extraction, enregistrer la page HTML en UTF-8 puis lancer depuis le dépôt :
 
 ```powershell
 python Tools/Sizing/import_pokepedia_sizes.py chemin/page.html chemin/sortie
@@ -67,6 +67,6 @@ et les matrices d’os ; elles excluent gaz, fumée et anciennes bornes de rendu
 `--size-review` lance cinq comparaisons animées dans la même caméra :
 Nidoqueen/Nidoking, Taupiqueur/Évoli, Onix/Léviator, Dracaufeu/Tortank,
 Smogo/Smogogo. Il mesure les corps en coordonnées du monde pendant les actions
-et écrit `size-review-world-bounds.json`. Ce contrôle démontre l’échelle et la
-stabilité sur ces cas représentatifs, sans valoir acceptation artistique de
-tous les modèles ou de toutes leurs animations.
+et écrit `size-review-world-bounds.json`. Ce contrôle vérifie l’échelle et la
+stabilité de ces cas représentatifs. La revue artistique de tous les modèles
+et de toutes leurs animations reste distincte.

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace AeroStadium.Presentation
 {
     /// <summary>Optional presentation lift outside the native Animator hierarchy; does not modify any clip or bone.</summary>
-    [DefaultExecutionOrder(150)]
+    [DefaultExecutionOrder(95)]
     [DisallowMultipleComponent]
     public sealed class NativeGrounding : MonoBehaviour
     {

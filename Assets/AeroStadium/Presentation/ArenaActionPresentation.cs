@@ -13,6 +13,7 @@ namespace AeroStadium.Presentation
             public readonly Stack<IEnumerator> routines=new Stack<IEnumerator>();
         }
         BattleActionDirector actionDirector;bool currentResolvedMiss;int actionGeneration;ActionPlayback actionPlayback;
+        public DodgePoseTelemetry LastDodgePose=>actionDirector!=null?actionDirector.LastDodgePose:null;
         public SurfCameraTelemetry LastSurfCamera=>actionDirector!=null?actionDirector.LastSurfCamera:null;
         public bool ActionCameraActive=>actionDirector!=null&&actionDirector.Active;
         bool IsActionPlaybackCurrent(int generation)=>isActiveAndEnabled&&actionPlayback!=null&&!actionPlayback.canceled&&actionPlayback.generation==generation;
