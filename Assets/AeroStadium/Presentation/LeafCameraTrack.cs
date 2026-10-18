@@ -12,6 +12,10 @@ namespace AeroStadium.Presentation
         public int impactFrames, impactVisibleFrames, strikeFrames, strikeVisibleFrames;
         public float anticipationHeightSum, strikeHeightSum, targetHeightSum;
         public float maxSpeed, maxAngularSpeed, maxFovSpeed, travel, entrySeconds, recoverySeconds;
+        // MISS reaction samples (progress <= .10): full defender and its anatomical face, before the wide volley view.
+        public int dodgeCloseFrames, dodgeCloseVisibleFrames;
+        public float dodgeTargetHeightSum;
+        public bool dodgeFacialFocus;
     }
 
     /// <summary>A continuous low three-quarter orbit from bud release through the curved leaf volley.</summary>
@@ -31,6 +35,10 @@ namespace AeroStadium.Presentation
         readonly Pose home;
         readonly Vector3 backward, forward, across, firstRoot, secondRoot, leafAim;
         readonly Bounds sourceFrame, targetFrame;
+        readonly Bounds defenderFrame;
+        readonly bool dodgeReaction;
+        readonly Vector3 reactionFocus, facePoint, faceForward;
+        Pose reactionPose;
         readonly float width;
         // Fixed buffers are reused by planning, following and telemetry; no per-frame lists or bone searches.
         readonly Vector3[] guides = new Vector3[128];
@@ -50,6 +58,8 @@ namespace AeroStadium.Presentation
             home = Current();
             sourceFrame = arena.PokemonWorldBounds(side);
             Bounds target = arena.PokemonWorldBounds(1 - side); leafAim = target.center;
+            defenderFrame = target;dodgeTravel=Vector3.ProjectOnPlane(dodgeOffset,Vector3.up);dodgeLift=Mathf.Abs(dodgeOffset.y);
+            dodgeReaction = dodgeOffset.sqrMagnitude > .0001f;
             targetFrame = target;
             if (dodgeOffset.sqrMagnitude > .0001f)
             {
@@ -72,13 +82,32 @@ namespace AeroStadium.Presentation
             }
             firstRoot = first + Vector3.up * sourceFrame.size.y * .12f;
             secondRoot = second + Vector3.up * sourceFrame.size.y * .12f;
+            // Native actors face local -Z. Cache the real defender once; no animated bone is chased by the camera.
+            facePoint = target.center + Vector3.up * target.size.y * .20f;
+            faceForward = -forward;
+            if (dodgeReaction)
+            {
+                NativePokemonModel defender = arena.DodgeModel(1-side);
+                if (defender != null)
+                {
+                    faceForward = Vector3.ProjectOnPlane(-defender.transform.forward, Vector3.up).normalized;
+                    if (faceForward.sqrMagnitude < .5f) faceForward = -forward;
+                    if (defender.ModelRoot != null)
+                        foreach (Transform bone in defender.ModelRoot.GetComponentsInChildren<Transform>(true))
+                            if (bone.name == "Head") { facePoint = bone.position; Stats.dodgeFacialFocus = true; break; }
+                }
+            }
+            reactionFocus = Vector3.Lerp(target.center, facePoint, .58f);
             Remember(home);
             // Retry a smaller low orbit when stadium geometry blocks the preferred route. Never raise to an aerial view.
             for (int attempt = 0; attempt < 6; attempt++)
             {
                 orbitScale = attempt < 3 ? 1f : .65f;
                 elevation = .14f + (attempt % 3) * .045f;
-                if (PathClear(home, ActionPose(0)) && ActionClear() && PathClear(ActionPose(1), home))
+                if (dodgeReaction) reactionPose = ReactionPose();
+                if (dodgeReaction && (!MotionWithinLimits(home, PlannedPose(0), 1.1f / 1.875f)
+                    || !MotionWithinLimits(PlannedPose(1), home, 1.2f / 1.875f))) continue;
+                if (PathClear(home, PlannedPose(0)) && ActionClear() && PathClear(PlannedPose(1), home))
                 { Stats.planned = true; Stats.fallback = attempt > 0; return; }
             }
             Stats.fallback = true;
@@ -90,6 +119,47 @@ namespace AeroStadium.Presentation
             position = Vector3.Lerp(a.position, b.position, t),
             rotation = Quaternion.Slerp(a.rotation, b.rotation, t), fov = Mathf.Lerp(a.fov, b.fov, t)
         };
+
+        // A modest defender reaction shot leaves enough travel time for a continuous pull-back.
+        // The defender remains framed through its reaction; a longer pull-back reads the passing volley without a sharp acceleration.
+        readonly Vector3 dodgeTravel;readonly float dodgeLift;
+        Bounds DodgeFrameAt(float p)
+        {
+            Bounds frame=defenderFrame;
+            float away=Smooth(.055f,.23f,p),home=Smooth(.70f,.96f,p);
+            frame.center+=dodgeTravel*(away*(1-home));
+            frame.Expand(new Vector3(.12f,Mathf.Max(.10f,dodgeLift*.7f),.12f));
+            return frame;
+        }
+        Pose PlannedPose(float progress)
+        {
+            Pose wide = ActionPose(progress);
+            if (!dodgeReaction || progress >= .30f) return wide;
+            return Blend(reactionPose, wide, Ease(Mathf.InverseLerp(.04f, .30f, progress)));
+        }
+
+        Pose ReactionPose()
+        {
+            Vector3 back = (backward * .82f + faceForward * .57f + Vector3.up * .035f).normalized;
+            const float fov = 43f;
+            float distance = Mathf.Max(.9f, defenderFrame.size.y / (2 * Mathf.Tan(fov * .5f * Mathf.Deg2Rad) * .40f));
+            Pose pose = new Pose { fov = fov };
+            // Depth and broad silhouettes can require more room than a height-only estimate.
+            for (int i = 0; i < 20; i++)
+            {
+                pose.position = reactionFocus + back * distance;
+                pose.rotation = Quaternion.LookRotation(reactionFocus - pose.position, Vector3.up);
+                if (Framed(DodgeFrameAt(0), pose, .055f) && FaceVisible(pose)) break;
+                distance *= 1.06f;
+            }
+            return pose;
+        }
+
+        bool FaceVisible(Pose pose)
+        {
+            Vector3 toCamera = Vector3.ProjectOnPlane(pose.position - facePoint, Vector3.up).normalized;
+            return Vector3.Dot(toCamera, faceForward) > .16f && PointVisible(facePoint, pose, .10f);
+        }
 
         Pose ActionPose(float progress)
         {
@@ -110,17 +180,29 @@ namespace AeroStadium.Presentation
 
         bool ActionClear()
         {
-            Pose previous = ActionPose(0);
+            Pose previous = PlannedPose(0);
             for (int i = 0; i <= 80; i++)
             {
                 float progress = i / 80f;
-                Pose pose = ActionPose(progress);
+                Pose pose = PlannedPose(progress);
                 if (!Clear(pose) || !TravelClear(previous.position, pose.position)
-                    || !Framed(sourceFrame, pose, .025f) || !Framed(targetFrame, pose, .025f)
-                    || !GuidesVisible(progress, pose, .025f)) return false;
+                    || !Framed(dodgeReaction&&progress<.30f?DodgeFrameAt(progress):targetFrame, pose, .025f)) return false;
+                if (!dodgeReaction || progress >= .30f)
+                {
+                    if (!Framed(sourceFrame, pose, .025f) || !GuidesVisible(progress, pose, .025f)) return false;
+                }
+                else if (progress <= .10f && !FaceVisible(pose)) return false;
+                if (dodgeReaction && i > 0 && !MotionWithinLimits(previous, pose, EffectSeconds / 80f)) return false;
                 previous = pose;
             }
             return true;
+        }
+
+        static bool MotionWithinLimits(Pose from, Pose to, float seconds)
+        {
+            return Vector3.Distance(from.position, to.position) <= 39.5f * seconds
+                && Quaternion.Angle(from.rotation, to.rotation) <= 198f * seconds
+                && Mathf.Abs(from.fov - to.fov) <= 34.5f * seconds;
         }
 
         bool PathClear(Pose from, Pose to)
@@ -139,12 +221,13 @@ namespace AeroStadium.Presentation
         {
             if (!Stats.planned || canceled) yield break;
             transition = true; float began = Time.unscaledTime;
-            Pose start = Current(), end = ActionPose(0);
+            Pose start = Current(), end = PlannedPose(0);
+            float entrySeconds = dodgeReaction ? 1.1f : EntrySeconds;
             try
             {
-                for (float t = 0; t < EntrySeconds && !canceled; t += Time.unscaledDeltaTime)
+                for (float t = 0; t < entrySeconds && !canceled; t += Time.unscaledDeltaTime)
                 {
-                    if (!Move(Blend(start, end, Ease(t / EntrySeconds)), true)) yield break;
+                    if (!Move(Blend(start, end, Ease(t / entrySeconds)), true)) yield break;
                     yield return null;
                 }
                 if (!canceled && Move(end, true)) Stats.entered = true;
@@ -156,7 +239,7 @@ namespace AeroStadium.Presentation
         {
             if (canceled || transition || !Stats.entered || FinishedRecovery) return;
             progress = Mathf.Clamp01(progress);
-            Move(ActionPose(progress), true);
+            Move(PlannedPose(progress), true);
             Stats.followFrames++;
             Pose pose = Current();
             Bounds source = arena.PokemonWorldBounds(side), target = arena.PokemonWorldBounds(1 - side);
@@ -167,16 +250,25 @@ namespace AeroStadium.Presentation
             if (corridorVisible) Stats.corridorVisibleFrames++;
             if (Vector3.Dot(pose.position - arena.BattleCenter, backward) > .2f) Stats.axisFrames++;
             Stats.targetHeightSum += ViewportHeight(target, pose);
+            if (dodgeReaction && progress <= .10f)
+            {
+                Stats.dodgeCloseFrames++;
+                if (targetVisible && FaceVisible(pose)) Stats.dodgeCloseVisibleFrames++;
+                Stats.dodgeTargetHeightSum += ViewportHeight(target, pose);
+            }
             if (progress <= .16f)
             {
                 Stats.anticipationFrames++;
-                if (sourceVisible && corridorVisible) Stats.anticipationVisibleFrames++;
-                Stats.anticipationHeightSum += ViewportHeight(source, pose);
+                if (dodgeReaction ? targetVisible && (progress > .10f || FaceVisible(pose)) : sourceVisible && corridorVisible)
+                    Stats.anticipationVisibleFrames++;
+                Stats.anticipationHeightSum += ViewportHeight(dodgeReaction ? target : source, pose);
             }
             if (progress >= .065f && progress < .29f)
             {
                 Stats.flightFrames++;
-                if (sourceVisible && targetVisible && corridorVisible) Stats.flightVisibleFrames++;
+                // MISS flight begins on the defender's reaction; its full source/corridor become required at .30.
+                if (dodgeReaction && progress < .30f ? targetVisible : sourceVisible && targetVisible && corridorVisible)
+                    Stats.flightVisibleFrames++;
             }
             if (progress >= .29f && progress <= .47f)
             {
@@ -184,7 +276,7 @@ namespace AeroStadium.Presentation
                 if (sourceVisible && targetVisible && corridorVisible) Stats.impactVisibleFrames++;
             }
             // Strike aliases cover the volley arriving at the body, preserving the common review telemetry contract.
-            if (progress >= .22f && progress <= .47f)
+            if (progress >= (dodgeReaction?.30f:.22f) && progress <= .47f)
             {
                 Stats.strikeFrames++;
                 if (sourceVisible && targetVisible && corridorVisible) Stats.strikeVisibleFrames++;
@@ -197,14 +289,15 @@ namespace AeroStadium.Presentation
             if (canceled || !Stats.planned) yield break;
             transition = true; float began = Time.unscaledTime;
             Pose start = Current();
+            float recoverySeconds = dodgeReaction ? 1.2f : RecoverySeconds;
             bool direct = PathClear(start, home), reverse = !direct && HistoryClear(start);
             try
             {
                 if (!direct && !reverse)
                 { Stats.safe = false; Stats.recoveryBlocked = true; FinishedRecovery = true; yield break; }
-                for (float t = 0; t < RecoverySeconds && !canceled; t += Time.unscaledDeltaTime)
+                for (float t = 0; t < recoverySeconds && !canceled; t += Time.unscaledDeltaTime)
                 {
-                    float q = Ease(t / RecoverySeconds);
+                    float q = Ease(t / recoverySeconds);
                     if (!Move(direct ? Blend(start, home, q) : ReversePose(start, q), false))
                     { Stats.recoveryBlocked = true; FinishedRecovery = true; yield break; }
                     yield return null;

@@ -13,6 +13,7 @@ namespace AeroStadium.Presentation
             public readonly Stack<IEnumerator> routines=new Stack<IEnumerator>();
         }
         BattleActionDirector actionDirector;bool currentResolvedMiss;int actionGeneration;ActionPlayback actionPlayback;
+        internal NativePokemonModel DodgeModel(int side)=>pokemon[side]!=null?pokemon[side].GetComponent<NativePokemonModel>():null;
         public DodgePoseTelemetry LastDodgePose=>actionDirector!=null?actionDirector.LastDodgePose:null;
         public SurfCameraTelemetry LastSurfCamera=>actionDirector!=null?actionDirector.LastSurfCamera:null;
         public bool ActionCameraActive=>actionDirector!=null&&actionDirector.Active;

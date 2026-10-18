@@ -18,6 +18,7 @@ namespace AeroStadium.Presentation
             public string outcome;
             public bool presentationOnly, resolved, protectEvent, passed, rootsRestored, cameraRestored, cleanup, noDuplicateReaction;
             public bool shieldSound, guardAnimated, avoidedBeforeArrival, noFloatingDamageText=true;
+            public bool facialPassed,footworkPassed;
             public float dodgeTravel, firstThreatSeconds=-1, dodgeClearSeconds=-1, dodgeLeadSeconds;
             public ArenaView.GrassCast leaf;
             public LeafCameraTelemetry camera;
@@ -171,7 +172,12 @@ namespace AeroStadium.Presentation
             var roots=Roots(side,defender);var home=new CameraPose(arena.ArenaCamera);
             int damageBefore=arena.DamagePoseCount,blocksBefore=arena.ProtectBlockCount;
             captureEnabled=side==0&&miss;
+            portraitActor=miss&&side==0?GameObject.Find("Pokemon_"+(1-side)+"_"+defender)?.transform:null;
+            portraitHead=null;
+            var portraitModel=portraitActor!=null?portraitActor.GetComponent<NativePokemonModel>():null;
+            if(portraitModel!=null)foreach(var bone in portraitModel.ModelRoot.GetComponentsInChildren<Transform>(true))if(bone.name=="Head"){portraitHead=bone;break;}
             string prefix="side"+side+"-species"+defender+"-"+result.outcome;
+            if(portraitHead!=null)CapturePortrait(prefix+"-portrait-native.png");
             yield return Observe(arena.Attack(side,"Grass","Physical",75,direct,blocked?1-side:-1,(float)effectiveness,missedEvent),prefix,miss);
             captureEnabled=false;result.leaf=arena.LastGrass;result.camera=arena.LastLeafCamera;result.dodge=arena.LastDodgePose;
             result.damageReactions=arena.DamagePoseCount-damageBefore;result.shieldReactions=arena.ProtectBlockCount-blocksBefore;
@@ -188,10 +194,17 @@ namespace AeroStadium.Presentation
             bool kinematics=w.moveId==75&&w.completed&&w.geometry&&w.motion&&w.sound&&w.emissions==12;
             bool exactBody=w.meshContacts>=1&&w.meshBakedFrames>0&&w.triangleTests>0&&!string.IsNullOrEmpty(w.contactMesh)
                 &&Finite(w.meshError)&&w.meshError>=0&&w.meshError<.001f&&Finite(w.renderedTipGap)&&w.renderedTipGap<.02f;
-            bool articulated=d!=null&&!string.IsNullOrEmpty(d.profile)&&d.profile.StartsWith("grounded-",StringComparison.Ordinal)
+            bool articulated=d!=null&&!string.IsNullOrEmpty(d.profile)&&(d.groundedSidestep||d.diagonalBound)
                 &&d.jointCount>=1&&d.posedFrames>3&&d.maxJointDegrees>2&&d.maxFootLift>.025f
                 &&(d.maxRootHeight>.015f||d.maxBodyYaw>2)&&d.restored&&d.finite&&d.nativeAnimatorPreserved
                 &&d.maximumRestorePositionError<.0001f&&d.maximumRestoreAngleError<.1f;
+            var f=d!=null?d.facial:null;
+            result.facialPassed=!miss||(f!=null&&f.verifiedAtlas&&f.finite&&f.nativeAnimatorPreserved&&f.restored&&f.channels>=2
+                &&f.posedFrames>3&&f.focusFrames>0&&f.blinkFrames>0&&f.reliefFrames>0&&f.expressionChanges>=3&&f.maxUvDelta>.001f
+                &&f.maximumRestorePositionError<.0001f&&f.maximumRestoreAngleError<.1f);
+            result.footworkPassed=!miss||(d!=null&&d.leadingStepFrames>0&&d.trailingStepFrames>0&&d.articulatedFrames>3
+                &&d.maxBoneLengthError<.002f&&d.maxHeadCounterYaw>2&&(defender==1||d.maxTailDegrees>2)
+                &&(defender!=9||d.maxArmAsymmetry>1));
             bool ahead=w.firstThreatSeconds>0&&w.dodgeClearSeconds>=0&&Finite(w.dodgeLeadSeconds)&&w.dodgeLeadSeconds>.02f&&w.avoidedBeforeArrival;
             bool untouched=w.meshContacts==0&&w.contacts==0&&w.reactions==0&&w.blocks==0&&!w.impact&&!w.blocked
                 &&result.damageReactions==0&&result.shieldReactions==0&&result.damage==0&&result.hpAfter==result.hpBefore;
@@ -204,10 +217,13 @@ namespace AeroStadium.Presentation
                     &&result.damage>0&&result.hpAfter<result.hpBefore&&d==null&&result.dodgeTravel<.001f;
             // These are framing and continuity checks, not a size-dependent demand for a fixed subject height.
             bool camera=c!=null&&c.planned&&c.entered&&c.recovered&&c.safe&&!c.interrupted&&!c.recoveryBlocked&&c.followFrames>5
-                &&c.axisFrames==c.followFrames&&c.actorVisibleFrames>=c.followFrames*.95f&&c.targetVisibleFrames>=c.followFrames*.95f
+                &&c.axisFrames==c.followFrames&&c.targetVisibleFrames>=c.followFrames*.95f
+                &&(miss?c.dodgeFacialFocus&&c.dodgeCloseFrames>0&&c.dodgeCloseVisibleFrames>=c.dodgeCloseFrames*.95f
+                    &&c.dodgeTargetHeightSum/c.dodgeCloseFrames>=.35f&&c.strikeFrames>0&&c.strikeVisibleFrames>=c.strikeFrames*.95f
+                    :c.actorVisibleFrames>=c.followFrames*.95f)
                 &&c.flightFrames>0&&c.flightVisibleFrames>=c.flightFrames*.95f&&c.entrySeconds>=.80f&&c.recoverySeconds>=1f
                 &&c.travel>.02f&&Finite(c.maxSpeed)&&c.maxSpeed<40&&Finite(c.maxAngularSpeed)&&c.maxAngularSpeed<200&&Finite(c.maxFovSpeed)&&c.maxFovSpeed<35;
-            result.passed=result.resolved&&kinematics&&contact&&camera&&result.shieldSound&&result.guardAnimated&&result.noDuplicateReaction&&result.noFloatingDamageText&&result.rootsRestored&&result.cameraRestored&&result.cleanup;
+            result.passed=result.resolved&&kinematics&&contact&&camera&&result.facialPassed&&result.footworkPassed&&result.shieldSound&&result.guardAnimated&&result.noDuplicateReaction&&result.noFloatingDamageText&&result.rootsRestored&&result.cameraRestored&&result.cleanup;
             cases.Add(result);Debug.Log("[dodge-review-case] "+JsonUtility.ToJson(result));arena.EndProtection();
             SetPhase(name.ToUpperInvariant()+" · "+(result.passed?"CONTRÔLES VALIDÉS":"CONTRÔLE À EXAMINER"),
                 "Croisements : "+w.missSurfaceCrossings+" · avance : "+w.dodgeLeadSeconds.ToString("F3")+" s · réaction : "+result.damageReactions);
@@ -225,7 +241,7 @@ namespace AeroStadium.Presentation
             while(!done&&Time.realtimeSinceStartup<deadline)yield return null;yield return null;
             var pose=arena.LastDodgePose;
             var result=new Cancellation{phase=name,at=at,actualSeconds=actual,returned=done,rootsRestored=Restored(roots),cameraRestored=home.Restored,
-                cleanup=Clean(),dodge=pose,poseRestored=pose!=null&&pose.restored&&pose.finite&&pose.nativeAnimatorPreserved
+                cleanup=Clean(),dodge=pose,poseRestored=pose!=null&&pose.restored&&pose.finite&&pose.nativeAnimatorPreserved&&pose.facial!=null&&pose.facial.restored
                     &&pose.maximumRestorePositionError<.0001f&&pose.maximumRestoreAngleError<.1f};
             result.passed=realMiss&&result.returned&&result.rootsRestored&&result.cameraRestored&&result.poseRestored&&result.cleanup&&!arena.ActionCameraActive;
             cancellations.Add(result);Debug.Log("[dodge-review-cancel] "+JsonUtility.ToJson(result));
@@ -233,7 +249,8 @@ namespace AeroStadium.Presentation
         }
         IEnumerator Observe(IEnumerator action,string prefix,bool dodge)
         {
-            bool done=false;float began=Time.realtimeSinceStartup;int next=0;
+            bool done=false;float began=Time.realtimeSinceStartup;int next=0,portraitNext=0;
+            float[] portraits={.32f,.385f,.635f};string[] portraitNames={"focused","blink","relief"};
             float[] at=dodge?new[]{.035f,.11f,.22f,.32f,.65f,.82f,.98f}:new[]{.12f,.30f,.55f,.9f};
             string[] names=dodge?new[]{"anticipation","push-off","clear","passing-leaves","hold","landing","return"}:new[]{"release","flight","contact","scatter"};
             StartCoroutine(Perform());
@@ -242,6 +259,9 @@ namespace AeroStadium.Presentation
                 yield return new WaitForEndOfFrame();float elapsed=Time.realtimeSinceStartup-began;
                 if(elapsed>12){Debug.LogError("Dodge review action timed out.");arena.CancelCurrentAction();break;}
                 var effect=arena.GetComponentInChildren<GrassAttackEffect>();
+                if(effect!=null&&portraitHead!=null&&portraitNext<portraits.Length&&effect.EffectProgress>=portraits[portraitNext]){
+                    CapturePortrait(prefix+"-portrait-"+portraitNames[portraitNext]+".png");portraitNext++;
+                }
                 // At most one still per rendered frame. Actual progress is retained when a slow capture crosses a cue.
                 if(effect!=null&&next<at.Length&&effect.EffectProgress>=at[next])
                 {
@@ -279,6 +299,19 @@ namespace AeroStadium.Presentation
             }
             finally{camera.targetTexture=previous;camera.aspect=aspect;RenderTexture.active=active;}
         }
+        Transform portraitActor,portraitHead;Camera portraitCamera;
+        void CapturePortrait(string file)
+        {
+            if(portraitHead==null||portraitActor==null)return;
+            if(portraitCamera==null){var go=new GameObject("Dodge expression diagnostic camera");portraitCamera=go.AddComponent<Camera>();portraitCamera.enabled=false;}
+            portraitCamera.CopyFrom(arena.ArenaCamera);portraitCamera.enabled=false;
+            var model=portraitActor.GetComponent<NativePokemonModel>();float height=model!=null?model.WorldModelHeight:1.6f;
+            Vector3 front=-portraitActor.forward,back=Vector3.Cross(Vector3.up,arena.BattleAxis).normalized;
+            Vector3 focus=portraitHead.position+front*height*.025f;
+            portraitCamera.transform.position=focus+front*height*.83f+back*height*.43f+Vector3.up*height*.06f;
+            portraitCamera.transform.LookAt(focus);portraitCamera.fieldOfView=34;
+            ModernArenaReview.Capture(portraitCamera,Path.Combine(output,file),960,960);
+        }
         void CreateOverlay()
         {
             var root=new GameObject("Dodge review captions",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler));root.transform.SetParent(transform,false);
@@ -304,6 +337,6 @@ namespace AeroStadium.Presentation
         void Update(){frames++;}
         void OnLog(string message,string stack,LogType type){if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert)errors++;}
         void ReleaseCapture(){if(captureTarget!=null){captureTarget.Release();Destroy(captureTarget);captureTarget=null;}if(captureImage!=null){Destroy(captureImage);captureImage=null;}}
-        void OnDestroy(){Application.logMessageReceived-=OnLog;captureLoop=captureEnabled=false;ReleaseCapture();if(arena!=null){arena.CancelCurrentAction();arena.EndProtection(true);}}
+        void OnDestroy(){if(portraitCamera!=null)Destroy(portraitCamera.gameObject);Application.logMessageReceived-=OnLog;captureLoop=captureEnabled=false;ReleaseCapture();if(arena!=null){arena.CancelCurrentAction();arena.EndProtection(true);}}
     }
 }
