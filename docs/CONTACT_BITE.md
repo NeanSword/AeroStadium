@@ -1,12 +1,23 @@
-# Crocs Feu bounded prototype
+# Croc Feu — Arcanin
 
-- Integration: `yield return ContactFireFang(side,targetHit,protectedTarget,hitEffectiveness);` for move 424 with native species 59. `LastBite` provides serialized runtime evidence. The partial expects `actionDirector` and `FollowActionImpact` from `ArenaActionPresentation.cs`.
-- Catalog inspected: `Assets/AeroStadium/Resources/Data/catalog.json`, species 59 `learnableMoves` includes 424; move 424 is supported, Physical, Fire, contact. No catalog changes are required.
-- Native marker actually inspected in `NativeModels/059/Pokemon.prefab`: `Pokemon/NativeNormalization/NativeGrounding/Model/pm0059_00_00/Origin/Waist/Spine1/Spine2/Neck/Head/EffMouth01`. The `Jaw` sibling under Head is animated. No guessed emitter or species fallback.
-- Source index 11 is `pm0059_00_00_fi21_run01`, duration .5 s, native looping run. Outer actor movement owns travel; NativePokemonModel already pins native locomotion horizontal roots, preserving gait.
-- Source index 5 is `pm0059_00_00_ba20_buturi01`, duration 2.1333334 s. Static quaternion curve inspection found Jaw rotation opens 29.4273 degrees from the initial sample at .46666667 s and returns within .9 degrees by .5333333 s. This establishes an actual native jaw snap; runtime and visual verification are still required.
-- Approach duration .45–1.05 s; bite 2.14 s; turn .17 s; retreat .45–1.05 s. Total 3.21–4.41 s. Only after approach does source index 5 play. Contact and one eligible reaction occur .54 s into that clip. Phase progress drives the camera/dodge coordinator, so the miss dodge is fully aside before the snap.
-- Contact uses the actual mouth marker against the victim's stable world ellipsoid, or the exact active Abri ellipsoid. The requested stop gap is .095 m for the body and .115 m for Abri. The native head movement receives a horizontal outer-root correction to stay outside the surface. A miss retains the original aim and never emits damage reactions; immunity and protection emit none either. Abri emits exactly one shield reaction and preserves a margin outside its front surface.
-- Original small jaw fire arcs and embers are generated locally, with no imported art. Original deterministic mono PCM is generated at 22050 Hz; short ignition, jaw snap and crunch. No recordings, official audio, paid tool, or credits.
-- Runtime report fields: approachedDistance, closestMouthGap, actualContact, bodyContact, returnedHome, damageReactions, shieldReactions, nativeRun, nativeBite, jawPeakAngle, pcmFinite, audioPeak, sound, geometryValid, completed, blocked, phase, elapsed, contactTime, contact, normal, source, reason.
-- Scope: this source was staged only in the authorized temporary directory. No live repository files, builds, or runtime sessions were changed by this agent. Static source inspection is not a substitute for the root agent's 59→9 direct/Abri/miss visual review. Full animated mesh penetration is not measured; contact evidence uses the native marker and world ellipsoid.
+La première mise en scène est limitée à Arcanin59 contre Tortank9, dans l’arène Conseil4 moderne. Le catalogue autorise déjà424 sur Arcanin ; les règles de dégâts et apprentissages restent celles du moteur de combat.
+
+Arcanin utilise sa course native011 pour approcher et revenir. Le segment de mâchoire du mouvement physique005 est joué jusqu’à0,90s, puis repart en course avant la roulade générique de fin. Le déplacement horizontal de l’Origin animé est compensé extérieurement. Les états, temps, poids de couches et vitesse de l’Animator sont restaurés avec les positions.
+
+Le vrai repère EffMouth01 et Jaw sont lus après l’Animator, l’esquive et le grounding, en LateUpdate110. Le contact exige une ouverture puis fermeture observée de la mâchoire et une distance de bouche inférieure à2cm du triangle courant, vérifié après correction. Les rayons réels sont bornés par dichotomie ; les bounds servent à orienter/borner la recherche, jamais de contact de secours. Abri utilise sa propre surface. Il ne s’agit pas d’une collision continue de toutes les dents et du corps.
+
+Un raté conserve sa ligne d’attaque initiale et contrôle les croisements contre les triangles animés. Tortank se dégage avant l’arrivée ; pour424, le retour attend le retrait de l’attaquant. La distance tient compte de sa largeur. Le cas de présentation sans hit et sans Miss est un contrôle sans réaction de dégâts, pas une immunité Fire réellement produite par BattleEngine.
+
+Le feu est original et généré localement : douze langues orangées courbes, huit crocs/cœurs jaune clair, texture douce, braises d’impact et éclairage chaud bref. Les éléments suivent les deux mâchoires ; la surface d’Abri borne le feu à l’impact. Sons d’ignition et claquement séparés ; seul le contact géométrique déclenche le claquement. Matériaux, maillages, texture, lumière et clips sont libérés. La vidéo est muette ; les WAV sont une référence de synthèse séparée, sans écoute des enceintes revendiquée.
+
+La caméra suit l’approche à hauteur de combat, révèle la cible et recadre le contact, puis accompagne le retour. Entrée1s et récupération1,2s, contrôles de trajet/cadrage et limites de vitesse. Les vues rapprochées de surface sont des diagnostics séparés de la caméra jouée.
+
+## Vérification du19octobre2026
+
+v1 : métadonnée Unity mal formée, corrigée avant compilation. v2 : revue120s échouée, contact gauche manquant et deux croisements par esquive. Abri, interruptions, remplacement et orthographique passaient déjà. Les preuves échouées sont conservées.
+
+v3 : passé=False, erreurs=0, durée=120.00s. Sept cas, cinq interruptions, remplacement=True, orthographique=True. Rapport : output/attacks/bite-20261019-v3/verified-summary.json.
+
+Point de reprise : revoir le cadrage à la fermeture (silhouettes et gueule masquées), renforcer encore la lisibilité du feu au contact et contrôler à nouveau les deux côtés. Ne pas assouplir le seuil de cadrage pour faire passer le test.\n\nUne réussite technique ne vaut pas acceptation artistique. Les autres espèces, arènes, toutes les attaques, toutes les dents et la pénétration du corps entier ne sont pas validées par cette revue. Builds/Windows stable conservé ; expérimental WindowsReference. Les modèles et médias restent locaux et ignorés. Aucun crédit/API payant ni reset.
+
+Demande suivante : allumage progressif pendant0,40s sur place avant la course, puis feu maintenu pendant l’approche. Correction postérieure à v3 ; nouvelle compilation et vérification visuelle à distinguer des résultats v3.

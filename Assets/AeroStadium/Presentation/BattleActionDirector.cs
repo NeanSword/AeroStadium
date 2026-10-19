@@ -10,10 +10,12 @@ namespace AeroStadium.Presentation
         DodgePoseMotion dodgePose;BattleDodgeMotionTick dodgeTick;bool visualStarted;
         public DodgePoseTelemetry LastDodgePose {get;private set;}
         public float DodgeClearSeconds {get;private set;}=-1;
-        SurfCameraTrack surfTrack;WhipCameraTrack whipTrack;LeafCameraTrack leafTrack;Vector3 attackerHome;Quaternion attackerRotation;bool restoreAttacker;
+        public float DodgeClearRealtime {get;private set;}=-1;
+        SurfCameraTrack surfTrack;WhipCameraTrack whipTrack;LeafCameraTrack leafTrack;BiteCameraTrack biteTrack;Vector3 attackerHome;Quaternion attackerRotation;bool restoreAttacker;
         public SurfCameraTelemetry LastSurfCamera {get;private set;}
         public WhipCameraTelemetry LastWhipCamera {get;private set;}
         public LeafCameraTelemetry LastLeafCamera {get;private set;}
+        public BiteCameraTelemetry LastBiteCamera {get;private set;}
         ArenaView arena;
         Camera actionCamera;
         BattleDecisionCamera decision;
@@ -22,7 +24,7 @@ namespace AeroStadium.Presentation
         Quaternion cameraRotation;
         Bounds attackerFrame, targetFrame;
         float cameraFov, fovVelocity, elapsed, duration, progress, dodgeDistance;
-        int attackerSide;
+        int attackerSide,activeMove;
         bool decisionEnabled, dodge, progressDriven, impactKnown;
         Vector3 impactPoint;
         public bool Active { get; private set; }
@@ -36,12 +38,12 @@ namespace AeroStadium.Presentation
         public void BeginAction(int side, Transform source, Transform victim, int moveId,
             bool targetHit, bool protectedTarget, bool allowDodge = false, float actionDuration = 1.6f)
         {
-            EndAction();LastDodgePose=null;DodgeClearSeconds=-1;visualStarted=false;
+            EndAction();LastDodgePose=null;DodgeClearSeconds=DodgeClearRealtime=-1;visualStarted=false;
             if (arena == null || source == null || victim == null || side < 0 || side > 1
                 || arena.ArenaCamera == null || arena.ArenaCamera.orthographic
                 || !arena.TryGetCombatCameraFrame(side, out attackerFrame)
                 || !arena.TryGetCombatCameraFrame(1 - side, out targetFrame)) return;
-            actionCamera = arena.ArenaCamera; attacker = source; target = victim; attackerSide = side;
+            activeMove=moveId;actionCamera = arena.ArenaCamera; attacker = source; target = victim; attackerSide = side;
             attackerHome=source.position;attackerRotation=source.rotation;restoreAttacker=moveId==57||moveId==424;
             cameraHome = actionCamera.transform.position; cameraRotation = actionCamera.transform.rotation;
             cameraFov = actionCamera.fieldOfView; targetHome = target.position;
@@ -67,6 +69,7 @@ namespace AeroStadium.Presentation
                 }
             }
             if(moveId==75){leafTrack=new LeafCameraTrack(arena,side,source,dodge?dodgeDirection*dodgeDistance+Vector3.up*DodgePoseMotion.MaxExpectedLift(target):Vector3.zero);LastLeafCamera=leafTrack.Stats;}
+            if(moveId==424){biteTrack=new BiteCameraTrack(arena,side,source,dodge?dodgeDirection*dodgeDistance+Vector3.up*DodgePoseMotion.MaxExpectedLift(target):Vector3.zero);LastBiteCamera=biteTrack.Stats;}
         }
 
         public void SetProgress(float normalizedProgress)
@@ -80,7 +83,7 @@ namespace AeroStadium.Presentation
         {
             if (!Active || !Finite(point.x) || !Finite(point.y) || !Finite(point.z)) return;
             impactKnown = true; impactPoint = point;
-            if(surfTrack==null&&whipTrack==null&&leafTrack==null)progress = Mathf.Max(progress, .60f);
+            if(surfTrack==null&&whipTrack==null&&leafTrack==null&&biteTrack==null)progress = Mathf.Max(progress, .60f);
         }
 
         void PrepareDodge(int moveId)
@@ -88,7 +91,7 @@ namespace AeroStadium.Presentation
             // Move the complete actor across its line of fire; do not bend its native rig or play damage.
             dodgeDirection = -backward;
             dodgeDistance = Mathf.Clamp(Mathf.Max(targetFrame.extents.x, targetFrame.extents.z) * .75f, .6f, 1.5f);
-            if(moveId==75) dodgeDistance=Mathf.Clamp(Mathf.Abs(dodgeDirection.x)*targetFrame.extents.x+Mathf.Abs(dodgeDirection.z)*targetFrame.extents.z+.45f,.85f,1.8f);
+            if(moveId==75||moveId==424) dodgeDistance=Mathf.Clamp(Mathf.Abs(dodgeDirection.x)*targetFrame.extents.x+Mathf.Abs(dodgeDirection.z)*targetFrame.extents.z+.45f,.85f,1.8f);
             bool fieldWasValid = arena.BattlePositionsValid;
             if (!fieldWasValid) { dodgeDistance = 0; return; }
             try {
@@ -118,24 +121,25 @@ namespace AeroStadium.Presentation
             float dt=Time.deltaTime;
             float p=Mathf.Clamp01(progressDriven?progress+dt/duration:Mathf.Max(progress,(elapsed+Mathf.Min(dt,.1f))/duration));
             float away=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.055f,.23f,p));
-            float home=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.70f,.96f,p));
+            float home=Mathf.SmoothStep(0,1,Mathf.InverseLerp(activeMove==424?.86f:.70f,activeMove==424?1f:.96f,p));
             target.position=targetHome+dodgeDirection*(dodgeDistance*away*(1-home));
             float displacement=Vector3.Distance(targetHome,target.position);DodgeTravel=Mathf.Max(DodgeTravel,displacement);
-            if(dodgePose!=null)dodgePose.Apply(p);
-            if(DodgeClearSeconds<0&&p<.70f&&displacement>=dodgeDistance*.99f)DodgeClearSeconds=p*duration;
+            if(dodgePose!=null)dodgePose.Apply(activeMove==424&&p>.70f?Mathf.Lerp(.70f,1,Mathf.InverseLerp(.86f,1,p)):p);
+            if(DodgeClearSeconds<0&&p<.70f&&displacement>=dodgeDistance*.99f){DodgeClearSeconds=p*duration;DodgeClearRealtime=Time.time;}
         }
 
         void LateUpdate()
         {
             if (!Active) return;
             if (actionCamera == null || attacker == null || target == null) { EndAction(); return; }
-            if((surfTrack!=null&&surfTrack.Transitioning)||(whipTrack!=null&&whipTrack.Transitioning)||(leafTrack!=null&&leafTrack.Transitioning))return;
+            if((surfTrack!=null&&surfTrack.Transitioning)||(whipTrack!=null&&whipTrack.Transitioning)||(leafTrack!=null&&leafTrack.Transitioning)||(biteTrack!=null&&biteTrack.Transitioning))return;
             float dt = Mathf.Min(Time.deltaTime, .1f);
             elapsed += dt;
             if (!progressDriven) progress = Mathf.Max(progress, Mathf.Clamp01(elapsed / duration));
             if(surfTrack!=null){if(surfTrack.Stats.entered)surfTrack.Follow(dt);CameraTravel=Mathf.Max(CameraTravel,surfTrack.Stats.travel);}
             else if(whipTrack!=null){whipTrack.Follow(progress,dt);CameraTravel=Mathf.Max(CameraTravel,whipTrack.Stats.travel);}
             else if(leafTrack!=null){leafTrack.Follow(progress,dt);CameraTravel=Mathf.Max(CameraTravel,leafTrack.Stats.travel);}
+            else if(biteTrack!=null){biteTrack.Follow(progress,dt);CameraTravel=Mathf.Max(CameraTravel,biteTrack.Stats.travel);}
             else UpdateCamera(dt);
         }
 
@@ -219,11 +223,13 @@ namespace AeroStadium.Presentation
         public System.Collections.IEnumerator EnterAction()
         {if(surfTrack!=null){yield return surfTrack.Enter();elapsed=0;}
             else if(whipTrack!=null){yield return whipTrack.Enter();elapsed=0;}
-            else if(leafTrack!=null){yield return leafTrack.Enter();elapsed=0;}visualStarted=true;}
+            else if(leafTrack!=null){yield return leafTrack.Enter();elapsed=0;}
+            else if(biteTrack!=null){yield return biteTrack.Enter();elapsed=0;}visualStarted=true;}
         public System.Collections.IEnumerator RecoverAction()
         {visualStarted=false;if(surfTrack!=null)yield return surfTrack.Recover();
             else if(whipTrack!=null)yield return whipTrack.Recover();
-            else if(leafTrack!=null)yield return leafTrack.Recover();}
+            else if(leafTrack!=null)yield return leafTrack.Recover();
+            else if(biteTrack!=null)yield return biteTrack.Recover();}
         public void EndAction()
         {
             if (!Active) return;
@@ -232,16 +238,19 @@ namespace AeroStadium.Presentation
                 // A newly blocked normal exit holds the safe pose; an explicit interruption still restores immediately.
                 bool holdWhip = whipTrack!=null&&whipTrack.FinishedRecovery&&!whipTrack.Stats.recovered;
                 bool holdLeaf = leafTrack!=null&&leafTrack.FinishedRecovery&&!leafTrack.Stats.recovered;
-                if (actionCamera != null&&!holdWhip&&!holdLeaf) {
+                bool holdBite = biteTrack!=null&&biteTrack.FinishedRecovery&&!biteTrack.Stats.recovered;
+                if (actionCamera != null&&!holdWhip&&!holdLeaf&&!holdBite) {
                     actionCamera.transform.SetPositionAndRotation(cameraHome, cameraRotation);
                     actionCamera.fieldOfView = cameraFov;Restored=Vector3.Distance(actionCamera.transform.position,cameraHome)<.001f&&Quaternion.Angle(actionCamera.transform.rotation,cameraRotation)<.01f;
                 }
             } finally {
                 if(surfTrack!=null){surfTrack.Cancel();surfTrack=null;}
                 bool rebaseDecision=(whipTrack!=null&&whipTrack.FinishedRecovery&&!whipTrack.Stats.recovered)
-                    ||(leafTrack!=null&&leafTrack.FinishedRecovery&&!leafTrack.Stats.recovered);
+                    ||(leafTrack!=null&&leafTrack.FinishedRecovery&&!leafTrack.Stats.recovered)
+                    ||(biteTrack!=null&&biteTrack.FinishedRecovery&&!biteTrack.Stats.recovered);
                 if(whipTrack!=null){whipTrack.Cancel();whipTrack=null;}
                 if(leafTrack!=null){leafTrack.Cancel();leafTrack=null;}
+                if(biteTrack!=null){biteTrack.Cancel();biteTrack=null;}
                 if(restoreAttacker&&attacker!=null)attacker.SetPositionAndRotation(attackerHome,attackerRotation);
                 if(dodgePose!=null){dodgePose.End();dodgePose=null;}
                 if (dodge && target != null) target.position = targetHome;

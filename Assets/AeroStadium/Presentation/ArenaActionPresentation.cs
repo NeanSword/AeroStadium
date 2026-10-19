@@ -16,6 +16,7 @@ namespace AeroStadium.Presentation
         internal NativePokemonModel DodgeModel(int side)=>pokemon[side]!=null?pokemon[side].GetComponent<NativePokemonModel>():null;
         public DodgePoseTelemetry LastDodgePose=>actionDirector!=null?actionDirector.LastDodgePose:null;
         public SurfCameraTelemetry LastSurfCamera=>actionDirector!=null?actionDirector.LastSurfCamera:null;
+        public BiteCameraTelemetry LastBiteCamera=>actionDirector!=null?actionDirector.LastBiteCamera:null;
         public bool ActionCameraActive=>actionDirector!=null&&actionDirector.Active;
         bool IsActionPlaybackCurrent(int generation)=>isActiveAndEnabled&&actionPlayback!=null&&!actionPlayback.canceled&&actionPlayback.generation==generation;
         static void DisposeActionRoutines(ActionPlayback playback)
