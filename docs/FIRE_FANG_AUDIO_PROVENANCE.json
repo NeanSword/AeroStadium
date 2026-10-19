@@ -1,0 +1,80 @@
+{
+  "purpose": "Croc Feu: recorded flame ignition, sustained flame roar, and short fiery contact burst.",
+  "source": {
+    "title": "fire-whoosh.wav",
+    "author": "hnhnh",
+    "page_url": "https://freesound.org/people/hnhnh/sounds/244926/",
+    "download_url": "https://cdn.freesound.org/previews/244/244926_3983630-hq.mp3",
+    "downloaded_file": "sources/hnhnh-fire-whoosh-hq.mp3",
+    "download_sha256": "f7c5e6618b15c4f07502d3ceb9ce52a9146401ce0f5b8acbf8c41c51e8030bfa",
+    "source_format": "Public high-quality MP3 preview, not the authenticated original WAV.",
+    "license": "CC0 1.0 Universal",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "license_evidence": "Author sound page explicitly lists Creative Commons 0. Local page snapshot: sources/hnhnh-page.html.",
+    "description": "Recorded rapid fire increase, edited by the author with pitch and EQ.",
+    "access": "Public preview, no authentication, no account, no paid API, no credits consumed.",
+    "retrieved_on": "2026-10-19"
+  },
+  "common_processing": [
+    "Decode public HQ MP3 with ffmpeg 7.1 to mono PCM16 WAV at 44100 Hz.",
+    "Smooth zero-phase frequency rolloffs: highpass 65 Hz (4th-power magnitude), lowpass 6500 Hz (4th-order Butterworth magnitude).",
+    "No synthetic noise, oscillator, campfire layer, or tonal magic layer added."
+  ],
+  "edits": {
+    "FireFangIgnition.wav": "Source 0.10–0.58 s; 8 ms raised-cosine attack, 115 ms raised-cosine release; peak 0.91.",
+    "FireFangLoop.wav": "Source 0.68–2.52 s; 200 ms complementary half-cosine overlap; subtract DC; peak 0.82; circular rotation 16689 frames to a smooth waveform boundary; duration 1.64 s.",
+    "FireFangImpact.wav": "Source 0.22–0.60 s; exponential amplitude taper exp(-2.1*t); 4 ms raised-cosine attack, 85 ms raised-cosine release; peak 0.91. Pure fire puff, no added crunch."
+  },
+  "outputs": [
+    {
+      "file": "FireFangIgnition.wav",
+      "sha256": "fab9ce62cd759adb106ffe662407a475be77bc83d32c4817962e65059ffbee96",
+      "duration_seconds": 0.48,
+      "channels": 1,
+      "sample_rate": 44100,
+      "encoding": "PCM signed 16-bit little-endian WAV",
+      "peak": 0.90997314453125,
+      "rms": 0.17797470920131309,
+      "clipped_samples": 0,
+      "finite": true
+    },
+    {
+      "file": "FireFangLoop.wav",
+      "sha256": "a5ed2ba3b350c64fe5a4c0305bb64bc59629dd133e6f26e74cc8dadea3e91f2c",
+      "duration_seconds": 1.64,
+      "channels": 1,
+      "sample_rate": 44100,
+      "encoding": "PCM signed 16-bit little-endian WAV",
+      "peak": 0.819976806640625,
+      "rms": 0.16174581166718804,
+      "clipped_samples": 0,
+      "finite": true,
+      "loop": true,
+      "boundary_jump": 0.00018310546875,
+      "boundary_slope_difference": 0.00885009765625,
+      "interior_adjacent_jump_rms": 0.03026197754279548,
+      "boundary_10ms_rms_ratio": 1.6775758642517684
+    },
+    {
+      "file": "FireFangImpact.wav",
+      "sha256": "da131495b202eba772805a71535136a7b7f3642f9715f7cb482d6e86e46b988d",
+      "duration_seconds": 0.38,
+      "channels": 1,
+      "sample_rate": 44100,
+      "encoding": "PCM signed 16-bit little-endian WAV",
+      "peak": 0.90997314453125,
+      "rms": 0.2243678266696061,
+      "clipped_samples": 0,
+      "finite": true
+    }
+  ],
+  "validation": "PCM encoding, duration, channel count, finite samples, output peaks, clipping, and loop-boundary measurements verified from the saved WAV files. Auditory approval should be based on playback in the game.",
+  "unused_candidate": {
+    "title": "Basic Fire whoosh",
+    "author": "LookIMadeAThing",
+    "page_url": "https://freesound.org/people/LookIMadeAThing/sounds/260554/",
+    "download_url": "https://cdn.freesound.org/previews/260/260554_3968707-hq.mp3",
+    "license": "CC0 1.0 Universal",
+    "note": "Downloaded for comparison; not used in final WAV files."
+  }
+}

@@ -37,3 +37,5 @@ Dernier lot352/503/57 : consulter le registre et le journal du15octobre2026 pour
 Consigne globale du15octobre2026 : appliquer docs/PHYSICAL_PRESENTATION_RULES.md à toutes les physiques et futures attaques. Priorité de reprise : revues22/75/424 et56, caméra offensive/esquive Miss ; corriger les échecs avant412. Les sources implémentées ne suffisent pas à un statut validé. Zéro crédit.
 
 Reprise du19octobre2026 : Croc Feu424, statut needs_work, revue ciblée Arcanin59→Tortank9. Voir CONTACT_BITE.md et le journal pour les échecs v2, les corrections et la portée exacte. Ne pas extrapoler aux autres espèces ; conserver le travail par lots et zéro crédit supplémentaire.
+
+Reprise v6 du19octobre2026 : sept cas et cinq interruptions passent techniquement pour424. Bruitage remplacé par un vrai souffle de feu ; allumage avant départ et cadrage des meshes animés contrôlés. La pose de contact reste recroquevillée : conserver needs_work et créer une pose de torse adaptée avant le lot suivant. Voir CONTACT_BITE.md.

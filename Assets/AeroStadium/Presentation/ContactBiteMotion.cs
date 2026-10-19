@@ -12,6 +12,9 @@ namespace AeroStadium.Presentation
         // Source Physical_005 is 2.14 s; its native jaw performance closes by .533 s. Recover before its generic body-roll tail.
         const float BiteLength=.90f,TurnLength=.17f,ContactMargin=.008f;
         static readonly int BiteState=Animator.StringToHash("Base Layer.Native_005");
+        // NativeModels/059/NativeClips/005.anim, Head/Jaw rotation curve at .53333336 s (also .55 s).
+        // This is a reference measurement only: Animator continues to author the live jaw pose.
+        static readonly Quaternion AuthoredClosedJaw=new Quaternion(0,.76258624f,0,.6468866f);
         Transform actor,mouth,jaw,head,nativeOrigin;
         NativePokemonModel native;Animator animator;
         ArenaView.BiteCast report;
@@ -27,7 +30,7 @@ namespace AeroStadium.Presentation
         float savedSpeed;bool savedEnabled,savedRootMotion,resolvedMiss,targetHit,initialized,disposed,planned,hasPrevious,hasLockedSurface,sounded,hasContactRoot;
         bool approachStarted;int stage;int[] savedStates;float[] savedTimes,savedWeights;
         BiteFlameEffect fireEffect;
-        readonly AudioClip[] clips=new AudioClip[2];AudioSource audioSource;
+        readonly AudioClip[] clips=new AudioClip[3];AudioSource audioSource,fireAudio;
         NativeGrounding[] groundings;Vector3[] savedGroundingPositions;
         public bool Done {get;private set;}
 
@@ -93,10 +96,12 @@ namespace AeroStadium.Presentation
                 float charge=Mathf.Clamp01((Time.time-started)/.40f);
                 fireEffect?.Render(.30f,false,Vector3.zero,Vector3.zero,false,Mathf.SmoothStep(0,1,charge));
                 actor.position=home;progress(0);
+                if(!sounded&&charge>=.12f){PlaySound(false);sounded=true;}
+                UpdateFireAudio(Mathf.SmoothStep(0,1,charge));
                 if(charge<1)return;
                 approachStarted=true;stageStarted=Time.time;report.phase="approach";report.nativeRun=native.PlaySource(11);
             }
-            fireEffect?.Render(.30f,false,Vector3.zero,Vector3.zero,false);
+            fireEffect?.Render(.30f,false,Vector3.zero,Vector3.zero,false);UpdateFireAudio(1);
             if(!planned)
             {
                 Vector3 point,normal;
@@ -111,7 +116,7 @@ namespace AeroStadium.Presentation
             float p=Mathf.Clamp01((Time.time-stageStarted)/approachDuration);
             actor.position=Vector3.Lerp(home,arrival,Mathf.SmoothStep(0,1,p));progress(.26f*p);
             if(p<1)return;
-            stage=1;stageStarted=Time.time;report.phase="bite";jawRest=jaw.localRotation;
+            stage=1;stageStarted=Time.time;report.phase="bite";jawRest=AuthoredClosedJaw;
             report.nativeBite=native.PlaySource(5);previousBiteTime=0;hasPrevious=false;
         }
 
@@ -131,10 +136,10 @@ namespace AeroStadium.Presentation
             // Physical_005 contains source translation as well as the jaw performance. Cancel that translation
             // on the outside actor, keeping the full native pose while contact owns the actual arena travel.
             CancelNativeTranslation();
-            // Take the closed reference from Physical_005 itself after the run crossfade settles.
-            if(biteTime<.30f){jawRest=jaw.localRotation;report.jawPeakAngle=0;}
+            // Never recapture a moving early frame: at .29 the authored jaw is already opening.
+            // A fixed closed reference makes low frame rates and the native run crossfade harmless.
             float angle=Quaternion.Angle(jawRest,jaw.localRotation);report.jawPeakAngle=Mathf.Max(report.jawPeakAngle,angle);
-            bool closing=report.jawPeakAngle>5&&angle<=Mathf.Max(4,report.jawPeakAngle*.28f)&&biteTime>=.50f;
+            bool closing=report.jawPeakAngle>5&&angle<=4f&&biteTime>=.50f;
             float margin=Mathf.Lerp(.17f,ContactMargin,Mathf.SmoothStep(0,1,Mathf.InverseLerp(.29f,.533f,biteTime)));
             bool contactWindow=biteTime<=.90f;
             Vector3 point=Vector3.zero,normal=Vector3.zero;float gap=1000;bool found=false;
@@ -165,7 +170,7 @@ namespace AeroStadium.Presentation
             if(closing){report.closedFrames++;if(found)report.minClosedGap=Mathf.Min(report.minClosedGap,gap);}
             if(biteTime>=.35f&&biteTime<=.85f&&report.closureSampleCount<report.closureSamples.Length)
                 report.closureSamples[report.closureSampleCount++]=new ArenaView.BitePoseSample{nativeTime=biteTime,jawAngle=angle,gap=gap,closed=closing,found=found,mouth=mouth.position,triangle=point};
-            if(!sounded&&biteTime>=.34f){PlaySound(false);sounded=true;}
+            UpdateFireAudio(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.65f,.90f,biteTime)));
             if(!report.actualContact&&!resolvedMiss&&found&&closing&&gap<=.02f&&gap>=-.002f)
             {
                 report.actualContact=true;report.bodyContact=shell==null;report.jawClosedAtContact=true;
@@ -202,7 +207,7 @@ namespace AeroStadium.Presentation
             // search cross a silhouette edge without ever leaving the rendered mouth inside the body.
             // Bounds choose a search length only; each decision and final witness uses real geometry.
             Bounds bounds=shell!=null?shell.ShieldBounds:liveBounds();
-            Vector3 initial=mouth.position;float low=-Mathf.Max(3,bounds.size.magnitude+1),high=Mathf.Max(low+.1f,Vector3.Dot(aim-initial,direction));
+            Vector3 rootBefore=actor.position,initial=mouth.position;float low=-Mathf.Max(3,bounds.size.magnitude+1),high=Mathf.Max(low+.1f,Vector3.Dot(aim-initial,direction));
             bool outside=shell!=null?shell.TryContact(initial+direction*low,aim,out point,out normal):Mesh(initial+direction*low,aim,out point,out normal);
             if(!outside){report.fitFailures++;return false;}
             for(int i=0;i<13;i++)
@@ -214,6 +219,30 @@ namespace AeroStadium.Presentation
             float correction=outwardOnly?Mathf.Min(0,low):low;
             if(!Finite(correction)){report.geometryValid=false;return false;}actor.position+=direction*correction;
             bool found=shell!=null?shell.TryContact(mouth.position,aim,out point,out normal):Mesh(mouth.position,aim,out point,out normal);
+            gap=found?Vector3.Distance(mouth.position,point):1000;
+            if(!outwardOnly&&shell==null&&biteTime>=.40f&&biteTime<=.66f&&(!found||gap>margin+.012f))
+            {
+                // The native head dives diagonally while the jaw closes. If its horizontal plane grazes an
+                // arm silhouette, an axial-only search cannot reach that triangle and must not enter the body.
+                // Make a small whole-actor lunge toward a real first surface; bones remain fully Animator-owned.
+                actor.position=rootBefore;Vector3 origin=mouth.position;
+                found=Mesh(origin,aim,out point,out normal);
+                if(!found)
+                {
+                    // A late native sample may have entered the surface already. Start an outside real-mesh ray.
+                    origin=mouth.position-direction*Mathf.Max(.65f,bounds.extents.magnitude);
+                    found=Mesh(origin,aim,out point,out normal);
+                }
+                if(found)
+                {
+                    Vector3 incoming=(aim-origin).normalized;
+                    Vector3 adjustment=point-incoming*margin-mouth.position;
+                    // This is the complete physical source actor, including its feet; it reads as a brief
+                    // native lunge/hop and the existing full-vector return eases it back to its world home.
+                    if(adjustment.sqrMagnitude<=.85f*.85f)actor.position+=adjustment;
+                    found=Mesh(mouth.position,aim,out point,out normal);
+                }
+            }
             if(!found){report.fitFailures++;return false;}
             gap=Vector3.Distance(mouth.position,point);
             float signedGap=Vector3.Dot(mouth.position-point,normal);
@@ -251,7 +280,7 @@ namespace AeroStadium.Presentation
             float p=Mathf.Clamp01((Time.time-stageStarted)/TurnLength);
             actor.rotation=Quaternion.Slerp(attackRotation,returnRotation,Mathf.SmoothStep(0,1,p));CancelNativeTranslation();progress(Mathf.Lerp(.69f,.73f,p));
             if(p<1)return;
-            stage=3;stageStarted=Time.time;retreatFrom=actor.position;returnDuration=Mathf.Clamp(Vector3.Distance(retreatFrom,home)/7.4f,.45f,1.35f);
+            stage=3;report.phase="return";stageStarted=Time.time;retreatFrom=actor.position;returnDuration=Mathf.Clamp(Vector3.Distance(retreatFrom,home)/7.4f,.45f,1.35f);
         }
         void Return()
         {
@@ -266,39 +295,50 @@ namespace AeroStadium.Presentation
             var audioObject=new GameObject("Native mouth following audio");audioObject.transform.SetParent(transform,false);
             audioSource=audioObject.AddComponent<AudioSource>();audioSource.playOnAwake=false;audioSource.volume=.51f;
             audioSource.spatialBlend=.5f;audioSource.dopplerLevel=0;audioSource.minDistance=3;audioSource.maxDistance=30;
+            fireAudio=audioObject.AddComponent<AudioSource>();fireAudio.playOnAwake=false;fireAudio.loop=true;fireAudio.volume=0;
+            fireAudio.spatialBlend=.5f;fireAudio.dopplerLevel=0;fireAudio.minDistance=3;fireAudio.maxDistance=30;
+            LoadFireSamples();for(int i=0;i<3;i++)clips[i]=FireSamples[i];
+            fireAudio.clip=clips[2];report.pcmFinite=FireFinite;report.audioPeak=FirePeak;
         }
         void DrawFire()
         {
             fireEffect?.Render(biteTime,report.actualContact,report.contact,report.normal,report.blocked);
         }
         void HideFire(){
-            fireEffect?.Hide();
+            fireEffect?.Hide();if(fireAudio!=null){fireAudio.Stop();fireAudio.volume=0;}
         }
 
+        static AudioClip[] FireSamples;static bool FireFinite;static float FirePeak;
+        static void LoadFireSamples()
+        {
+            if(FireSamples!=null&&FireSamples[0]!=null&&FireSamples[1]!=null&&FireSamples[2]!=null)return;
+            string[] resources={"FireFangIgnition","FireFangImpact","FireFangLoop"};
+            string[] names={"Croc Feu ignition","Croc Feu impact","Croc Feu fire bed"};
+            FireSamples=new AudioClip[3];FireFinite=true;FirePeak=0;
+            for(int i=0;i<3;i++)
+            {
+                var clip=Resources.Load<AudioClip>("Audio/Attacks/CrocFeu/"+resources[i]);FireSamples[i]=clip;
+                if(clip==null){FireFinite=false;continue;}
+                clip.name=names[i];var pcm=new float[clip.samples*clip.channels];
+                FireFinite&=clip.GetData(pcm,0);
+                foreach(float sample in pcm){FireFinite&=Finite(sample);FirePeak=Mathf.Max(FirePeak,Mathf.Abs(sample));}
+            }
+        }
         void PlaySound(bool contact)
         {
-            int slot=contact?1:0;
             if(contact&&!report.actualContact)return;
-            float[] full=ArenaView.CreateFireFangPcm(contact);
-            // Ignition has only hiss/fire; the dry contact snap is added only by a geometric jaw closure.
-            int start=contact?2425:0,count=contact?Mathf.Min(6600,full.Length-start):Mathf.Min(8400,full.Length);
-            var pcm=new float[count];uint ignitionRandom=0x424059;float ignitionLow=0;
-            for(int i=0;i<count;i++)
-            {
-                float value=full[start+i];
-                if(!contact)
-                {
-                    // Anticipation contains only fire/air, so a geometric Miss has no contact crunch.
-                    ignitionRandom^=ignitionRandom<<13;ignitionRandom^=ignitionRandom>>17;ignitionRandom^=ignitionRandom<<5;
-                    float noise=(ignitionRandom&0xffffff)/8388607.5f-1;ignitionLow+=.12f*(noise-ignitionLow);
-                    float t=i/22050f;value=.26f*(noise-ignitionLow)*Mathf.Sin(Mathf.PI*i/count)*Mathf.Exp(-t*4);
-                }
-                value*=Mathf.Clamp01(i/90f)*Mathf.Clamp01((count-i)/250f);pcm[i]=value;
-                report.pcmFinite=i==0?Finite(value):report.pcmFinite&&Finite(value);report.audioPeak=Mathf.Max(report.audioPeak,Mathf.Abs(value));
-            }
-            clips[slot]=AudioClip.Create(contact?"Original bite contact snap":"Original mouth ignition",count,1,22050,false);clips[slot].SetData(pcm,0);
-            audioSource.transform.position=mouth.position;audioSource.PlayOneShot(clips[slot],contact?.82f:.60f);
+            var clip=clips[contact?1:0];
+            if(clip==null){report.reason="Missing local Croc Feu audio; restore Audio/Attacks/CrocFeu assets.";return;}
+            audioSource.transform.position=mouth.position;audioSource.clip=clip;audioSource.volume=contact?.65f:.60f;audioSource.Play();
             report.sound|=audioSource.isPlaying&&report.pcmFinite&&report.audioPeak>0&&report.audioPeak<=1;
+        }
+
+        void UpdateFireAudio(float strength)
+        {
+            if(fireAudio==null)return;
+            strength=Mathf.Clamp01(strength);fireAudio.volume=Mathf.MoveTowards(fireAudio.volume,.42f*strength,Time.deltaTime*8);
+            if(strength>.02f&&!fireAudio.isPlaying)fireAudio.Play();
+            if(strength<=.002f&&fireAudio.isPlaying)fireAudio.Stop();
         }
 
         static bool Finite(float value)=>!float.IsNaN(value)&&!float.IsInfinity(value);
@@ -319,8 +359,9 @@ namespace AeroStadium.Presentation
                 }
                 for(int i=0;groundings!=null&&i<groundings.Length;i++)if(groundings[i]!=null)groundings[i].transform.localPosition=savedGroundingPositions[i];
             }
-            body?.Dispose();HideFire();fireEffect?.Dispose();if(audioSource!=null)audioSource.Stop();
-            foreach(var clip in clips)if(clip!=null)Destroy(clip);enabled=false;
+            body?.Dispose();HideFire();fireEffect?.Dispose();if(audioSource!=null)audioSource.Stop();if(fireAudio!=null)fireAudio.Stop();
+            // Resource clips are shared assets; only the action sources are owned here.
+            enabled=false;
         }
         void OnDisable(){Dispose();}
         void OnDestroy(){Dispose();}

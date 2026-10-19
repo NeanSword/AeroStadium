@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AeroStadium.Presentation
@@ -10,6 +11,120 @@ namespace AeroStadium.Presentation
         public int followFrames, axisFrames, actorVisibleFrames, targetVisibleFrames, strikeFrames, strikeVisibleFrames;
         public float maxSpeed, maxAngularSpeed, maxFovSpeed, travel, entrySeconds, recoverySeconds;
         public float contactSubjectHeightSum, strikeHeightSum, targetHeightSum;
+        public bool animatedBoundsValid = true, actualHeadTracked;
+        public int sourceBakedFrames, targetBakedFrames, boundsFallbackFrames, sourceBoundsFrame = -1, targetBoundsFrame = -1;
+        public string boundsFailure;
+        public List<BiteCameraFramingMiss> strikeFramingMisses = new List<BiteCameraFramingMiss>(12);
+    }
+
+    [System.Serializable]
+    public sealed class BiteCameraFramingMiss
+    {
+        public float progress, dt, desiredFov, cameraFov;
+        public bool sourceVisible, targetVisible, headVisible, moveAccepted;
+        public Vector3 sourceCenter, sourceSize, targetCenter, targetSize, head;
+        public Vector3 previousPosition, desiredPosition, cameraPosition;
+        public Quaternion desiredRotation, cameraRotation;
+        public float requestedSpeed, requestedAngularSpeed, cappedSpeed, cappedAngularSpeed;
+        // Bounds projected to viewport coordinates: left, bottom, right, top.
+        public Vector4 sourceViewport;
+    }
+
+    /// <summary>One owned, cached snapshot of the actual animated body geometry per rendered frame.</summary>
+    internal sealed class BiteFrame : System.IDisposable
+    {
+        sealed class Part
+        {
+            public Renderer renderer;
+            public SkinnedMeshRenderer skin;
+            public Mesh source, baked;
+        }
+        readonly List<Part> parts = new List<Part>();
+        Bounds cached;
+        bool valid, disposed;
+        public int LastFrame { get; private set; } = -1;
+        public int BakedFrames { get; private set; }
+        public string LastFailure { get; private set; }
+
+        public BiteFrame(Transform owner)
+        {
+            if (owner == null) { LastFailure = "Actor model is missing."; return; }
+            NativePokemonModel native = owner.GetComponent<NativePokemonModel>();
+            Transform model = native != null && native.ModelRoot != null ? native.ModelRoot : owner;
+            foreach (Renderer renderer in model.GetComponentsInChildren<Renderer>(true))
+            {
+                SkinnedMeshRenderer skin = renderer as SkinnedMeshRenderer;
+                MeshFilter filter = renderer is MeshRenderer ? renderer.GetComponent<MeshFilter>() : null;
+                Mesh mesh = skin != null ? skin.sharedMesh : filter != null ? filter.sharedMesh : null;
+                if (mesh == null || mesh.vertexCount == 0 || renderer.sharedMaterial == null) continue;
+                Part part = new Part { renderer = renderer, skin = skin, source = mesh };
+                if (skin != null)
+                {
+                    part.baked = new Mesh { name = "Bite camera snapshot · " + mesh.name };
+                    part.baked.MarkDynamic();
+                }
+                parts.Add(part);
+            }
+            if (parts.Count == 0) LastFailure = "Actor has no body mesh renderers.";
+        }
+        static bool Visible(Renderer renderer) => renderer != null && renderer.enabled && renderer.gameObject.activeInHierarchy
+            && !renderer.forceRenderingOff && renderer.shadowCastingMode != UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        static bool Finite(Vector3 value) => !float.IsNaN(value.x) && !float.IsNaN(value.y) && !float.IsNaN(value.z)
+            && !float.IsInfinity(value.x) && !float.IsInfinity(value.y) && !float.IsInfinity(value.z);
+        public bool TryBounds(out Bounds bounds)
+        {
+            bounds = cached;
+            if (disposed) return false;
+            if (LastFrame == Time.frameCount) return valid;
+            LastFrame = Time.frameCount; valid = false;
+            bool found = false, baked = false, failed = false;
+            Bounds measured = default;
+            foreach (Part part in parts)
+            {
+                if (!Visible(part.renderer)) continue;
+                try
+                {
+                    Bounds world;
+                    if (part.skin != null)
+                    {
+                        if (part.skin.sharedMesh != part.source) throw new System.InvalidOperationException("Body mesh changed.");
+                        // Omit renderer scale in the bake; localToWorld below applies it exactly once.
+                        part.skin.BakeMesh(part.baked, false); part.baked.RecalculateBounds(); baked = true;
+                        if (part.baked.vertexCount == 0) throw new System.InvalidOperationException("Empty animated body snapshot.");
+                        Bounds local = part.baked.bounds;
+                        Matrix4x4 matrix = part.renderer.localToWorldMatrix;
+                        world = new Bounds(matrix.MultiplyPoint3x4(local.center), Vector3.zero);
+                        for (int i = 0; i < 8; i++)
+                        {
+                            Vector3 point = matrix.MultiplyPoint3x4(local.center + Vector3.Scale(local.extents,
+                                new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1)));
+                            if (!Finite(point)) throw new System.InvalidOperationException("Nonfinite animated body bounds.");
+                            world.Encapsulate(point);
+                        }
+                    }
+                    else world = part.renderer.bounds;
+                    if (!Finite(world.center) || !Finite(world.size)) throw new System.InvalidOperationException("Nonfinite body bounds.");
+                    if (!found) { measured = world; found = true; } else measured.Encapsulate(world);
+                }
+                catch (System.Exception error) { failed = true; LastFailure = error.GetType().Name + ": " + error.Message; }
+            }
+            if (baked) BakedFrames++;
+            valid = found && !failed;
+            if (valid) { cached = bounds = measured; return true; }
+            if (!failed) LastFailure = "No visible body geometry was measured.";
+            return false;
+        }
+        public void Dispose()
+        {
+            if (disposed) return;
+            disposed = true;
+            foreach (Part part in parts) if (part.baked != null)
+            {
+                if (Application.isPlaying) UnityEngine.Object.Destroy(part.baked);
+                else UnityEngine.Object.DestroyImmediate(part.baked);
+            }
+            parts.Clear();
+        }
     }
 
     /// <summary>A continuous, low three-quarter follow of the physical run, jaw contact and return.</summary>
@@ -26,6 +141,8 @@ namespace AeroStadium.Presentation
         readonly ArenaView arena;
         readonly Camera camera;
         readonly Transform actor;
+        readonly Transform headBone;
+        readonly BiteFrame sourceFrame, targetFrame;
         readonly int side;
         readonly Pose home;
         readonly Bounds sourceHome, targetHome;
@@ -35,7 +152,7 @@ namespace AeroStadium.Presentation
         readonly Pose[] history = new Pose[384];
         readonly Collider[] nearby = new Collider[32];
         readonly RaycastHit[] hits = new RaycastHit[32];
-        int historyCount;
+        int historyCount, lastBoundsFallbackFrame = -1;
         float orbitScale = 1, elevation = .13f;
         bool canceled, transition;
         public bool Transitioning => transition;
@@ -45,7 +162,12 @@ namespace AeroStadium.Presentation
         public BiteCameraTrack(ArenaView view, int attackerSide, Transform source, Vector3 dodgeOffset)
         {
             arena = view; camera = view.ArenaCamera; actor = source; side = attackerSide;
-            home = Current(); sourceHome = arena.PokemonWorldBounds(side); targetHome = arena.PokemonWorldBounds(1 - side);
+            home = Current();
+            sourceFrame = new BiteFrame(actor);
+            NativePokemonModel defender = arena.DodgeModel(1 - side);
+            targetFrame = new BiteFrame(defender != null ? defender.transform : null);
+            LiveBounds(out Bounds initialSource, out Bounds initialTarget);
+            sourceHome = initialSource; targetHome = initialTarget;
             rootHome = actor.position; rootRotation = actor.rotation;
             Vector3 axis = Vector3.ProjectOnPlane(arena.BattleAxis, Vector3.up).normalized;
             if (axis.sqrMagnitude < .5f) axis = Vector3.right;
@@ -54,13 +176,14 @@ namespace AeroStadium.Presentation
             if (forward.sqrMagnitude < .5f) forward = side == 0 ? axis : -axis;
             Vector3 head = sourceHome.center + forward * PlanarRadius(sourceHome, forward) * .67f + Vector3.up * sourceHome.size.y * .16f;
             Vector3 mouth = head;
-            // Cache anatomical anchors in root space once. Follow the stable root, not animated jaw oscillation.
+            // Keep the actual animated head for live framing; root-local coordinates are only a planning estimate.
             foreach (Transform bone in actor.GetComponentsInChildren<Transform>(true))
             {
-                if (bone.name == "Head") head = bone.position;
+                if (bone.name == "Head") { head = bone.position; headBone = bone; }
                 if (bone.name == "EffMouth01") mouth = bone.position;
             }
             headLocal = actor.InverseTransformPoint(head);
+            Stats.actualHeadTracked = headBone != null;
             float lane = Mathf.Max(0, Vector3.Dot(targetHome.center - mouth, forward)
                 - PlanarRadius(targetHome, forward) - .10f);
             plannedTravel = forward * lane;
@@ -78,7 +201,22 @@ namespace AeroStadium.Presentation
                 { Stats.planned = true; Stats.fallback = attempt > 0; return; }
             }
             Stats.fallback = true;
+            ReleaseFrames();
         }
+
+        Vector3 LiveHead => headBone != null ? headBone.position : actor.TransformPoint(headLocal);
+        void LiveBounds(out Bounds source, out Bounds victim)
+        {
+            bool sourceMeasured = sourceFrame.TryBounds(out source), targetMeasured = targetFrame.TryBounds(out victim);
+            Stats.sourceBakedFrames = sourceFrame.BakedFrames; Stats.targetBakedFrames = targetFrame.BakedFrames;
+            Stats.sourceBoundsFrame = sourceFrame.LastFrame; Stats.targetBoundsFrame = targetFrame.LastFrame;
+            if (sourceMeasured && targetMeasured) return;
+            Stats.animatedBoundsValid = false;
+            if (lastBoundsFallbackFrame != Time.frameCount) { Stats.boundsFallbackFrames++; lastBoundsFallbackFrame = Time.frameCount; }
+            if (!sourceMeasured) { source = arena.PokemonWorldBounds(side); Stats.boundsFailure = "Source: " + sourceFrame.LastFailure; }
+            if (!targetMeasured) { victim = arena.PokemonWorldBounds(1 - side); Stats.boundsFailure = "Target: " + targetFrame.LastFailure; }
+        }
+        void ReleaseFrames() { sourceFrame.Dispose(); targetFrame.Dispose(); }
 
         static float Ease(float t) { t = Mathf.Clamp01(t); return t * t * t * (t * (t * 6 - 15) + 10); }
         static float Smooth(float a, float b, float t) { t = Mathf.InverseLerp(a, b, t); return t * t * (3 - 2 * t); }
@@ -115,11 +253,13 @@ namespace AeroStadium.Presentation
         {
             // Live root travel brings the pair together, so the framing naturally closes with the running attacker.
             // Every phase uses the same continuous formula: closure at .60 does not select a new camera pose.
-            float contact = Smooth(.04f, .26f, progress) * (1 - Smooth(.70f, .92f, progress));
+            float contact = Smooth(.02f, .19f, progress) * (1 - Smooth(.70f, .92f, progress));
             float returning = Smooth(.73f, 1, progress);
-            float orbit = Mathf.Lerp(.34f, .13f, contact) - .07f * returning;
+            // Stay slightly behind the attacker at contact: the defender's near arm then falls behind the muzzle.
+            float orbit = Mathf.Lerp(.12f, -.32f, contact) + .02f * returning;
             Vector3 back = (backward + forward * orbit * orbitScale + Vector3.up * elevation).normalized;
-            float targetReveal = Smooth(.04f, .24f, progress) * (1 - Smooth(.73f, .96f, progress));
+            // Finish opening the pair before arrival, leaving the capped follow time to settle before the bite.
+            float targetReveal = Smooth(.02f, .12f, progress) * (1 - Smooth(.73f, .96f, progress));
             Vector3 bodyFocus = Vector3.Lerp(source.center, victim.center, (.24f + .20f * contact) * targetReveal);
             Vector3 contactFocus = Vector3.Lerp(head, victim.center, .48f);
             Vector3 focus = Vector3.Lerp(bodyFocus, contactFocus, .20f * contact);
@@ -130,7 +270,8 @@ namespace AeroStadium.Presentation
             revealedTarget.center = Vector3.Lerp(source.center, victim.center, targetReveal);
             revealedTarget.extents *= targetReveal;
             source.Encapsulate(head);
-            float distance = Fit(source, revealedTarget, focus, back, fov) * 1.035f;
+            // The fit uses measured animated body geometry, including its current native pose.
+            float distance = Fit(source, revealedTarget, focus, back, fov) * 1.08f;
             Vector3 position = focus + back * distance;
             return new Pose { position = position, rotation = Quaternion.LookRotation(focus - position, Vector3.up), fov = fov };
         }
@@ -155,10 +296,11 @@ namespace AeroStadium.Presentation
         bool PathClear(Pose from, Pose to)
         {
             Pose previous = from;
+            LiveBounds(out Bounds source, out Bounds victim);
             for (int i = 0; i <= 32; i++)
             {
                 Pose pose = Blend(from, to, Ease(i / 32f));
-                if (!Clear(pose, sourceHome, targetHome) || !TravelClear(previous.position, pose.position)) return false;
+                if (!Clear(pose, source, victim) || !TravelClear(previous.position, pose.position)) return false;
                 previous = pose;
             }
             return true;
@@ -183,14 +325,14 @@ namespace AeroStadium.Presentation
         {
             if (canceled || transition || !Stats.entered || FinishedRecovery || actor == null) return;
             progress = Mathf.Clamp01(progress);
-            Bounds source = arena.PokemonWorldBounds(side), victim = arena.PokemonWorldBounds(1 - side);
-            Pose desired = ActionPose(progress, source, victim, actor.TransformPoint(headLocal));
-            Pose previous = Current();
+            LiveBounds(out Bounds source, out Bounds victim);
+            Pose desired = ActionPose(progress, source, victim, LiveHead);
+            Pose previous = Current(), requested = desired;
             float step = Mathf.Max(.001f, dt);
             desired.position = Vector3.MoveTowards(previous.position, desired.position, 39.5f * step);
             desired.rotation = Quaternion.RotateTowards(previous.rotation, desired.rotation, 198f * step);
             desired.fov = Mathf.MoveTowards(previous.fov, desired.fov, 34.5f * step);
-            Move(desired, true);
+            bool moveAccepted = Move(desired, true);
             Stats.followFrames++;
             Pose pose = Current();
             bool sourceVisible = Framed(source, pose, .025f), targetVisible = Framed(victim, pose, .025f);
@@ -201,9 +343,24 @@ namespace AeroStadium.Presentation
             if (progress >= .26f && progress <= .69f)
             {
                 Stats.strikeFrames++;
-                if (sourceVisible && targetVisible && PointVisible(actor.TransformPoint(headLocal), pose, .06f)) Stats.strikeVisibleFrames++;
+                Vector3 head = LiveHead;
+                bool headVisible = PointVisible(head, pose, .06f);
+                if (sourceVisible && targetVisible && headVisible) Stats.strikeVisibleFrames++;
+                else if (Stats.strikeFramingMisses.Count < 12)
+                    Stats.strikeFramingMisses.Add(new BiteCameraFramingMiss {
+                        progress = progress, dt = step,
+                        sourceVisible = sourceVisible, targetVisible = targetVisible, headVisible = headVisible, moveAccepted = moveAccepted,
+                        sourceCenter = source.center, sourceSize = source.size, targetCenter = victim.center, targetSize = victim.size, head = head,
+                        previousPosition = previous.position, desiredPosition = requested.position, cameraPosition = pose.position,
+                        desiredRotation = requested.rotation, cameraRotation = pose.rotation, desiredFov = requested.fov, cameraFov = pose.fov,
+                        requestedSpeed = Vector3.Distance(previous.position, requested.position) / step,
+                        requestedAngularSpeed = Quaternion.Angle(previous.rotation, requested.rotation) / step,
+                        cappedSpeed = Vector3.Distance(previous.position, pose.position) / step,
+                        cappedAngularSpeed = Quaternion.Angle(previous.rotation, pose.rotation) / step,
+                        sourceViewport = ViewportRect(source, pose)
+                    });
                 Stats.strikeHeightSum += ViewportHeight(source, pose);
-                Bounds subject = victim; subject.Encapsulate(actor.TransformPoint(headLocal));
+                Bounds subject = victim; subject.Encapsulate(head);
                 Stats.contactSubjectHeightSum += ViewportHeight(subject, pose);
             }
         }
@@ -228,7 +385,7 @@ namespace AeroStadium.Presentation
                     Stats.recovered = Move(home, false); Stats.recoveryBlocked = !Stats.recovered; FinishedRecovery = true;
                 }
             }
-            finally { Stats.recoverySeconds = Time.unscaledTime - began; transition = false; }
+            finally { Stats.recoverySeconds = Time.unscaledTime - began; transition = false; ReleaseFrames(); }
         }
         bool HistoryClear(Pose start)
         {
@@ -256,7 +413,7 @@ namespace AeroStadium.Presentation
         bool Move(Pose pose, bool remember)
         {
             Pose previous = Current();
-            Bounds source = arena.PokemonWorldBounds(side), victim = arena.PokemonWorldBounds(1 - side);
+            LiveBounds(out Bounds source, out Bounds victim);
             if (!Clear(pose, source, victim) || !TravelClear(previous.position, pose.position)) { Stats.safe = false; return false; }
             float dt = Mathf.Max(.001f, Time.unscaledDeltaTime);
             Stats.maxSpeed = Mathf.Max(Stats.maxSpeed, Vector3.Distance(previous.position, pose.position) / dt);
@@ -291,6 +448,21 @@ namespace AeroStadium.Presentation
         }
         bool Framed(Bounds frame, Pose pose, float margin)
         { for (int i = 0; i < 8; i++) if (!PointVisible(Corner(frame, i), pose, margin)) return false; return true; }
+        Vector4 ViewportRect(Bounds frame, Pose pose)
+        {
+            Quaternion inverse = Quaternion.Inverse(pose.rotation);
+            float vertical = Mathf.Tan(pose.fov * .5f * Mathf.Deg2Rad), horizontal = vertical * Mathf.Max(.1f, camera.aspect);
+            Vector4 rect = new Vector4(float.PositiveInfinity, float.PositiveInfinity, float.NegativeInfinity, float.NegativeInfinity);
+            for (int i = 0; i < 8; i++)
+            {
+                Vector3 c = inverse * (Corner(frame, i) - pose.position);
+                float depth = Mathf.Max(camera.nearClipPlane, c.z);
+                float x = .5f + .5f * c.x / (depth * horizontal), y = .5f + .5f * c.y / (depth * vertical);
+                rect.x = Mathf.Min(rect.x, x); rect.y = Mathf.Min(rect.y, y);
+                rect.z = Mathf.Max(rect.z, x); rect.w = Mathf.Max(rect.w, y);
+            }
+            return rect;
+        }
         float ViewportHeight(Bounds frame, Pose pose)
         {
             Quaternion inverse = Quaternion.Inverse(pose.rotation);
@@ -323,6 +495,10 @@ namespace AeroStadium.Presentation
             for (int i = 0; i < n; i++) if (hits[i].collider.transform.IsChildOf(arena.Stadium.transform)) return false;
             return true;
         }
-        public void Cancel() { canceled = true; Stats.interrupted = Stats.planned && !Stats.recovered && !FinishedRecovery; }
+        public void Cancel()
+        {
+            canceled = true; Stats.interrupted = Stats.planned && !Stats.recovered && !FinishedRecovery;
+            ReleaseFrames();
+        }
     }
 }

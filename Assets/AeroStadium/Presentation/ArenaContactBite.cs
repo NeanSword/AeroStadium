@@ -83,6 +83,20 @@ namespace AeroStadium.Presentation
             }
         }
 
+        // One periodic second of original fire/air texture. Integer frequencies close the loop exactly.
+        public static float[] CreateFireFangBedPcm()
+        {
+            const int count=22050;var pcm=new float[count];uint seed=0x59f1424;
+            for(int layer=0;layer<48;layer++)
+            {
+                seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;
+                int frequency=layer<12?53+(int)(seed%210):420+(int)(seed%4300);
+                float amplitude=layer<12?.020f:.012f,phase=(seed&65535)/65535f*2*Mathf.PI;
+                for(int i=0;i<count;i++)pcm[i]+=amplitude*Mathf.Sin(2*Mathf.PI*frequency*i/count+phase);
+            }
+            return pcm;
+        }
+
         // Original deterministic synthesis, kept as a public API for exported review audio.
         public static float[] CreateFireFangPcm(bool contact=true)
         {

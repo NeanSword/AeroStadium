@@ -3412,9 +3412,9 @@
     "category": "Physical",
     "status": "needs_work",
     "official_reference": null,
-    "validation_scope": "Only native Arcanin59 vs Tortank9, move424, modern Elite Four arena. Mouth marker vs real animated triangles; no all-teeth/body continuous collision or all151/species/arenas claim.",
-    "validation": "output/attacks/bite-20261019-v3/verified-summary.json",
-    "notes": "Post-Animator110 contact gated by native jaw closure; native run approach/return, bite segment ends before generic roll, larger living jaw fire and original sound. v2 failed left contact and two Miss crossings; v3 passed=False. No Core changes. Further species and subjective animation acceptance remain."
+    "validation_scope": "Arcanin59 contre Tortank9, Croc Feu424, deux côtés, arène Conseil4 moderne. Repère de bouche contre triangles animés, pas une collision continue de toutes les dents/corps ni une validation des151espèces.",
+    "validation": "output/attacks/bite-20261019-v6/verified-summary.json",
+    "notes": "Reprise19oct2026: allumage progressif0.4s avant départ, feu animé en course, vrais sons de combustion locaux; référence de mâchoire fermée lue dans005.anim, petit bond de contact3D si nécessaire. Caméra cadrant les vrais meshes animés et la tête réelle, géométrie mise en cache par frame. Revue v6: passed=True. Aucun changement Core. Autres espèces/arènes et appréciation artistique restent à couvrir."
   },
   {
     "id": 425,

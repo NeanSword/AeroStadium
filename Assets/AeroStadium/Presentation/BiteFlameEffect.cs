@@ -22,13 +22,13 @@ namespace AeroStadium.Presentation
         Material outerMaterial, coreMaterial;
         Texture2D coreTexture;
         Light glow;
-        float width, impactAt = -1;
+        float width, createdAt, impactAt = -1;
         Vector3 impactPoint, impactNormal;
         bool disposed, impacted;
 
         public void Initialize(Transform upperHead, Transform lowerJaw, Transform emitter, Vector3 direction, Material sharedGlow)
         {
-            head = upperHead; jaw = lowerJaw; mouth = emitter;
+            createdAt=Time.time;head = upperHead; jaw = lowerJaw; mouth = emitter;
             upperLocal = head.InverseTransformPoint(mouth.position); lowerLocal = jaw.InverseTransformPoint(mouth.position);
             forwardLocal = head.InverseTransformDirection(direction.normalized);
             width = Mathf.Clamp(Vector3.Distance(head.position, jaw.position) * 2.5f, .44f, .58f);
@@ -64,10 +64,11 @@ namespace AeroStadium.Presentation
                 if (Vector3.Dot(impactNormal, mouth.position - point) < 0) impactNormal = -impactNormal;
             }
             float fire = Mathf.Clamp01(strength) * (1 - Smooth(.65f, .90f, nativeTime));
-            float flicker = .93f + .045f * Mathf.Sin(nativeTime * 31) + .025f * Mathf.Sin(nativeTime * 67 + 1.4f);
+            float flow=Time.time-createdAt;
+            float flicker = .93f + .045f * Mathf.Sin(flow * 31) + .025f * Mathf.Sin(flow * 67 + 1.4f);
             Vector3 upperRoot = root.transform.InverseTransformPoint(upper), lowerRoot = root.transform.InverseTransformPoint(lower);
-            DrawTongues(outer, OuterTongues, upperRoot, lowerRoot, nativeTime, fire * flicker, false, impact && blocked);
-            DrawTongues(core, CoreTongues, upperRoot, lowerRoot, nativeTime, fire, true, impact && blocked);
+            DrawTongues(outer, OuterTongues, upperRoot, lowerRoot, flow, fire * flicker, false, impact && blocked);
+            DrawTongues(core, CoreTongues, upperRoot, lowerRoot, flow, fire, true, impact && blocked);
             DrawSparks();
             glow.enabled = fire > .01f; glow.intensity = fire * (1.45f + .25f * flicker);
         }
