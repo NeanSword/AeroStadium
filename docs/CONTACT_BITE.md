@@ -23,3 +23,13 @@ v6 : passé=True, erreurs=0, durée=120.00s. 0/direct-hit: True; 0/protect: True
 La revue technique réussit, mais la pose de contact est visuellement insuffisante : le mouvement natif recroqueville trop le torse et masque la gueule. Origin reste à rotation identité ; le pli est réparti entre Spine1, Spine2, Neck et Head. Verrouiller seulement Origin ne corrige pas le geste. Prochaine étape : une pose de morsure du torse avec limitation progressive du pli, en conservant la mâchoire et en recalant les appuis, puis nouvelle revue. Statut needs_work conservé.
 
 Une réussite technique ne vaut pas acceptation artistique définitive. Builds/Windows stable conservé ; expérimental WindowsReference. Les barres de vie restent inchangées et les dégâts flottants retirés. Travail uniquement sur quota, aucun crédit/API payant/reset.
+
+## 2026-10-20 — Posture de morsure redressée
+
+La pose de torse est désormais appliquée avant le grounding, à l’ordre92 : flexion modérée, extension vers la cible puis recul. Dix-sept articulations temporaires sont restaurées avant chaque évaluation de l’Animator et en sortie. Les quatre chaînes des pattes articulent les appuis avec des objectifs bornés à leur portée. Head/Jaw conservent leurs courbes natives. L’animation au repos vérifiée est003 (waitA01) ;000 est une réception, pas une référence de repos.
+
+Le torse ne se replie plus sous Tortank dans les images inspectées. L’échantillon de fermeture gauche place la bouche à1,278m et le bas du corps à0,005m du plan de référence ; droite1,301m et0,005m. Les pattes se lèvent pendant la poussée : ce système d’appuis n’est pas une simulation de forces complète. Les vues de face peuvent être partiellement masquées par le bras de la cible en contact ; elles ne constituent pas une preuve de visibilité sans occlusion.
+
+Revue passée=True, erreurs=0, durée=120.00s. 0/direct-hit: True; 0/protect: True; 0/accuracy-miss: True; 1/direct-hit: True; 1/protect: True; 1/accuracy-miss: True; 0/non-hit-control: True. Cinq interruptions par phase, remplacement=True, orthographique=True. Contact réel, allumage/son avant départ, seuil de cadrage95% et nettoyage conservés. Les nouvelles observations de posture ne remplacent pas la revue visuelle ni l’acceptation artistique du propriétaire. Preuves output/attacks/bite-posture-20261020-v1/verified-summary.json.
+
+Compilation WindowsReference réussie, réglages restaurés ; stable Windows conservé. Sources exactes output/ui/bite-posture-20261020-v1/compiled-sources.json. Aucun changement Core ni du bruitage de feu. Suite : étendre les espèces et traiter le lot suivant après retours éventuels sur cette mise en scène.

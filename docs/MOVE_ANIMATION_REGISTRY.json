@@ -3410,11 +3410,11 @@
     "name": "Crocs Feu",
     "type": "Fire",
     "category": "Physical",
-    "status": "needs_work",
+    "status": "validated",
     "official_reference": null,
-    "validation_scope": "Arcanin59 contre Tortank9, Croc Feu424, deux côtés, arène Conseil4 moderne. Repère de bouche contre triangles animés, pas une collision continue de toutes les dents/corps ni une validation des151espèces.",
-    "validation": "output/attacks/bite-20261019-v6/verified-summary.json",
-    "notes": "Reprise19oct2026: allumage progressif0.4s avant départ, feu animé en course, vrais sons de combustion locaux; référence de mâchoire fermée lue dans005.anim, petit bond de contact3D si nécessaire. Caméra cadrant les vrais meshes animés et la tête réelle, géométrie mise en cache par frame. Revue v6: passed=True. Aucun changement Core. Autres espèces/arènes et appréciation artistique restent à couvrir."
+    "validation_scope": "Croc Feu424, Arcanin59 contre Tortank9, deux côtés, arène Conseil4 moderne. Repère de bouche et triangles animés ; pas une collision continue de toutes les dents/corps, ni une validation des151espèces.",
+    "validation": "output/attacks/bite-posture-20261020-v1/verified-summary.json",
+    "notes": "20oct2026: torse de morsure temporaire, bassin/dos/cou modulés, quatre chaînes de support articulées; Head/Jaw natifs préservés, dix-sept articulations restaurées avant Animator et en sortie. Vraie référence au repos Native003, 000 est une animation de réception. Allumage avant course, sons de feu CC0 et contact réel conservés. Revue ciblée120s7cas5interruptions; acceptation artistique finale à confirmer, pas une validation générale des espèces/arènes."
   },
   {
     "id": 425,

@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 
 namespace AeroStadium.Presentation
 {
-    /// <summary>Owns 059's complete native bite, after native root locking (80), dodge (90), grounding (95), mesh effects (100).</summary>
+    /// <summary>Owns 059's complete native bite after torso support (92), grounding (95) and mesh effects (100).</summary>
     [DefaultExecutionOrder(110)]
     [DisallowMultipleComponent]
     public sealed class ContactBiteMotion : MonoBehaviour,IDisposable
@@ -30,6 +30,7 @@ namespace AeroStadium.Presentation
         float savedSpeed;bool savedEnabled,savedRootMotion,resolvedMiss,targetHit,initialized,disposed,planned,hasPrevious,hasLockedSurface,sounded,hasContactRoot;
         bool approachStarted;int stage;int[] savedStates;float[] savedTimes,savedWeights;
         BiteFlameEffect fireEffect;
+        BiteTorsoPose torsoPose;
         readonly AudioClip[] clips=new AudioClip[3];AudioSource audioSource,fireAudio;
         NativeGrounding[] groundings;Vector3[] savedGroundingPositions;
         public bool Done {get;private set;}
@@ -64,6 +65,7 @@ namespace AeroStadium.Presentation
             upperLocal=head.InverseTransformPoint(mouth.position);lowerLocal=jaw.InverseTransformPoint(mouth.position);
             acrossLocal=head.InverseTransformDirection(Vector3.Cross(Vector3.up,direction).normalized);
             forwardLocal=head.InverseTransformDirection(direction);upLocal=head.InverseTransformDirection(Vector3.up);
+            torsoPose=BiteTorsoPose.Begin(actor,native);
             CreateFire(glow);initialized=true;report.phase="ignite";
         }
 
@@ -117,7 +119,7 @@ namespace AeroStadium.Presentation
             actor.position=Vector3.Lerp(home,arrival,Mathf.SmoothStep(0,1,p));progress(.26f*p);
             if(p<1)return;
             stage=1;stageStarted=Time.time;report.phase="bite";jawRest=AuthoredClosedJaw;
-            report.nativeBite=native.PlaySource(5);previousBiteTime=0;hasPrevious=false;
+            report.nativeBite=native.PlaySource(5);torsoPose?.BeginBite();previousBiteTime=0;hasPrevious=false;
         }
 
         float NativeBiteTime()
@@ -185,7 +187,7 @@ namespace AeroStadium.Presentation
             float p=biteTime<.533f?Mathf.Lerp(.26f,.60f,biteTime/.533f):Mathf.Lerp(.60f,.69f,(biteTime-.533f)/(BiteLength-.533f));progress(p);
             previousBiteTime=biteTime;
             if(biteTime<BiteLength||(report.closedFrames==0&&biteTime<1.10f))return;
-            stage=2;stageStarted=Time.time;report.phase="retreat";retreatFrom=actor.position;HideFire();native.PlaySource(11);
+            stage=2;stageStarted=Time.time;report.phase="retreat";retreatFrom=actor.position;HideFire();torsoPose?.BeginReturn();native.PlaySource(11);
         }
 
         void CancelNativeTranslation()
@@ -345,6 +347,7 @@ namespace AeroStadium.Presentation
         public void Dispose()
         {
             if(disposed)return;disposed=true;Done=true;
+            torsoPose?.End();
             if(report!=null)
             {
                 if(report.phase!="complete")report.phase="interrupted";
