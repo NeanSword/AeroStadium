@@ -433,6 +433,7 @@ namespace AeroStadium.Presentation
         {
             if (pokemon[side] == null) yield break;
             if(moveId==22||moveId==75){yield return GrassMove(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
+            if(moveId==412&&shownSpecies[side]==1){yield return EnergyBallMove(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==424&&shownSpecies[side]==59){yield return ContactFireFang(side,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==352||moveId==503){yield return SpecialWater(side,moveId,targetHit,protectedTarget,hitEffectiveness);yield break;}
             if(moveId==57){yield return SurfWave(side,targetHit,protectedTarget,hitEffectiveness);yield break;}

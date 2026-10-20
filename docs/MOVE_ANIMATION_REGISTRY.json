@@ -3314,8 +3314,16 @@
     "name": "Éco-Sphère",
     "type": "Grass",
     "category": "Special",
-    "status": "queued",
-    "official_reference": null
+    "status": "implemented_pending_validation",
+    "official_reference": null,
+    "implementation": "docs/ENERGY_BALL.md",
+    "scope": "Initial Bulbasaur1 prototype; first runtime review planned against Blastoise9; no runtime validation yet",
+    "validation": {
+      "build": "energy-ball-20261020-v1",
+      "runtime": null,
+      "visual_reference": "pending recent official visual inspection",
+      "audio": "original PCM draft; listening review pending"
+    }
   },
   {
     "id": 413,

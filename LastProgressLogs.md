@@ -1,3 +1,10 @@
+## 2026-10-20 — Première version d’Éco-Sphère412
+
+- J’ai préparé une charge végétale, une sphère détachée, des filaments, des feuilles et un son original pour Bulbizarre. Point avant dessiné contrôlé sur les triangles animés, interaction d’énergie avec Abri et nettoyage à l’annulation implémentés. Il ne s’agit pas encore d’une validation de collision volumique complète.
+- Compilation expérimentale réussie, réglages restaurés ; aucun runtime lancé et aucun résultat visuel/audio annoncé comme validé. Statut implemented_pending_validation. Détails et limites dans docs/ENERGY_BALL.md, preuve output/ui/energy-ball-20261020-v1/build-process.json et sources exactes compiled-sources.json. Version stable conservée ; Croc Feu, Lance-Flamme et Abri inchangés.
+- Reprise : vérifier la référence officielle récente, puis revue dédiée120s Bulbizarre1→Tortank9 des deux côtés, impact/Abri/raté résolus par le moteur, annulations, remplacement, caméra et écoute. Contrôler aussi les couleurs, l’origine flottante et la réaction native. Ne pas valider à partir de la revue de Croc Feu.
+- Arrêt avant épuisement du quota ; aucun crédit/API payant/reset. Solde216.7679600000 inchangé au dernier relevé. Avancement et demande sauvegardés pour reprise sur instruction.
+
 ## 2026-10-20 — Croc Feu : nouvelle posture de torse
 
 - J’ai remplacé le pli excessif du corps par une flexion modérée, une extension vers la cible et un recul. Le bassin, le dos, le cou et les quatre chaînes de pattes sont articulés ; les dix-sept articulations modifiées sont restaurées avant Animator et en sortie. La tête et la mâchoire gardent leur animation native. La vraie référence au repos est003 ;000 est une réception.

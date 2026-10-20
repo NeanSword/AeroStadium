@@ -41,3 +41,6 @@ Reprise du19octobre2026 : Croc Feu424, statut needs_work, revue ciblée Arcanin5
 Reprise v6 du19octobre2026 : sept cas et cinq interruptions passent techniquement pour424. Bruitage remplacé par un vrai souffle de feu ; allumage avant départ et cadrage des meshes animés contrôlés. La pose de contact reste recroquevillée : conserver needs_work et créer une pose de torse adaptée avant le lot suivant. Voir CONTACT_BITE.md.
 
 Reprise20octobre2026 : posture de Croc Feu59 redressée et revue ciblée passée. Consulter CONTACT_BITE.md pour la portée, les diagnostics et les limites ; ne pas extrapoler aux autres espèces. Le prochain lot reste412 après éventuels retours visuels.
+
+
+Reprise20octobre2026, lot suivant : Éco-Sphère412 implémentée et compilée en expérimental, sans runtime. Voir ENERGY_BALL.md ; référence visuelle récente, rendu, son, contacts et annulations restent à valider. Ne pas la marquer validée et ne pas extrapoler aux autres espèces. Aucun crédit supplémentaire.
