@@ -83,7 +83,7 @@ namespace AeroStadium.Presentation
         {
             if (!Active || !Finite(point.x) || !Finite(point.y) || !Finite(point.z)) return;
             impactKnown = true; impactPoint = point;
-            if(surfTrack==null&&whipTrack==null&&leafTrack==null&&biteTrack==null)progress = Mathf.Max(progress, .60f);
+            if(activeMove!=412&&surfTrack==null&&whipTrack==null&&leafTrack==null&&biteTrack==null)progress = Mathf.Max(progress, .60f);
         }
 
         void PrepareDodge(int moveId)
@@ -92,6 +92,7 @@ namespace AeroStadium.Presentation
             dodgeDirection = -backward;
             dodgeDistance = Mathf.Clamp(Mathf.Max(targetFrame.extents.x, targetFrame.extents.z) * .75f, .6f, 1.5f);
             if(moveId==75||moveId==424) dodgeDistance=Mathf.Clamp(Mathf.Abs(dodgeDirection.x)*targetFrame.extents.x+Mathf.Abs(dodgeDirection.z)*targetFrame.extents.z+.45f,.85f,1.8f);
+            if(moveId==412) dodgeDistance=Mathf.Clamp(Mathf.Abs(dodgeDirection.x)*targetFrame.extents.x+Mathf.Abs(dodgeDirection.z)*targetFrame.extents.z+.45f,.85f,2.3f);
             bool fieldWasValid = arena.BattlePositionsValid;
             if (!fieldWasValid) { dodgeDistance = 0; return; }
             try {

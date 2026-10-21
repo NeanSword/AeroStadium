@@ -44,3 +44,6 @@ Reprise20octobre2026 : posture de Croc Feu59 redressée et revue ciblée passée
 
 
 Reprise20octobre2026, lot suivant : Éco-Sphère412 implémentée et compilée en expérimental, sans runtime. Voir ENERGY_BALL.md ; référence visuelle récente, rendu, son, contacts et annulations restent à valider. Ne pas la marquer validée et ne pas extrapoler aux autres espèces. Aucun crédit supplémentaire.
+
+
+Reprise21octobre2026 : Éco-Sphère412 reçoit un balayage sphérique sur triangles courants, une coque Abri distincte du halo, un shader original et un raccord sonore corrigé. Compilation uniquement, aucun test ni lancement du jeu. Voir ENERGY_BALL.md ; conserver implemented_pending_validation jusqu’à une revue autorisée. Zéro crédit supplémentaire.

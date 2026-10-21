@@ -3317,12 +3317,13 @@
     "status": "implemented_pending_validation",
     "official_reference": null,
     "implementation": "docs/ENERGY_BALL.md",
-    "scope": "Initial Bulbasaur1 prototype; first runtime review planned against Blastoise9; no runtime validation yet",
+    "scope": "Bulbasaur1 prototype; first review planned against Blastoise9; no runtime validation",
     "validation": {
-      "build": "energy-ball-20261020-v1",
+      "build": "energy-ball-20261021-v1",
       "runtime": null,
-      "visual_reference": "pending recent official visual inspection",
-      "audio": "original PCM draft; listening review pending"
+      "visual_reference": "pending direct observation of recent official animation",
+      "audio": "original PCM; continuous impact envelope implemented, listening review pending",
+      "contact": "continuous sphere envelope against current triangle snapshot; moving target between frames not swept"
     }
   },
   {

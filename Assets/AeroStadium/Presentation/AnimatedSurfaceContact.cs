@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 namespace AeroStadium.Presentation
 {
     /// <summary>Segment contact with a victim's actual animated triangle surfaces. Caller owns Dispose.</summary>
-    public sealed class AnimatedSurfaceContact : IDisposable
+    public sealed partial class AnimatedSurfaceContact : IDisposable
     {
         sealed class Surface
         {

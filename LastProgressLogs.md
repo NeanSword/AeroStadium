@@ -1,3 +1,11 @@
+## 2026-10-21 — Éco-Sphère : contacts, rendu et raccord sonore
+
+- J’ai remplacé le contrôle du point avant par un balayage sphérique continu sur les triangles courants de la cible et de la coque visible d’Abri. Les autres attaques gardent leur ancien contrôle. Limite : le défenseur est pris dans sa pose de la frame, sans balayage entre deux poses. Aucun contact de remplacement par minuterie ou boîte.
+- Nouveau shader avec couches séparées pour le cœur, les filaments et les feuilles ; raccord de l’enveloppe sonore à45ms corrigé. Marge d’esquive412 et progression de présentation reprises. Rapports d’absence de géométrie, d’interruption et de contact distincts ; détails et limites dans docs/ENERGY_BALL.md.
+- Compilation expérimentale réussie, réglages restaurés et stable conservé. Sources et shader exacts output/ui/energy-ball-20261021-v1/compiled-sources.json, bilan build-process.json. Aucun test, aucun lancement du jeu, aucune validation visuelle ou sonore revendiquée. Statut implemented_pending_validation.
+- La référence récente exacte reste à observer. Reprise après autorisation de tests : revue dédiée120s Bulbizarre1→Tortank9 des deux côtés, impact/Abri/raté/immunité, interruptions, remplacement, caméra et écoute. Ne pas valider à partir de Croc Feu ni extrapoler aux151espèces. Progresser ensuite sur les autres familles.
+- Uniquement quota, aucun crédit/API payant/reset ; solde216.7679600000 inchangé au dernier relevé. Code, journal et demande sauvegardés pour reprise.
+
 ## 2026-10-20 — Première version d’Éco-Sphère412
 
 - J’ai préparé une charge végétale, une sphère détachée, des filaments, des feuilles et un son original pour Bulbizarre. Point avant dessiné contrôlé sur les triangles animés, interaction d’énergie avec Abri et nettoyage à l’annulation implémentés. Il ne s’agit pas encore d’une validation de collision volumique complète.

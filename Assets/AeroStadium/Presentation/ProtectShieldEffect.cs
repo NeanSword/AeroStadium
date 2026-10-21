@@ -28,6 +28,8 @@ namespace AeroStadium.Presentation
         public int RendererCount=>2;
         public int TriangleCount=>Longitude*Latitude*2+RingSegments*2;
         public Bounds ShieldBounds=>new Bounds(center,extents*2);
+        // Optional collision consumer; this is the visible shell, excluding its ground halo.
+        public GameObject ContactSurface=>shell!=null?shell.gameObject:null;
 
         public static ProtectShieldEffect Create(Transform parent,Bounds victim)
         {
