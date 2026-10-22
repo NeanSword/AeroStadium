@@ -1,0 +1,73 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=kRqd8IL_gFA",
+  "source_video_id": "kRqd8IL_gFA",
+  "source_title": "Pokémon Kanto Gym Leader Battle Theme (FRLG Ver.) Remix",
+  "source_uploader": "KokiRemix",
+  "source_channel_url": "https://www.youtube.com/channel/UC14nSzhFxrPVOW4xdh7HOug",
+  "source_upload_date": "20200902",
+  "source_file": "kRqd8IL_gFA.webm",
+  "source_sha256": "6d61018ad5a00049cf5e018f307764f79046a55bec25a1bf8eec613651d4fc7e",
+  "source_decoded_frames": 11824902,
+  "source_decoded_duration_seconds": 246.352125,
+  "sample_rate": 48000,
+  "channels": 2,
+  "pcm_bits": 16,
+  "arena_id": "modernStadium1Elite4arena",
+  "intro": {
+    "file": "AeroStadiumEliteFourIntro.wav",
+    "resource": "Audio/AeroStadiumEliteFourIntro",
+    "source_start_frame": 0,
+    "source_end_frame_exclusive": 2856334,
+    "frames": 2856334,
+    "duration_seconds": 59.50695833333333,
+    "trimmed": false,
+    "faded": false,
+    "sha256": "b1b55896b45c4b8e76c1ca18f1fa49553a144ec10dcab7e7667c6b258ec6205b"
+  },
+  "loop": {
+    "file": "AeroStadiumEliteFourLoop.wav",
+    "resource": "Audio/AeroStadiumEliteFourLoop",
+    "source_start_frame": 2856334,
+    "source_end_frame_exclusive": 5500268,
+    "source_start_seconds": 59.50695833333333,
+    "source_end_seconds": 114.58891666666666,
+    "frames": 2643934,
+    "duration_seconds": 55.08195833333333,
+    "sha256": "79651e0ef8d2271f49432e23d4751f925e0c7a5e157a7cb81c31a55ae08ccddc"
+  },
+  "musical_alignment": {
+    "estimated_bpm": 183,
+    "quarter_note_beats_per_loop": 168,
+    "bars_in_4_4": 42,
+    "period_seconds_ideal": 55.08196721311475,
+    "whole_sample_period_error_seconds": -8.879781418613675e-06,
+    "evidence": "Spectral recurrence peaks at 55.10 and 110.15 seconds; independent 3-second waveform windows match 2643933–2643937 frames. A later cycle at the musical phase of the strong 4.425-second entrance is retained. Original introduction and entire first statement remain before the recurring region.",
+    "subjective_listening_performed": false,
+    "limitations": "Musical entrance and beat/bar labels are analytically inferred; no subjective listening claim. Source already begins with about 1.15 seconds of very low-level audio, retained verbatim."
+  },
+  "crossfade": {
+    "frames": 1920,
+    "seconds": 0.04,
+    "method": "Raised cosine blend of final loop tail toward source pre-roll immediately before loop start; complete cycle retained.",
+    "applied_to_intro": false,
+    "tail_preroll_waveform_correlation": 0.47284251720460435
+  },
+  "common_gain_db": -3.0353788692341572,
+  "tempo_changed": false,
+  "verification": {
+    "clipped_samples": 0,
+    "intro_exact_after_constant_gain_and_PCM_quantization": true,
+    "intro_to_loop_max_step_error_from_natural_source": 5.232161100541741e-06,
+    "loop_wrap_max_step_error_from_natural_source": 5.232161100541741e-06,
+    "loop_wrap_peak_step": 0.061799981688894313,
+    "peak_dbfs": -1.1999585935057073,
+    "loop_rms_dbfs": -13.008095901330819
+  },
+  "runtime_guidance": {
+    "resources": "Assets/AeroStadium/Resources/Audio/AeroStadiumEliteFourIntro.wav and AeroStadiumEliteFourLoop.wav; add both names to BattleMusicImport.Configure.",
+    "start": "Configure resource pair for modernStadium1Elite4arena before EnterBattle. Schedule the untrimmed intro at sample zero, full intended music gain.",
+    "transition": "Use existing BattleMusicAudio PlayScheduled pair: loop starts at intro start DSP plus IntroSamples/IntroFrequency. LoopSource.loop=true. No turn restart.",
+    "import": "PCM WAV, 48000 Hz stereo, DecompressOnLoad, PCM compressionFormat, preloadAudioData=true, loadInBackground=false, PreserveSampleRate.",
+    "recording": "Capture actual Unity listener/DSP mix including music and effects, rather than muxing soundtrack after recording. First loop wrap occurs about 114.589 seconds after scheduled intro start."
+  }
+}

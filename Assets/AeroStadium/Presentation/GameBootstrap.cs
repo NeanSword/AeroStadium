@@ -1003,6 +1003,7 @@ namespace AeroStadium.Presentation
             visibleHp[0] = battle.Active(0).Hp; visibleHp[1] = battle.Active(1).Hp;
             ShowBattle("À toi de jouer. Choisis une attaque.");
             if (battleAudio == null) battleAudio = gameObject.AddComponent<BattleMusicAudio>();
+            battleAudio.ConfigureArena(arena.Stadium.CurrentKey);
             battleAudio.EnterBattle();
         }
 

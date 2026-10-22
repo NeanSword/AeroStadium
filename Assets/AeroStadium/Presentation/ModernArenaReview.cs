@@ -43,6 +43,10 @@ namespace AeroStadium.Presentation
             if(i>=0&&i+1<args.Length)output=Path.GetFullPath(args[i+1]);
             i=Array.IndexOf(args,"--seconds");if(i>=0&&i+1<args.Length&&float.TryParse(args[i+1],out float requested))seconds=Mathf.Clamp(requested,30,180);
             if(Array.IndexOf(args,"--review-surf-camera")>=0){enabled=false;gameObject.AddComponent<SurfCameraReview>().Begin(arena,output,seconds);return;}
+            var music=gameObject.GetComponent<BattleMusicAudio>();if(music==null)music=gameObject.AddComponent<BattleMusicAudio>();
+            music.ConfigureArena(arena.Stadium.CurrentKey);music.Prepare();
+            if(Array.IndexOf(args,"--review-energy-ball")<0)music.EnterBattle();
+            if(Array.IndexOf(args,"--review-energy-ball")>=0){enabled=false;gameObject.AddComponent<EnergyBallActionReview>().Begin(arena,output,seconds);return;}
             if(Array.IndexOf(args,"--review-bite")>=0){enabled=false;gameObject.AddComponent<BiteActionReview>().Begin(arena,output,seconds);return;}
             if(Array.IndexOf(args,"--review-dodge")>=0){enabled=false;gameObject.AddComponent<DodgeActionReview>().Begin(arena,output,seconds);return;}
             if(Array.IndexOf(args,"--review-leaf")>=0){enabled=false;gameObject.AddComponent<LeafActionReview>().Begin(arena,output,seconds);return;}

@@ -1,3 +1,13 @@
+## 2026-10-22 — Éco-Sphère, tests filmés et musique du Conseil4
+
+
+## 22 octobre 2026 — tests avec vidéo et son
+J’ai repris les tests : passé=True, erreurs=0, durée=120.50s, géométrie19cas=True, son enregistré=True. Les douze cas, trois interruptions, remplacements et caméra orthographique sont détaillés dans output/attacks/energy-ball-20261022-v2/verified-summary.json. La vidéo complète eco-sphere-avec-son.mp4 contient le mix AudioListener réellement enregistré, aligné aux horodatages des images. V1 a révélé des erreurs de vérification : rejet à tort des trajectoires hors triangles, snapshot de vitesse pris pendant l’action et contrôle de nettoyage avant fin de réaction. V2 conserve les exigences et corrige ces moments de mesure. Portée Bulbizarre1→Tortank9 uniquement ; aucune validation des151espèces. La capture statique Écarlate/Violet Energy_Ball_IX.png a été observée sur Bulbagarden ; elle ne prouve pas le timing officiel.
+# Musique de l’arène du Conseil4 modernisée
+J’ai intégré « Pokémon Kanto Gym Leader Battle Theme (FRLG Ver.) Remix » par KokiRemix, source https://www.youtube.com/watch?v=kRqd8IL_gFA . Crédits et empreintes : ELITE_FOUR_AUDIO_PROVENANCE.json. L’intro part de l’échantillon0, sans fade ; passage à la boucle à59,506958s, cycle55,081958s, premier retour114,588917s. Le raccord final utilise40ms de mélange. Le profil musical est réservé à stadium1_elite4_modern ; les autres arènes conservent leur piste. Entrée réelle et tests visuels ModernArenaReview utilisent ce profil sans redémarrage entre attaques. Le test filmé commence avant la musique et conserve toute l’intro ; raccord DSP et première répétition contrôlés=True. WAV et vidéos restent locaux et ignorés par Git. Les prochains tests visuels doivent fournir leur vidéo avec le son du jeu.
+
+Quota uniquement, aucun crédit/API payant/reset ; solde de référence216.7679600000 inchangé. Point de reprise et médias conservés localement.
+
 ## 2026-10-21 — Éco-Sphère : contacts, rendu et raccord sonore
 
 - J’ai remplacé le contrôle du point avant par un balayage sphérique continu sur les triangles courants de la cible et de la coque visible d’Abri. Les autres attaques gardent leur ancien contrôle. Limite : le défenseur est pris dans sa pose de la frame, sans balayage entre deux poses. Aucun contact de remplacement par minuterie ou boîte.

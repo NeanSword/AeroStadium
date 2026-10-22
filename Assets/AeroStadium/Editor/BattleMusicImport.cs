@@ -10,7 +10,7 @@ namespace AeroStadium.EditorTools
     {
         public static void Configure()
         {
-            foreach (string name in new[] { "AeroStadiumBattleIntro", "AeroStadiumBattleLoop" })
+            foreach (string name in new[] { "AeroStadiumBattleIntro", "AeroStadiumBattleLoop", "AeroStadiumEliteFourIntro", "AeroStadiumEliteFourLoop" })
             {
                 string path = "Assets/AeroStadium/Resources/Audio/" + name + ".wav";
                 if (!File.Exists(path)) { Debug.LogWarning("Battle music asset is local and missing: " + path); continue; }

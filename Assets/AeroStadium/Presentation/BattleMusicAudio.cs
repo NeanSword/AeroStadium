@@ -13,6 +13,22 @@ namespace AeroStadium.Presentation
         public const float MusicVolume = .68f;
         public const float FadeOutSeconds = .65f;
 
+        string selectedIntro=IntroResource,selectedLoop=LoopResource;
+        float selectedVolume=MusicVolume;
+        public float ConfiguredVolume=>selectedVolume;
+        public string SelectedIntroResource=>selectedIntro;
+        public string SelectedLoopResource=>selectedLoop;
+        public void ConfigureArena(string arenaKey)
+        {
+            bool elite=arenaKey=="stadium1_elite4_modern";
+            string intro=elite?"Audio/AeroStadiumEliteFourIntro":IntroResource;
+            string loop=elite?"Audio/AeroStadiumEliteFourLoop":LoopResource;
+            if(selectedIntro==intro&&selectedLoop==loop)return;
+            battleActive=false;CancelPending();StopSources();
+            if(introSource!=null)introSource.clip=null;
+            if(loopSource!=null)loopSource.clip=null;
+            selectedIntro=intro;selectedLoop=loop;selectedVolume=elite?.22f:MusicVolume;
+        }
         AudioSource introSource, loopSource;
         Coroutine pendingEntry;
         bool battleActive, scheduled, stopReported;
@@ -39,7 +55,7 @@ namespace AeroStadium.Presentation
         public double IntroScheduledDsp { get; private set; }
         public double LoopScheduledDsp { get; private set; }
         public double ScheduledJoinError => LoopScheduledDsp - (IntroScheduledDsp + IntroDuration);
-        public float CurrentVolume => MusicVolume * gain;
+        public float CurrentVolume => selectedVolume * gain;
         public string LoadFailure { get; private set; } = "";
         public string Diagnostics => " battleMusicReady=" + MusicReady + " battleMusicPlaying=" + MusicPlaying
             + " battleMusicActive=" + battleActive + " battleMusicEntries=" + EntryCount
@@ -53,8 +69,8 @@ namespace AeroStadium.Presentation
         {
             EnsureSources();
             LoadFailure = "";
-            Load(introSource, IntroResource);
-            Load(loopSource, LoopResource);
+            Load(introSource, selectedIntro);
+            Load(loopSource, selectedLoop);
         }
 
         public void EnterBattle()
@@ -123,7 +139,7 @@ namespace AeroStadium.Presentation
         {
             if (introSource == null || loopSource == null) return;
             if (!battleActive) gain = Mathf.MoveTowards(gain, 0f, Time.unscaledDeltaTime / FadeOutSeconds);
-            introSource.volume = loopSource.volume = MusicVolume * gain;
+            introSource.volume = loopSource.volume = selectedVolume * gain;
             double now = AudioSettings.dspTime;
             if (battleActive && scheduled)
             {
@@ -183,7 +199,7 @@ namespace AeroStadium.Presentation
             var source = gameObject.AddComponent<AudioSource>();
             source.playOnAwake = false; source.loop = loop; source.spatialBlend = 0f;
             source.priority = 64; source.dopplerLevel = 0f; source.ignoreListenerPause = true;
-            source.volume = MusicVolume;
+            source.volume = selectedVolume;
             return source;
         }
 
