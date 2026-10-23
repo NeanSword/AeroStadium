@@ -4,6 +4,10 @@ AeroStadium est mon projet de jeu Pokémon non officiel dans Unity, inspiré des
 
 Le développement se fait dans [NeanSword/AeroStadium](https://github.com/NeanSword/AeroStadium). Le dépôt [Aero-Stadium-2-FR](https://github.com/NeanSword/Aero-Stadium-2-FR) reste une référence pour comprendre l'expérience recherchée. Ce nouveau projet ne dépend ni de son exécutable recompilé ni d'une ROM.
 
+## Entretien local — 23 octobre 2026
+
+J’ai retiré les anciens médias de tests, compilations et caches régénérables : 24,83 Gio libérés. Les sources et ressources nécessaires à la reconstruction sont conservées ; le prochain lancement demande une nouvelle compilation et un import Unity plus long. Les anciens chemins de preuves et vidéos dans la documentation sont historiques. Voir [le journal du nettoyage](LastProgressLogs.md).
+
 ## Dernière étape — 18 octobre 2026
 
 Un premier essai d’esquive articulée a passé les contrôles de timing sur Tortank, Bulbizarre et Arcanin. Son rendu a été jugé trop rigide. Une nouvelle proposition apporte des appuis distincts, des contre-mouvements et des expressions des yeux et de la mâchoire ; voir [la refonte des esquives](docs/DODGE_POSE.md). Les nombres de dégâts au-dessus des Pokémon sont retirés. Les résultats et le périmètre des essais figurent dans [les esquives](docs/DODGE_POSE.md) et [le journal](LastProgressLogs.md). La refonte des barres de vie viendra plus tard.

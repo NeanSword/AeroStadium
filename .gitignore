@@ -62,3 +62,6 @@ output/memory/
 # Generated attack and arena review captures remain local.
 output/attacks/
 output/arenas/
+
+# Generated test logs
+output/**/*.log

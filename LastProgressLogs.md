@@ -1,3 +1,15 @@
+## 2026-10-23 — Nettoyage des fichiers de développement
+
+J’ai supprimé les anciens enregistrements de tests, captures, vidéos (dont Éco-Sphère avec son), extraits audio de contrôle, journaux et sorties temporaires. Les anciennes compilations `Builds/Windows` et `Builds/WindowsReference`, les caches d’importation/compilation Unity et les sorties binaires des tests ont également été retirés. Total inventorié : **39 186 fichiers, 24,83 Gio (26,66 Go)** ; environ **191,10 Gio libres** sur C: après nettoyage.
+
+Les sources, outils de test réutilisables, réglages Unity, 151 modèles et animations, textures, shaders, arènes, musiques, bruitages, crédits et données de reconstruction restent en place. Les originaux audio et graphiques, données d’importation et sources locales des modèles/stades sont conservés, même lorsqu’ils se trouvent sous `output` ou dans un dossier temporaire historique. Les paquets Unity déjà téléchargés restent dans `Library/PackageCache` pour les prochaines compilations.
+
+Contrôle après suppression : **71 388 fichiers conservés vérifiés**, aucun absent ni modifié ; toutes les suppressions prévues confirmées. Aucun jeu, test ni compilation lancé pendant cette opération. Le prochain import Unity recréera ses caches et prendra davantage de temps ; il faudra reconstruire l’exécutable avant le prochain test visible.
+
+Les références à `output/attacks`, `output/arenas`, aux anciennes compilations et aux preuves de tests dans les entrées antérieures décrivent désormais l’historique : ces fichiers ont été supprimés volontairement. Les résultats et limites déjà consignés dans la documentation restent valables comme compte rendu historique, sans nouvelle validation. La consigne antérieure de conserver l’exécutable stable est remplacée pour ce nettoyage. Les prochains tests doivent toujours être suivis à l’écran et livrés avec leur son ; leurs médias pourront ensuite être retirés à la demande.
+
+Les journaux `output/**/*.log` sont exclus de Git. Aucun crédit de calcul supplémentaire ni API payante utilisé pendant ce nettoyage ; solde vérifié inchangé à 212.3984950000.
+
 ## 2026-10-22 — Éco-Sphère, tests filmés et musique du Conseil4
 
 
