@@ -1,3 +1,13 @@
+## 2026-10-23 — Contrôle complémentaire des doublons
+
+J’ai retiré les caches, compilations et journaux d’une ancienne copie locale du prototype dans le dossier de travail : **23 620 fichiers, 1,786 Gio supplémentaires**. Ses sources modifiées et non intégrées restent conservées. Le petit assemblage temporaire `scratch/pokemon-selection/SelectionCompile.dll` a également été supprimé.
+
+Le contrôle du dépôt actif a parcouru 41 834 fichiers hors caches/dépendances téléchargées. Les fichiers d’au moins 64 Kio ayant la même taille ont été comparés par SHA-256. J’ai retiré deux sauvegardes strictement identiques dont un original reste disponible : l’ancien alias du fond titre et la copie de sauvegarde du thème titre. Aucun doublon d’identifiant GUID n’a été trouvé dans les métadonnées des Assets.
+
+Les trois ensembles de modèles Unity sont distincts : sources GLB/textures d’importation, prefabs/animations natifs préparés et ancien catalogue de secours. Les 151 espèces ont leur prefab natif, leur prefab de secours et leur GLB d’importation. Des matériaux natifs référencent encore les textures du dossier d’auteur ; ces fichiers sont nécessaires. Plusieurs copies identiques restantes correspondent aux entrées et sorties des importateurs ou aux sources historiques de données.
+
+Ce contrôle ne constitue pas une analyse exhaustive des fichiers personnels du PC ni de toutes les dépendances dynamiques Unity. Aucun build ni test lancé : je ne certifie pas l’absence de tout asset inutilisé. Les exports originaux, variantes graphiques, crédits, outils et sources différant du dépôt actif sont préservés. Environ **26,64 Gio identifiés** ont été retirés au total pendant ces deux passes, hors fichiers temporaires du nettoyage lui-même. Aucun crédit supplémentaire consommé.
+
 ## 2026-10-23 — Nettoyage des fichiers de développement
 
 J’ai supprimé les anciens enregistrements de tests, captures, vidéos (dont Éco-Sphère avec son), extraits audio de contrôle, journaux et sorties temporaires. Les anciennes compilations `Builds/Windows` et `Builds/WindowsReference`, les caches d’importation/compilation Unity et les sorties binaires des tests ont également été retirés. Total inventorié : **39 186 fichiers, 24,83 Gio (26,66 Go)** ; environ **191,10 Gio libres** sur C: après nettoyage.
